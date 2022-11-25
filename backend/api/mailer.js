@@ -139,7 +139,7 @@ mailRouter.post(
             subject: "Fari - Password Reset Request",
             template: "forgotpassword",
             context: {
-              url: `${process.env.SEVER_URL}/users/password-reset/${_email.id}/${token}`,
+              url: `${process.env.SERVER_URL}/users/password-reset/${_email.id}/${token}`,
               name: _email.username,
             },
           };
