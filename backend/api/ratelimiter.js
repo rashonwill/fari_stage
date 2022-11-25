@@ -1,5 +1,4 @@
-const Redis = require("redis");
-const { redis } = new Redis();
+const redis = require("./redisclient");
 
 function rateLimiter({ secondsWindow, allowedHits }) {
   return async function (req, res, next) {
