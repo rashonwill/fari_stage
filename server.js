@@ -21,26 +21,16 @@ server.use(express.urlencoded({ extended: true, limit: "1kb" }));
 server.use(express.json({ limit: "100mb" }));
 
 server.use(helmet());
-server.disable("x-powered-by");
 
 //middleware
-const limiter = require("express-rate-limit");
-server.use(
-  limiter({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 75, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  })
-);
 
 const cors = require("cors");
 server.use(cors());
-server.use(cors({ origin: "*" }));
+server.use(cors());
 
 const bodyParser = require("body-parser");
-server.use(bodyParser.json({ limit: "50mb" }));
-server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+server.use(bodyParser.json({ limit: "20mb" }));
+server.use(bodyParser.urlencoded({ extended: true, limit: "20mb" }));
 
 server.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "https://fari-stage.netlify.app");

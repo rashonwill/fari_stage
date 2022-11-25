@@ -168,7 +168,7 @@ $(".password_reset-form").on("submit", async (event) => {
     if (data.error) {
       $(".message")
         .text(data.message)
-        .css("color", "#B2022F")
+        .css("color", "#100a1c")
         .css("letter-spacing", ".05rem");
     } else if (data.success) {
       $(".message")

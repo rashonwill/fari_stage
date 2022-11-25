@@ -4,7 +4,7 @@ const { requireUser } = require("./utils");
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const stripe2 = require("stripe")(process.env.STRIPE_BUSINESS_SECRET);
 const bodyParser = require("body-parser");
-
+const rateLimiter = require("./ratelimiter");
 // const redis = require("redis");
 // let redisClient = redis.createClient({
 //   url: process.env.REDIS_URL,
@@ -121,114 +121,142 @@ const {
 //   //  console.log('Redis key value', myapp)
 // })();
 
-explorerRouter.get("/", requireUser, async (req, res, next) => {
-  try {
-    const allContent = await getAllUploads();
-    res.send({ uploads: allContent });
-  } catch (error) {
-    next({ name: "ErrorGettingUploads", message: "Could Not get the uploads" });
+explorerRouter.get(
+  "/",
+  rateLimiter({ secondsWindow: 10, allowedHits: 3 }),
+  requireUser,
+  async (req, res, next) => {
+    try {
+      const allContent = await getAllUploads();
+      res.send({ uploads: allContent });
+    } catch (error) {
+      next({
+        name: "ErrorGettingUploads",
+        message: "Could Not get the uploads",
+      });
+    }
   }
-});
+);
 
-explorerRouter.get("/discover", requireUser, async (req, res, next) => {
-  // let getCache = await redisClient.get("discoverContent");
-  // await redisClient.expire("discoverContent", 150);
-  // if (getCache && getCache != null) {
-  //   console.log("cache found");
-  //   res.send({ uploads: JSON.parse(getCache) });
-  // } else if (!getCache) {
-  // console.log("no cache found");
-  try {
-    const freeContent = await getFreeContent();
-    //     let setData = await redisClient.set(
-    //       "discoverContent",
-    //       JSON.stringify(freeContent),
-    //       "ex",
-    //       150
-    //     );
-    res.send({ uploads: freeContent });
-  } catch (error) {
-    console.log(error);
-    next({
-      name: "ErrorGettingUploads",
-      message: "Could Not get the free uploads",
-    });
+explorerRouter.get(
+  "/discover",
+  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  requireUser,
+  async (req, res, next) => {
+    // let getCache = await redisClient.get("discoverContent");
+    // await redisClient.expire("discoverContent", 150);
+    // if (getCache && getCache != null) {
+    //   console.log("cache found");
+    //   res.send({ uploads: JSON.parse(getCache) });
+    // } else if (!getCache) {
+    // console.log("no cache found");
+    try {
+      const freeContent = await getFreeContent();
+      //     let setData = await redisClient.set(
+      //       "discoverContent",
+      //       JSON.stringify(freeContent),
+      //       "ex",
+      //       150
+      //     );
+      res.send({ uploads: freeContent });
+    } catch (error) {
+      console.log(error);
+      next({
+        name: "ErrorGettingUploads",
+        message: "Could Not get the free uploads",
+      });
+    }
+    // }
   }
-  // }
-});
+);
 
-explorerRouter.get("/popular-uploads", requireUser, async (req, res, next) => {
-  // let getCache = await redisClient.get("popularContent");
-  // await redisClient.expire("popularContent", 200);
-  // if (getCache && getCache != null) {
-  //   console.log("cache found");
-  //   res.send({ uploads: JSON.parse(getCache) });
-  // } else {
-  //   console.log("no cache found");
-  try {
-    const freeContent = await getTopUploads();
-    //     let setData = await redisClient.set(
-    //       "popularContent",
-    //       JSON.stringify(freeContent)
-    //     );
-    res.send({ uploads: freeContent });
-  } catch (error) {
-    console.log(error);
-    next({
-      name: "ErrorGettingUploads",
-      message: "Could Not get the free uploads",
-    });
+explorerRouter.get(
+  "/popular-uploads",
+  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  requireUser,
+  async (req, res, next) => {
+    // let getCache = await redisClient.get("popularContent");
+    // await redisClient.expire("popularContent", 200);
+    // if (getCache && getCache != null) {
+    //   console.log("cache found");
+    //   res.send({ uploads: JSON.parse(getCache) });
+    // } else {
+    //   console.log("no cache found");
+    try {
+      const freeContent = await getTopUploads();
+      //     let setData = await redisClient.set(
+      //       "popularContent",
+      //       JSON.stringify(freeContent)
+      //     );
+      res.send({ uploads: freeContent });
+    } catch (error) {
+      console.log(error);
+      next({
+        name: "ErrorGettingUploads",
+        message: "Could Not get the free uploads",
+      });
+    }
+    // }
   }
-  // }
-});
+);
 
-explorerRouter.get("/paytoview", requireUser, async (req, res, next) => {
-  // let getCache = await redisClient.get("paidContent");
-  // await redisClient.expire("paidContent", 150);
-  // if (getCache && getCache != null) {
-  //   console.log("cache found");
-  //   res.send({ uploads: JSON.parse(getCache) });
-  // } else {
-  //   console.log("no cache found");
-  try {
-    const payContent = await getPayToViewContent();
-    //     let setData = await redisClient.set(
-    //       "paidContent",
-    //       JSON.stringify(payContent)
-    //     );
-    res.send({ uploads: payContent });
-  } catch (error) {
-    next({
-      name: "ErrorGettingUploads",
-      message: "Could Not get the paid uploads",
-    });
+explorerRouter.get(
+  "/paytoview",
+  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  requireUser,
+  async (req, res, next) => {
+    // let getCache = await redisClient.get("paidContent");
+    // await redisClient.expire("paidContent", 150);
+    // if (getCache && getCache != null) {
+    //   console.log("cache found");
+    //   res.send({ uploads: JSON.parse(getCache) });
+    // } else {
+    //   console.log("no cache found");
+    try {
+      const payContent = await getPayToViewContent();
+      //     let setData = await redisClient.set(
+      //       "paidContent",
+      //       JSON.stringify(payContent)
+      //     );
+      res.send({ uploads: payContent });
+    } catch (error) {
+      next({
+        name: "ErrorGettingUploads",
+        message: "Could Not get the paid uploads",
+      });
+    }
+    // }
   }
-  // }
-});
+);
 
-explorerRouter.get("/recommended", requireUser, async (req, res, next) => {
-  // let getCache = await redisClient.get("recContent");
-  // await redisClient.expire("recContent", 150);
-  // if (getCache && getCache != null) {
-  //   console.log("cache found");
-  //   res.send({ uploads: JSON.parse(getCache) });
-  // } else {
-  //   console.log("no cache found");
-  try {
-    const recUploads = await getLimitedUploads();
-    //     let setData = await redisClient.set(
-    //       "recContent",
-    //       JSON.stringify(recUploads)
-    //     );
-    res.send({ uploads: recUploads });
-  } catch (error) {
-    next({
-      name: "ErrorGettingUploads",
-      message: "Could Not get the uploads",
-    });
+explorerRouter.get(
+  "/recommended",
+  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  requireUser,
+  async (req, res, next) => {
+    // let getCache = await redisClient.get("recContent");
+    // await redisClient.expire("recContent", 150);
+    // if (getCache && getCache != null) {
+    //   console.log("cache found");
+    //   res.send({ uploads: JSON.parse(getCache) });
+    // } else {
+    //   console.log("no cache found");
+    try {
+      const recUploads = await getLimitedUploads();
+      //     let setData = await redisClient.set(
+      //       "recContent",
+      //       JSON.stringify(recUploads)
+      //     );
+      res.send({ uploads: recUploads });
+    } catch (error) {
+      next({
+        name: "ErrorGettingUploads",
+        message: "Could Not get the uploads",
+      });
+    }
+    // }
   }
-  // }
-});
+);
 
 explorerRouter.get(
   "/getVideo/:videoid",
@@ -266,6 +294,7 @@ explorerRouter.get(
 explorerRouter.get(
   "/video-search/:query",
   requireUser,
+  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
   check("query").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { query } = req.params;
@@ -289,30 +318,36 @@ explorerRouter.get(
   }
 );
 
-explorerRouter.get("/search/vlogs", requireUser, async (req, res, next) => {
-  // let getCache = await redisClient.get("vloggerContent");
-  // redisClient.expire("vloggerContent", 200);
-  // if (getCache && getCache != null) {
-  //   console.log("cache found");
-  //   res.send({ videos: JSON.parse(getCache) });
-  // } else {
-  //   console.log("no cache found");
-  try {
-    const vlogVids = await vlogSearch();
-    //     redisClient.set("vloggerContent", JSON.stringify(vlogVids));
-    res.send({ videos: vlogVids });
-  } catch (error) {
-    console.log("Oops could not find search results", error);
-    next({
-      name: "ErrorGettingSearchResults",
-      message: "Could not get the search results for Vloggers",
-    });
+explorerRouter.get(
+  "/search/vlogs",
+  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  requireUser,
+  async (req, res, next) => {
+    // let getCache = await redisClient.get("vloggerContent");
+    // redisClient.expire("vloggerContent", 200);
+    // if (getCache && getCache != null) {
+    //   console.log("cache found");
+    //   res.send({ videos: JSON.parse(getCache) });
+    // } else {
+    //   console.log("no cache found");
+    try {
+      const vlogVids = await vlogSearch();
+      //     redisClient.set("vloggerContent", JSON.stringify(vlogVids));
+      res.send({ videos: vlogVids });
+    } catch (error) {
+      console.log("Oops could not find search results", error);
+      next({
+        name: "ErrorGettingSearchResults",
+        message: "Could not get the search results for Vloggers",
+      });
+    }
+    // }
   }
-  // }
-});
+);
 
 explorerRouter.get(
   "/search/animations",
+  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
   requireUser,
   async (req, res, next) => {
     // let getCache = await redisClient.get("animationContent");
@@ -337,49 +372,59 @@ explorerRouter.get(
   // }
 );
 
-explorerRouter.get("/search/movies", requireUser, async (req, res, next) => {
-  // let getCache = await redisClient.get("movieContent");
-  // redisClient.expire("movieContent", 200);
-  // if (getCache && getCache != null) {
-  //   console.log("cache found");
-  //   res.send({ videos: JSON.parse(getCache) });
-  // } else {
-  //   console.log("no cache found");
-  try {
-    const movieVids = await movieSearch();
-    //     redisClient.set("movieContent", JSON.stringify(movieVids));
-    res.send({ videos: movieVids });
-  } catch (error) {
-    console.log("Oops could not find search results", error);
-    next({
-      name: "ErrorGettingSearchResults",
-      message: "Could not get the search results for Movies",
-    });
+explorerRouter.get(
+  "/search/movies",
+  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  requireUser,
+  async (req, res, next) => {
+    // let getCache = await redisClient.get("movieContent");
+    // redisClient.expire("movieContent", 200);
+    // if (getCache && getCache != null) {
+    //   console.log("cache found");
+    //   res.send({ videos: JSON.parse(getCache) });
+    // } else {
+    //   console.log("no cache found");
+    try {
+      const movieVids = await movieSearch();
+      //     redisClient.set("movieContent", JSON.stringify(movieVids));
+      res.send({ videos: movieVids });
+    } catch (error) {
+      console.log("Oops could not find search results", error);
+      next({
+        name: "ErrorGettingSearchResults",
+        message: "Could not get the search results for Movies",
+      });
+    }
+    // }
   }
-  // }
-});
+);
 
-explorerRouter.get("/search/shows", requireUser, async (req, res, next) => {
-  // let getCache = await redisClient.get("showsContent");
-  // redisClient.expire("showsContent", 200);
-  // if (getCache && getCache != null) {
-  //   console.log("cache found");
-  //   res.send({ videos: JSON.parse(getCache) });
-  // } else {
-  //   console.log("no cache found");
-  try {
-    const showsVids = await showsSearch();
-    //     redisClient.set("showsContent", JSON.stringify(showsVids));
-    res.send({ videos: showsVids });
-  } catch (error) {
-    console.log("Oops could not find search results", error);
-    next({
-      name: "ErrorGettingSearchResults",
-      message: "Could not get the search results for Shows",
-    });
+explorerRouter.get(
+  "/search/shows",
+  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  requireUser,
+  async (req, res, next) => {
+    // let getCache = await redisClient.get("showsContent");
+    // redisClient.expire("showsContent", 200);
+    // if (getCache && getCache != null) {
+    //   console.log("cache found");
+    //   res.send({ videos: JSON.parse(getCache) });
+    // } else {
+    //   console.log("no cache found");
+    try {
+      const showsVids = await showsSearch();
+      //     redisClient.set("showsContent", JSON.stringify(showsVids));
+      res.send({ videos: showsVids });
+    } catch (error) {
+      console.log("Oops could not find search results", error);
+      next({
+        name: "ErrorGettingSearchResults",
+        message: "Could not get the search results for Shows",
+      });
+    }
+    // }
   }
-  // }
-});
+);
 
 explorerRouter.post(
   "/youlikeme/:id",

@@ -100,7 +100,7 @@ mailRouter.post(
         if (!_email) {
           next({
             error: "EmailDoesNotExistsError",
-            message: "We do not have a user with that email.",
+            message: "If email address found we'll send you an email.",
           });
           return false;
         } else if (_email) {
@@ -150,7 +150,7 @@ mailRouter.post(
             } else {
               res.send({
                 name: "success",
-                message: "An email link has been sent to reset your password",
+                message: "If email address found we'll send you an email.",
               });
               console.log("Email sent: " + info.response);
             }
@@ -158,7 +158,7 @@ mailRouter.post(
 
           res.send({
             success: "EmailSent",
-            message: "An email has been sent.",
+            message: "If email address found we'll send you an email.",
             name: "UserFound",
             _email,
             token,

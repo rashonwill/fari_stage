@@ -11,6 +11,8 @@ const ddos = limiter({
   max: 5, // Limit each IP to 5 requests per `window` (here, per 15 minutes)
 });
 
+const rateLimiter = require("./ratelimiter");
+
 const { uploadPhotos } = require("../aws");
 
 const multer = require("multer");
@@ -105,26 +107,31 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
   }
 });
 
-usersRouter.get("/usernames", requireUser, async (req, res, next) => {
-  // let getCache = await redisClient.get("fariUsers");
-  // await redisClient.expire("fariUsers", 1800);
-  // if (getCache && getCache != null) {
-  //   console.log("cache found");
-  //   res.send({ users: JSON.parse(getCache) });
-  // } else if (!getCache) {
-  console.log("no cache found");
-  try {
-    const allUsernames = await getAllUsersUsername();
-    let setData = await redisClient.set(
-      "fariUsers",
-      JSON.stringify(allUsernames)
-    );
-    res.send({ users: allUsernames });
-  } catch ({ name, message }) {
-    next({ name, message });
+usersRouter.get(
+  "/usernames",
+  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
+  requireUser,
+  async (req, res, next) => {
+    // let getCache = await redisClient.get("fariUsers");
+    // await redisClient.expire("fariUsers", 1800);
+    // if (getCache && getCache != null) {
+    //   console.log("cache found");
+    //   res.send({ users: JSON.parse(getCache) });
+    // } else if (!getCache) {
+    console.log("no cache found");
+    try {
+      const allUsernames = await getAllUsersUsername();
+      let setData = await redisClient.set(
+        "fariUsers",
+        JSON.stringify(allUsernames)
+      );
+      res.send({ users: allUsernames });
+    } catch ({ name, message }) {
+      next({ name, message });
+    }
+    // }
   }
-  // }
-});
+);
 
 usersRouter.get(
   "/usernames/:username",
@@ -219,7 +226,7 @@ usersRouter.get(
 
 usersRouter.post(
   "/register",
-  ddos,
+  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
   check("username")
     .not()
     .isEmpty()
@@ -314,7 +321,7 @@ usersRouter.post(
         });
         if (!user) {
           next({
-            message: "Ooop, could not create your account, please try again.",
+            message: "Ooops, could not create your account, please try again.",
           });
         } else {
           const token = jwt.sign(
@@ -342,7 +349,7 @@ usersRouter.post(
 
 usersRouter.post(
   "/login",
-  ddos,
+  rateLimiter({ secondsWindow: 10, allowedHits: 5 }),
   check("username")
     .not()
     .isEmpty()
