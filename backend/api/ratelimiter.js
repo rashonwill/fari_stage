@@ -14,7 +14,7 @@ function rateLimiter({ secondsWindow, allowedHits }) {
     }
 
     if (request > allowedHits) {
-      return status(503).json({
+      return res.status(503).json({
         response: "error",
         callsInAMinute: request,
         ttl,
