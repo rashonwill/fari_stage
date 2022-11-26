@@ -31,7 +31,6 @@ const contentUpload = upload.fields([
 ]);
 
 const profilePosterUpdate = upload.single("channel-poster");
-
 const profileAvatarUpdate = upload.single("avatar");
 
 uploadsRouter.put(
@@ -78,10 +77,10 @@ uploadsRouter.put(
 
 uploadsRouter.put(
   "/update/avatar/:channelname",
-  rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
   profileAvatarUpdate,
   requireUser,
   check("channelname").not().isEmpty().trim().escape(),
+  rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
   async (req, res, next) => {
     console.log("hitting route");
     const { channelname } = req.params;

@@ -5,8 +5,9 @@ const renderRedis = new Redis({
   host: process.env.REDIS_HOST, // Render Redis hostname, REGION-redis.render.com
   password: process.env.REDIS_PASSWORD, // Provided password
   port: process.env.REDIS_PORT || 6379, // Connection port
-  tls: true, // TLS required when externally connecting to Render Redis
-  rejectUnauthorized: false,
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
 function rateLimiter({ secondsWindow, allowedHits }) {
   return async function (req, res, next) {

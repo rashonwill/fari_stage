@@ -25,15 +25,14 @@ server.use(helmet());
 //middleware
 
 const cors = require("cors");
-server.use(cors());
-server.use(cors());
+server.use(cors({ origin: "*" }));
 
 const bodyParser = require("body-parser");
 server.use(bodyParser.json({ limit: "20mb" }));
 server.use(bodyParser.urlencoded({ extended: true, limit: "20mb" }));
 
 server.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://fari-stage.netlify.app");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Methods",
     "GET, POST, PATCH, PUT, DELETE, OPTIONS"
