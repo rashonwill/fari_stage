@@ -2,7 +2,7 @@ const express = require("express");
 const uploadsRouter = express.Router();
 const { requireUser } = require("./utils");
 const path = require("path");
-const { body, check, validationResult } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const rateLimiter = require("./ratelimiter");
 const {
   uploadVideo,
@@ -90,7 +90,6 @@ uploadsRouter.put(
   "/update/avatar/:channelname",
   profileAvatarUpdate,
   requireUser,
-  check("channelname").not().isEmpty().trim().escape(),
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
   async (req, res, next) => {
     console.log("hitting route");
@@ -99,6 +98,7 @@ uploadsRouter.put(
     const commentorName = channelname;
     const cloudfront = "https://drotje36jteo8.cloudfront.net";
     const pic1 = req.file;
+    console.log(channelname, pic1);
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).send(errors.array());
