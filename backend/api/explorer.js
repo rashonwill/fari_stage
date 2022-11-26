@@ -6,7 +6,14 @@ const stripe2 = require("stripe")(process.env.STRIPE_BUSINESS_SECRET);
 const bodyParser = require("body-parser");
 const rateLimiter = require("./ratelimiter");
 const redis = require("./redisclient");
-
+const ddos = limiter({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 5, // Limit each IP to 5 requests per `window` (here, per 15 minutes)
+  message:
+    "Too many accounts created from this IP, please try again after an hour",
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
 const { check, validationResult } = require("express-validator");
 
 const cors = require("cors");
@@ -114,44 +121,34 @@ const {
 //   //  console.log('Redis key value', myapp)
 // })();
 
-explorerRouter.get(
-  "/",
-  rateLimiter({ secondsWindow: 10, allowedHits: 3 }),
-  requireUser,
-  async (req, res, next) => {
-    try {
-      const allContent = await getAllUploads();
-      res.send({ uploads: allContent });
-    } catch (error) {
-      next({
-        name: "ErrorGettingUploads",
-        message: "Could Not get the uploads",
-      });
-    }
+explorerRouter.get("/", requireUser, async (req, res, next) => {
+  try {
+    const allContent = await getAllUploads();
+    res.send({ uploads: allContent });
+  } catch (error) {
+    next({
+      name: "ErrorGettingUploads",
+      message: "Could Not get the uploads",
+    });
   }
-);
+});
 
-explorerRouter.get(
-  "/discover",
-  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
-  requireUser,
-  async (req, res, next) => {
-    try {
-      const freeContent = await getFreeContent();
-      res.send({ uploads: freeContent });
-    } catch (error) {
-      console.log(error);
-      next({
-        name: "ErrorGettingUploads",
-        message: "Could Not get the free uploads",
-      });
-    }
+explorerRouter.get("/discover", ddos, requireUser, async (req, res, next) => {
+  try {
+    const freeContent = await getFreeContent();
+    res.send({ uploads: freeContent });
+  } catch (error) {
+    console.log(error);
+    next({
+      name: "ErrorGettingUploads",
+      message: "Could Not get the free uploads",
+    });
   }
-);
+});
 
 explorerRouter.get(
   "/popular-uploads",
-  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  ddos,
   requireUser,
   async (req, res, next) => {
     // let getCache = await redisClient.get("popularContent");
@@ -179,26 +176,21 @@ explorerRouter.get(
   }
 );
 
-explorerRouter.get(
-  "/paytoview",
-  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
-  requireUser,
-  async (req, res, next) => {
-    try {
-      const payContent = await getPayToViewContent();
-      res.send({ uploads: payContent });
-    } catch (error) {
-      next({
-        name: "ErrorGettingUploads",
-        message: "Could Not get the paid uploads",
-      });
-    }
+explorerRouter.get("/paytoview", ddos, requireUser, async (req, res, next) => {
+  try {
+    const payContent = await getPayToViewContent();
+    res.send({ uploads: payContent });
+  } catch (error) {
+    next({
+      name: "ErrorGettingUploads",
+      message: "Could Not get the paid uploads",
+    });
   }
-);
+});
 
 explorerRouter.get(
   "/recommended",
-  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  ddos,
   requireUser,
   async (req, res, next) => {
     try {
@@ -249,7 +241,7 @@ explorerRouter.get(
 explorerRouter.get(
   "/video-search/:query",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  ddos,
   check("query").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { query } = req.params;
@@ -275,7 +267,7 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/vlogs",
-  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  ddos,
   requireUser,
   async (req, res, next) => {
     try {
@@ -294,7 +286,7 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/animations",
-  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  ddos,
   requireUser,
   async (req, res, next) => {
     try {
@@ -312,7 +304,7 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/movies",
-  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  ddos,
   requireUser,
   async (req, res, next) => {
     try {
@@ -331,7 +323,7 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/shows",
-  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  ddos,
   requireUser,
   async (req, res, next) => {
     try {
