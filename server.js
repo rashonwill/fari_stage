@@ -51,16 +51,20 @@ server.use(morgan("dev"));
 //Router API
 server.use("/api", require("./backend/api"));
 
-if (cluster.isMaster) {
-  for (let index = 0; index < numCPU; index++) {
-    cluster.fork();
-  }
-  cluster.on("exit", (worker, code, signal) => {
-    console.log(`worker ${worker.process.pid} died`);
-    cluster.fork();
-  });
-} else {
-  server.listen(PORT, async () => {
-    console.log(`Welcome to Fari! Listening on Port: ${PORT}`);
-  });
-}
+// if (cluster.isMaster) {
+//   for (let index = 0; index < numCPU; index++) {
+//     cluster.fork();
+//   }
+//   cluster.on("exit", (worker, code, signal) => {
+//     console.log(`worker ${worker.process.pid} died`);
+//     cluster.fork();
+//   });
+// } else {
+//   server.listen(PORT, async () => {
+//     console.log(`Welcome to Fari! Listening on Port: ${PORT}`);
+//   });
+// }
+
+server.listen(PORT, async () => {
+  console.log(`Welcome to Fari! Listening on Port: ${PORT}`);
+});
