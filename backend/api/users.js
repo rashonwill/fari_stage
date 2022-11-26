@@ -210,7 +210,7 @@ usersRouter.get(
 
 usersRouter.post(
   "/register",
-  rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
+  rateLimiter({ secondsWindow: 15, allowedHits: 5 }),
   check("username")
     .not()
     .isEmpty()
@@ -333,7 +333,7 @@ usersRouter.post(
 
 usersRouter.post(
   "/login",
-  ddos,
+  rateLimiter({ secondsWindow: 15, allowedHits: 5 }),
   check("username")
     .not()
     .isEmpty()
