@@ -3,8 +3,9 @@ const redis = require("./redisclient");
 function rateLimiter({ secondsWindow, allowedHits }) {
   return async function (req, res, next) {
     const ip = req.headers["x-forwared-for"] || req.connection.remoteAddress;
-    console.log(ip);
+    console.log("requesting IP", ip);
     const request = await redis.incr(ip);
+    console.log("req redis incr", request);
     let ttl;
     if (request === 1) {
       ttl = secondsWindow;
