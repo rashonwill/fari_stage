@@ -2,25 +2,31 @@ const redis = require("./redisclient");
 
 function rateLimiter({ secondsWindow, allowedHits }) {
   return async function (req, res, next) {
+    redis.on("error", (err) => {
+      console.log("Redis Client Error", err);
+    });
+    redis.on("ready", () => console.log("Redis is ready"));
+    await redis.connect();
+
     const ip = req.headers["x-forwared-for"] || req.connection.remoteAddress;
     console.log("requesting IP", ip);
-    const request = await redis.incr(ip);
-    console.log("req redis incr", request);
+    const requests = await redis.incr(ip);
+    console.log("req redis incr", requests);
     let ttl;
-    if (request === 1) {
+    if (requests === 1) {
       ttl = secondsWindow;
     } else {
       ttl = await redis.ttl(ip);
     }
 
-    if (request > allowedHits) {
+    if (requests > allowedHits) {
       return res.status(503).json({
         response: "error",
-        callsInAMinute: request,
+        callsInAMinute: requests,
         ttl,
       });
     } else {
-      req.request = request;
+      req.request = requests;
       req.ttl = ttl;
       next();
     }
@@ -28,23 +34,3 @@ function rateLimiter({ secondsWindow, allowedHits }) {
 }
 
 module.exports = rateLimiter;
-
-// const limitclient = createClient({
-//   // ... (see https://github.com/redis/node-redis/blob/master/docs/client-configuration.md)
-// });
-// // Then connect to the Redis server
-// await limitclient.connect();
-
-// const limiter = rateLimit({
-//   // Rate limiter configuration
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 75, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-//   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-//   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-//   message: "Too many request from this IP",
-
-//   // Redis store configuration
-//   store: new RedisStore({
-//     sendCommand: (...args: string[]) => limitclient.sendCommand(args),
-//   }),
-// });

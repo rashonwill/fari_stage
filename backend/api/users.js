@@ -9,6 +9,10 @@ const { body, check, validationResult } = require("express-validator");
 const ddos = limiter({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 5, // Limit each IP to 5 requests per `window` (here, per 15 minutes)
+  message:
+    "Too many accounts created from this IP, please try again after an hour",
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 const redis = require("./redisclient");
 const rateLimiter = require("./ratelimiter");
@@ -98,24 +102,19 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
   }
 });
 
-usersRouter.get(
-  "/usernames",
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
-  requireUser,
-  async (req, res, next) => {
-    console.log("no cache found");
-    try {
-      const allUsernames = await getAllUsersUsername();
-      let setData = await redisClient.set(
-        "fariUsers",
-        JSON.stringify(allUsernames)
-      );
-      res.send({ users: allUsernames });
-    } catch ({ name, message }) {
-      next({ name, message });
-    }
+usersRouter.get("/usernames", ddos, requireUser, async (req, res, next) => {
+  console.log("no cache found");
+  try {
+    const allUsernames = await getAllUsersUsername();
+    let setData = await redisClient.set(
+      "fariUsers",
+      JSON.stringify(allUsernames)
+    );
+    res.send({ users: allUsernames });
+  } catch ({ name, message }) {
+    next({ name, message });
   }
-);
+});
 
 usersRouter.get(
   "/usernames/:username",
@@ -210,7 +209,7 @@ usersRouter.get(
 
 usersRouter.post(
   "/register",
-  rateLimiter({ secondsWindow: 15, allowedHits: 5 }),
+  ddos,
   check("username")
     .not()
     .isEmpty()
@@ -333,7 +332,7 @@ usersRouter.post(
 
 usersRouter.post(
   "/login",
-  rateLimiter({ secondsWindow: 15, allowedHits: 5 }),
+  ddos,
   check("username")
     .not()
     .isEmpty()
