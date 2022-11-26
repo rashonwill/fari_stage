@@ -4,12 +4,6 @@ const { requireUser } = require("./utils");
 const path = require("path");
 const { check, validationResult } = require("express-validator");
 const rateLimiter = require("./ratelimiter");
-const {
-  uploadVideo,
-  deleteFile,
-  uploadPhotos,
-  largeFileUpload,
-} = require("../aws");
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -32,6 +26,14 @@ const contentUpload = upload.fields([
 
 const profilePosterUpdate = upload.single("channel-poster");
 const profileAvatarUpdate = upload.single("avatar");
+console.log(profileAvatarUpdate);
+
+const {
+  uploadVideo,
+  deleteFile,
+  uploadPhotos,
+  largeFileUpload,
+} = require("../aws");
 
 const {
   client,
@@ -88,11 +90,12 @@ uploadsRouter.put(
 
 uploadsRouter.put(
   "/update/avatar/:channelname",
-  profileAvatarUpdate,
   requireUser,
+  profileAvatarUpdate,
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
+  check("channelname").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    console.log("hitting route");
+    console.log("hitting upload avi route");
     const { channelname } = req.params;
     const channel_name = channelname;
     const commentorName = channelname;
@@ -101,7 +104,9 @@ uploadsRouter.put(
     console.log(channelname, pic1);
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).send(errors.array());
+      return res
+        .status(400)
+        .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       if (
         req.file.mimetype === "image/jpeg" ||
@@ -111,6 +116,7 @@ uploadsRouter.put(
       ) {
         try {
           const result = await uploadPhotos(pic1);
+          console.log(result);
           const updatedAvi = {
             profile_avatar: cloudfront + "/" + result.Key,
           };
@@ -134,7 +140,6 @@ uploadsRouter.put(
             commentorName,
             updateCommentPicture
           );
-          console.log(result);
           res.send({ channel: updatedchannel });
         } catch (error) {
           console.log("Could not update user profile", error);

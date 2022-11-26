@@ -1085,9 +1085,11 @@ function showPreviewAvi(event) {
 $("#submitAvatar").click(async function (event) {
   event.preventDefault();
   let avatar = _.escape($(".avatar-preview").val());
+  console.log(avatar);
   try {
     var channelname = localStorage.getItem("channelName");
     const formData = new FormData(document.getElementById("profileAviUpdate"));
+    console.log(formData);
     const response = await fetch(
       `${FARI_API}/uploads/update/avatar/${channelname}`,
       {
