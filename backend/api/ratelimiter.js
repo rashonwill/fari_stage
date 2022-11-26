@@ -10,13 +10,12 @@ const renderRedis = new Redis({
   password: process.env.REDIS_PASSWORD, // Provided password
   port: process.env.REDIS_PORT || 6379, // Connection port
   tls: true, // TLS required when externally connecting to Render Redis
+  rejectUnauthorized: false,
 });
 function rateLimiter({ secondsWindow, allowedHits }) {
   return async function (req, res, next) {
     console.log("redis connected");
-    const ip = (
-      req.headers["x-forwared-for"] || req.connection.remoteAddress
-    ).splice(0, 9);
+    const ip = req.headers["x-forwared-for"] || req.connection.remoteAddress;
     console.log("requesting IP", ip);
     const requests = await renderRedis.incr(ip);
     console.log("ip requests exist?", requests);
