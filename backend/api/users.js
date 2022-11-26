@@ -426,7 +426,6 @@ usersRouter.get(
 
 usersRouter.get(
   "/user-sub-verified/:id",
-  cors(),
   requireUser,
   check("id")
     .not()
@@ -455,7 +454,6 @@ usersRouter.get(
 
 usersRouter.patch(
   "/updatechannelsub/:id",
-  cors(),
   requireUser,
   check("id")
     .not()
@@ -484,7 +482,6 @@ usersRouter.patch(
 
 usersRouter.get(
   "/vendor-verified/:vendorid",
-  cors(),
   requireUser,
   check("vendorid")
     .not()
