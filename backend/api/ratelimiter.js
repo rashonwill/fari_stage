@@ -1,36 +1,17 @@
-// const redis = require("./redisclient");
-
-const redis = require("redis");
-let redisClient = redis.createClient({
-  url: process.env.REDIS_URL,
-  socket: {
-    tls: true,
-    rejectUnauthorized: false,
-  },
-});
-
-(async () => {
-  redisClient.on("error", (err) => {
-    console.log("Redis Client Error", err);
-  });
-  redisClient.on("ready", () => console.log("Redis is ready"));
-  await redisClient.connect();
-  await redisClient.set("App", "Hello Fari APP");
-  const myapp = await redis.get("App");
-  console.log("Redis key value", myapp);
-})();
+const redis = require("./redisclient");
 
 function rateLimiter({ secondsWindow, allowedHits }) {
   return async function (req, res, next) {
     const ip = req.headers["x-forwared-for"] || req.connection.remoteAddress;
     console.log("requesting IP", ip);
-    const requests = await redisClient.incr(ip);
+    const requests = await redis.incr(ip);
     console.log("req redis incr", requests);
     let ttl;
     if (requests === 1) {
+      await redis.expire(ip, secondsWindow);
       ttl = secondsWindow;
     } else {
-      ttl = await redisClient.ttl(ip);
+      ttl = await redis.ttl(ip);
     }
 
     if (requests > allowedHits) {
