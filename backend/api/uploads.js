@@ -33,6 +33,17 @@ const contentUpload = upload.fields([
 const profilePosterUpdate = upload.single("channel-poster");
 const profileAvatarUpdate = upload.single("avatar");
 
+const {
+  client,
+  createUploads,
+  editUpload,
+  deleteUpload,
+  updatePosters,
+  updateAvatar,
+  updateUploadsPicture,
+  updateCommentsPic,
+} = require("../db");
+
 uploadsRouter.put(
   "/update/poster/:channelname",
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),

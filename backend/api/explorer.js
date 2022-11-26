@@ -41,7 +41,6 @@ const {
   getLimitedUploads,
   editComment,
   deleteComment,
-  getLiveChannels,
   getPayToViewContent,
   getFreeContent,
   getMovieOrders,
