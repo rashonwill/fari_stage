@@ -1,9 +1,10 @@
-const Redis = require("ioredis");
-const redis = new Redis({
-  host: process.env.REDIS_HOST,
-  tls: {
-    host: process.env.REDIS_HOST,
+const redis = require("redis");
+let redisClient = redis.createClient({
+  url: process.env.REDIS_URL,
+  socket: {
+    tls: true,
+    rejectUnauthorized: false,
   },
 });
 
-module.exports = redis;
+module.exports = redisClient;
