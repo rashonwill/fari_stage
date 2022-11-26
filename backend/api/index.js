@@ -53,6 +53,15 @@ apiRouter.use("/analytics", analyticsRouter);
 const messagesRouter = require("./inbox");
 apiRouter.use("/inbox", messagesRouter);
 
+const accountRouter = require("./account");
+apiRouter.use("/account", accountRouter);
+
+const ordersRouter = require("./orders");
+apiRouter.use("/orders", ordersRouter);
+
+const uploadsRouter = require("./uploads");
+apiRouter.use("/uploads", uploadsRouter);
+
 apiRouter.use((error, req, res, next) => {
   res.send(error);
 });

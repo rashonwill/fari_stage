@@ -978,7 +978,7 @@ async function getWatchList() {
       },
     });
     const data = await response.json();
-	  console.log(data)
+    console.log(data);
     if (data.myWatchList.length > 0) {
       $(".watchlist").empty();
       $(".newUserMessage-watchlater message").css("display", "none");
@@ -1221,7 +1221,7 @@ async function getHistory() {
       $(".newUserMessage-history message").css("display", "block");
     }
     return data.history;
-	  console.log(data)
+    console.log(data);
   } catch (error) {
     response.status(400).send(error);
   }
@@ -2134,10 +2134,10 @@ async function getRecentlySubsUploads() {
       }
     );
     const data = await response.json();
-	  console.log(data)
+    console.log(data);
     return data.mysubscriptions;
   } catch (error) {
-	  console.log(error)
+    console.log(error);
     response.status(400).send(error);
   }
 }
@@ -2246,7 +2246,7 @@ async function getVideoData() {
 
 async function laterVideo() {
   var getFeature = await getVideoData();
-  console.log(getFeature)
+  console.log(getFeature);
   var userid = localStorage.getItem("userID");
   var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
@@ -2454,7 +2454,7 @@ async function checkoutSessionStripe() {
   const purchaseItems = JSON.parse(localStorage.getItem("videoPurchase"));
   const stripe_acct = localStorage.getItem("productStripeAccount");
   const vendoremail = localStorage.getItem("vendorEmail");
-  fetch(`${FARI_API}/explorer/stripe-checkout/rental`, {
+  fetch(`${FARI_API}/orders/stripe-checkout/rental`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

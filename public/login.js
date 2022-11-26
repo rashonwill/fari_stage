@@ -45,7 +45,7 @@ $(".login-form").on("submit", async (event) => {
     password,
   };
   try {
-    const response = await fetch(`${FARI_API}/users/login`, {
+    const response = await fetch(`${FARI_API}/account/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -119,7 +119,7 @@ $(".register-form").on("submit", async (event) => {
     location: location,
   };
   try {
-    const response = await fetch(`${FARI_API}/users/register`, {
+    const response = await fetch(`${FARI_API}/account/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

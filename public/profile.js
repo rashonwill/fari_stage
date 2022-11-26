@@ -61,7 +61,7 @@ $(".bio .fa-pen").click(function () {
         bio: channelBio,
       };
 
-      const response = await fetch(`${FARI_API}/users/addbio/${id}`, {
+      const response = await fetch(`${FARI_API}/account/addbio/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +104,7 @@ $(".location .fa-pen").click(function () {
         location: userLocation,
       };
 
-      const response = await fetch(`${FARI_API}/users/addlocation/${id}`, {
+      const response = await fetch(`${FARI_API}/account/addlocation/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -388,7 +388,7 @@ function renderPost(channelUploads) {
       let thumbnailKey = videoDel.thumbnailkey;
       try {
         const response = await fetch(
-          `${FARI_API}/explorer/upload/delete/${id}/${videokey}/${thumbnailKey}`,
+          `${FARI_API}/uploads/delete-upload/${id}/${videokey}/${thumbnailKey}`,
           {
             method: "DELETE",
             headers: {
@@ -435,7 +435,7 @@ $("#saveEdit").click(async function () {
     videotags: edittags,
   };
   try {
-    const response = await fetch(`${FARI_API}/explorer/upload/edit/${id}`, {
+    const response = await fetch(`${FARI_API}/uploads/edit-upload/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -1050,7 +1050,7 @@ $("#submitPoster").click(async function (event) {
     );
     console.log(formData);
     const response = await fetch(
-      `${FARI_API}/users/update/poster/${channelname}`,
+      `${FARI_API}/uploads/update/poster/${channelname}`,
       {
         method: "PUT",
         headers: {
@@ -1089,7 +1089,7 @@ $("#submitAvatar").click(async function (event) {
     var channelname = localStorage.getItem("channelName");
     const formData = new FormData(document.getElementById("profileAviUpdate"));
     const response = await fetch(
-      `${FARI_API}/users/update/avatar/${channelname}`,
+      `${FARI_API}/uploads/update/avatar/${channelname}`,
       {
         method: "PUT",
         headers: {
@@ -1213,7 +1213,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     formData.append("vendor_email", vendor_email);
     formData.append("stripe_acctid", stripe_acct);
     onFetchStart();
-    const response = await fetch(`${FARI_API}/explorer/upload`, {
+    const response = await fetch(`${FARI_API}/uploads/new-upload`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${myToken}`,

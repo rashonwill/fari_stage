@@ -1,57 +1,13 @@
 const express = require("express");
 const explorerRouter = express.Router();
 const { requireUser } = require("./utils");
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
-const stripe2 = require("stripe")(process.env.STRIPE_BUSINESS_SECRET);
-const bodyParser = require("body-parser");
 const rateLimiter = require("./ratelimiter");
-const limiter = require("express-rate-limit");
-const redis = require("./redisclient");
-const ddos = limiter({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 5, // Limit each IP to 5 requests per `window` (here, per 15 minutes)
-  message:
-    "Too many accounts created from this IP, please try again after an hour",
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
 const { check, validationResult } = require("express-validator");
 
 const cors = require("cors");
 explorerRouter.use(cors());
 
 const {
-  uploadVideo,
-  getFileStream,
-  deleteFile,
-  uploadPhotos,
-  largeFileUpload,
-} = require("../aws");
-
-const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "../useruploads");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "_" + file.originalname);
-  },
-});
-
-const upload = multer({
-  storage: storage,
-  limits: { fieldSize: 10 * 1024 * 1024 },
-});
-const contentUpload = upload.fields([
-  { name: "video", maxCount: 1 },
-  { name: "thumbnail", maxCount: 1 },
-]);
-
-const {
-  client,
-  createUploads,
-  editUpload,
-  deleteUpload,
   getAllUploads,
   getUploadByID,
   createComments,
@@ -63,27 +19,18 @@ const {
   animationSearch,
   videoLikes,
   createFavs,
-  createSubs,
   createLaters,
   getUserSubs,
   getUserFavs,
   getUserLaters,
-  getUserById,
-  updateChannelSubs,
   getUserSubsUploads,
-  videoLikesZero,
   updateVideoViews,
-  videoViewsZero,
-  videoDisLikesZero,
   videoDisLikes,
   getUserSubsLimit,
   usersLikes,
   usersDisLikes,
   myLikes,
   myDisLikes,
-  allUserLikesZero,
-  allUserLikes,
-  allUserDisLikes,
   getVideo,
   deleteLaters,
   deleteFavs,
@@ -97,12 +44,10 @@ const {
   getLiveChannels,
   getPayToViewContent,
   getFreeContent,
-  createMovieOrders,
   getMovieOrders,
   updatePaidWatchStarted,
   reduceUserCommentCount,
   updateUserCommentCount,
-  allCommentCountZero,
   flaggedComment,
   flaggedVideo,
   copyrightClaim,
@@ -679,146 +624,6 @@ explorerRouter.get(
 );
 
 explorerRouter.post(
-  "/upload",
-  cors(),
-  requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
-  contentUpload,
-  check("title").not().isEmpty().trim().escape(),
-  check("description").trim().escape(),
-  check("tags").trim().escape(),
-  check("ticketprice").trim().escape(),
-  async (req, res, next) => {
-    const { user } = req.user;
-    const cloudfront = "https://drotje36jteo8.cloudfront.net";
-    const title = req.body.title;
-    const vid = req.files["video"][0];
-    const thumbnail = req.files["thumbnail"][0];
-    const description = req.body.description;
-    const tags = req.body.tags;
-    const channelid = req.body.channelid;
-    const channelname = req.body.channelname;
-    const channelpic = req.body.channelavi;
-    const content_type = req.body.content_type;
-    const paid_content = req.body.paid_content;
-    const rental_price = req.body.ticketprice;
-    const vendor_email = req.body.vendor_email;
-    const stripe_acctid = req.body.stripe_acctid;
-
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
-    } else {
-      if (
-        thumbnail.mimetype === "image/jpeg" ||
-        thumbnail.mimetype === "image/png" ||
-        thumbnail.mimetype === "image/jpg" ||
-        vid.mimetype === "video/mp4" ||
-        vid.mimetype === "video/avi" ||
-        vid.mimetype === "video/mov" ||
-        vid.mimetype === "video/mpeg-4" ||
-        vid.mimetype === "video/wmv"
-      ) {
-        try {
-          const video1 = await uploadVideo(vid);
-          const thumbnail1 = await uploadPhotos(thumbnail);
-
-          const uploadData = {
-            channelID: channelid,
-            channelname: channelname,
-            channelavi: channelpic,
-            videoFile: cloudfront + "/" + video1.Key,
-            videoKey: video1.Key,
-            videoThumbnail: cloudfront + "/" + thumbnail1.Key,
-            thumbnailKey: thumbnail1.Key,
-            videoTitle: title,
-            videoDescription: description,
-            videoTags: tags,
-            content_type: content_type,
-            paid_content: paid_content,
-            rental_price: rental_price,
-            vendor_email: vendor_email,
-            stripe_acctid: stripe_acctid,
-          };
-          const newUpload = await createUploads(uploadData);
-          res.send({ upload: newUpload });
-        } catch (error) {
-          next({
-            name: "ErrorUploadingContent",
-            message: "Could not upload content",
-          });
-          console.log(error);
-        }
-      } else {
-        return res
-          .status(400)
-          .send({ name: "InvalidFiles", message: "Invalid file types" });
-      }
-    }
-  }
-);
-
-explorerRouter.delete(
-  "/upload/delete/:id/:key/:thumbnail",
-  cors(),
-  requireUser,
-  async (req, res, next) => {
-    const { id, key, thumbnail } = req.params;
-    try {
-      const deleteIt = await deleteUpload(id);
-      const deleteS3 = await deleteFile(key);
-      const deleteS3Photo = await deleteFile(thumbnail);
-      res.send("Upload Deleted");
-    } catch (error) {
-      console.log(error);
-      next({
-        name: "ErrorDeletingContent",
-        message: "Could not delete upload",
-      });
-    }
-  }
-);
-
-explorerRouter.put(
-  "/upload/edit/:id",
-  cors(),
-  requireUser,
-  check("videotitle").not().isEmpty().trim().escape(),
-  check("videodescription").trim().escape(),
-  check("videotags").trim().escape(),
-  async (req, res, next) => {
-    const { id } = req.params;
-    const { videotitle, videodescription, videotags } = req.body;
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
-    } else {
-      try {
-        const uploadUpdate = {
-          videoTitle: videotitle,
-          videoDescription: videodescription,
-          videoTags: videotags,
-        };
-
-        const updateIt = await editUpload(id, uploadUpdate);
-
-        res.send({ updateIt });
-      } catch (error) {
-        console.log(error);
-        next({
-          name: "ErrorUpdatingContent",
-          message: "Could not update upload",
-        });
-      }
-    }
-  }
-);
-
-explorerRouter.post(
   "/comment/new",
   requireUser,
   rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
@@ -1294,50 +1099,6 @@ explorerRouter.delete(
   }
 );
 
-explorerRouter.post("/movieorder", requireUser, async (req, res, next) => {
-  const thevideoid = req.body.videoid;
-  const videoprice = req.body.videoprice;
-  const videotitle = req.body.videotitle;
-  const thechannelid = req.body.channelid;
-  const thethumbnail = req.body.videothumbnail;
-  const userid = req.body.userid;
-  const vendor_email = req.body.vendor_email;
-
-  try {
-    const rentalOrder = {
-      videoid: thevideoid,
-      channelid: thechannelid,
-      videothumbnail: thethumbnail,
-      userid: userid,
-      videotitle: videotitle,
-      videoprice: videoprice,
-      vendor_email: vendor_email,
-    };
-
-    const movieRental = await createMovieOrders(rentalOrder);
-    res.send({ movieRental });
-  } catch (error) {
-    console.log(error);
-    next({
-      name: "ErrorGettingRentals",
-      message: "Ooops, could not create movie order",
-    });
-  }
-});
-
-explorerRouter.get("/movierentals", requireUser, async (req, res, next) => {
-  try {
-    const allmovieRental = await getMovieOrders();
-    res.send({ allmovieRental });
-  } catch (error) {
-    console.log(error);
-    next({
-      name: "ErrorGettingRentals",
-      message: "Ooops, could not get movie orders",
-    });
-  }
-});
-
 explorerRouter.patch(
   "/updatecommentcount/:id",
   requireUser,
@@ -1596,47 +1357,16 @@ explorerRouter.get(
   }
 );
 
-explorerRouter.post("/stripe-checkout/rental", async (req, res) => {
-  const stripeAcctID = req.body.stripe_acct;
-  const vendoremail = req.body.vendoremail;
+explorerRouter.get("/movierentals", requireUser, async (req, res, next) => {
   try {
-    const session = await stripe.checkout.sessions.create(
-      {
-        payment_method_types: ["card"],
-        payment_intent_data: {
-          application_fee_amount: 100,
-          receipt_email: vendoremail,
-        },
-        line_items: req.body.items.map((item) => {
-          return {
-            price_data: {
-              currency: "usd",
-              product_data: {
-                name: item.name,
-                description: "Movie/Film",
-                images: [item.image],
-                metadata: {
-                  vendor: item.vendor,
-                },
-              },
-              unit_amount_decimal: Math.round(item.price * 100),
-            },
-            quantity: item.quantity,
-          };
-        }),
-        mode: "payment",
-        success_url:
-          "https://fari-test.netlify.app/success?id={CHECKOUT_SESSION_ID}",
-        cancel_url: "https://fari-test.netlify.app/explorer",
-      },
-      {
-        stripeAccount: stripeAcctID,
-      }
-    );
-    console.log(session);
-    res.json({ url: session.url, id: session.id });
+    const allmovieRental = await getMovieOrders();
+    res.send({ allmovieRental });
   } catch (error) {
     console.log(error);
+    next({
+      name: "ErrorGettingRentals",
+      message: "Ooops, could not get movie orders",
+    });
   }
 });
 
