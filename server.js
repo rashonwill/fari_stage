@@ -1,7 +1,7 @@
 "use strict";
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
-
+const compression = require("compression");
 const express = require("express");
 const server = express();
 const cluster = require("cluster");
@@ -44,7 +44,7 @@ server.use(function (req, res, next) {
   );
   next();
 });
-
+server.use(compression());
 const morgan = require("morgan");
 server.use(morgan("dev"));
 

@@ -7,4 +7,10 @@ let redisClient = redis.createClient({
   },
 });
 
+redisClient.on("error", (err) => {
+  console.log("Redis Client Error", err);
+});
+redisClient.on("ready", () => console.log("Redis is ready"));
+await redis.connect();
+
 module.exports = redisClient;

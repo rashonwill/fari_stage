@@ -332,7 +332,7 @@ usersRouter.post(
 
 usersRouter.post(
   "/login",
-  ddos,
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   check("username")
     .not()
     .isEmpty()
