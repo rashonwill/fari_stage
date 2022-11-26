@@ -332,7 +332,6 @@ usersRouter.post(
 
 usersRouter.post(
   "/login",
-  ddos,
   check("username")
     .not()
     .isEmpty()
@@ -345,6 +344,7 @@ usersRouter.post(
     .trim()
     .escape()
     .withMessage({ message: "Please provide a valid password" }),
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   async (req, res, next) => {
     const { username, password } = req.body;
 
