@@ -14,7 +14,7 @@ function rateLimiter({ secondsWindow, allowedHits }) {
     const ip = req.headers["x-forwared-for"] || req.connection.remoteAddress;
     console.log("requesting IP", ip);
     const requests = await renderRedis.incr(ip);
-    console.log("ip requests exist?", requests);
+    console.log("incrementing IP", requests);
     let ttl;
     if (requests === 1) {
       await renderRedis.expire(ip, secondsWindow);

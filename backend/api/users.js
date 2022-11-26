@@ -584,7 +584,6 @@ usersRouter.put(
 
 usersRouter.put(
   "/update/avatar/:channelname",
-  cors(),
   rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
   profileAvatarUpdate,
   requireUser,
