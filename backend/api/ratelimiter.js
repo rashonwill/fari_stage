@@ -2,6 +2,7 @@ const redis = require("./redisclient");
 
 function rateLimiter({ secondsWindow, allowedHits }) {
   return async function (req, res, next) {
+    await redis.connect();
     const ip = (
       req.headers["x-forwared-for"] || req.connection.remoteAddress
     ).splice(0, 9);
