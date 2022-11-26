@@ -7,30 +7,34 @@ function rateLimiter({ secondsWindow, allowedHits }) {
     });
     redis.on("ready", () => console.log("Redis is ready"));
     await redis.connect();
-    const ip = (
-      req.headers["x-forwared-for"] || req.connection.remoteAddress
-    ).splice(0, 9);
-    console.log("requesting IP", ip);
-    const requests = await redis.incr(ip);
-    console.log("req redis incr", requests);
-    let ttl;
-    if (requests === 1) {
-      await redis.expire(ip, secondsWindow);
-      ttl = secondsWindow;
+    if (!redis) {
+      console.log("no redis");
     } else {
-      ttl = await redis.ttl(ip);
-    }
+      console.log("redis connected");
+      const ip = (
+        req.headers["x-forwared-for"] || req.connection.remoteAddress
+      ).splice(0, 9);
+      console.log("requesting IP", ip);
+      const requests = await redis.incr(ip);
+      let ttl;
+      if (requests === 1) {
+        await redis.expire(ip, secondsWindow);
+        ttl = secondsWindow;
+      } else {
+        ttl = await redis.ttl(ip);
+      }
 
-    if (requests > allowedHits) {
-      return res.status(503).json({
-        response: "error",
-        callsInAMinute: requests,
-        ttl,
-      });
-    } else {
-      req.request = requests;
-      req.ttl = ttl;
-      next();
+      if (requests > allowedHits) {
+        return res.status(503).json({
+          response: "error",
+          callsInAMinute: requests,
+          ttl,
+        });
+      } else {
+        req.request = requests;
+        req.ttl = ttl;
+        next();
+      }
     }
   };
 }
