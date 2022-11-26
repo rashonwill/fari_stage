@@ -10,7 +10,7 @@ const ddos = limiter({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 5, // Limit each IP to 5 requests per `window` (here, per 15 minutes)
 });
-
+const redis = require("./redisclient");
 const rateLimiter = require("./ratelimiter");
 
 const { uploadPhotos } = require("../aws");
@@ -78,15 +78,6 @@ const {
   updateChannelSubsStatus,
 } = require("../db");
 
-// const redis = require("redis");
-// let redisClient = redis.createClient({
-//   url: process.env.REDIS_URL,
-//   socket: {
-//     tls: true,
-//     rejectUnauthorized: false,
-//   },
-// });
-
 usersRouter.get("/", async (req, res, next) => {
   try {
     const allUsers = await getAllUsers();
@@ -112,12 +103,6 @@ usersRouter.get(
   rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   requireUser,
   async (req, res, next) => {
-    // let getCache = await redisClient.get("fariUsers");
-    // await redisClient.expire("fariUsers", 1800);
-    // if (getCache && getCache != null) {
-    //   console.log("cache found");
-    //   res.send({ users: JSON.parse(getCache) });
-    // } else if (!getCache) {
     console.log("no cache found");
     try {
       const allUsernames = await getAllUsersUsername();
@@ -129,7 +114,6 @@ usersRouter.get(
     } catch ({ name, message }) {
       next({ name, message });
     }
-    // }
   }
 );
 
@@ -349,7 +333,7 @@ usersRouter.post(
 
 usersRouter.post(
   "/login",
-  rateLimiter({ secondsWindow: 10, allowedHits: 5 }),
+  ddos,
   check("username")
     .not()
     .isEmpty()

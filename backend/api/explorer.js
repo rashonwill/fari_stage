@@ -5,14 +5,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const stripe2 = require("stripe")(process.env.STRIPE_BUSINESS_SECRET);
 const bodyParser = require("body-parser");
 const rateLimiter = require("./ratelimiter");
-// const redis = require("redis");
-// let redisClient = redis.createClient({
-//   url: process.env.REDIS_URL,
-//   socket: {
-//     tls: true,
-//     rejectUnauthorized: false,
-//   },
-// });
+const redis = require("./redisclient");
 
 const { check, validationResult } = require("express-validator");
 
@@ -143,21 +136,8 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
   requireUser,
   async (req, res, next) => {
-    // let getCache = await redisClient.get("discoverContent");
-    // await redisClient.expire("discoverContent", 150);
-    // if (getCache && getCache != null) {
-    //   console.log("cache found");
-    //   res.send({ uploads: JSON.parse(getCache) });
-    // } else if (!getCache) {
-    // console.log("no cache found");
     try {
       const freeContent = await getFreeContent();
-      //     let setData = await redisClient.set(
-      //       "discoverContent",
-      //       JSON.stringify(freeContent),
-      //       "ex",
-      //       150
-      //     );
       res.send({ uploads: freeContent });
     } catch (error) {
       console.log(error);
@@ -166,7 +146,6 @@ explorerRouter.get(
         message: "Could Not get the free uploads",
       });
     }
-    // }
   }
 );
 
@@ -205,19 +184,8 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
   requireUser,
   async (req, res, next) => {
-    // let getCache = await redisClient.get("paidContent");
-    // await redisClient.expire("paidContent", 150);
-    // if (getCache && getCache != null) {
-    //   console.log("cache found");
-    //   res.send({ uploads: JSON.parse(getCache) });
-    // } else {
-    //   console.log("no cache found");
     try {
       const payContent = await getPayToViewContent();
-      //     let setData = await redisClient.set(
-      //       "paidContent",
-      //       JSON.stringify(payContent)
-      //     );
       res.send({ uploads: payContent });
     } catch (error) {
       next({
@@ -225,7 +193,6 @@ explorerRouter.get(
         message: "Could Not get the paid uploads",
       });
     }
-    // }
   }
 );
 
@@ -234,19 +201,8 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
   requireUser,
   async (req, res, next) => {
-    // let getCache = await redisClient.get("recContent");
-    // await redisClient.expire("recContent", 150);
-    // if (getCache && getCache != null) {
-    //   console.log("cache found");
-    //   res.send({ uploads: JSON.parse(getCache) });
-    // } else {
-    //   console.log("no cache found");
     try {
       const recUploads = await getLimitedUploads();
-      //     let setData = await redisClient.set(
-      //       "recContent",
-      //       JSON.stringify(recUploads)
-      //     );
       res.send({ uploads: recUploads });
     } catch (error) {
       next({
@@ -254,7 +210,6 @@ explorerRouter.get(
         message: "Could Not get the uploads",
       });
     }
-    // }
   }
 );
 
@@ -323,13 +278,6 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
   requireUser,
   async (req, res, next) => {
-    // let getCache = await redisClient.get("vloggerContent");
-    // redisClient.expire("vloggerContent", 200);
-    // if (getCache && getCache != null) {
-    //   console.log("cache found");
-    //   res.send({ videos: JSON.parse(getCache) });
-    // } else {
-    //   console.log("no cache found");
     try {
       const vlogVids = await vlogSearch();
       //     redisClient.set("vloggerContent", JSON.stringify(vlogVids));
@@ -341,7 +289,6 @@ explorerRouter.get(
         message: "Could not get the search results for Vloggers",
       });
     }
-    // }
   }
 );
 
@@ -350,16 +297,8 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
   requireUser,
   async (req, res, next) => {
-    // let getCache = await redisClient.get("animationContent");
-    // redisClient.expire("animationContent", 200);
-    // if (getCache && getCache != null) {
-    //   console.log("cache found");
-    //   res.send({ videos: JSON.parse(getCache) });
-    // } else {
-    //   console.log("no cache found");
     try {
       const animationsSearch = await animationSearch();
-      //       redisClient.set("animationContent", JSON.stringify(animationsSearch));
       res.send({ videos: animationsSearch });
     } catch (error) {
       console.log("Oops could not find search results", error);
@@ -369,7 +308,6 @@ explorerRouter.get(
       });
     }
   }
-  // }
 );
 
 explorerRouter.get(
@@ -377,16 +315,8 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
   requireUser,
   async (req, res, next) => {
-    // let getCache = await redisClient.get("movieContent");
-    // redisClient.expire("movieContent", 200);
-    // if (getCache && getCache != null) {
-    //   console.log("cache found");
-    //   res.send({ videos: JSON.parse(getCache) });
-    // } else {
-    //   console.log("no cache found");
     try {
       const movieVids = await movieSearch();
-      //     redisClient.set("movieContent", JSON.stringify(movieVids));
       res.send({ videos: movieVids });
     } catch (error) {
       console.log("Oops could not find search results", error);
@@ -404,16 +334,8 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 10, allowedHits: 4 }),
   requireUser,
   async (req, res, next) => {
-    // let getCache = await redisClient.get("showsContent");
-    // redisClient.expire("showsContent", 200);
-    // if (getCache && getCache != null) {
-    //   console.log("cache found");
-    //   res.send({ videos: JSON.parse(getCache) });
-    // } else {
-    //   console.log("no cache found");
     try {
       const showsVids = await showsSearch();
-      //     redisClient.set("showsContent", JSON.stringify(showsVids));
       res.send({ videos: showsVids });
     } catch (error) {
       console.log("Oops could not find search results", error);
