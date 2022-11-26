@@ -134,22 +134,27 @@ explorerRouter.get("/", requireUser, async (req, res, next) => {
   }
 });
 
-explorerRouter.get("/discover", ddos, requireUser, async (req, res, next) => {
-  try {
-    const freeContent = await getFreeContent();
-    res.send({ uploads: freeContent });
-  } catch (error) {
-    console.log(error);
-    next({
-      name: "ErrorGettingUploads",
-      message: "Could Not get the free uploads",
-    });
+explorerRouter.get(
+  "/discover",
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
+  requireUser,
+  async (req, res, next) => {
+    try {
+      const freeContent = await getFreeContent();
+      res.send({ uploads: freeContent });
+    } catch (error) {
+      console.log(error);
+      next({
+        name: "ErrorGettingUploads",
+        message: "Could Not get the free uploads",
+      });
+    }
   }
-});
+);
 
 explorerRouter.get(
   "/popular-uploads",
-  ddos,
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
     // let getCache = await redisClient.get("popularContent");
@@ -177,21 +182,26 @@ explorerRouter.get(
   }
 );
 
-explorerRouter.get("/paytoview", ddos, requireUser, async (req, res, next) => {
-  try {
-    const payContent = await getPayToViewContent();
-    res.send({ uploads: payContent });
-  } catch (error) {
-    next({
-      name: "ErrorGettingUploads",
-      message: "Could Not get the paid uploads",
-    });
+explorerRouter.get(
+  "/paytoview",
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
+  requireUser,
+  async (req, res, next) => {
+    try {
+      const payContent = await getPayToViewContent();
+      res.send({ uploads: payContent });
+    } catch (error) {
+      next({
+        name: "ErrorGettingUploads",
+        message: "Could Not get the paid uploads",
+      });
+    }
   }
-});
+);
 
 explorerRouter.get(
   "/recommended",
-  ddos,
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -242,7 +252,7 @@ explorerRouter.get(
 explorerRouter.get(
   "/video-search/:query",
   requireUser,
-  ddos,
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   check("query").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { query } = req.params;
@@ -268,7 +278,7 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/vlogs",
-  ddos,
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -287,7 +297,7 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/animations",
-  ddos,
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -305,7 +315,7 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/movies",
-  ddos,
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -324,7 +334,7 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/shows",
-  ddos,
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -344,6 +354,7 @@ explorerRouter.get(
 explorerRouter.post(
   "/youlikeme/:id",
   requireUser,
+  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("id")
     .not()
     .isEmpty()
@@ -437,6 +448,7 @@ explorerRouter.delete(
 explorerRouter.post(
   "/youdislikeme/:id",
   requireUser,
+  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("id")
     .not()
     .isEmpty()
@@ -670,6 +682,7 @@ explorerRouter.post(
   "/upload",
   cors(),
   requireUser,
+  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
   contentUpload,
   check("title").not().isEmpty().trim().escape(),
   check("description").trim().escape(),
@@ -808,6 +821,7 @@ explorerRouter.put(
 explorerRouter.post(
   "/comment/new",
   requireUser,
+  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
   check("user_comment").not().isEmpty().trim().escape(),
   check("videoid")
     .not()
@@ -848,6 +862,7 @@ explorerRouter.post(
 explorerRouter.patch(
   "/comment/edit/:commentid",
   requireUser,
+  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
   cors(),
   check("user_comment")
     .not()

@@ -209,7 +209,7 @@ usersRouter.get(
 
 usersRouter.post(
   "/register",
-  ddos,
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   check("username")
     .not()
     .isEmpty()
@@ -512,6 +512,7 @@ usersRouter.get(
 usersRouter.get(
   "/myprofile/post/:channelid",
   requireUser,
+  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
   check("channelid")
     .not()
     .isEmpty()
@@ -541,6 +542,7 @@ usersRouter.get(
 usersRouter.put(
   "/update/poster/:channelname",
   cors(),
+  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
   profilePosterUpdate,
   requireUser,
   check("channelname").not().isEmpty().trim().escape(),
@@ -583,6 +585,7 @@ usersRouter.put(
 usersRouter.put(
   "/update/avatar/:channelname",
   cors(),
+  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
   profileAvatarUpdate,
   requireUser,
   check("channelname").not().isEmpty().trim().escape(),
@@ -816,24 +819,29 @@ usersRouter.get(
   }
 );
 
-usersRouter.get("/password-reset/:id/:token", async (req, res, next) => {
-  const { id, token } = req.params;
-  try {
-    const _user2 = await getUserById(id);
-    const payload = jwt.verify(token, JWT_SECRET_RESET);
-    res.set(
-      "Content-Security-Policy",
-      "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'"
-    );
-    res.sendFile(path.join(__dirname, "../public/password-reset.html"));
-  } catch (error) {
-    console.log(error);
-    res.sendFile(path.join(__dirname, "../public/password-reset-link.html"));
+usersRouter.get(
+  "/password-reset/:id/:token",
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
+  async (req, res, next) => {
+    const { id, token } = req.params;
+    try {
+      const _user2 = await getUserById(id);
+      const payload = jwt.verify(token, JWT_SECRET_RESET);
+      res.set(
+        "Content-Security-Policy",
+        "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'"
+      );
+      res.sendFile(path.join(__dirname, "../public/password-reset.html"));
+    } catch (error) {
+      console.log(error);
+      res.sendFile(path.join(__dirname, "../public/password-reset-link.html"));
+    }
   }
-});
+);
 
 usersRouter.post(
   "/password-reset/:id/:token",
+  rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   check("id")
     .not()
     .isEmpty()

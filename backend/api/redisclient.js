@@ -6,13 +6,4 @@ let redisClient = redis.createClient({
     rejectUnauthorized: false,
   },
 });
-
-// (async () => {
-//   redisClient.on("error", (err) => {
-//     console.log("Redis Client Error", err);
-//   });
-//   redisClient.on("ready", () => console.log("Redis is ready"));
-//   await redisClient.connect();
-// })();
-
 module.exports = redisClient;
