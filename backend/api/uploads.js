@@ -4,13 +4,14 @@ const { requireUser } = require("./utils");
 const path = require("path");
 const { check, validationResult } = require("express-validator");
 const rateLimiter = require("./ratelimiter");
-
 const multer = require("multer");
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "../useruploads");
   },
   filename: (req, file, cb) => {
+    console.log(file);
     cb(null, Date.now() + "_" + file.originalname);
   },
 });
@@ -19,14 +20,13 @@ const upload = multer({
   storage: storage,
   limits: { fieldSize: 10 * 1024 * 1024 },
 });
-const contentUpload = upload.fields([
+const videoUpload = upload.fields([
   { name: "video", maxCount: 1 },
   { name: "thumbnail", maxCount: 1 },
 ]);
 
 const profilePosterUpdate = upload.single("channel-poster");
 const profileAvatarUpdate = upload.single("avatar");
-console.log(profileAvatarUpdate);
 
 const {
   uploadVideo,
@@ -36,7 +36,6 @@ const {
 } = require("../aws");
 
 const {
-  client,
   createUploads,
   editUpload,
   deleteUpload,
@@ -46,6 +45,10 @@ const {
   updateCommentsPic,
 } = require("../db");
 
+uploadsRouter.get("/", async (req, res) => {
+  res.send({ message: "Uploads router" });
+});
+
 uploadsRouter.put(
   "/update/poster/:channelname",
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
@@ -54,7 +57,7 @@ uploadsRouter.put(
   check("channelname").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { channelname } = req.params;
-    const cloudfront = "https://drotje36jteo8.cloudfront.net";
+    const cloudfront = "https://d32wkr8chcuveb.cloudfront.net";
     const pic2 = req.file;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -91,15 +94,15 @@ uploadsRouter.put(
 uploadsRouter.put(
   "/update/avatar/:channelname",
   requireUser,
-  profileAvatarUpdate,
-  rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
   check("channelname").not().isEmpty().trim().escape(),
+  rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
+  profileAvatarUpdate,
   async (req, res, next) => {
     console.log("hitting upload avi route");
     const { channelname } = req.params;
     const channel_name = channelname;
     const commentorName = channelname;
-    const cloudfront = "https://drotje36jteo8.cloudfront.net";
+    const cloudfront = "https://d32wkr8chcuveb.cloudfront.net";
     const pic1 = req.file;
     console.log(channelname, pic1);
     let errors = validationResult(req);
@@ -159,14 +162,14 @@ uploadsRouter.post(
   "/new-upload",
   requireUser,
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
-  contentUpload,
+  videoUpload,
   check("title").not().isEmpty().trim().escape(),
   check("description").trim().escape(),
   check("tags").trim().escape(),
   check("ticketprice").trim().escape(),
   async (req, res, next) => {
     const { user } = req.user;
-    const cloudfront = "https://drotje36jteo8.cloudfront.net";
+    const cloudfront = "https://d32wkr8chcuveb.cloudfront.net";
     const title = req.body.title;
     const vid = req.files["video"][0];
     const thumbnail = req.files["thumbnail"][0];

@@ -121,6 +121,7 @@
           <form
             class="card avatar-upload"
             enctype="multipart/form-data"
+            method="PUT"
             id="profileAviUpdate"
           >
             <h3>Profile Avatar</h3>
@@ -138,7 +139,6 @@
                 accept=".jpeg, .png, .jpg, .gif"
                 onchange="showPreviewAvi(event);"
                 required
-                name="avatar"
               />
               <h4>Select Avatar</h4>
             </button>
@@ -167,7 +167,6 @@
                 accept=".jpeg, .png, .jpg, .gif"
                 onchange="showPreviewPoster(event);"
                 required
-                name="poster"
               />
               <h4>Select Poster</h4>
             </button>

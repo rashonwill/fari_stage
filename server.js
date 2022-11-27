@@ -28,8 +28,8 @@ const cors = require("cors");
 server.use(cors({ origin: "*" }));
 
 const bodyParser = require("body-parser");
-server.use(bodyParser.json({ limit: "50mb" }));
-server.use(bodyParser.urlencoded({ extended: false, limit: "50mb" }));
+server.use(bodyParser.json({ limit: "30mb" }));
+server.use(bodyParser.urlencoded({ extended: false, limit: "30mb" }));
 
 server.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -47,7 +47,42 @@ server.use(compression());
 const morgan = require("morgan");
 server.use(morgan("dev"));
 
-//Router API
+// const multer = require("multer");
+
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "useruploads");
+//   },
+//   filename: (req, file, cb) => {
+//     console.log(file);
+//     cb(null, Date.now() + "_" + file.originalname);
+//   },
+// });
+
+// const upload = multer({
+//   storage: storage,
+//   limits: { fieldSize: 10 * 1024 * 1024 },
+// });
+
+// const randomUpload = upload.single("random");
+
+// const {
+//   uploadVideo,
+//   deleteFile,
+//   uploadPhotos,
+//   largeFileUpload,
+// } = require("./aws");
+
+// //Router API
+// server.post("/upload-multer", randomUpload, async (req, res) => {
+//   const pic2 = req.file;
+//   try {
+//     const result1 = await uploadPhotos(pic2);
+//     res.send({ message: "File uploaded" });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 server.use("/api", require("./backend/api"));
 
 // if (cluster.isMaster) {
