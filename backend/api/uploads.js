@@ -159,6 +159,7 @@ uploadsRouter.put(
         req.file.mimetype === "image/jpg" ||
         req.file.mimetype === "image/gif"
       ) {
+        console.log("trying?");
         try {
           const result = await uploadPhotos(pic1);
           console.log(result);
