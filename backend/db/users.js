@@ -402,7 +402,7 @@ async function updatePosters(channelname, photos) {
               WHERE channelname=$1
               RETURNING *;
             `,
-      [channelname, slider_pic1]
+      [channelname, profile_poster]
     );
 
     return rows;
