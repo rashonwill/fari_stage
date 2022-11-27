@@ -137,7 +137,6 @@ uploadsRouter.put(
   "/update/avatar/:channelname",
   requireUser,
   check("channelname").not().isEmpty().trim().escape(),
-  rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
   profileAvatarUpdate,
   async (req, res, next) => {
     console.log("hitting upload avi route");
