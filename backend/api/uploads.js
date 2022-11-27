@@ -28,12 +28,7 @@ const videoUpload = upload.fields([
 const profilePosterUpdate = upload.single("channel-poster");
 const profileAvatarUpdate = upload.single("avatar");
 
-const {
-  uploadVideo,
-  deleteFile,
-  uploadPhotos,
-  largeFileUpload,
-} = require("../aws");
+const { uploadVideo, deleteFile, uploadPhotos } = require("../aws");
 
 const {
   createUploads,
