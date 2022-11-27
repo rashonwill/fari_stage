@@ -52,6 +52,7 @@ function uploadVideo(file) {
     Body: fileStream,
     Key: file.filename,
   };
+
   const options = {
     partSize: 10 * 1024 * 1024,
     queueSize: 5,
@@ -70,7 +71,7 @@ function uploadPhotos(file) {
     Body: fileStream,
     Key: file.filename,
   };
-
+  console.log(uploadParams);
   return s3.upload(uploadParams).promise();
 }
 
