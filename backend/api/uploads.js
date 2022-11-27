@@ -28,54 +28,7 @@ const videoUpload = upload.fields([
 const profilePosterUpdate = upload.single("channel-poster");
 const profileAvatarUpdate = upload.single("avatar");
 
-// const { uploadVideo, deleteFile, uploadPhotos } = require("../aws");
-
-const aws = require("aws-sdk");
-const fs = require("fs");
-
-const bucketName = process.env.AWS_BUCKET_NAME;
-
-const s3 = new aws.S3({
-  region: process.env.AWS_BUCKET_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_KEY,
-  signatureVersion: "v4",
-  maxRetries: 10,
-});
-
-//Upload Videos to s3
-
-function uploadVideo(file) {
-  const fileStream = fs.createReadStream(file.path);
-  const uploadVideoParams = {
-    Bucket: bucketName,
-    Body: fileStream,
-    Key: file.filename,
-  };
-
-  const options = {
-    partSize: 10 * 1024 * 1024,
-    queueSize: 5,
-  };
-
-  return s3.upload(uploadVideoParams, options).promise();
-}
-
-//UploadsPhotos
-
-function uploadPhotos(file) {
-  console.log("hitting upload s3");
-  const fileStream = fs.createReadStream(file.path);
-  const uploadParams = {
-    Bucket: bucketName,
-    Body: fileStream,
-    Key: file.filename,
-  };
-  console.log(uploadParams);
-  return s3.upload(uploadParams).promise();
-}
-
-//Download from s3
+const { uploadVideo, deleteFile, uploadPhotos } = require("../aws");
 
 const {
   createUploads,
@@ -137,6 +90,7 @@ uploadsRouter.put(
   "/update/avatar/:channelname",
   requireUser,
   check("channelname").not().isEmpty().trim().escape(),
+  rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
   profileAvatarUpdate,
   async (req, res, next) => {
     console.log("hitting upload avi route");

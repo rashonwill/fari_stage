@@ -1091,7 +1091,7 @@ $("#submitAvatar").click(async function (event) {
     const formData = new FormData(document.getElementById("profileAviUpdate"));
     console.log(formData);
     const response = await fetch(
-      `${FARI_API}/uploads/update/avatar/${channelname}`,
+      `http://localhost:3000/api/uploads/update/avatar/${channelname}`,
       {
         method: "PUT",
         headers: {
