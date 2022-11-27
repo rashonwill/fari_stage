@@ -225,7 +225,7 @@ usersRouter.get(
 usersRouter.get(
   "/myprofile/post/:channelid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
+  rateLimiter({ secondsWindow: 10, allowedHits: 5 }),
   check("channelid")
     .not()
     .isEmpty()
