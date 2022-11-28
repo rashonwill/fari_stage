@@ -41,7 +41,7 @@ getPostByChannelID,
 updateAvatar,
 updatePoster,
 updateChannelSubscriptionCount,
-reduceChannelSubcscriptionCount,
+reduceChannelSubscriptionCount,
 
 updateUserSubscriptionStatus,
 updateVendorSubscriptionStatus,
