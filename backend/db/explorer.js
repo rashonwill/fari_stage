@@ -752,7 +752,7 @@ async function createChannelSubcription({ userid, channelID, channelname, channe
   }
 }
 
-async function removeChannelSubscription(userid, channelid) {
+async function removeChannelSubcription(userid, channelid) {
   try {
     const { rows } = await client.query(
       `
@@ -1093,7 +1093,7 @@ getUserWatchHistory,
 
 
 createChannelSubcription,
-removeChannelSubscription,
+removeChannelSubcription,
 getUserSubscriptions,
 checkUserSubscriptionStatusToChannel,
 getUserSubscriptionsLimited,
