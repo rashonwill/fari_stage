@@ -826,7 +826,7 @@ function renderfavVids(favVid) {
 async function getWatchList() {
   var userid = localStorage.getItem("userID");
   try {
-    const response = await fetch(`${FARI_API}/explorer/watchlater/${userid}`, {
+    const response = await fetch(`${FARI_API}/explorer/watchlist/${userid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
