@@ -301,7 +301,7 @@ explorerRouter.get(
 );
 
 explorerRouter.get(
-  "/search/shows",
+  "/search/series",
   rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
