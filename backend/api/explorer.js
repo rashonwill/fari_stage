@@ -510,7 +510,7 @@ explorerRouter.delete(
     } else {
       try {
         const undislikedVid = await removeUserVideoDislike(userid);
-        const removeDislike = await revokeVideoDisLike(videoid);
+        const removeDislike = await revokeVideoDislike(videoid);
         res.send({ video: removeDislike });
       } catch (error) {
         console.log("Oops could not undislike this video", error);
@@ -589,7 +589,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const myDisLike = await checkUserVideoDisLikeStatus(videoid, userid);
+        const myDisLike = await checkUserVideoDislikeStatus(videoid, userid);
         res.send({ idisLike: myDisLike });
       } catch (error) {
         console.log("Oops could not like this video", error);
