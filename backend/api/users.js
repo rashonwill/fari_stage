@@ -14,83 +14,47 @@ const ddos = limiter({
 const rateLimiter = require("./ratelimiter");
 
 const {
-  getAllUsers,
-  verifiedVendors,
-  getUserChannelByChannelID,
-  getPostByChannelID,
-  getUserChannel,
-  getUserProfile,
-  getUserById,
-  createSubs,
-  updateChannelSubs,
-  removeChannelSub,
-  removeSubs,
-  getUserStatSubForChannel,
-  getChannelByName,
-  getLiveChannels,
-  userSearch,
-  getAllUsersUsername,
-  getUsersByUsername,
-  verifyUserSubscriptionStatus,
-  updateChannelSubsStatus,
+createUser,
+createChannel,
+createVendor,
+
+
+updatePassword,
+
+addLocation,
+addBio,
+
+getUserByUsername,
+getUserByEmail,
+getUser,
+getUserById,
+getUserByUsername,
+
+userSearch,
+getLiveChannels,
+getUserChannelByChannelID,
+getUserChannelByName,
+getUserProfile,
+getPostByChannelID,
+
+
+updateAvatar,
+updatePoster,
+updateChannelSubscriptionCount,
+reduceChannelSubcscriptionCount,
+
+updateUserSubscriptionStatus,
+updateVendorSubscriptionStatus,
+confirmVendorSubscription,
+  
+createChannelSubscription,
+removeChannelSubscription,
+checkUserSubscriptionStatusToChannel,  
 } = require("../db");
 
-usersRouter.get("/", requireUser, async (req, res, next) => {
-  try {
-    const allUsers = await getAllUsers();
-    res.send({
-      users: allUsers,
-    });
-  } catch ({ name, message }) {
-    next({ name, message });
-  }
-});
 
-usersRouter.get("/me", requireUser, async (req, res, next) => {
-  try {
-    res.send({ user: req.user });
-  } catch (error) {
-    console.error("Hmm, can't seem to get that user", error);
-    next(error);
-  }
-});
 
-usersRouter.get("/usernames", ddos, requireUser, async (req, res, next) => {
-  console.log("no cache found");
-  try {
-    const allUsernames = await getAllUsersUsername();
-    let setData = await redisClient.set(
-      "fariUsers",
-      JSON.stringify(allUsernames)
-    );
-    res.send({ users: allUsernames });
-  } catch ({ name, message }) {
-    next({ name, message });
-  }
-});
 
-usersRouter.get(
-  "/usernames/:username",
-  check("username").not().isEmpty().trim().escape(),
-  async (req, res, next) => {
-    const { username } = req.params;
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
-    } else {
-      try {
-        const usersName = await getUsersByUsername(username);
-        res.send({
-          users: usersName,
-        });
-      } catch ({ name, message }) {
-        next({ name, message });
-      }
-    }
-  }
-);
 
 usersRouter.get(
   "/usersearch/:query",
@@ -118,65 +82,6 @@ usersRouter.get(
 );
 
 
-usersRouter.get(
-  "/livechannels/:userid",
-  check("userid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
-  async (req, res, next) => {
-    const { userid } = req.params;
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
-    } else {
-      try {
-        const liveChannels = await getLiveChannels(userid);
-        res.send({ live: liveChannels });
-      } catch (error) {
-        console.log(error);
-        next({
-          name: "ErrorGettingLiveChannels",
-          message: "Could not retrieve live channels",
-        });
-      }
-    }
-  }
-);
-
-usersRouter.get(
-  "/loggedin/:id",
-  requireUser,
-  check("id")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
-  async (req, res, next) => {
-    const { id } = req.params;
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
-    } else {
-      try {
-        const loggedIn = await getUserById(id);
-        res.send({ user: loggedIn });
-      } catch (error) {
-        console.error("Hmm, can't seem to get that user", error);
-        next(error);
-      }
-    }
-  }
-);
 
 usersRouter.get("/myprofile", requireUser, async (req, res, next) => {
   try {
@@ -201,7 +106,7 @@ usersRouter.get(
     } else {
       try {
         const { username } = req.params;
-        const channel = await getUserChannel(username);
+        const channel = await getUserChannelByName(username);
         res.send({ profile: channel });
       } catch (error) {
         console.log("Could not get user channel");
@@ -295,8 +200,8 @@ usersRouter.post(
           channelname: channel,
           channelavi: channel_avi,
         };
-        const mySubs = await createSubs(subedData);
-        const userSubs = await updateChannelSubs(channelname);
+        const mySubs = await createChannelSubscription(subedData);
+        const userSubs = await updateChannelSubscriptionCount(channelname);
         res.send({ mySubs: mySubs });
       } catch (error) {
         console.log(error);
@@ -336,8 +241,8 @@ usersRouter.delete(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const myunSubs = await removeSubs(userid, channel);
-        const userunSubs = await removeChannelSub(channelid);
+        const myunSubs = await removeChannelSubscription(userid, channel);
+        const userunSubs = await reduceChannelSubcscriptionCount(channelid);
         res.send({ removedSub: myunSubs });
       } catch (error) {
         console.log(error);
@@ -376,7 +281,7 @@ usersRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const subStat = await getUserStatSubForChannel(userid, channelID);
+        const subStat = await checkUserSubscriptionStatusToChannel(userid, channelID);
         res.send({ subedChannel: subStat });
       } catch (error) {
         console.log("Oops, could not determine sub status", error);
@@ -390,61 +295,6 @@ usersRouter.get(
 );
 
 
-usersRouter.get(
-  "/user-sub-verified/:id",
-  requireUser,
-  check("id")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
-  async (req, res, next) => {
-    const { id } = req.params;
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
-    } else {
-      try {
-        const checkVerified = await verifyUserSubscriptionStatus(id);
-        res.send({ user: checkVerified });
-      } catch (error) {
-        console.log("Oops, could not check verification of vendor", error);
-      }
-    }
-  }
-);
-
-usersRouter.patch(
-  "/updatechannelsub/:id",
-  requireUser,
-  check("id")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
-  async (req, res, next) => {
-    const { id } = req.params;
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
-    } else {
-      try {
-        const channelsubstatus = await updateChannelSubsStatus(id);
-        res.send({ user: channelsubstatus });
-      } catch (error) {
-        console.log("Oops, could not check verification of vendor", error);
-      }
-    }
-  }
-);
 
 usersRouter.get(
   "/vendor-verified/:vendorid",
@@ -465,7 +315,7 @@ usersRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const checkVerified = await verifiedVendors(vendorid);
+        const checkVerified = await confirmVendorSubscription(vendorid);
         res.send({ vendor: checkVerified });
       } catch (error) {
         console.log("Oops, could not check verification of vendor", error);
