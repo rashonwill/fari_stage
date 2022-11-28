@@ -2124,7 +2124,7 @@ async function getRecentlySubsUploads() {
   var userid = localStorage.getItem("userID");
   try {
     const response = await fetch(
-      `${FARI_API}/explorer/recentuploads/subs/${userid}`,
+      `${FARI_API}/explorer/subcription-profiles/${userid}`,
       {
         method: "GET",
         headers: {
@@ -2271,7 +2271,7 @@ async function laterVideo() {
   };
 
   try {
-    const response = await fetch(`${FARI_API}/explorer/watchlist`, {
+    const response = await fetch(`${FARI_API}/explorer/add/watchlist`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -2313,7 +2313,7 @@ async function laterVideoPurchased() {
   };
 
   try {
-    const response = await fetch(`${FARI_API}/explorer/watchlist`, {
+    const response = await fetch(`${FARI_API}/explorer/add/watchlist`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -2414,7 +2414,7 @@ async function createRentalOrder() {
   };
 
   try {
-    const response = await fetch(`${FARI_API}/explorer/movieorder`, {
+    const response = await fetch(`${FARI_API}/orders/create/movieorder`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
