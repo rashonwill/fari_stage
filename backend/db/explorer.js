@@ -86,79 +86,8 @@ async function deleteUpload(id) {
   }
 }
 
-async function getAllUploads() {
-  const { rows } = await client.query(`
-  SELECT *, channel_uploads.id AS videoID
-  FROM channel_uploads
-  ORDER BY random();
-  `);
 
-  return rows;
-}
-
-async function getFreeContent() {
-  const { rows } = await client.query(`
-  SELECT *, channel_uploads.id AS videoID
-  FROM channel_uploads
-  WHERE paid_content='free' OR paid_content IS NULL
-  ORDER BY random() limit 1000;
-  `);
-
-  return rows;
-}
-
-async function getPayToViewContent() {
-  const { rows } = await client.query(`
-  SELECT *, channel_uploads.id AS videoID
-  FROM channel_uploads
-  WHERE content_type='film' AND paid_content='pay' OR content_type='shows' AND paid_content='pay'
-  ORDER BY random() limit 1000;
-  `);
-
-  return rows;
-}
-
-async function getLimitedUploads() {
-  const { rows } = await client.query(`
-  SELECT *, channel_uploads.id AS videoID
-  FROM channel_uploads
-  WHERE paid_content='free' OR paid_content IS NULL OR content_type='vlog' OR content_type='other' OR content_type IS NULL
-  ORDER BY random() limit 200;
-  `);
-
-  return rows;
-}
-
-async function getTopUploads() {
-  const { rows } = await client.query(`
-  SELECT *, channel_uploads.id AS videoID
-  FROM channel_uploads
-  WHERE paid_content='free' OR paid_content IS NULL OR content_type='vlog' OR content_type='other' OR content_type IS NULL
-  ORDER BY random() limit 10;
-  `);
-
-  return rows;
-}
-
-async function getUploadByID(id) {
-  try {
-    const { rows } = await client.query(
-      `
-    
-  SELECT *, channel_uploads.id AS videoID, user_channel.channelname, user_channel.profile_avatar
-  FROM channel_uploads 
-  RIGHT JOIN user_channel ON channel_uploads.channelid = user_channel.id
-  WHERE channel_uploads.id=$1;
-  `,
-      [id]
-    );
-    return rows;
-  } catch (error) {
-    console.error("Could not get that video");
-  }
-}
-
-async function createComments({
+async function createComment({
   videoID,
   commentorID,
   commentorName,
@@ -234,17 +163,14 @@ async function getVideoComments(videoid) {
   }
 }
 
-async function updateUploadsPicture(channelname, pic) {
-  const { channelavi } = pic;
+async function updateVideoCommentCount(id) {
   try {
     const { rows } = await client.query(
-      `
-              UPDATE channel_uploads
-              SET channelavi=$2
-              WHERE channelname=$1
-              RETURNING *;
-            `,
-      [channelname, channelavi]
+      `UPDATE channel_uploads
+       SET videocommentcount= videocommentcount + 1
+       WHERE id=$1;
+      `,
+      [id]
     );
     return rows;
   } catch (error) {
@@ -252,23 +178,113 @@ async function updateUploadsPicture(channelname, pic) {
   }
 }
 
-async function updateCommentsPic(commentorName, pic) {
-  const { commentorpic } = pic;
+async function reduceVideoCommentCount(id) {
   try {
     const { rows } = await client.query(
-      `
-              UPDATE upload_comments
-              SET commentorPic=$2
-              WHERE commentorName=$1
-              RETURNING *;
-            `,
-      [commentorName, commentorpic]
+      `UPDATE channel_uploads
+       SET videocommentcount= videocommentcount - 1
+       WHERE id=$1;
+      `,
+      [id]
     );
     return rows;
   } catch (error) {
     throw error;
   }
 }
+
+async function getUploadByID(id) {
+  try {
+    const { rows } = await client.query(
+      `
+    
+  SELECT *, channel_uploads.id AS videoID, user_channel.channelname, user_channel.profile_avatar
+  FROM channel_uploads 
+  RIGHT JOIN user_channel ON channel_uploads.channelid = user_channel.id
+  WHERE channel_uploads.id=$1;
+  `,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    console.error("Could not get that video");
+  }
+}
+
+async function getVideoByID(id) {
+  try {
+    const { rows } = await client.query(
+      `
+    
+  SELECT *, channel_uploads.id AS videoid
+  FROM channel_uploads 
+  WHERE id=$1;
+  `,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    console.error("Could not get that video");
+  }
+}
+
+
+async function getDiscoverContent() {
+  const { rows } = await client.query(`
+  SELECT *, channel_uploads.id AS videoID
+  FROM channel_uploads
+  WHERE paid_content='free' OR paid_content IS NULL
+  ORDER BY random() limit 1000;
+  `);
+
+  return rows;
+}
+
+async function getPayToViewContent() {
+  const { rows } = await client.query(`
+  SELECT *, channel_uploads.id AS videoID
+  FROM channel_uploads
+  WHERE content_type='film' AND paid_content='pay' OR content_type='shows' AND paid_content='pay'
+  ORDER BY random() limit 1000;
+  `);
+
+  return rows;
+}
+
+
+async function getRecommendedUplaods() {
+  const { rows } = await client.query(`
+  SELECT *, channel_uploads.id AS videoID
+  FROM channel_uploads
+  WHERE paid_content='free' OR paid_content IS NULL OR content_type='vlog' OR content_type='other' OR content_type IS NULL
+  ORDER BY random() limit 200;
+  `);
+
+  return rows;
+}
+
+async function getTopUploads() {
+  const { rows } = await client.query(`
+  SELECT *, channel_uploads.id AS videoID
+  FROM channel_uploads
+  WHERE paid_content='free' OR paid_content IS NULL OR content_type='vlog' OR content_type='other' OR content_type IS NULL
+  ORDER BY random() limit 10;
+  `);
+
+  return rows;
+}
+
+async function getTopChannels() {
+  const { rows } = await client.query(`
+  SELECT *
+  FROM user_channel
+  WHERE subscriber_count >= 500
+  ORDER BY random() limit 10;
+  `);
+
+  return rows;
+}
+
 
 async function videoSearch(query) {
   try {
@@ -318,7 +334,7 @@ async function movieSearch() {
   }
 }
 
-async function showsSearch() {
+async function seriesSearch() {
   try {
     const { rows } = await client.query(
       `
@@ -350,7 +366,7 @@ async function vlogSearch() {
   }
 }
 
-async function videoLikes(id) {
+async function addVideoLike(id) {
   try {
     const {
       rows: [uploads],
@@ -369,7 +385,7 @@ async function videoLikes(id) {
   }
 }
 
-async function revokeLikes(videoid) {
+async function revokeVideoLike(videoid) {
   try {
     const {
       rows: [uploads],
@@ -388,7 +404,7 @@ async function revokeLikes(videoid) {
   }
 }
 
-async function usersLikes({ userid, videoid }) {
+async function createUserVideoLike({ userid, videoid }) {
   try {
     const {
       rows: [likedvideo],
@@ -406,7 +422,7 @@ async function usersLikes({ userid, videoid }) {
   }
 }
 
-async function userUnLikes(id) {
+async function removeUserVideoLike(id) {
   try {
     const {
       rows: [likedvideo],
@@ -423,7 +439,7 @@ async function userUnLikes(id) {
   }
 }
 
-async function myLikes(videoid, userid) {
+async function checkUserVideoLikeStatus(videoid, userid) {
   try {
     const { rows } = await client.query(
       `
@@ -439,7 +455,7 @@ async function myLikes(videoid, userid) {
   }
 }
 
-async function videoDisLikes(id) {
+async function addVideoDislike(id) {
   try {
     const {
       rows: [uploads],
@@ -458,7 +474,7 @@ async function videoDisLikes(id) {
   }
 }
 
-async function revokeDisLikes(videoid) {
+async function revokeVideoDisLike(videoid) {
   try {
     const {
       rows: [uploads],
@@ -477,7 +493,7 @@ async function revokeDisLikes(videoid) {
   }
 }
 
-async function usersDisLikes({ userid, videoid }) {
+async function createUserVideoDislike({ userid, videoid }) {
   try {
     const {
       rows: [dislikedvideo],
@@ -495,7 +511,7 @@ async function usersDisLikes({ userid, videoid }) {
   }
 }
 
-async function userUnDisLikes(id) {
+async function removeUserVideoDislike(id) {
   try {
     const {
       rows: [dislikedvideo],
@@ -512,7 +528,7 @@ async function userUnDisLikes(id) {
   }
 }
 
-async function myDisLikes(videoid, userid) {
+async function checkUserVideoDisLikeStatus(videoid, userid) {
   try {
     const { rows } = await client.query(
       `
@@ -547,52 +563,8 @@ async function updateVideoViews(id) {
   }
 }
 
-async function videoLikesZero() {
-  try {
-    const { rows } = await client.query(
-      `
-              UPDATE channel_uploads
-              SET videolikecount = 0
-              RETURNING *;
-            `
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
-async function videoDisLikesZero() {
-  try {
-    const { rows } = await client.query(
-      `
-              UPDATE channel_uploads
-              SET videodislikecount = 0
-              RETURNING *;
-            `
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function videoViewsZero() {
-  try {
-    const { rows } = await client.query(
-      `
-              UPDATE channel_uploads
-              SET videoviewcount = 0
-              RETURNING *;
-            `
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function createFavs({
+async function createFavorite({
   userid,
   videoid,
   channelname,
@@ -630,7 +602,7 @@ async function createFavs({
   }
 }
 
-async function deleteFavs(userid, videoid) {
+async function deleteFavorite(userid, videoid) {
   try {
     const { rows } = await client.query(
       `
@@ -645,7 +617,7 @@ async function deleteFavs(userid, videoid) {
   }
 }
 
-async function getUserFavs(userid) {
+async function getUserFavorites(userid) {
   try {
     const { rows } = await client.query(
       `SELECT * 
@@ -660,7 +632,7 @@ async function getUserFavs(userid) {
   }
 }
 
-async function createLaters({
+async function createWatchlistVideo({
   userid,
   videoid,
   channelname,
@@ -700,7 +672,7 @@ async function createLaters({
   }
 }
 
-async function deleteLaters(userid, videoid) {
+async function deleteWatchlistVideo(userid, videoid) {
   try {
     const { rows } = await client.query(
       `
@@ -715,21 +687,8 @@ async function deleteLaters(userid, videoid) {
   }
 }
 
-async function removePurchasedLatersThreeDays() {
-  try {
-    const { rows } = await client.query(
-      `
-              DELETE FROM user_watchlist
-              WHERE paidtoview='true' AND user_started_watching='true' AND watchlaterdt < DATE(NOW() - INTERVAL 3 DAY) ;
-            `
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
-async function getUserLaters(userid) {
+async function getUserWatchlist(userid) {
   try {
     const { rows } = await client.query(
       `SELECT * 
@@ -744,7 +703,21 @@ async function getUserLaters(userid) {
   }
 }
 
-async function updatePaidWatchStarted(id) {
+async function removePurchasedWatchlistVideosThreeDays() {
+  try {
+    const { rows } = await client.query(
+      `
+              DELETE FROM user_watchlist
+              WHERE paidtoview='true' AND user_started_watching='true' AND watchlaterdt < DATE(NOW() - INTERVAL 3 DAY) ;
+            `
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function updatePaidWatchStartedFlag(id) {
   try {
     const { rows } = await client.query(
       `UPDATE user_watchlist
@@ -759,7 +732,7 @@ async function updatePaidWatchStarted(id) {
   }
 }
 
-async function createSubs({ userid, channelID, channelname, channelavi }) {
+async function createChannelSubcription({ userid, channelID, channelname, channelavi }) {
   try {
     const {
       rows: [subs],
@@ -777,7 +750,7 @@ async function createSubs({ userid, channelID, channelname, channelavi }) {
   }
 }
 
-async function removeSubs(userid, channelid) {
+async function removeChannelSubscription(userid, channelid) {
   try {
     const { rows } = await client.query(
       `
@@ -792,7 +765,7 @@ async function removeSubs(userid, channelid) {
   }
 }
 
-async function getUserSubs(userid) {
+async function getUserSubcriptions(userid) {
   try {
     const { rows } = await client.query(
       `SELECT * 
@@ -807,7 +780,7 @@ async function getUserSubs(userid) {
   }
 }
 
-async function getUserStatSubForChannel(userid, channelID) {
+async function checkUserSubscriptionStatusToChannel(userid, channelID) {
   try {
     const { rows } = await client.query(
       `SELECT * 
@@ -822,7 +795,7 @@ async function getUserStatSubForChannel(userid, channelID) {
   }
 }
 
-async function getUserSubsLimit(userid) {
+async function getUserSubscriptionsLimited(userid) {
   try {
     const { rows } = await client.query(
       `SELECT * 
@@ -838,7 +811,7 @@ async function getUserSubsLimit(userid) {
   }
 }
 
-async function getUserSubsUploads(userid) {
+async function getUserSubcriptionUploads(userid) {
   try {
     const { rows } = await client.query(
       `SELECT *, channel_uploads.id AS videoid
@@ -854,69 +827,7 @@ async function getUserSubsUploads(userid) {
   }
 }
 
-async function allUserLikesZero() {
-  try {
-    const { rows } = await client.query(
-      `DELETE 
-       FROM user_video_likes;
-      `
-    );
 
-    await client.query(
-      `DELETE 
-       FROM user_video_dislikes;
-      `
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function allUserLikes() {
-  try {
-    const { rows } = await client.query(
-      `SELECT *
-       FROM user_video_likes;
-      `
-    );
-
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function allUserDisLikes() {
-  try {
-    const { rows } = await client.query(
-      `SELECT *
-       FROM user_video_dislikes;
-      `
-    );
-
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function getVideo(id) {
-  try {
-    const { rows } = await client.query(
-      `
-    
-  SELECT *, channel_uploads.id AS videoid
-  FROM channel_uploads 
-  WHERE id=$1;
-  `,
-      [id]
-    );
-    return rows;
-  } catch (error) {
-    console.error("Could not get that video");
-  }
-}
 
 //Movie Orders
 
@@ -968,50 +879,10 @@ async function getMovieOrders() {
   }
 }
 
-async function updateUserCommentCount(id) {
-  try {
-    const { rows } = await client.query(
-      `UPDATE channel_uploads
-       SET videocommentcount= videocommentcount + 1
-       WHERE id=$1;
-      `,
-      [id]
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
-async function reduceUserCommentCount(id) {
-  try {
-    const { rows } = await client.query(
-      `UPDATE channel_uploads
-       SET videocommentcount= videocommentcount - 1
-       WHERE id=$1;
-      `,
-      [id]
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
-async function allCommentCountZero() {
-  try {
-    const { rows } = await client.query(
-      `UPDATE channel_uploads
-       SET videocommentcount=0;
-      `
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
-async function activeVendorVideos(channelid) {
+async function setVendorActiveVideoStatus(channelid) {
   try {
     const { rows } = await client.query(
       `UPDATE channel_uploads
@@ -1026,7 +897,7 @@ async function activeVendorVideos(channelid) {
   }
 }
 
-async function flaggedVideo(id, theReason) {
+async function setVideoFlag(id, theReason) {
   let { flagged_reason } = theReason;
   try {
     const { rows } = await client.query(
@@ -1042,7 +913,7 @@ async function flaggedVideo(id, theReason) {
   }
 }
 
-async function flaggedComment(id, theReason) {
+async function setCommentFlag(id, theReason) {
   let { flagged_reason } = theReason;
   try {
     const { rows } = await client.query(
@@ -1058,7 +929,7 @@ async function flaggedComment(id, theReason) {
   }
 }
 
-async function copyrightClaim({
+async function createCopyrightClaim({
   videoid,
   userid,
   requestor_name,
@@ -1094,7 +965,7 @@ async function copyrightClaim({
   }
 }
 
-async function watchHistory({
+async function createHistoryVideo({
   userid,
   videoid,
   channelname,
@@ -1132,7 +1003,7 @@ async function watchHistory({
   }
 }
 
-async function getHistory(userid) {
+async function getUserWatchHistory(userid) {
   try {
     const { rows } = await client.query(
       `  
@@ -1156,67 +1027,85 @@ ORDER BY historydt DESC
 
 module.exports = {
   client,
-  createUploads,
-  editUpload,
-  deleteUpload,
-  getAllUploads,
-  getUploadByID,
-  createComments,
-  getVideoComments,
-  updateUploadsPicture,
-  updateCommentsPic,
-  videoSearch,
-  vlogSearch,
-  movieSearch,
-  showsSearch,
-  animationSearch,
-  videoLikes,
-  createFavs,
-  createSubs,
-  createLaters,
-  getUserSubs,
-  getUserFavs,
-  getUserLaters,
-  getUserSubsUploads,
-  videoLikesZero,
-  updateVideoViews,
-  videoViewsZero,
-  videoDisLikesZero,
-  videoDisLikes,
-  getUserSubsLimit,
-  removeSubs,
-  usersLikes,
-  usersDisLikes,
-  myLikes,
-  myDisLikes,
-  allUserLikesZero,
-  allUserLikes,
-  allUserDisLikes,
-  getUserStatSubForChannel,
-  getVideo,
-  deleteLaters,
-  deleteFavs,
-  revokeLikes,
-  revokeDisLikes,
-  userUnLikes,
-  userUnDisLikes,
-  getLimitedUploads,
-  editComment,
-  deleteComment,
-  getPayToViewContent,
-  getFreeContent,
-  createMovieOrders,
-  getMovieOrders,
-  updatePaidWatchStarted,
-  removePurchasedLatersThreeDays,
-  reduceUserCommentCount,
-  updateUserCommentCount,
-  allCommentCountZero,
-  activeVendorVideos,
-  flaggedComment,
-  flaggedVideo,
-  copyrightClaim,
-  getTopUploads,
-  watchHistory,
-  getHistory,
+createUpload,
+editUpload,
+deleteUpload,
+
+
+createComment,
+editComment,
+deleteComment,
+
+
+getVideoComments,
+updateVideoCommentCount,
+reduceVideoCommentCount,
+
+getUploadByID,
+getVideoByID,
+
+
+getDiscoverContent,
+getPayToViewContent,
+getRecommendedUploads,
+
+getTopUploads,
+getTopChannels,
+
+
+videoSearch,
+animationSearch,
+movieSearch,
+seriesSearch,
+vlogSearch,
+
+
+addVideoLike,
+revokeVideoLike,
+createUserVideoLike,
+removeUserVideoLike,
+checkUserVideoLikeStatus,
+
+addVideoDisLike,
+revokeVideoDisLike,
+createUserVideoDisLike,
+removeUserVideoDisLike,
+checkUserVideoDisLikeStatus,
+
+updateVideoViews,
+
+createFavorite,
+deleteFavorite,
+getUserFavorites,
+
+createdWatchlistVideo,
+deleteWatchlistVideo,
+getUserWatchlist,
+
+removePurchasedWatchlistVideosThreeDays,
+updatePaidWatchStartedFlag,
+
+createHistoryVideo,
+getUserWatchHistory,
+
+
+
+createChannelSubscription,
+removeChannelSubscription,
+getUserSubscriptions,
+checkUserSubscriptionStatusToChannel,
+getUserSubscriptionsLimited,
+getUserSubcriptionUploads,
+
+
+createMovieOrders,
+getMovieOrders,
+
+
+setVendorActiveVideoStatus,
+
+setVideoFlag,
+setCommentFlag,
+
+createCopyrightClaim,
 };
