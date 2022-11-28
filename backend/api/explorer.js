@@ -149,6 +149,27 @@ explorerRouter.get(
   }
 );
 
+explorerRouter.get("/popular-channels", async (req, res, next) => {
+      // let getCache = await redisClient.get("popularContent");
+    // await redisClient.expire("popularContent", 200);
+    // if (getCache && getCache != null) {
+    //   console.log("cache found");
+    //   res.send({ uploads: JSON.parse(getCache) });
+    // } else {
+    //   console.log("no cache found");
+  try {
+    const allChannels = await getTopChannels();
+    res.send({ allChannels });
+  } catch ({ name, message }) {
+    next({
+      name: "ErrorGettingChannels",
+      message: "Could not retrieve channels",
+    });
+  }
+  // }
+});
+
+
 explorerRouter.get(
   "/paytoview",
   rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
