@@ -8,7 +8,7 @@ const rateLimiter = require("./ratelimiter");
 const { createMovieOrders } = require("../db");
 
 ordersRouter.post(
-  "/movieorder",
+  "/create/movieorder",
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
   requireUser,
   async (req, res, next) => {
