@@ -15,7 +15,6 @@ const rateLimiter = require("./ratelimiter");
 
 const {
   getAllUsers,
-  getAllChannels,
   verifiedVendors,
   getUserChannelByChannelID,
   getPostByChannelID,
@@ -118,17 +117,6 @@ usersRouter.get(
   }
 );
 
-usersRouter.get("/channels", async (req, res, next) => {
-  try {
-    const allChannels = await getAllChannels();
-    res.send({ allChannels });
-  } catch ({ name, message }) {
-    next({
-      name: "ErrorGettingChannels",
-      message: "Could not retrieve channels",
-    });
-  }
-});
 
 usersRouter.get(
   "/livechannels/:userid",
