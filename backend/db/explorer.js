@@ -1092,7 +1092,7 @@ getUserWatchHistory,
 
 
 
-createChannelSubscription,
+createChannelSubcription,
 removeChannelSubscription,
 getUserSubscriptions,
 checkUserSubscriptionStatusToChannel,
