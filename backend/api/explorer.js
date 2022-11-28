@@ -46,11 +46,11 @@ createUserVideoLike,
 removeUserVideoLike,
 checkUserVideoLikeStatus,
 
-addVideoDisLike,
-revokeVideoDisLike,
-createUserVideoDisLike,
-removeUserVideoDisLike,
-checkUserVideoDisLikeStatus,
+addVideoDislike,
+revokeVideoDislike,
+createUserVideoDislike,
+removeUserVideoDislike,
+checkUserVideoDislikeStatus,
 
 updateVideoViews,
 
