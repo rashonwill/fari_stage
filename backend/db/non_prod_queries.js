@@ -118,8 +118,6 @@ async function allCommentCountZero() {
 
 
 
-//No Use
-
 async function updateUploadsPicture(channelname, pic) {
   const { channelavi } = pic;
   try {
@@ -153,5 +151,23 @@ async function updateCommentsPic(commentorName, pic) {
     return rows;
   } catch (error) {
     throw error;
+  }
+}
+
+
+async function getVideoByID(id) {
+  try {
+    const { rows } = await client.query(
+      `
+    
+  SELECT *, channel_uploads.id AS videoid
+  FROM channel_uploads 
+  WHERE id=$1;
+  `,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    console.error("Could not get that video");
   }
 }
