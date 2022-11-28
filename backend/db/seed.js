@@ -52,7 +52,7 @@ async function createTables() {
     Email TEXT NOT NULL,
     Password varchar(255) NOT NULL,
     ConfirmPassword varchar(255) NOT NULL,
-    location varchar(200) NULL,
+    location varchar(255) NULL,
     bio varchar(8000) NULL,
     CreationDT DATE DEFAULT CURRENT_DATE NOT NULL,
     subscribed_vendor_acct BOOLEAN DEFAULT FALSE,
