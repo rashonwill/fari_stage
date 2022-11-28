@@ -447,6 +447,34 @@ usersRouter.get(
   
   
   
+  usersRouter.get(
+  "/user-sub-verified/:id",
+  requireUser,
+  check("id")
+    .not()
+    .isEmpty()
+    .isNumeric()
+    .withMessage("Not a valid value")
+    .trim()
+    .escape(),
+  async (req, res, next) => {
+    const { id } = req.params;
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .send({ name: "Validation Error", message: errors.array()[0].msg });
+    } else {
+      try {
+        const checkVerified = await verifyUserSubscriptionStatus(id);
+        res.send({ user: checkVerified });
+      } catch (error) {
+        console.log("Oops, could not check verification of vendor", error);
+      }
+    }
+  }
+);
+  
   
 
 
