@@ -234,7 +234,7 @@ async function getUserById(id) {
 
 
 
-async function getUsersByUsername(username) {
+async function getUserByUsername(username) {
   const { rows } = await client.query(`
   SELECT users.id AS userid, username, email, users_channel.profile_avatar 
   FROM users
@@ -477,15 +477,28 @@ async function updateVendorSubscriptionStatus(id) {
 
 
 
-
-
+  async function confirmVendorSubscription(id) {
+  try {
+    const { rows } = await client.query(
+      `
+ SELECT registration_complete
+ FROM vendors
+ WHERE id=$1;
+ `,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
 
 
 
 
 module.exports = {
-  client,
-  createUser,
+client,
+createUser,
 createChannel,
 createVendor,
 
@@ -516,5 +529,6 @@ reduceChannelSubcscriptionCount,
 
 updateUserSubscriptionStatus,
 updateVendorSubscriptionStatus,
+confirmVendorSubscription,
 
 };
