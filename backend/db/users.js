@@ -397,7 +397,7 @@ async function updatePoster(channelname, photos) {
   }
 }
 
-async function updateChannelSubcriptionCount(channelname) {
+async function updateChannelSubscriptionCount(channelname) {
   try {
     const {
       rows: [channel],
@@ -417,7 +417,7 @@ async function updateChannelSubcriptionCount(channelname) {
   }
 }
 
-async function reduceChannelSubcriptionCount(id) {
+async function reduceChannelSubscriptionCount(id) {
   try {
     const {
       rows: [channel],
@@ -524,7 +524,7 @@ getPostByChannelID,
 updateAvatar,
 updatePoster,
 updateChannelSubscriptionCount,
-reduceChannelSubcscriptionCount,
+reduceChannelSubscriptionCount,
 
 updateUserSubscriptionStatus,
 updateVendorSubscriptionStatus,
