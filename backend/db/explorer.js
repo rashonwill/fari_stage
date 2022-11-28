@@ -254,7 +254,7 @@ async function getPayToViewContent() {
 }
 
 
-async function getRecommendedUplaods() {
+async function getRecommendedUploads() {
   const { rows } = await client.query(`
   SELECT *, channel_uploads.id AS videoID
   FROM channel_uploads
