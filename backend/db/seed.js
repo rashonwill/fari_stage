@@ -129,7 +129,7 @@ CREATE TABLE channel_uploads (
   stripe_acctid TEXT NULL,
   flagged_content BOOLEAN DEFAULT FALSE,
   flag_reason varchar(255) NULL,
-  videoActive BOOLEAN DEFAULT TRUE,
+  videoActive BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE upload_comments (
