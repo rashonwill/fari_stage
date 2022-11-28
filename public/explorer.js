@@ -1984,7 +1984,7 @@ $("#searchfield").click(function (event) {
 
 async function getChannels() {
   try {
-    const response = await fetch(`${FARI_API}/users/channels`, {
+    const response = await fetch(`${FARI_API}/explorer/top-channels`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
