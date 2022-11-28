@@ -28,7 +28,6 @@ getUserByUsername,
 getUserByEmail,
 getUser,
 getUserById,
-getUserByUsername,
 
 userSearch,
 getLiveChannels,
