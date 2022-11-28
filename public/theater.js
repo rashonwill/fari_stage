@@ -1216,7 +1216,7 @@ async function reduceCommentCount() {
   }
 }
 
-async function CommentCount() {
+async function commentCount() {
   let videoid = localStorage.getItem("videoID");
 
   try {
