@@ -782,7 +782,7 @@ async function getUserSubcriptions(userid) {
   }
 }
 
-async function checkUserSubscriptionStatusToChannel(userid, channelID) {
+async function checkUserSubcriptionStatusToChannel(userid, channelID) {
   try {
     const { rows } = await client.query(
       `SELECT * 
@@ -797,7 +797,7 @@ async function checkUserSubscriptionStatusToChannel(userid, channelID) {
   }
 }
 
-async function getUserSubscriptionsLimited(userid) {
+async function getUserSubcriptionsLimited(userid) {
   try {
     const { rows } = await client.query(
       `SELECT * 
@@ -1094,9 +1094,9 @@ getUserWatchHistory,
 
 createChannelSubcription,
 removeChannelSubcription,
-getUserSubscriptions,
-checkUserSubscriptionStatusToChannel,
-getUserSubscriptionsLimited,
+getUserSubcriptions,
+checkUserSubcriptionStatusToChannel,
+getUserSubcriptionsLimited,
 getUserSubcriptionUploads,
 
 
