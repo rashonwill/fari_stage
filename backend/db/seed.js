@@ -72,7 +72,6 @@ CREATE TABLE User_Channel(
   Subscriber_Count INT DEFAULT 0,
   constraint Subscriber_Count_nonnegative check (Subscriber_Count >= 0),
   user_islive BOOLEAN DEFAULT FALSE,
-  vendoractive BOOLEAN DEFAULT FALSE,
   channel_earnings decimal(6,2) NULL,
   UNIQUE(channelName, userID)
 );
@@ -130,7 +129,7 @@ CREATE TABLE channel_uploads (
   stripe_acctid TEXT NULL,
   flagged_content BOOLEAN DEFAULT FALSE,
   flag_reason varchar(255) NULL,
-  vendoractive BOOLEAN DEFAULT FALSE
+  videoActive BOOLEAN DEFAULT TRUE,
 );
 
 CREATE TABLE upload_comments (
@@ -172,7 +171,7 @@ CREATE TABLE vendors (
   FOREIGN KEY(userid) REFERENCES users(id) ON DELETE CASCADE,
   vendorname varchar(255) UNIQUE NOT NULL,
   FOREIGN KEY(vendorname) REFERENCES users(username) ON DELETE CASCADE,
-  registered BOOLEAN DEFAULT FALSE,
+  registration_complete BOOLEAN DEFAULT FALSE,
   vendor_connect_complete BOOLEAN DEFAULT FALSE,
   vendor_subscription_complete BOOLEAN DEFAULT FALSE,
   stripe_acctid TEXT,
