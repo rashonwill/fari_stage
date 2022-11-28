@@ -306,7 +306,7 @@ explorerRouter.get(
   requireUser,
   async (req, res, next) => {
     try {
-      const showsVids = await showsSearch();
+      const showsVids = await seriesSearch();
       res.send({ videos: showsVids });
     } catch (error) {
       console.log("Oops could not find search results", error);
