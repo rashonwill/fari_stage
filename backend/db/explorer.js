@@ -1,6 +1,6 @@
 const client = require("./client");
 
-async function createUploads({
+async function createUpload({
   channelID,
   channelname,
   channelavi,
