@@ -96,21 +96,6 @@ async function getChannel() {
   }
 }
 
-async function getLoggedInUser() {
-  try {
-    const response = await fetch(`${FARI_API}/users/me`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${myToken}`,
-      },
-    });
-    const data = await response.json();
-    return data.user;
-  } catch (error) {
-    response.status(400).send(error);
-  }
-}
 
 //Discover
 
@@ -418,7 +403,6 @@ function renderPayMedia(uploads) {
       let videoUpload = $(this).closest(".card").data("uploads");
       let id = videoUpload.videoid;
       localStorage.setItem("videoID", id);
-      //      updateViews();
       try {
         const response = await fetch(`${FARI_API}/explorer`, {
           method: "GET",
@@ -469,7 +453,7 @@ async function getMySubUploads() {
   var userid = localStorage.getItem("userID");
   try {
     const response = await fetch(
-      `${FARI_API}/explorer/subs/uploads/${userid}`,
+      `${FARI_API}/explorer/subscription-uploads/${userid}`,
       {
         method: "GET",
         headers: {
