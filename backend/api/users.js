@@ -389,28 +389,6 @@ usersRouter.get(
   }
 );
 
-usersRouter.get(
-  "/getChannel/:channelName",
-  requireUser,
-  check("userid").not().isEmpty().trim().escape(),
-  async (req, res, next) => {
-    const { channelName } = req.params;
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
-    } else {
-      try {
-        const channel = await getChannelByName(channelName);
-        res.send({ channels: channel });
-      } catch (error) {
-        console.log("Oops, could not get channel", error);
-        next({ name: "ErrorGettingChannel", message: "Could get channel" });
-      }
-    }
-  }
-);
 
 usersRouter.get(
   "/user-sub-verified/:id",
