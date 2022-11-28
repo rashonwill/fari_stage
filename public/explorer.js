@@ -1378,7 +1378,7 @@ $("#movies").click(function (event) {
 
 async function getShows() {
   try {
-    const response = await fetch(`${FARI_API}/explorer/search/shows`, {
+    const response = await fetch(`${FARI_API}/explorer/search/series`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
