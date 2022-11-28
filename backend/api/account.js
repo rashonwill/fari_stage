@@ -15,8 +15,8 @@ const {
   getUserByEmail,
   getUserById,
   updatePassword,
-  updateVendorSubscription,
-  updateUserSubscription,
+  updateVendorSubscriptionStatus,
+  updateUserSubscriptionStatus,
 } = require("../db");
 
 accountRouter.post(
@@ -367,7 +367,7 @@ accountRouter.patch(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const updatingVendor = await updateVendorSubscription(id);
+        const updatingVendor = await updateVendorSubscriptionStatus(id);
         res.send({ updatedSubscription: updatingVendor });
       } catch (error) {
         console.log("Oops, could not update vendor subscription status", error);
@@ -395,7 +395,7 @@ accountRouter.patch(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const updatingUser = await updateUserSubscription(id);
+        const updatingUser = await updateUserSubscriptionStatus(id);
         res.send({ updatedSubscription: updatingUser });
       } catch (error) {
         console.log("Oops, could not update user subscription status", error);
