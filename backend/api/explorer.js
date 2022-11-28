@@ -69,8 +69,8 @@ createHistoryVideo,
 getUserWatchHistory,
 
 
-getUserSubscriptions,
-getUserSubscriptionsLimited,
+getUserSubcriptions,
+getUserSubcriptionsLimited,
 getUserSubcriptionUploads,
 
 
@@ -827,7 +827,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const userSubs = await getUserSubscriptions(userid);
+        const userSubs = await getUserSubcriptions(userid);
         res.send({ mysubscriptions: userSubs });
       } catch (error) {
         next({
@@ -858,7 +858,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const recentUploadedSubs = await getUserSubscriptionsLimited(userid);
+        const recentUploadedSubs = await getUserSubcriptionsLimited(userid);
         res.send({ mysubscriptions: recentUploadedSubs });
       } catch (error) {
         console.log(error);
