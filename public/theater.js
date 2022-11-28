@@ -1187,7 +1187,7 @@ async function updateCommentCount() {
       }
     );
     const data = await response.json();
-    CommentCount().then(renderCommentCount);
+    commentCount().then(renderCommentCount);
     return data;
   } catch (error) {
     response.status(400).send(error);
@@ -1209,7 +1209,7 @@ async function reduceCommentCount() {
       }
     );
     const data = await response.json();
-    CommentCount().then(renderCommentCount);
+    commentCount().then(renderCommentCount);
     return data;
   } catch (error) {
     response.status(400).send(error);
@@ -1785,7 +1785,7 @@ function bootstrap() {
   checkUserDisLikes();
   checkUserLikes();
   videoComments().then(renderCommentSection);
-  CommentCount().then(renderCommentCount);
+  commentCount().then(renderCommentCount);
   watchHistory();
 }
 
