@@ -52,37 +52,7 @@ async function createUser({
   }
 }
 
-async function addLocation(id, { location }) {
-  try {
-    const { rows } = await client.query(
-      `
-                UPDATE users
-                SET location=$2
-                WHERE id=$1;
-              `,
-      [id, location]
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
-async function addBio(id, { bio }) {
-  try {
-    const { rows } = await client.query(
-      `
-                UPDATE users
-                SET bio=$2
-                WHERE id=$1;
-              `,
-      [id, bio]
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
 async function createChannel({
   userID,
@@ -139,6 +109,38 @@ async function updatePassword(id, { password, confirmpassword }) {
                 WHERE id=$1;
               `,
       [id, UpdatedhashedPassword, UpdatedconhashedPassword]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function addLocation(id, { location }) {
+  try {
+    const { rows } = await client.query(
+      `
+                UPDATE users
+                SET location=$2
+                WHERE id=$1;
+              `,
+      [id, location]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function addBio(id, { bio }) {
+  try {
+    const { rows } = await client.query(
+      `
+                UPDATE users
+                SET bio=$2
+                WHERE id=$1;
+              `,
+      [id, bio]
     );
     return rows;
   } catch (error) {
@@ -230,21 +232,7 @@ async function getUserById(id) {
   }
 }
 
-async function getAllUsers() {
-  const { rows } = await client.query(`SELECT * FROM users;`);
 
-  return rows;
-}
-
-async function getAllUsersUsername() {
-  const { rows } = await client.query(`
-  SELECT users.id AS userid, username, email, user_channel.profile_avatar 
-  FROM users
-  JOIN users_channel ON users.id = users_channel.userid;
-  `);
-
-  return rows;
-}
 
 async function getUsersByUsername(username) {
   const { rows } = await client.query(`
@@ -256,6 +244,8 @@ async function getUsersByUsername(username) {
 
   return rows;
 }
+
+
 
 async function userSearch(query) {
   try {
@@ -272,13 +262,9 @@ async function userSearch(query) {
   }
 }
 
-async function getAllChannels() {
-  const { rows } = await client.query(
-    `SELECT * FROM user_channel order by random() limit 9;`
-  );
 
-  return rows;
-}
+
+
 
 async function getLiveChannels(userSubed) {
   try {
@@ -317,7 +303,7 @@ async function getUserChannelByChannelID(channelid) {
   }
 }
 
-async function getUserChannel(username) {
+async function getUserChannelByName(username) {
   try {
     const { rows } = await client.query(
       `
@@ -392,7 +378,7 @@ async function updateAvatar(channelname, photos) {
   }
 }
 
-async function updatePosters(channelname, photos) {
+async function updatePoster(channelname, photos) {
   const { profile_poster } = photos;
   try {
     const { rows } = await client.query(
@@ -411,7 +397,7 @@ async function updatePosters(channelname, photos) {
   }
 }
 
-async function updateChannelSubs(channelname) {
+async function updateChannelSubcriptionCount(channelname) {
   try {
     const {
       rows: [channel],
@@ -431,7 +417,7 @@ async function updateChannelSubs(channelname) {
   }
 }
 
-async function removeChannelSub(id) {
+async function reduceChannelSubcriptionCount(id) {
   try {
     const {
       rows: [channel],
@@ -451,82 +437,9 @@ async function removeChannelSub(id) {
   }
 }
 
-async function zeroSubs() {
-  try {
-    const { rows } = await client.query(
-      `
-              UPDATE user_channel
-              SET subscriber_count = 0
-              RETURNING *;
-            `
-    );
 
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
-async function getChannelByName(channelName) {
-  try {
-    const {
-      rows: [channels],
-    } = await client.query(
-      `
-  SELECT *, user_channel.id AS channelid
-  FROM user_channel
-  WHERE channelName=$1;
-  `,
-      [channelName]
-    );
-
-    return channels;
-  } catch (error) {
-    console.log("Could not get user channel in db");
-  }
-}
-
-async function goLive(id) {
-  try {
-    const {
-      rows: [channel],
-    } = await client.query(
-      `
-              UPDATE user_channel
-              SET user_isLive='true'
-              WHERE id=$1
-              RETURNING *;
-            `,
-      [id]
-    );
-
-    return channel;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function endLive(id) {
-  try {
-    const {
-      rows: [channel],
-    } = await client.query(
-      `
-              UPDATE user_channel
-              SET user_isLive='false'
-              WHERE id=$1
-              RETURNING *;
-            `,
-      [id]
-    );
-
-    return channel;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function updateUserSubscription(id) {
+async function updateUserSubscriptionStatus(id) {
   try {
     const { rows } = await client.query(
       `
@@ -543,24 +456,9 @@ async function updateUserSubscription(id) {
   }
 }
 
-async function updateChannelSubsStatus(id) {
-  try {
-    const { rows } = await client.query(
-      `
-              UPDATE user_channel
-              SET vendoractive='true'
-              WHERE id=$1
-              RETURNING *;
-            `,
-      [id]
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
 }
 
-async function updateVendorSubscription(id) {
+async function updateVendorSubscriptionStatus(id) {
   try {
     const { rows } = await client.query(
       `
@@ -577,110 +475,46 @@ async function updateVendorSubscription(id) {
   }
 }
 
-async function verifyUserSubscriptionStatus(id) {
-  try {
-    const { rows } = await client.query(
-      `
-              SELECT * FROM users
-              WHERE id=$1;
-            `,
-      [id]
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
-async function verifiedVendors(id) {
-  try {
-    const { rows } = await client.query(
-      `
- SELECT *
- FROM vendors
- WHERE id=$1;
- `,
-      [id]
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
-async function updateChannel(channelname, profile_avatar, profile_poster) {
-  try {
-    const { rows } = await client.query(
-      `
-              UPDATE user_channel
-              SET profile_avatar=$2, profile_poster=$3
-              WHERE channelname=$1
-              RETURNING *;
-            `,
-      [channelname, profile_avatar, profile_poster]
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
 
-//Inactive Vendor
 
-// UPDATE vendors
-// SET registered = 'false'
-// WHERE id = $1
 
-// UPDATE products
-// SET vendoractive='false', prod_quantity=0
-// WHERE vendorid=$1
 
-// UPDATE users_channel
-// SET vendoractive = 'false'
-// WHERE id=$1
 
-// UPDATE usersuploads
-// SET paid_content = 'free',
-// WHERE id=$1
-
-//    UPDATE users
-//    SET farivendor_subed='false'
-//    WHERE id=$1
 
 module.exports = {
   client,
   createUser,
-  addLocation,
-  addBio,
-  getUser,
-  getUserByUsername,
-  getUserByEmail,
-  getUserById,
-  getAllUsers,
-  getPostByChannelID,
-  getAllChannels,
-  createChannel,
-  createVendor,
-  getUserChannelByChannelID,
-  getUserChannel,
-  getUserProfile,
-  updateAvatar,
-  updatePosters,
-  updateChannelSubs,
-  zeroSubs,
-  removeChannelSub,
-  getChannelByName,
-  goLive,
-  endLive,
-  getLiveChannels,
-  userSearch,
-  getAllUsersUsername,
-  updatePassword,
-  getUsersByUsername,
-  updateVendorSubscription,
-  updateUserSubscription,
-  verifyUserSubscriptionStatus,
-  updateChannelSubsStatus,
-  verifiedVendors,
-  updateChannel,
+createChannel,
+createVendor,
+
+
+updatePassword,
+
+addLocation,
+addBio,
+
+getUserByUsername,
+getUserByEmail,
+getUser,
+getUserById,
+getUserByUsername,
+
+userSearch,
+getLiveChannels,
+getUserChannelByChannelID,
+getUserChannelByName,
+getUserProfile,
+getPostByChannelID,
+
+
+updateAvatar,
+updatePoster,
+updateChannelSubscriptionCount,
+reduceChannelSubcscriptionCount,
+
+updateUserSubscriptionStatus,
+updateVendorSubscriptionStatus,
+
 };
