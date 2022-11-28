@@ -346,7 +346,108 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
     next(error);
   }
 });
+  
+  
+  usersRouter.get("/usernames", ddos, requireUser, async (req, res, next) => {
+  console.log("no cache found");
+  try {
+    const allUsernames = await getAllUsersUsername();
+    let setData = await redisClient.set(
+      "fariUsers",
+      JSON.stringify(allUsernames)
+    );
+    res.send({ users: allUsernames });
+  } catch ({ name, message }) {
+    next({ name, message });
+  }
+});
+  
+  usersRouter.get(
+  "/usernames/:username",
+  check("username").not().isEmpty().trim().escape(),
+  async (req, res, next) => {
+    const { username } = req.params;
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .send({ name: "Validation Error", message: errors.array()[0].msg });
+    } else {
+      try {
+        const usersName = await getUsersByUsername(username);
+        res.send({
+          users: usersName,
+        });
+      } catch ({ name, message }) {
+        next({ name, message });
+      }
+    }
+  }
+);
 
+usersRouter.get(
+  "/livechannels/:userid",
+  check("userid")
+    .not()
+    .isEmpty()
+    .isNumeric()
+    .withMessage("Not a valid value")
+    .trim()
+    .escape(),
+  async (req, res, next) => {
+    const { userid } = req.params;
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .send({ name: "Validation Error", message: errors.array()[0].msg });
+    } else {
+      try {
+        const liveChannels = await getLiveChannels(userid);
+        res.send({ live: liveChannels });
+      } catch (error) {
+        console.log(error);
+        next({
+          name: "ErrorGettingLiveChannels",
+          message: "Could not retrieve live channels",
+        });
+      }
+    }
+  }
+);
+  
+  usersRouter.get(
+  "/loggedin/:id",
+  requireUser,
+  check("id")
+    .not()
+    .isEmpty()
+    .isNumeric()
+    .withMessage("Not a valid value")
+    .trim()
+    .escape(),
+  async (req, res, next) => {
+    const { id } = req.params;
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .send({ name: "Validation Error", message: errors.array()[0].msg });
+    } else {
+      try {
+        const loggedIn = await getUserById(id);
+        res.send({ user: loggedIn });
+      } catch (error) {
+        console.error("Hmm, can't seem to get that user", error);
+        next(error);
+      }
+    }
+  }
+);
+  
+  
+  
+  
 
 
 //Inactive Vendor
