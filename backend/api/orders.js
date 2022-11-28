@@ -76,9 +76,8 @@ ordersRouter.post(
             };
           }),
           mode: "payment",
-          success_url:
-            "https://fari-test.netlify.app/success?id={CHECKOUT_SESSION_ID}",
-          cancel_url: "https://fari-test.netlify.app/explorer",
+          success_url:process.env.SUCCESS_URL,
+          cancel_url: process.env.CANCEL_URL,
         },
         {
           stripeAccount: stripeAcctID,
