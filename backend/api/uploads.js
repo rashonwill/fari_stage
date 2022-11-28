@@ -31,7 +31,7 @@ const profileAvatarUpdate = upload.single("avatar");
 const { uploadVideo, deleteFile, uploadPhotos } = require("../aws");
 
 const {
-  createUploads,
+  createUpload,
   editUpload,
   deleteUpload,
   updatePosters,
