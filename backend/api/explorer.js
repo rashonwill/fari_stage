@@ -8,51 +8,87 @@ const cors = require("cors");
 explorerRouter.use(cors());
 
 const {
-  getAllUploads,
-  getUploadByID,
-  createComments,
-  getVideoComments,
-  videoSearch,
-  vlogSearch,
-  movieSearch,
-  showsSearch,
-  animationSearch,
-  videoLikes,
-  createFavs,
-  createLaters,
-  getUserSubs,
-  getUserFavs,
-  getUserLaters,
-  getUserSubsUploads,
-  updateVideoViews,
-  videoDisLikes,
-  getUserSubsLimit,
-  usersLikes,
-  usersDisLikes,
-  myLikes,
-  myDisLikes,
-  getVideo,
-  deleteLaters,
-  deleteFavs,
-  revokeLikes,
-  revokeDisLikes,
-  userUnLikes,
-  userUnDisLikes,
-  getLimitedUploads,
-  editComment,
-  deleteComment,
-  getPayToViewContent,
-  getFreeContent,
-  getMovieOrders,
-  updatePaidWatchStarted,
-  reduceUserCommentCount,
-  updateUserCommentCount,
-  flaggedComment,
-  flaggedVideo,
-  copyrightClaim,
-  getTopUploads,
-  watchHistory,
-  getHistory,
+createUpload,
+editUpload,
+deleteUpload,
+
+
+createComment,
+editComment,
+deleteComment,
+
+
+getVideoComments,
+updateVideoCommentCount,
+reduceVideoCommentCount,
+
+getUploadByID,
+getVideoByID,
+
+
+getDiscoverContent,
+getPayToViewContent,
+getRecommendedUploads,
+
+getTopUploads,
+getTopChannels,
+
+
+videoSearch,
+animationSearch,
+movieSearch,
+seriesSearch,
+vlogSearch,
+
+
+addVideoLike,
+revokeVideoLike,
+createUserVideoLike,
+removeUserVideoLike,
+checkUserVideoLikeStatus,
+
+addVideoDisLike,
+revokeVideoDisLike,
+createUserVideoDisLike,
+removeUserVideoDisLike,
+checkUserVideoDisLikeStatus,
+
+updateVideoViews,
+
+createFavorite,
+deleteFavorite,
+getUserFavorites,
+
+createdWatchlistVideo,
+deleteWatchlistVideo,
+getUserWatchlist,
+
+removePurchasedWatchlistVideosThreeDays,
+updatePaidWatchStartedFlag,
+
+createHistoryVideo,
+getUserWatchHistory,
+
+
+
+createChannelSubscription,
+removeChannelSubscription,
+getUserSubscriptions,
+checkUserSubscriptionStatusToChannel,
+getUserSubscriptionsLimited,
+getUserSubcriptionUploads,
+
+
+createMovieOrders,
+getMovieOrders,
+
+
+setVendorActiveVideoStatus,
+
+setVideoFlag,
+setCommentFlag,
+
+createCopyrightClaim,
 } = require("../db");
 
 // (async () => {
@@ -66,25 +102,13 @@ const {
 //   //  console.log('Redis key value', myapp)
 // })();
 
-explorerRouter.get("/", requireUser, async (req, res, next) => {
-  try {
-    const allContent = await getAllUploads();
-    res.send({ uploads: allContent });
-  } catch (error) {
-    next({
-      name: "ErrorGettingUploads",
-      message: "Could Not get the uploads",
-    });
-  }
-});
-
 explorerRouter.get(
   "/discover",
   rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
     try {
-      const freeContent = await getFreeContent();
+      const freeContent = await getDiscoverContent();
       res.send({ uploads: freeContent });
     } catch (error) {
       console.log(error);
@@ -149,7 +173,7 @@ explorerRouter.get(
   requireUser,
   async (req, res, next) => {
     try {
-      const recUploads = await getLimitedUploads();
+      const recUploads = await getRecommendedUploads();
       res.send({ uploads: recUploads });
     } catch (error) {
       next({
@@ -298,7 +322,7 @@ explorerRouter.get(
 explorerRouter.post(
   "/youlikeme/:id",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
+  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
   check("id")
     .not()
     .isEmpty()
@@ -335,8 +359,8 @@ explorerRouter.post(
           videoid: videoid,
         };
 
-        const upvote = await videoLikes(id);
-        const likedVid = await usersLikes(likingUser);
+        const upvote = await addVideoLike(id);
+        const likedVid = await createUserVideoLike(likingUser);
         res.send({ video: upvote });
       } catch (error) {
         console.log("Oops could not like this video", error);
@@ -375,8 +399,8 @@ explorerRouter.delete(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const unlikedVid = await userUnLikes(id);
-        const removeLike = await revokeLikes(videoid);
+        const unlikedVid = await removeUserVideoLike(id);
+        const removeLike = await revokeVideoLike(videoid);
         res.send({ video: removeLike });
       } catch (error) {
         console.log("Oops could not unlike this video", error);
@@ -429,8 +453,8 @@ explorerRouter.post(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const downvote = await videoDisLikes(id);
-        const dislikedVid = await usersDisLikes(dislikingUser);
+        const downvote = await addVideoDislike(id);
+        const dislikedVid = await createUserVideoDislike(dislikingUser);
         res.send({ video: downvote });
       } catch (error) {
         console.log("Oops could not like this video", error);
@@ -469,8 +493,8 @@ explorerRouter.delete(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const undislikedVid = await userUnDisLikes(userid);
-        const removeDislike = await revokeDisLikes(videoid);
+        const undislikedVid = await removeUserVideoDislike(userid);
+        const removeDislike = await revokeVideoDisLike(videoid);
         res.send({ video: removeDislike });
       } catch (error) {
         console.log("Oops could not undislike this video", error);
@@ -509,7 +533,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const myLike = await myLikes(videoid, userid);
+        const myLike = await checkUserVideoLikeStatus(videoid, userid);
         res.send({ iLike: myLike });
       } catch (error) {
         console.log("Oops could not like this video", error);
@@ -549,7 +573,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const myDisLike = await myDisLikes(videoid, userid);
+        const myDisLike = await checkUserVideoDisLikeStatus(videoid, userid);
         res.send({ idisLike: myDisLike });
       } catch (error) {
         console.log("Oops could not like this video", error);
@@ -653,7 +677,7 @@ explorerRouter.post(
           user_comment: user_comment,
         };
 
-        const userComment = await createComments(commentData);
+        const userComment = await createComment(commentData);
         res.send({ comment: userComment });
       } catch (error) {
         console.error("Oops could not create comment", error);
@@ -787,7 +811,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const userSubs = await getUserSubs(userid);
+        const userSubs = await getUserSubscriptions(userid);
         res.send({ mysubscriptions: userSubs });
       } catch (error) {
         next({
@@ -818,7 +842,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const recentUploadedSubs = await getUserSubsLimit(userid);
+        const recentUploadedSubs = await getUserSubscriptionsLimited(userid);
         res.send({ mysubscriptions: recentUploadedSubs });
       } catch (error) {
         console.log(error);
@@ -850,7 +874,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const subUploads = await getUserSubsUploads(userid);
+        const subUploads = await getUserSubcriptionUploads(userid);
         res.send({ subscriptionUploads: subUploads });
       } catch (error) {
         console.log(error);
@@ -882,7 +906,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const userFaved = await getUserFavs(userid);
+        const userFaved = await getUserFavorites(userid);
         res.send({ myFavVids: userFaved });
       } catch (error) {
         next({ name: "ErrorGettingUserFavs", message: "Could not get favs" });
@@ -914,7 +938,7 @@ explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
       videoviewcount: videoviewcount,
     };
 
-    const usersFaved = await createFavs(favedData);
+    const usersFaved = await createFavorite(favedData);
     res.send({ myFavorites: usersFaved });
   } catch (error) {
     console.log(error);
@@ -923,7 +947,7 @@ explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
 });
 
 explorerRouter.get(
-  "/watchlater/:userid",
+  "/watchlist/:userid",
   requireUser,
   check("userid")
     .not()
@@ -941,7 +965,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const userWatchList = await getUserLaters(userid);
+        const userWatchList = await getUserWatchlist(userid);
         res.send({ myWatchList: userWatchList });
       } catch (error) {
         next({
@@ -979,7 +1003,7 @@ explorerRouter.post("/watchlist", requireUser, async (req, res, next) => {
       paidtoview: paidtoview,
     };
 
-    const usersList = await createLaters(laterData);
+    const usersList = await createdWatchlistVideo(laterData);
     res.send({ myWatchLaters: usersList });
   } catch (error) {
     console.log(error);
@@ -1009,7 +1033,7 @@ explorerRouter.patch(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const userWatchedMe = await updatePaidWatchStarted(id);
+        const userWatchedMe = await updatePaidWatchStartedFlag(id);
         res.send({ userWatchedMe });
       } catch (error) {
         console.log(error);
@@ -1048,7 +1072,7 @@ explorerRouter.delete(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const userWatchList = await deleteLaters(userid, videoid);
+        const userWatchList = await deleteWatchlistVideo(userid, videoid);
         res.send({ removedWatchList: userWatchList });
       } catch (error) {
         next({
@@ -1086,7 +1110,7 @@ explorerRouter.delete(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const favedNo = await deleteFavs(userid, videoid);
+        const favedNo = await deleteFavorite(userid, videoid);
         res.send({ removedFav: favedNo });
       } catch (error) {
         next({
@@ -1117,7 +1141,7 @@ explorerRouter.patch(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const updatedCount = await updateUserCommentCount(id);
+        const updatedCount = await updateVideoCommentCount(id);
         res.send({ comment: updatedCount });
       } catch (error) {
         console.log(error);
@@ -1149,7 +1173,7 @@ explorerRouter.patch(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const reducedCount = await reduceUserCommentCount(id);
+        const reducedCount = await reduceVideoCommentCount(id);
         res.send({ comment: reducedCount });
       } catch (error) {
         console.log(error);
@@ -1186,7 +1210,7 @@ explorerRouter.patch(
           flagged_reason: flagged_reason,
         };
 
-        const flaggedComm = await flaggedComment(commentid, flagReason);
+        const flaggedComm = await setCommentFlag(commentid, flagReason);
         res.send({ comment: flaggedComm });
       } catch (error) {
         console.log(error);
@@ -1223,7 +1247,7 @@ explorerRouter.patch(
           flagged_reason: flagged_reason,
         };
 
-        const flaggedVid = await flaggedVideo(videoid, flagReason);
+        const flaggedVid = await setVideoFlag(videoid, flagReason);
         res.send({ video: flaggedVid });
       } catch (error) {
         console.log(error);
@@ -1271,7 +1295,7 @@ explorerRouter.post(
           country: country,
         };
 
-        const copyrightIssue = await copyrightClaim(copyrightPlaintiff);
+        const copyrightIssue = await createCopyrightClaim(copyrightPlaintiff);
         res.send({ video: copyrightIssue });
       } catch (error) {
         console.log(error);
@@ -1312,7 +1336,7 @@ explorerRouter.post(
         videotitle: videotitle,
         videoviewcount: videoviewcount,
       };
-      const newHistory = await watchHistory(videoHistory);
+      const newHistory = await createHistoryVideo(videoHistory);
       res.send({ upload: newHistory });
     } catch (error) {
       next({
@@ -1343,7 +1367,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const videohistory = await getHistory(userid);
+        const videohistory = await getUserWatchHistory(userid);
         res.send({ history: videohistory });
       } catch (error) {
         next({
