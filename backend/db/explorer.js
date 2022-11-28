@@ -1080,7 +1080,7 @@ createFavorite,
 deleteFavorite,
 getUserFavorites,
 
-createdWatchlistVideo,
+createWatchlistVideo,
 deleteWatchlistVideo,
 getUserWatchlist,
 
