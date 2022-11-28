@@ -823,7 +823,7 @@ explorerRouter.get(
 );
 
 explorerRouter.get(
-  "/recentuploads/subs/:userid",
+  "/subcription-profiles/:userid",
   requireUser,
   check("userid")
     .not()
@@ -976,7 +976,7 @@ explorerRouter.get(
   }
 );
 
-explorerRouter.post("/watchlist", requireUser, async (req, res, next) => {
+explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
   const videoid = req.body.videoid;
   const channel = req.body.channelname;
@@ -1308,7 +1308,7 @@ explorerRouter.post(
 );
 
 explorerRouter.post(
-  "/watchhistory",
+  "/add/watchhistory",
   cors(),
   requireUser,
   async (req, res, next) => {
