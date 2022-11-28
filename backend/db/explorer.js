@@ -476,7 +476,7 @@ async function addVideoDislike(id) {
   }
 }
 
-async function revokeVideoDisLike(videoid) {
+async function revokeVideoDislike(videoid) {
   try {
     const {
       rows: [uploads],
@@ -530,7 +530,7 @@ async function removeUserVideoDislike(id) {
   }
 }
 
-async function checkUserVideoDisLikeStatus(videoid, userid) {
+async function checkUserVideoDislikeStatus(videoid, userid) {
   try {
     const { rows } = await client.query(
       `
@@ -1068,11 +1068,11 @@ createUserVideoLike,
 removeUserVideoLike,
 checkUserVideoLikeStatus,
 
-addVideoDisLike,
-revokeVideoDisLike,
-createUserVideoDisLike,
-removeUserVideoDisLike,
-checkUserVideoDisLikeStatus,
+addVideoDislike,
+revokeVideoDislike,
+createUserVideoDislike,
+removeUserVideoDislike,
+checkUserVideoDislikeStatus,
 
 updateVideoViews,
 
