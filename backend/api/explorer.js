@@ -23,7 +23,7 @@ updateVideoCommentCount,
 reduceVideoCommentCount,
 
 getUploadByID,
-
+getVideoByID,
 
 getDiscoverContent,
 getPayToViewContent,
@@ -202,7 +202,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const selectedVideo = await getVideo(videoid);
+        const selectedVideo = await getVideoByID(videoid);
         res.send({
           uploads: selectedVideo,
         });
