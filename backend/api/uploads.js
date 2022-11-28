@@ -97,7 +97,7 @@ uploadsRouter.put(
     const { channelname } = req.params;
     const channel_name = channelname;
     const commentorName = channelname;
-    const cloudfront = "https://d32wkr8chcuveb.cloudfront.net";
+    const cloudfront = process.env.CLOUDFRONT_URL;
     const pic1 = req.file;
     console.log(channelname, pic1);
     let errors = validationResult(req);
@@ -165,7 +165,7 @@ uploadsRouter.post(
   check("ticketprice").trim().escape(),
   async (req, res, next) => {
     const { user } = req.user;
-    const cloudfront = "https://d32wkr8chcuveb.cloudfront.net";
+    const cloudfront = process.env.CLOUDFRONT_URL;
     const title = req.body.title;
     const vid = req.files["video"][0];
     const thumbnail = req.files["thumbnail"][0];
