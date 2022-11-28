@@ -649,7 +649,7 @@ async function laterVideo() {
   };
 
   try {
-    const response = await fetch(`${FARI_API}/explorer/watchlist`, {
+    const response = await fetch(`${FARI_API}/explorer/add/watchlist`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
