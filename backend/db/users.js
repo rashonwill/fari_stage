@@ -456,7 +456,6 @@ async function updateUserSubscriptionStatus(id) {
   }
 }
 
-}
 
 async function updateVendorSubscriptionStatus(id) {
   try {
