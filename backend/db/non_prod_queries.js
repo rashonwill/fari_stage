@@ -476,7 +476,33 @@ usersRouter.get(
 );
   
   
-
+usersRouter.patch(
+  "/updatechannelsub/:id",
+  requireUser,
+  check("id")
+    .not()
+    .isEmpty()
+    .isNumeric()
+    .withMessage("Not a valid value")
+    .trim()
+    .escape(),
+  async (req, res, next) => {
+    const { id } = req.params;
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .send({ name: "Validation Error", message: errors.array()[0].msg });
+    } else {
+      try {
+        const channelsubstatus = await updateChannelSubsStatus(id);
+        res.send({ user: channelsubstatus });
+      } catch (error) {
+        console.log("Oops, could not check verification of vendor", error);
+      }
+    }
+  }
+);
 
 //Inactive Vendor
 
