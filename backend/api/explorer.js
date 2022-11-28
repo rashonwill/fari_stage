@@ -855,7 +855,7 @@ explorerRouter.get(
 );
 
 explorerRouter.get(
-  "/subs/uploads/:userid",
+  "/subscription-uploads/:userid",
   requireUser,
   check("userid")
     .not()
