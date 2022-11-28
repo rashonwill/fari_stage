@@ -47,8 +47,8 @@ updateUserSubscriptionStatus,
 updateVendorSubscriptionStatus,
 confirmVendorSubscription,
   
-createChannelSubscription,
-removeChannelSubscription,
+createChannelSubcription,
+removeChannelSubcription,
 checkUserSubscriptionStatusToChannel,  
 } = require("../db");
 
@@ -200,8 +200,8 @@ usersRouter.post(
           channelname: channel,
           channelavi: channel_avi,
         };
-        const mySubs = await createChannelSubscription(subedData);
-        const userSubs = await updateChannelSubscriptionCount(channelname);
+        const mySubs = await createChannelSubcription(subedData);
+        const userSubs = await updateChannelSubcriptionCount(channelname);
         res.send({ mySubs: mySubs });
       } catch (error) {
         console.log(error);
