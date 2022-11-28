@@ -196,6 +196,159 @@ async function zeroSubs() {
 }
 
 
+async function updateChannel(channelname, profile_avatar, profile_poster) {
+  try {
+    const { rows } = await client.query(
+      `
+              UPDATE user_channel
+              SET profile_avatar=$2, profile_poster=$3
+              WHERE channelname=$1
+              RETURNING *;
+            `,
+      [channelname, profile_avatar, profile_poster]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+async function getAllUsersUsername() {
+  const { rows } = await client.query(`
+  SELECT users.id AS userid, username, email, user_channel.profile_avatar 
+  FROM users
+  JOIN users_channel ON users.id = users_channel.userid;
+  `);
+
+  return rows;
+}
+
+async function getAllChannels() {
+  const { rows } = await client.query(
+    `SELECT * FROM user_channel order by random() limit 9;`
+  );
+
+  return rows;
+}
+
+
+async function getChannelByName(channelName) {
+  try {
+    const {
+      rows: [channels],
+    } = await client.query(
+      `
+  SELECT *, user_channel.id AS channelid
+  FROM user_channel
+  WHERE channelName=$1;
+  `,
+      [channelName]
+    );
+
+    return channels;
+  } catch (error) {
+    console.log("Could not get user channel in db");
+  }
+}
+
+async function goLive(id) {
+  try {
+    const {
+      rows: [channel],
+    } = await client.query(
+      `
+              UPDATE user_channel
+              SET user_isLive='true'
+              WHERE id=$1
+              RETURNING *;
+            `,
+      [id]
+    );
+
+    return channel;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function endLive(id) {
+  try {
+    const {
+      rows: [channel],
+    } = await client.query(
+      `
+              UPDATE user_channel
+              SET user_isLive='false'
+              WHERE id=$1
+              RETURNING *;
+            `,
+      [id]
+    );
+
+    return channel;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+async function updateChannelSubsStatus(id) {
+  try {
+    const { rows } = await client.query(
+      `
+              UPDATE user_channel
+              SET vendoractive='true'
+              WHERE id=$1
+              RETURNING *;
+            `,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+  
+  async function verifyUserSubscriptionStatus(id) {
+  try {
+    const { rows } = await client.query(
+      `
+              SELECT * FROM users
+              WHERE id=$1;
+            `,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+  
+  
+//API
+  
+  usersRouter.get("/", requireUser, async (req, res, next) => {
+  try {
+    const allUsers = await getAllUsers();
+    res.send({
+      users: allUsers,
+    });
+  } catch ({ name, message }) {
+    next({ name, message });
+  }
+});
+
+usersRouter.get("/me", requireUser, async (req, res, next) => {
+  try {
+    res.send({ user: req.user });
+  } catch (error) {
+    console.error("Hmm, can't seem to get that user", error);
+    next(error);
+  }
+});
+
+
+
 //Inactive Vendor
 
 // UPDATE vendors
