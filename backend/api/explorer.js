@@ -23,7 +23,6 @@ updateVideoCommentCount,
 reduceVideoCommentCount,
 
 getUploadByID,
-getVideoByID,
 
 
 getDiscoverContent,
