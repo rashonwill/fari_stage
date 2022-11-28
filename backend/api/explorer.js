@@ -69,11 +69,7 @@ createHistoryVideo,
 getUserWatchHistory,
 
 
-
-createChannelSubscription,
-removeChannelSubscription,
 getUserSubscriptions,
-checkUserSubscriptionStatusToChannel,
 getUserSubscriptionsLimited,
 getUserSubcriptionUploads,
 
