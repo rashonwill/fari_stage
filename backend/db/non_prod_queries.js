@@ -171,3 +171,50 @@ async function getVideoByID(id) {
     console.error("Could not get that video");
   }
 }
+
+async function getAllUsers() {
+  const { rows } = await client.query(`SELECT * FROM users;`);
+
+  return rows;
+}
+
+
+async function zeroSubs() {
+  try {
+    const { rows } = await client.query(
+      `
+              UPDATE user_channel
+              SET subscriber_count = 0
+              RETURNING *;
+            `
+    );
+
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+//Inactive Vendor
+
+// UPDATE vendors
+// SET registered = 'false'
+// WHERE id = $1
+
+// UPDATE products
+// SET vendoractive='false', prod_quantity=0
+// WHERE vendorid=$1
+
+// UPDATE users_channel
+// SET vendoractive = 'false'
+// WHERE id=$1
+
+// UPDATE usersuploads
+// SET paid_content = 'free',
+// WHERE id=$1
+
+//    UPDATE users
+//    SET farivendor_subed='false'
+//    WHERE id=$1
+
