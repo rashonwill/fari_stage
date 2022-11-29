@@ -2427,7 +2427,7 @@ async function checkoutSessionStripe() {
 function bootstrap() {
   getFreeMedia().then(renderMedia);
   getChannels().then(renderSuggestedChannels);
-  getLiveChannels().then(renderLives);
+//   getLiveChannels().then(renderLives);
   getPopularMedia().then(renderPopularVideos);
 }
 
