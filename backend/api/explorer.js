@@ -133,7 +133,7 @@ explorerRouter.get(
   }
 );
 
-explorerRouter.get("/popular-channels", async (req, res, next) => {
+explorerRouter.get("/popular-channels", requireUser, rateLimiter({ secondsWindow: 60, allowedHits: 5 }), async (req, res, next) => {
   // let getCache = await redisClient.get("popularContent");
   // await redisClient.expire("popularContent", 200);
   // if (getCache && getCache != null) {
@@ -827,7 +827,7 @@ explorerRouter.get(
 );
 
 explorerRouter.get(
-  "/subcription-profiles/:userid",
+  "/subscription-profiles/:userid",
   requireUser,
   check("userid")
     .not()
