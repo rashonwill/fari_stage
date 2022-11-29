@@ -46,7 +46,7 @@ async function createTables() {
     console.log("Starting to build tables...");
 
     await client.query(`
-  CREATE TABLE Users (
+  CREATE TABLE users (
     id SERIAL PRIMARY KEY UNIQUE,
     Username varchar(255) UNIQUE NOT NULL,
     Email TEXT NOT NULL,
@@ -61,14 +61,14 @@ async function createTables() {
   );
           
     
-CREATE TABLE User_Channel(
+CREATE TABLE user_channel(
   id SERIAL PRIMARY KEY UNIQUE,
   userID INT UNIQUE,
   FOREIGN KEY(userID) REFERENCES Users(id) ON DELETE CASCADE,
   channelname varchar(255) UNIQUE,
   FOREIGN KEY(channelname) REFERENCES Users(Username) ON UPDATE CASCADE,
-  Profile_Avatar TEXT NULL,
-  Profile_Poster TEXT NULL,
+  Profile_Avatar TEXT NULL UNIQUE,
+  Profile_Poster TEXT NULL UNIQUE,
   Subscriber_Count INT DEFAULT 0,
   constraint Subscriber_Count_nonnegative check (Subscriber_Count >= 0),
   user_islive BOOLEAN DEFAULT FALSE,
@@ -82,15 +82,15 @@ CREATE TABLE channel_messages(
   sender_channelid INT,
   FOREIGN KEY(sender_channelid) REFERENCES user_channel(id) ON DELETE CASCADE,
   senderid INT,
-  FOREIGN KEY(senderid) REFERENCES Users(id),
+  FOREIGN KEY(senderid) REFERENCES users(id),
   sendername varchar(255),
-  FOREIGN KEY(sendername) REFERENCES Users(username) ON UPDATE CASCADE,
+  FOREIGN KEY(sendername) REFERENCES users(username) ON UPDATE CASCADE,
   senderpic TEXT NULL,
   FOREIGN KEY(senderpic) REFERENCES user_channel(profile_avatar) ON UPDATE CASCADE,
   receiverid INT,
-  FOREIGN KEY(receiverid) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY(receiverid) REFERENCES users(id) ON DELETE CASCADE,
   receivername varchar(255),
-  FOREIGN KEY(receivername) REFERENCES Users(username) ON UPDATE CASCADE,
+  FOREIGN KEY(receivername) REFERENCES users(username) ON UPDATE CASCADE,
   receiverpic TEXT,
   FOREIGN KEY(receiverpic) REFERENCES user_channel(profile_avatar) ON UPDATE CASCADE,
   note_message varchar(8000),
@@ -103,13 +103,14 @@ CREATE TABLE channel_uploads (
   channelID INT NOT NULL,
   FOREIGN KEY(channelID) REFERENCES User_Channel(id) ON DELETE CASCADE,
   channelname varchar(255),
+  FOREIGN KEY(channelname) REFERENCES users(username) ON UPDATE CASCADE,
   channelavi TEXT,
   FOREIGN KEY(channelavi) REFERENCES user_channel(profile_avatar) ON UPDATE CASCADE,
   videoFile TEXT NULL,
   videokey TEXT NULL,
   videoThumbnail TEXT NULL,
   thumbnailKey TEXT NULL,
-  videoTitle varchar(255) NULL,
+  videoTitle varchar(255) NULL UNIQUE,
   videoDescription varchar(8000) NULL,
   videoTags varchar(800) NULL,
   videopostDT DATE DEFAULT CURRENT_DATE NOT NULL,
@@ -119,7 +120,7 @@ CREATE TABLE channel_uploads (
   constraint dislikes_nonnegative check (videodisLikeCount >= 0),
   videoCommentCount INT DEFAULT 0,
   constraint comments_nonnegative check (videoCommentCount >= 0),
-  videoViewCount INT DEFAULT 0,
+  videoViewCount INT DEFAULT 0 UNIQUE,
   constraint views_nonnegative check (videoViewCount >= 0),
   content_type varchar(255),
   paid_content varchar(255),
@@ -586,9 +587,9 @@ async function buildDB() {
     client.connect();
     await dropTables();
     await createTables();
-//     await createInitialUsers();
-//     await updateChannelPics();
-//     await createContent();
+    //     await createInitialUsers();
+    //     await updateChannelPics();
+    //     await createContent();
   } catch (error) {
     throw error;
   }
