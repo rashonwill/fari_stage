@@ -204,7 +204,7 @@ async function getUserProfile() {
       window.location.href = "/login";
     }
     return data.profile;
-	  console.log('userProfile',data)
+	  console.log('userProfile', data)
   } catch (error) {
     response.status(400).send(error);
   }
