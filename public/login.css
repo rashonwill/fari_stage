@@ -93,7 +93,7 @@ body::-webkit-scrollbar-corner {
     height: 100%;
     background: whitesmoke;
     position: relative;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .icons {
