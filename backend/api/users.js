@@ -18,7 +18,6 @@ const {
   userSearch,
   getUserChannelByChannelID,
   getUserChannelByName,
-  getUserProfile,
   getPostByChannelID,
 
   confirmVendorSubscription,
