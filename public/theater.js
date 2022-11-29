@@ -1219,7 +1219,6 @@ async function reduceCommentCount() {
 
 async function commentCount() {
   let videoid = localStorage.getItem("videoID");
-
   try {
     const response = await fetch(
       `${FARI_API}/analytics/commentscount/${videoid}`,
@@ -1239,6 +1238,7 @@ async function commentCount() {
     }
     return data;
   } catch (error) {
+	  console.log(error)
     response.status(400).send(error);
   }
 }
