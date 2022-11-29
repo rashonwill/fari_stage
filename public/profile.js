@@ -292,7 +292,7 @@ function renderLocation(profile) {
                 role="textbox"
                 id="location"
                 name="title"
-              >${unesLocation ? unesLocation : "Earth"}</span>
+              >${unesLocation ? unesLocation : ""}</span>
 	      <i class="fa-solid fa-pen"></i>   
 `).data("profile", profile);
   $(".about.location").append(channelLocation);
@@ -1357,9 +1357,9 @@ async function markAsRead() {
 }
 
 function bootstrap() {
-  getUserProfile().then(renderBio).then(renderLocation);
+  getUserProfile()
   vendorVerificationCheck();
-  userChannel().then(renderUserInfo);
+  userChannel().then(renderUserInfo).then(renderBio).then(renderLocation);
   channelPost().then(renderPostList);
   getUserChannelSubscriptions().then(renderSubsTable);
   getMessages().then(rendermessageList);
