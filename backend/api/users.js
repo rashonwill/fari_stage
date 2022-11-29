@@ -19,7 +19,8 @@ const {
   getUserChannelByChannelID,
   getUserChannelByName,
   getPostByChannelID,
-
+  getUserByName,
+  
   confirmVendorSubscription,
 
   createChannelSubscription,
