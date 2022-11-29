@@ -4,6 +4,12 @@ const { requireUser } = require("./utils");
 const rateLimiter = require("./ratelimiter");
 const { check, validationResult } = require("express-validator");
 
+const redis = require('redis');
+let redisClient = redis.createClient({url: process.env.REDIS_URL, socket: {
+    tls: true,
+    rejectUnauthorized: false
+  }}); 
+
 const cors = require("cors");
 explorerRouter.use(cors());
 
@@ -108,19 +114,19 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 45, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
-    // let getCache = await redisClient.get("popularContent");
-    // await redisClient.expire("popularContent", 200);
-    // if (getCache && getCache != null) {
-    //   console.log("cache found");
-    //   res.send({ uploads: JSON.parse(getCache) });
-    // } else {
-    //   console.log("no cache found");
+    let getCache = await redisClient.get("popularContent");
+    await redisClient.expire("popularContent", 200);
+    if (getCache && getCache != null) {
+      console.log("cache found");
+      res.send({ uploads: JSON.parse(getCache) });
+    } else {
+      console.log("no cache found");
     try {
       const freeContent = await getTopUploads();
-      //     let setData = await redisClient.set(
-      //       "popularContent",
-      //       JSON.stringify(freeContent)
-      //     );
+          let setData = await redisClient.set(
+            "popularContent",
+            JSON.stringify(freeContent)
+          );
       res.send({ uploads: freeContent });
     } catch (error) {
       console.log(error);
@@ -129,18 +135,18 @@ explorerRouter.get(
         message: "Could Not get the free uploads",
       });
     }
-    // }
+    }
   }
 );
 
 explorerRouter.get("/popular-channels", requireUser, rateLimiter({ secondsWindow: 45, allowedHits: 5 }), async (req, res, next) => {
-  // let getCache = await redisClient.get("popularContent");
-  // await redisClient.expire("popularContent", 200);
-  // if (getCache && getCache != null) {
-  //   console.log("cache found");
-  //   res.send({ uploads: JSON.parse(getCache) });
-  // } else {
-  //   console.log("no cache found");
+  let getCache = await redisClient.get("popularContent");
+  await redisClient.expire("popularContent", 200);
+  if (getCache && getCache != null) {
+    console.log("cache found");
+    res.send({ uploads: JSON.parse(getCache) });
+  } else {
+    console.log("no cache found");
   try {
     const allChannels = await getTopChannels();
     res.send({ allChannels });
@@ -150,7 +156,7 @@ explorerRouter.get("/popular-channels", requireUser, rateLimiter({ secondsWindow
       message: "Could not retrieve channels",
     });
   }
-  // }
+   }
 });
 
 explorerRouter.get(
@@ -158,6 +164,13 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 45, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
+      let getCache = await redisClient.get("paidContent");
+  await redisClient.expire("paidContent", 200);
+  if (getCache && getCache != null) {
+    console.log("cache found");
+    res.send({ uploads: JSON.parse(getCache) });
+  } else {
+    console.log("no cache found");
     try {
       const payContent = await getPayToViewContent();
       res.send({ uploads: payContent });
@@ -168,6 +181,7 @@ explorerRouter.get(
       });
     }
   }
+  }
 );
 
 explorerRouter.get(
@@ -175,6 +189,13 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 45, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
+      let getCache = await redisClient.get("popularContent");
+  await redisClient.expire("popularContent", 200);
+  if (getCache && getCache != null) {
+    console.log("cache found");
+    res.send({ uploads: JSON.parse(getCache) });
+  } else {
+    console.log("no cache found");
     try {
       const recUploads = await getRecommendedUploads();
       res.send({ uploads: recUploads });
@@ -184,6 +205,7 @@ explorerRouter.get(
         message: "Could Not get the uploads",
       });
     }
+  }
   }
 );
 
