@@ -25,9 +25,9 @@ async function dropTables() {
          DROP TABLE IF EXISTS user_video_dislikes;
          
          DROP TABLE IF EXISTS upload_comments;
-         DROP TABLE IF EXISTS channel_uploads;
-
          DROP TABLE IF EXISTS upload_copyright_reports;
+         
+         DROP TABLE IF EXISTS channel_uploads;
          DROP TABLE IF EXISTS channel_messages;
          DROP TABLE IF EXISTS user_channel;
          DROP TABLE IF EXISTS users;
