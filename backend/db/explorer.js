@@ -231,7 +231,7 @@ async function getDiscoverContent() {
   const { rows } = await client.query(`
   SELECT *, channel_uploads.id AS videoID
   FROM channel_uploads
-  WHERE paid_content='free' OR paid_content IS NULL
+  WHERE content_class='free' OR content_class IS NULL
   ORDER BY random() limit 1000;
   `);
 
@@ -242,7 +242,7 @@ async function getPayToViewContent() {
   const { rows } = await client.query(`
   SELECT *, channel_uploads.id AS videoID
   FROM channel_uploads
-  WHERE content_type='film' AND paid_content='pay' OR content_type='shows' AND paid_content='pay'
+  WHERE content_category='film' AND content_class='pay' OR content_category='shows' AND content_class='pay'
   ORDER BY random() limit 1000;
   `);
 
@@ -253,7 +253,7 @@ async function getRecommendedUploads() {
   const { rows } = await client.query(`
   SELECT *, channel_uploads.id AS videoID
   FROM channel_uploads
-  WHERE paid_content='free' OR paid_content IS NULL OR content_type='vlog' OR content_type='other' OR content_type IS NULL
+  WHERE content_class='free' OR content_class IS NULL OR content_category='vlog' OR content_category='other' OR content_category IS NULL
   ORDER BY random() limit 200;
   `);
 
@@ -264,7 +264,7 @@ async function getTopUploads() {
   const { rows } = await client.query(`
   SELECT *, channel_uploads.id AS videoID
   FROM channel_uploads
-  WHERE paid_content='free' OR paid_content IS NULL OR content_type='vlog' OR content_type='other' OR content_type IS NULL
+  WHERE content_class='free' OR content_class IS NULL OR content_category='vlog' OR content_category='other' OR content_category IS NULL
   ORDER BY random() limit 10;
   `);
 
@@ -304,7 +304,7 @@ async function animationSearch() {
       `
               SELECT *, channel_uploads.id AS videoid
               FROM channel_uploads
-              WHERE videotags ILIKE any (array['%Animation%','%Animiations%', '%Animated%']) AND paid_content='free' OR videotags ILIKE any (array['%Animation%','%Animations%', '%Animated%']) AND paid_content IS NULL
+              WHERE videotags ILIKE any (array['%Animation%','%Animiations%', '%Animated%']) AND content_class='free' OR videotags ILIKE any (array['%Animation%','%Animations%', '%Animated%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
     );
@@ -320,7 +320,7 @@ async function movieSearch() {
       `
               SELECT *, channel_uploads.id AS videoid
               FROM channel_uploads
-              WHERE videotags ILIKE any (array['%Movie%', '%ShortFilm%', '%Films%', '%FullMovie%']) AND paid_content='free' OR videotags ILIKE any (array['%Movie%', '%ShortFilm%', '%Films%', '%FullMovie%']) AND paid_content IS NULL
+              WHERE content_category='film' OR videotags ILIKE any (array['%Movie%', '%ShortFilm%', '%Films%', '%FullMovie%']) AND content_class='free' OR videotags ILIKE any (array['%Movie%', '%ShortFilm%', '%Films%', '%FullMovie%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
     );
@@ -336,7 +336,7 @@ async function seriesSearch() {
       `
               SELECT *, channel_uploads.id AS videoid
               FROM channel_uploads
-              WHERE videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND paid_content='free' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND paid_content IS NULL
+              WHERE content_category='shows' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class='free' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
     );
@@ -352,7 +352,7 @@ async function vlogSearch() {
       `
               SELECT *, channel_uploads.id AS videoid
               FROM channel_uploads
-              WHERE videotags ILIKE any (array['%Vlog%','%Vlogs%']) AND paid_content='free' OR videotags ILIKE any (array['%Vlog%','%Vlogs%']) AND paid_content IS NULL
+              WHERE content_category='vlog' OR videotags ILIKE any (array['%Vlog%','%Vlogs%']) AND content_class='free' OR videotags ILIKE any (array['%Vlog%','%Vlogs%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
     );
