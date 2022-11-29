@@ -266,6 +266,42 @@ function renderUserInfo(profile) {
   return channelInfo;
 }
 
+function renderBio(profile) {
+  let unesBio = _.unescape(profile[0].bio);
+  let channelBio = $(`
+            <span
+                class="textarea"
+                contenteditable="false"
+                role="textbox"
+                id="bio"
+                name="title"
+              >${
+       unesBio ? unesBio : ""
+     }</span
+              ><i class="fa-solid fa-pen"></i>    
+`).data("profile", profile);
+  $(".about.bio").append(channelBio);
+  return channelBio;
+}
+
+function renderLocation(profile) {
+  let unesLocation = _.unescape(profile[0].location);
+  let channelLocation = $(`
+    <span
+                class="textarea"
+                contenteditable="false"
+                role="textbox"
+                id="location"
+                name="title"
+              >${
+        unesLocation ? unesLocation : "Earth"
+      </span
+              ><i class="fa-solid fa-pen"></i>   
+`).data("profile", profile);
+  $(".about.location").append(channelLocation);
+  return channelLocation;
+}
+
 //Videos
 
 async function channelPost() {
@@ -1324,7 +1360,7 @@ async function markAsRead() {
 }
 
 function bootstrap() {
-  getUserProfile();
+  getUserProfile().then(renderBio).then(renderLocation);
   vendorVerificationCheck();
   userChannel().then(renderUserInfo);
   channelPost().then(renderPostList);
