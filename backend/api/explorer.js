@@ -8,82 +8,70 @@ const cors = require("cors");
 explorerRouter.use(cors());
 
 const {
-createUpload,
-editUpload,
-deleteUpload,
+  createComment,
+  editComment,
+  deleteComment,
 
+  getVideoComments,
+  updateVideoCommentCount,
+  reduceVideoCommentCount,
 
-createComment,
-editComment,
-deleteComment,
+  getUploadByID,
+  getVideoByID,
 
+  getDiscoverContent,
+  getPayToViewContent,
+  getRecommendedUploads,
 
-getVideoComments,
-updateVideoCommentCount,
-reduceVideoCommentCount,
+  getTopUploads,
+  getTopChannels,
 
-getUploadByID,
-getVideoByID,
+  videoSearch,
+  animationSearch,
+  movieSearch,
+  seriesSearch,
+  vlogSearch,
 
-getDiscoverContent,
-getPayToViewContent,
-getRecommendedUploads,
+  addVideoLike,
+  revokeVideoLike,
+  createUserVideoLike,
+  removeUserVideoLike,
+  checkUserVideoLikeStatus,
 
-getTopUploads,
-getTopChannels,
+  addVideoDislike,
+  revokeVideoDislike,
+  createUserVideoDislike,
+  removeUserVideoDislike,
+  checkUserVideoDislikeStatus,
 
+  updateVideoViews,
 
-videoSearch,
-animationSearch,
-movieSearch,
-seriesSearch,
-vlogSearch,
+  createFavorite,
+  deleteFavorite,
+  getUserFavorites,
 
+  createWatchlistVideo,
+  deleteWatchlistVideo,
+  getUserWatchlist,
 
-addVideoLike,
-revokeVideoLike,
-createUserVideoLike,
-removeUserVideoLike,
-checkUserVideoLikeStatus,
+  removePurchasedWatchlistVideosThreeDays,
+  updatePaidWatchStartedFlag,
 
-addVideoDislike,
-revokeVideoDislike,
-createUserVideoDislike,
-removeUserVideoDislike,
-checkUserVideoDislikeStatus,
+  createHistoryVideo,
+  getUserWatchHistory,
 
-updateVideoViews,
+  getUserSubscriptions,
+  getUserSubscriptionsLimited,
+  getUserSubscriptionUploads,
 
-createFavorite,
-deleteFavorite,
-getUserFavorites,
+  getMovieOrders,
 
-createWatchlistVideo,
-deleteWatchlistVideo,
-getUserWatchlist,
+  setVendorActiveVideoStatus,
 
-removePurchasedWatchlistVideosThreeDays,
-updatePaidWatchStartedFlag,
+  setVideoFlag,
+  setCommentFlag,
 
-createHistoryVideo,
-getUserWatchHistory,
-
-
-getUserSubcriptions,
-getUserSubcriptionsLimited,
-getUserSubcriptionUploads,
-
-
-createMovieOrders,
-getMovieOrders,
-
-
-setVendorActiveVideoStatus,
-
-setVideoFlag,
-setCommentFlag,
-
-createCopyrightClaim,
+  createCopyrightClaim,
 } = require("../db");
 
 // (async () => {
@@ -146,13 +134,13 @@ explorerRouter.get(
 );
 
 explorerRouter.get("/popular-channels", async (req, res, next) => {
-      // let getCache = await redisClient.get("popularContent");
-    // await redisClient.expire("popularContent", 200);
-    // if (getCache && getCache != null) {
-    //   console.log("cache found");
-    //   res.send({ uploads: JSON.parse(getCache) });
-    // } else {
-    //   console.log("no cache found");
+  // let getCache = await redisClient.get("popularContent");
+  // await redisClient.expire("popularContent", 200);
+  // if (getCache && getCache != null) {
+  //   console.log("cache found");
+  //   res.send({ uploads: JSON.parse(getCache) });
+  // } else {
+  //   console.log("no cache found");
   try {
     const allChannels = await getTopChannels();
     res.send({ allChannels });
@@ -164,7 +152,6 @@ explorerRouter.get("/popular-channels", async (req, res, next) => {
   }
   // }
 });
-
 
 explorerRouter.get(
   "/paytoview",
@@ -827,7 +814,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const userSubs = await getUserSubcriptions(userid);
+        const userSubs = await getUserSubscriptions(userid);
         res.send({ mysubscriptions: userSubs });
       } catch (error) {
         next({
@@ -858,7 +845,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const recentUploadedSubs = await getUserSubcriptionsLimited(userid);
+        const recentUploadedSubs = await getUserSubscriptionsLimited(userid);
         res.send({ mysubscriptions: recentUploadedSubs });
       } catch (error) {
         console.log(error);
@@ -890,7 +877,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const subUploads = await getUserSubcriptionUploads(userid);
+        const subUploads = await getUserSubscriptionUploads(userid);
         res.send({ subscriptionUploads: subUploads });
       } catch (error) {
         console.log(error);
@@ -1019,7 +1006,7 @@ explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
       paidtoview: paidtoview,
     };
 
-    const usersList = await createdWatchlistVideo(laterData);
+    const usersList = await createWatchlistVideo(laterData);
     res.send({ myWatchLaters: usersList });
   } catch (error) {
     console.log(error);

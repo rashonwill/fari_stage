@@ -86,7 +86,6 @@ async function deleteUpload(id) {
   }
 }
 
-
 async function createComment({
   videoID,
   commentorID,
@@ -228,9 +227,6 @@ async function getVideoByID(id) {
   }
 }
 
-
-
-
 async function getDiscoverContent() {
   const { rows } = await client.query(`
   SELECT *, channel_uploads.id AS videoID
@@ -252,7 +248,6 @@ async function getPayToViewContent() {
 
   return rows;
 }
-
 
 async function getRecommendedUploads() {
   const { rows } = await client.query(`
@@ -286,7 +281,6 @@ async function getTopChannels() {
 
   return rows;
 }
-
 
 async function videoSearch(query) {
   try {
@@ -565,7 +559,6 @@ async function updateVideoViews(id) {
   }
 }
 
-
 async function createFavorite({
   userid,
   videoid,
@@ -689,7 +682,6 @@ async function deleteWatchlistVideo(userid, videoid) {
   }
 }
 
-
 async function getUserWatchlist(userid) {
   try {
     const { rows } = await client.query(
@@ -734,7 +726,12 @@ async function updatePaidWatchStartedFlag(id) {
   }
 }
 
-async function createChannelSubcription({ userid, channelID, channelname, channelavi }) {
+async function createChannelSubscription({
+  userid,
+  channelID,
+  channelname,
+  channelavi,
+}) {
   try {
     const {
       rows: [subs],
@@ -752,7 +749,7 @@ async function createChannelSubcription({ userid, channelID, channelname, channe
   }
 }
 
-async function removeChannelSubcription(userid, channelid) {
+async function removeChannelSubscription(userid, channelid) {
   try {
     const { rows } = await client.query(
       `
@@ -767,7 +764,7 @@ async function removeChannelSubcription(userid, channelid) {
   }
 }
 
-async function getUserSubcriptions(userid) {
+async function getUserSubscriptions(userid) {
   try {
     const { rows } = await client.query(
       `SELECT * 
@@ -782,7 +779,7 @@ async function getUserSubcriptions(userid) {
   }
 }
 
-async function checkUserSubcriptionStatusToChannel(userid, channelID) {
+async function checkUserSubscriptionStatusToChannel(userid, channelID) {
   try {
     const { rows } = await client.query(
       `SELECT * 
@@ -797,7 +794,7 @@ async function checkUserSubcriptionStatusToChannel(userid, channelID) {
   }
 }
 
-async function getUserSubcriptionsLimited(userid) {
+async function getUserSubscriptionsLimited(userid) {
   try {
     const { rows } = await client.query(
       `SELECT * 
@@ -813,7 +810,7 @@ async function getUserSubcriptionsLimited(userid) {
   }
 }
 
-async function getUserSubcriptionUploads(userid) {
+async function getUserSubscriptionUploads(userid) {
   try {
     const { rows } = await client.query(
       `SELECT *, channel_uploads.id AS videoid
@@ -828,8 +825,6 @@ async function getUserSubcriptionUploads(userid) {
     throw error;
   }
 }
-
-
 
 //Movie Orders
 
@@ -880,9 +875,6 @@ async function getMovieOrders() {
     console.error("Could not get that video");
   }
 }
-
-
-
 
 async function setVendorActiveVideoStatus(channelid) {
   try {
@@ -1029,85 +1021,76 @@ ORDER BY historydt DESC
 
 module.exports = {
   client,
-createUpload,
-editUpload,
-deleteUpload,
+  createUpload,
+  editUpload,
+  deleteUpload,
 
+  createComment,
+  editComment,
+  deleteComment,
 
-createComment,
-editComment,
-deleteComment,
+  getVideoComments,
+  updateVideoCommentCount,
+  reduceVideoCommentCount,
 
+  getUploadByID,
+  getVideoByID,
 
-getVideoComments,
-updateVideoCommentCount,
-reduceVideoCommentCount,
+  getDiscoverContent,
+  getPayToViewContent,
+  getRecommendedUploads,
 
-getUploadByID,
-getVideoByID,
+  getTopUploads,
+  getTopChannels,
 
+  videoSearch,
+  animationSearch,
+  movieSearch,
+  seriesSearch,
+  vlogSearch,
 
-getDiscoverContent,
-getPayToViewContent,
-getRecommendedUploads,
+  addVideoLike,
+  revokeVideoLike,
+  createUserVideoLike,
+  removeUserVideoLike,
+  checkUserVideoLikeStatus,
 
-getTopUploads,
-getTopChannels,
+  addVideoDislike,
+  revokeVideoDislike,
+  createUserVideoDislike,
+  removeUserVideoDislike,
+  checkUserVideoDislikeStatus,
 
+  updateVideoViews,
 
-videoSearch,
-animationSearch,
-movieSearch,
-seriesSearch,
-vlogSearch,
+  createFavorite,
+  deleteFavorite,
+  getUserFavorites,
 
+  createWatchlistVideo,
+  deleteWatchlistVideo,
+  getUserWatchlist,
 
-addVideoLike,
-revokeVideoLike,
-createUserVideoLike,
-removeUserVideoLike,
-checkUserVideoLikeStatus,
+  removePurchasedWatchlistVideosThreeDays,
+  updatePaidWatchStartedFlag,
 
-addVideoDislike,
-revokeVideoDislike,
-createUserVideoDislike,
-removeUserVideoDislike,
-checkUserVideoDislikeStatus,
+  createHistoryVideo,
+  getUserWatchHistory,
 
-updateVideoViews,
+  createChannelSubscription,
+  removeChannelSubscription,
+  getUserSubscriptions,
+  checkUserSubscriptionStatusToChannel,
+  getUserSubscriptionsLimited,
+  getUserSubscriptionUploads,
 
-createFavorite,
-deleteFavorite,
-getUserFavorites,
+  createMovieOrders,
+  getMovieOrders,
 
-createWatchlistVideo,
-deleteWatchlistVideo,
-getUserWatchlist,
+  setVendorActiveVideoStatus,
 
-removePurchasedWatchlistVideosThreeDays,
-updatePaidWatchStartedFlag,
+  setVideoFlag,
+  setCommentFlag,
 
-createHistoryVideo,
-getUserWatchHistory,
-
-
-
-createChannelSubcription,
-removeChannelSubcription,
-getUserSubcriptions,
-checkUserSubcriptionStatusToChannel,
-getUserSubcriptionsLimited,
-getUserSubcriptionUploads,
-
-
-createMovieOrders,
-getMovieOrders,
-
-
-setVendorActiveVideoStatus,
-
-setVideoFlag,
-setCommentFlag,
-
-createCopyrightClaim,
+  createCopyrightClaim,
 };

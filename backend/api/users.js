@@ -14,46 +14,34 @@ const ddos = limiter({
 const rateLimiter = require("./ratelimiter");
 
 const {
-createUser,
-createChannel,
-createVendor,
+  getUserProfile,
+  userSearch,
+  getUserChannelByChannelID,
+  getUserChannelByName,
+  getUserProfile,
+  getPostByChannelID,
 
+  confirmVendorSubscription,
 
-updatePassword,
+  createChannelSubscription,
+  removeChannelSubscription,
+  checkUserSubscriptionStatusToChannel,
+  updateChannelSubscriptionCount,
+  reduceChannelSubscriptionCount,
 
-addLocation,
-addBio,
-
-getUserByUsername,
-getUserByEmail,
-getUser,
-getUserById,
-
-userSearch,
-getLiveChannels,
-getUserChannelByChannelID,
-getUserChannelByName,
-getUserProfile,
-getPostByChannelID,
-
-
-updateAvatar,
-updatePoster,
-updateChannelSubscriptionCount,
-reduceChannelSubscriptionCount,
-
-updateUserSubscriptionStatus,
-updateVendorSubscriptionStatus,
-confirmVendorSubscription,
-  
-createChannelSubcription,
-removeChannelSubcription,
-checkUserSubscriptionStatusToChannel,  
+  getAllUsers,
 } = require("../db");
 
-
-
-
+usersRouter.get("/", requireUser, async (req, res, next) => {
+  try {
+    const allUsers = await getAllUsers();
+    res.send({
+      users: allUsers,
+    });
+  } catch ({ name, message }) {
+    next({ name, message });
+  }
+});
 
 usersRouter.get(
   "/usersearch/:query",
@@ -79,8 +67,6 @@ usersRouter.get(
     }
   }
 );
-
-
 
 usersRouter.get("/myprofile", requireUser, async (req, res, next) => {
   try {
@@ -199,8 +185,8 @@ usersRouter.post(
           channelname: channel,
           channelavi: channel_avi,
         };
-        const mySubs = await createChannelSubcription(subedData);
-        const userSubs = await updateChannelSubcriptionCount(channelname);
+        const mySubs = await createChannelSubscription(subedData);
+        const userSubs = await updateChannelSubscriptionCount(channelname);
         res.send({ mySubs: mySubs });
       } catch (error) {
         console.log(error);
@@ -241,7 +227,7 @@ usersRouter.delete(
     } else {
       try {
         const myunSubs = await removeChannelSubscription(userid, channel);
-        const userunSubs = await reduceChannelSubcscriptionCount(channelid);
+        const userunSubs = await reduceChannelSubscriptionCount(channelid);
         res.send({ removedSub: myunSubs });
       } catch (error) {
         console.log(error);
@@ -280,7 +266,10 @@ usersRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const subStat = await checkUserSubscriptionStatusToChannel(userid, channelID);
+        const subStat = await checkUserSubscriptionStatusToChannel(
+          userid,
+          channelID
+        );
         res.send({ subedChannel: subStat });
       } catch (error) {
         console.log("Oops, could not determine sub status", error);
@@ -292,8 +281,6 @@ usersRouter.get(
     }
   }
 );
-
-
 
 usersRouter.get(
   "/vendor-verified/:vendorid",

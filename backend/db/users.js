@@ -477,6 +477,12 @@ async function confirmVendorSubscription(id) {
   }
 }
 
+async function getAllUsers() {
+  const { rows } = await client.query(`SELECT * FROM users;`);
+
+  return rows;
+}
+
 module.exports = {
   client,
   createUser,
@@ -509,4 +515,6 @@ module.exports = {
   updateUserSubscriptionStatus,
   updateVendorSubscriptionStatus,
   confirmVendorSubscription,
+
+  getAllUsers,
 };
