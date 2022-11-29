@@ -625,7 +625,7 @@ explorerRouter.get(
 explorerRouter.post(
   "/comment/new",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
+  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("user_comment").not().isEmpty().trim().escape(),
   check("videoid")
     .not()
@@ -665,7 +665,7 @@ explorerRouter.post(
 explorerRouter.patch(
   "/comment/edit/:commentid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
+  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   cors(),
   check("user_comment")
     .not()
@@ -737,7 +737,7 @@ explorerRouter.delete(
 explorerRouter.get(
   "/comments/:videoid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
+  rateLimiter({ secondsWindow: 10, allowedHits: 5 }),
   check("videoid")
     .not()
     .isEmpty()
