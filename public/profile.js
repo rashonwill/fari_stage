@@ -1223,8 +1223,8 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
   const description = _.escape($("span#description").text());
   const tags = _.escape($("span#tags").text());
   const rentalprice = _.escape($("#rentalprice").val());
-  const contenttype = $('input[name="content_type"]:checked').val();
-  const paidOrFree = $('input[name="paid_content"]:checked').val();
+  const contenttype = $('input[name="content_category"]:checked').val();
+  const paidOrFree = $('input[name="content_class"]:checked').val();
   const poster = _.escape($("#video-poster").attr("poster"));
   const vid = _.escape($("#video-file").attr("src"));
 
