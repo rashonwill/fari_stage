@@ -75,7 +75,7 @@ accountRouter.post(
     } else {
       try {
         const _user = await getUserByUsername(username);
-        console.log(_user)
+        console.log('getUserByUsername', _user)
         if (_user) {
           next({
             error: "UserExistsError",
@@ -115,7 +115,7 @@ accountRouter.post(
           confirmpassword,
           location,
         });
-        console.log(user)
+        console.log('user object', user)
         if (!user) {
           next({
             message: "Ooops, could not create your account, please try again.",
