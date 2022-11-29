@@ -120,7 +120,7 @@ CREATE TABLE channel_uploads (
   constraint dislikes_nonnegative check (videodisLikeCount >= 0),
   videoCommentCount INT DEFAULT 0,
   constraint comments_nonnegative check (videoCommentCount >= 0),
-  videoViewCount INT DEFAULT 0 UNIQUE,
+  videoViewCount INT DEFAULT 0,
   constraint views_nonnegative check (videoViewCount >= 0),
   content_type varchar(255),
   paid_content varchar(255),
