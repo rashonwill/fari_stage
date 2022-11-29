@@ -702,20 +702,20 @@ function renderSubsVids(subscriptionUploads) {
       localStorage.setItem("videoPurchase", JSON.stringify(videoArr));
       let gettingYou = JSON.parse(localStorage.getItem("videoPurchase"));
 
-      let ticketBuy = $(`
-        <div class="ticketForm">
-     <div class="film">
-       <div class="movie-poster">
-         <img loading="lazy" src="${subscriptionUploads.videothumbnail}"/>
-       </div>
-       <div class="movie-info">
-         <h1>${subscriptionUploads.videotitle}</h1>
-        <h1>${subscriptionUploads.rental_price}</h1>
-       </div>
-     </div>
-   </div>
+//       let ticketBuy = $(`
+//         <div class="ticketForm">
+//      <div class="film">
+//        <div class="movie-poster">
+//          <img loading="lazy" src="${subscriptionUploads.videothumbnail}"/>
+//        </div>
+//        <div class="movie-info">
+//          <h1>${subscriptionUploads.videotitle}</h1>
+//         <h1>${subscriptionUploads.rental_price}</h1>
+//        </div>
+//      </div>
+//    </div>
       
-       `).data("videoView", videoView);
+//        `).data("videoView", videoView);
       checkoutSessionStripe();
       $(".ticket-purchase").addClass("active");
       $(window).scrollTop(0);
@@ -763,23 +763,6 @@ function renderSubsVids(subscriptionUploads) {
   });
 }
 
-// async function updateViews(){
-//   let id = localStorage.getItem('videoID');
-//   try {
-//   const response = await fetch(`${FARI_API}/explorer/update/viewcount/${id}`,{
-//       method: 'PATCH',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': `Bearer ${myToken}`
-//       },
-
-// })
-//     const data = await response.json();
-//     return data;
-// }catch(error){
-// console.error('Oops could not like that video', error)
-// }
-// };
 
 $("#subscriptions").click(function (event) {
   event.preventDefault();
@@ -1000,9 +983,7 @@ function renderWatchLaters(myWatchList) {
 
     let myLater = $(`
 <div class="card" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
-              <video src="${myWatchList.videofile}" poster="${
-      myWatchList.videothumbnail
-    }" preload="none" muted></video>
+           <video src="${myWatchList.videofile}" poster="${myWatchList.videothumbnail}" preload="none" muted></video>
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
@@ -1891,21 +1872,6 @@ function renderVideoSearchResults(videos) {
       videoArr.push(purchasingFilm);
       localStorage.setItem("videoPurchase", JSON.stringify(videoArr));
       let gettingYou = JSON.parse(localStorage.getItem("videoPurchase"));
-
-      let ticketBuy = $(`
-        <div class="ticketForm">
-     <div class="film">
-       <div class="movie-poster">
-         <img src="${videos.videothumbnail}"/>
-       </div>
-       <div class="movie-info">
-         <h1>${videos.videotitle}</h1>
-        <h1>${videos.rental_price}</h1>
-       </div>
-     </div>
-   </div>
-      
-       `).data("videoView", videoView);
       checkoutSessionStripe();
       $(".ticket-purchase").addClass("active");
       $(window).scrollTop(0);
@@ -1992,6 +1958,7 @@ async function getChannels() {
       },
     });
     const data = await response.json();
+	  console.log(data)
     return data.allChannels;
   } catch (error) {
     response.status(400).send(error);
@@ -2108,7 +2075,7 @@ async function getRecentlySubsUploads() {
   var userid = localStorage.getItem("userID");
   try {
     const response = await fetch(
-      `${FARI_API}/explorer/subcription-profiles/${userid}`,
+      `${FARI_API}/explorer/subscription-profiles/${userid}`,
       {
         method: "GET",
         headers: {
@@ -2122,7 +2089,7 @@ async function getRecentlySubsUploads() {
     return data.mysubscriptions;
   } catch (error) {
     console.log(error);
-    response.status(400).send(error);
+//     response.status(400).send(error);
   }
 }
 
@@ -2230,7 +2197,6 @@ async function getVideoData() {
 
 async function laterVideo() {
   var getFeature = await getVideoData();
-  console.log(getFeature);
   var userid = localStorage.getItem("userID");
   var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
