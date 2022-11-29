@@ -12,6 +12,7 @@ const {
   addLocation,
   addBio,
   getUserByUsername,
+  getUserByName,
   getUserByEmail,
   getUserById,
   updatePassword,
