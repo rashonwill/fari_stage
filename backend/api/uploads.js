@@ -217,7 +217,7 @@ uploadsRouter.post(
             vendor_email: vendor_email,
             stripe_acctid: stripe_acctid,
           };
-          const newUpload = await createUploads(uploadData);
+          const newUpload = await createUpload(uploadData);
           res.send({ upload: newUpload });
         } catch (error) {
           next({
