@@ -276,9 +276,8 @@ function renderBio(profile) {
                 id="bio"
                 name="title"
               >${
-       unesBio ? unesBio : ""
-     }</span
-              ><i class="fa-solid fa-pen"></i>    
+       unesBio ? unesBio : ""}</span>
+       <i class="fa-solid fa-pen"></i>    
 `).data("profile", profile);
   $(".about.bio").append(channelBio);
   return channelBio;
@@ -293,10 +292,8 @@ function renderLocation(profile) {
                 role="textbox"
                 id="location"
                 name="title"
-              >${
-        unesLocation ? unesLocation : "Earth"
-      </span
-              ><i class="fa-solid fa-pen"></i>   
+              >${unesLocation ? unesLocation : "Earth"}</span>
+	      <i class="fa-solid fa-pen"></i>   
 `).data("profile", profile);
   $(".about.location").append(channelLocation);
   return channelLocation;
