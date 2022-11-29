@@ -74,21 +74,22 @@ accountRouter.post(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const _user = await getUserByUsername(username);
-        console.log('getUserByUsername', _user)
-        if (_user) {
-          next({
-            error: "UserExistsError",
-            message: "A user by that username already exists",
-          });
-          return false;
-        }
 
         const _email = await getUserByEmail(email);
         if (_email) {
           next({
             error: "EmailExistsError",
             message: "A user with that email already exists",
+          });
+          return false;
+        }
+        
+        const _user = await getUserByUsername(username);
+        console.log('getUserByUsername', _user)
+        if (_user) {
+          next({
+            error: "UserExistsError",
+            message: "A user by that username already exists",
           });
           return false;
         }
