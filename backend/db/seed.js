@@ -104,7 +104,7 @@ CREATE TABLE channel_uploads (
   FOREIGN KEY(channelID) REFERENCES User_Channel(id) ON DELETE CASCADE,
   channelname varchar(255),
   FOREIGN KEY(channelname) REFERENCES users(username) ON UPDATE CASCADE,
-  channelavi TEXT,
+  channelavi TEXT NULL,
   FOREIGN KEY(channelavi) REFERENCES user_channel(profile_avatar) ON UPDATE CASCADE,
   videoFile TEXT NULL,
   videokey TEXT NULL,
