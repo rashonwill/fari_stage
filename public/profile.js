@@ -1361,7 +1361,8 @@ async function markAsRead() {
 function bootstrap() {
   getUserProfile()
   vendorVerificationCheck();
-  userChannel().then(renderUserInfo).then(renderBio).then(renderLocation);
+  userChannel().then(renderUserInfo);
+  userChannel().then(renderBio).then(renderLocation)
   channelPost().then(renderPostList);
   getUserChannelSubscriptions().then(renderSubsTable);
   getMessages().then(rendermessageList);
