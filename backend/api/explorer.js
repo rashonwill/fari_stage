@@ -106,27 +106,15 @@ explorerRouter.get(
         message: "Could Not get the free uploads",
       });
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/popular-uploads",
   rateLimiter({ secondsWindow: 45, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
-//     let getCache = await redisClient.get("popularContent");
-//     await redisClient.expire("popularContent", 200);
-//     if (getCache && getCache != null) {
-//       console.log("cache found");
-//       res.send({ uploads: JSON.parse(getCache) });
-//     } else {
-//       console.log("no cache found");
     try {
       const freeContent = await getTopUploads();
-          let setData = await redisClient.set(
-            "popularContent",
-            JSON.stringify(freeContent)
-          );
       res.send({ uploads: freeContent });
     } catch (error) {
       console.log(error);
@@ -135,17 +123,9 @@ explorerRouter.get(
         message: "Could Not get the free uploads",
       });
     }
-    //}
-);
+  });
 
 explorerRouter.get("/popular-channels", requireUser, rateLimiter({ secondsWindow: 45, allowedHits: 5 }), async (req, res, next) => {
-//   let getCache = await redisClient.get("popularContent");
-//   await redisClient.expire("popularContent", 200);
-//   if (getCache && getCache != null) {
-//     console.log("cache found");
-//     res.send({ uploads: JSON.parse(getCache) });
-//   } else {
-//     console.log("no cache found");
   try {
     const allChannels = await getTopChannels();
     res.send({ allChannels });
@@ -155,7 +135,6 @@ explorerRouter.get("/popular-channels", requireUser, rateLimiter({ secondsWindow
       message: "Could not retrieve channels",
     });
   }
-//    }
 });
 
 explorerRouter.get(
@@ -163,13 +142,6 @@ explorerRouter.get(
   rateLimiter({ secondsWindow: 45, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
-//       let getCache = await redisClient.get("paidContent");
-//   await redisClient.expire("paidContent", 200);
-//   if (getCache && getCache != null) {
-//     console.log("cache found");
-//     res.send({ uploads: JSON.parse(getCache) });
-//   } else {
-//     console.log("no cache found");
     try {
       const payContent = await getPayToViewContent();
       res.send({ uploads: payContent });
@@ -179,22 +151,13 @@ explorerRouter.get(
         message: "Could Not get the paid uploads",
       });
     }
-  }
-//   }
-);
+  });
 
 explorerRouter.get(
   "/recommended",
   rateLimiter({ secondsWindow: 45, allowedHits: 5 }),
   requireUser,
   async (req, res, next) => {
-//       let getCache = await redisClient.get("popularContent");
-//   await redisClient.expire("popularContent", 200);
-//   if (getCache && getCache != null) {
-//     console.log("cache found");
-//     res.send({ uploads: JSON.parse(getCache) });
-//   } else {
-//     console.log("no cache found");
     try {
       const recUploads = await getRecommendedUploads();
       res.send({ uploads: recUploads });
@@ -204,9 +167,7 @@ explorerRouter.get(
         message: "Could Not get the uploads",
       });
     }
-  }
-//   }
-);
+  });
 
 explorerRouter.get(
   "/getVideo/:videoid",
@@ -275,7 +236,6 @@ explorerRouter.get(
   async (req, res, next) => {
     try {
       const vlogVids = await vlogSearch();
-      //     redisClient.set("vloggerContent", JSON.stringify(vlogVids));
       res.send({ videos: vlogVids });
     } catch (error) {
       console.log("Oops could not find search results", error);
@@ -284,8 +244,7 @@ explorerRouter.get(
         message: "Could not get the search results for Vloggers",
       });
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/search/animations",
@@ -302,8 +261,7 @@ explorerRouter.get(
         message: "Could not get the search results Animations",
       });
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/search/movies",
@@ -320,9 +278,7 @@ explorerRouter.get(
         message: "Could not get the search results for Movies",
       });
     }
-    // }
-  }
-);
+  });
 
 explorerRouter.get(
   "/search/series",
@@ -339,9 +295,7 @@ explorerRouter.get(
         message: "Could not get the search results for Shows",
       });
     }
-    // }
-  }
-);
+  });
 
 explorerRouter.post(
   "/youlikeme/:id",
@@ -394,8 +348,7 @@ explorerRouter.post(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.delete(
   "/youlikeme/revoke/:id/:videoid",
@@ -435,8 +388,7 @@ explorerRouter.delete(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.post(
   "/youdislikeme/:id",
@@ -489,8 +441,7 @@ explorerRouter.post(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.delete(
   "/youdislikeme/revoke/:userid/:videoid",
@@ -530,8 +481,7 @@ explorerRouter.delete(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/mylikes/:videoid/:userid",
@@ -570,8 +520,7 @@ explorerRouter.get(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/mydislikes/:videoid/:userid",
@@ -611,8 +560,7 @@ explorerRouter.get(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.patch(
   "/update/viewcount/:videoid",
@@ -644,8 +592,7 @@ explorerRouter.patch(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/play/:videoid",
@@ -673,8 +620,7 @@ explorerRouter.get(
         next({ name: "ErrorGettingVideo", message: "Could Not get the video" });
       }
     }
-  }
-);
+  });
 
 explorerRouter.post(
   "/comment/new",
@@ -714,8 +660,7 @@ explorerRouter.post(
         next(error);
       }
     }
-  }
-);
+  });
 
 explorerRouter.patch(
   "/comment/edit/:commentid",
@@ -759,8 +704,7 @@ explorerRouter.patch(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.delete(
   "/comment/delete/:commentid",
@@ -788,8 +732,7 @@ explorerRouter.delete(
         next(error);
       }
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/comments/:videoid",
@@ -820,8 +763,7 @@ explorerRouter.get(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/mysubs/:userid",
@@ -852,8 +794,7 @@ explorerRouter.get(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/subscription-profiles/:userid",
@@ -885,8 +826,7 @@ explorerRouter.get(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/subscription-uploads/:userid",
@@ -918,8 +858,7 @@ explorerRouter.get(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/myfavs/:userid",
@@ -947,8 +886,7 @@ explorerRouter.get(
         next({ name: "ErrorGettingUserFavs", message: "Could not get favs" });
       }
     }
-  }
-);
+  });
 
 explorerRouter.post("/youfavedme", requireUser, rateLimiter({ secondsWindow: 15, allowedHits: 2 }), async (req, res, next) => {
   const userid = req.body.userid;
@@ -1010,8 +948,7 @@ explorerRouter.get(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.post("/add/watchlist", rateLimiter({ secondsWindow: 10, allowedHits: 2 }), requireUser, async (req, res, next) => {
   const userid = req.body.userid;
@@ -1080,8 +1017,7 @@ explorerRouter.patch(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.delete(
   "/delete/watchlater/:userid/:videoid",
@@ -1119,8 +1055,7 @@ explorerRouter.delete(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.delete(
   "/delete/favs/:userid/:videoid",
@@ -1158,8 +1093,7 @@ explorerRouter.delete(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.patch(
   "/updatecommentcount/:id",
@@ -1191,8 +1125,7 @@ explorerRouter.patch(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.patch(
   "/reducecommentcount/:id",
@@ -1224,8 +1157,7 @@ explorerRouter.patch(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.patch(
   "/flag-comment/:commentid",
@@ -1262,8 +1194,7 @@ explorerRouter.patch(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.patch(
   "/flag-video/:videoid",
@@ -1297,8 +1228,7 @@ explorerRouter.patch(
         next({ name: "ErrorUpdating", message: "Ooops, could not flag video" });
       }
     }
-  }
-);
+  });
 
 explorerRouter.post(
   "/copyright-issue",
@@ -1349,8 +1279,7 @@ explorerRouter.post(
         });
       }
     }
-  }
-);
+  });
 
 explorerRouter.post(
   "/add/watchhistory",
@@ -1390,8 +1319,7 @@ explorerRouter.post(
       });
       console.log(error);
     }
-  }
-);
+  });
 
 explorerRouter.get(
   "/gethistory/:userid",
@@ -1423,8 +1351,7 @@ explorerRouter.get(
         console.log(error);
       }
     }
-  }
-);
+  });
 
 explorerRouter.get("/movierentals", rateLimiter({ secondsWindow: 45, allowedHits: 5 }), requireUser, async (req, res, next) => {
   try {
