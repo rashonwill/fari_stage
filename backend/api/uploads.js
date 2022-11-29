@@ -34,7 +34,7 @@ const {
   createUpload,
   editUpload,
   deleteUpload,
-  updatePosters,
+  updatePoster,
   updateAvatar,
   updateUploadsPicture,
   updateCommentsPic,
@@ -70,7 +70,7 @@ uploadsRouter.put(
             profile_poster: cloudfront + "/" + result1.Key,
           };
 
-          const updatedchannel = await updatePosters(channelname, updateData);
+          const updatedchannel = await updatePoster(channelname, updateData);
           res.send({ channel: updatedchannel });
         } catch (error) {
           console.error("Could not update user profile", error);
