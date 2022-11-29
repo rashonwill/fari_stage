@@ -127,14 +127,14 @@ uploadsRouter.put(
             updatedAvi,
             updateChannelPic
           );
-          const updatedPic = await updateUploadsPicture(
-            channel_name,
-            updateChannelPic
-          );
-          const updateCommentphoto = await updateCommentsPic(
-            commentorName,
-            updateCommentPicture
-          );
+//           const updatedPic = await updateUploadsPicture(
+//             channel_name,
+//             updateChannelPic
+//           );
+//           const updateCommentphoto = await updateCommentsPic(
+//             commentorName,
+//             updateCommentPicture
+//           );
           res.send({ channel: updatedchannel });
         } catch (error) {
           console.log("Could not update user profile", error);
