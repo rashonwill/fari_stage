@@ -127,14 +127,6 @@ uploadsRouter.put(
             updatedAvi,
             updateChannelPic
           );
-//           const updatedPic = await updateUploadsPicture(
-//             channel_name,
-//             updateChannelPic
-//           );
-//           const updateCommentphoto = await updateCommentsPic(
-//             commentorName,
-//             updateCommentPicture
-//           );
           res.send({ channel: updatedchannel });
         } catch (error) {
           console.log("Could not update user profile", error);
@@ -170,8 +162,8 @@ uploadsRouter.post(
     const channelid = req.body.channelid;
     const channelname = req.body.channelname;
     const channelpic = req.body.channelavi;
-    const content_type = req.body.content_type;
-    const paid_content = req.body.paid_content;
+    const content_category = req.body.content_category;
+    const content_class = req.body.content_class;
     const rental_price = req.body.ticketprice;
     const vendor_email = req.body.vendor_email;
     const stripe_acctid = req.body.stripe_acctid;
@@ -207,8 +199,8 @@ uploadsRouter.post(
             videoTitle: title,
             videoDescription: description,
             videoTags: tags,
-            content_type: content_type,
-            paid_content: paid_content,
+            content_type: content_category,
+            paid_content: content_class,
             rental_price: rental_price,
             vendor_email: vendor_email,
             stripe_acctid: stripe_acctid,
