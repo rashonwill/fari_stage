@@ -204,6 +204,7 @@ async function getUserProfile() {
       window.location.href = "/login";
     }
     return data.profile;
+	  console.log('userProfile',data)
   } catch (error) {
     response.status(400).send(error);
   }
@@ -223,6 +224,7 @@ async function userChannel() {
       }
     );
     const data = await response.json();
+	  console.log('userChannel',data)
     return data.profile;
   } catch (error) {
     response.status(400).send(error);
