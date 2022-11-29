@@ -1761,7 +1761,7 @@ async function watchHistory() {
     };
 
     try {
-      const response = await fetch(`${FARI_API}/explorer/watchhistory`, {
+      const response = await fetch(`${FARI_API}/explorer/add/watchhistory`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
