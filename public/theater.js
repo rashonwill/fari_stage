@@ -615,6 +615,7 @@ async function updateViews() {
     );
     const data = await response.json();
     playVideo().then(renderVideoInfo);
+	    watchHistory();
     return data;
   } catch (error) {
     response.status(400).send(error);
