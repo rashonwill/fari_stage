@@ -230,7 +230,7 @@ async function getUserById(id) {
   }
 }
 
-async function getUserByUsername(username) {
+async function getUserByName(username) {
   const { rows } = await client.query(`
   SELECT users.id AS userid, username, email, user_channel.profile_avatar 
   FROM users
@@ -498,14 +498,15 @@ module.exports = {
   getUserByEmail,
   getUser,
   getUserById,
-
+  getUserByName,
+  
   userSearch,
   getLiveChannels,
   getUserChannelByChannelID,
   getUserChannelByName,
   getUserProfile,
   getPostByChannelID,
-
+  
   updateAvatar,
   updatePoster,
   updateChannelSubscriptionCount,
