@@ -31,7 +31,7 @@ const {
   getAllUsers,
 } = require("../db");
 
-usersRouter.get("/", requireUser, async (req, res, next) => {
+usersRouter.get("/", async (req, res, next) => {
   try {
     const allUsers = await getAllUsers();
     res.send({
