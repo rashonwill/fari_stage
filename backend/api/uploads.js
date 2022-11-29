@@ -11,7 +11,6 @@ const storage = multer.diskStorage({
     cb(null, "useruploads");
   },
   filename: (req, file, cb) => {
-    console.log("multer file", file);
     cb(null, Date.now() + "_" + file.originalname);
   },
 });
@@ -52,7 +51,7 @@ uploadsRouter.put(
   check("channelname").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { channelname } = req.params;
-    const cloudfront = "https://d32wkr8chcuveb.cloudfront.net";
+    const cloudfront = process.env.CLOUDFRONT_URL;
     const pic2 = req.file;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -93,13 +92,11 @@ uploadsRouter.put(
   profileAvatarUpdate,
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
   async (req, res, next) => {
-    console.log("hitting upload avi route");
     const { channelname } = req.params;
     const channel_name = channelname;
     const commentorName = channelname;
     const cloudfront = process.env.CLOUDFRONT_URL;
     const pic1 = req.file;
-    console.log(channelname, pic1);
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -115,7 +112,6 @@ uploadsRouter.put(
         console.log("trying?");
         try {
           const result = await uploadPhotos(pic1);
-          console.log(result);
           const updatedAvi = {
             profile_avatar: cloudfront + "/" + result.Key,
           };
