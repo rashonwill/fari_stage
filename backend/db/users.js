@@ -200,7 +200,7 @@ async function getUser({ username, password }) {
     }
     const hashedPassword = user.password;
     const passwordMatch = await bcrypt.compare(password, hashedPassword);
-    if (passwordMatch) {
+    if (passwordMatch === true) {
       return user;
     }
   } catch (error) {
