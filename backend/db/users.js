@@ -498,7 +498,6 @@ module.exports = {
   getUserByEmail,
   getUser,
   getUserById,
-  getUserByUsername,
 
   userSearch,
   getLiveChannels,
