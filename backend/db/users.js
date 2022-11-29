@@ -52,8 +52,6 @@ async function createUser({
   }
 }
 
-
-
 async function createChannel({
   userID,
   channelname,
@@ -232,20 +230,16 @@ async function getUserById(id) {
   }
 }
 
-
-
 async function getUserByUsername(username) {
   const { rows } = await client.query(`
-  SELECT users.id AS userid, username, email, users_channel.profile_avatar 
+  SELECT users.id AS userid, username, email, user_channel.profile_avatar 
   FROM users
-  JOIN users_channel ON users.id = users_channel.userid
+  JOIN user_channel ON users.id = user_channel.userid
   WHERE username ILIKE N'%${username}%';
   `);
 
   return rows;
 }
-
-
 
 async function userSearch(query) {
   try {
@@ -261,10 +255,6 @@ async function userSearch(query) {
     throw error;
   }
 }
-
-
-
-
 
 async function getLiveChannels(userSubed) {
   try {
@@ -437,8 +427,6 @@ async function reduceChannelSubscriptionCount(id) {
   }
 }
 
-
-
 async function updateUserSubscriptionStatus(id) {
   try {
     const { rows } = await client.query(
@@ -455,7 +443,6 @@ async function updateUserSubscriptionStatus(id) {
     throw error;
   }
 }
-
 
 async function updateVendorSubscriptionStatus(id) {
   try {
@@ -474,9 +461,7 @@ async function updateVendorSubscriptionStatus(id) {
   }
 }
 
-
-
-  async function confirmVendorSubscription(id) {
+async function confirmVendorSubscription(id) {
   try {
     const { rows } = await client.query(
       `
@@ -492,42 +477,36 @@ async function updateVendorSubscriptionStatus(id) {
   }
 }
 
-
-
-
 module.exports = {
-client,
-createUser,
-createChannel,
-createVendor,
+  client,
+  createUser,
+  createChannel,
+  createVendor,
 
+  updatePassword,
 
-updatePassword,
+  addLocation,
+  addBio,
 
-addLocation,
-addBio,
+  getUserByUsername,
+  getUserByEmail,
+  getUser,
+  getUserById,
+  getUserByUsername,
 
-getUserByUsername,
-getUserByEmail,
-getUser,
-getUserById,
-getUserByUsername,
+  userSearch,
+  getLiveChannels,
+  getUserChannelByChannelID,
+  getUserChannelByName,
+  getUserProfile,
+  getPostByChannelID,
 
-userSearch,
-getLiveChannels,
-getUserChannelByChannelID,
-getUserChannelByName,
-getUserProfile,
-getPostByChannelID,
+  updateAvatar,
+  updatePoster,
+  updateChannelSubscriptionCount,
+  reduceChannelSubscriptionCount,
 
-
-updateAvatar,
-updatePoster,
-updateChannelSubscriptionCount,
-reduceChannelSubscriptionCount,
-
-updateUserSubscriptionStatus,
-updateVendorSubscriptionStatus,
-confirmVendorSubscription,
-
+  updateUserSubscriptionStatus,
+  updateVendorSubscriptionStatus,
+  confirmVendorSubscription,
 };
