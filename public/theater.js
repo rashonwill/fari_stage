@@ -959,7 +959,6 @@ async function videoComments() {
       },
     });
     const data = await response.json();
-	  console.log(data)
     return data.comments;
   } catch (error) {
     response.status(400).send(error);
@@ -1787,7 +1786,6 @@ function bootstrap() {
   checkUserLikes();
   videoComments().then(renderCommentSection);
   commentCount().then(renderCommentCount);
-  watchHistory();
 }
 
 bootstrap();
