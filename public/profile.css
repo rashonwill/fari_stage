@@ -742,12 +742,65 @@ i.fa-solid.fa-pencil {
 /* Settings */
 
 .settings {
-    transform:scale(0);
-    transition: 0.5s;
+  background: rgba(255, 255, 255, 0.1);
+  width: 60rem;
+  height: 35rem;
+  color: #dddddd;
+  display: flex;
+  position: absolute;
+  margin: 1rem auto;
+  top: 20%;
+  left: 30%;
+  transform:scale(0);
+  transition: 0.5s;
 }
 
 .settings.active{
     transform: scale(1);
+}
+
+.left-menu{
+  width: 30%;
+  height: 100%;
+  border-right: 1px solid rgba(0, 0, 0, .1);
+  padding: 10px;
+  position: relative;
+}
+
+.left-menu ul{
+  list-style-type: none;
+}
+
+.left-menu ul li{
+  margin: 1rem auto;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.selected-settings{
+  background: rgba(255, 255, 255, 0.1)
+}
+
+.settings-main-view{
+  width: 70%;
+  height: 100%;
+  position: relative;
+  
+}
+
+.section{
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+}
+
+.about {
+    display: flex;
+    position: relative;
+    margin: 1rem;
+    padding-bottom: 35px;
 }
 
 .settings .card {
@@ -782,20 +835,6 @@ i.fa-solid.fa-pencil {
     opacity: 0;
 }
 
-.user-about {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.about {
-    display: flex;
-    position: relative;
-    margin: 1rem;
-    padding-bottom: 35px;
-}
 
 #bio[contenteditable]:empty::before {
     content: "Bio";
