@@ -93,7 +93,7 @@ const {
 
 explorerRouter.get(
   "/discover",
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
+//   rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -110,7 +110,6 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/popular-uploads",
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -125,7 +124,7 @@ explorerRouter.get(
     }
   });
 
-explorerRouter.get("/popular-channels", requireUser, rateLimiter({ secondsWindow: 45, allowedHits: 10 }), async (req, res, next) => {
+explorerRouter.get("/popular-channels", requireUser, async (req, res, next) => {
   try {
     const allChannels = await getTopChannels();
     res.send({ allChannels });
@@ -139,7 +138,6 @@ explorerRouter.get("/popular-channels", requireUser, rateLimiter({ secondsWindow
 
 explorerRouter.get(
   "/paytoview",
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -155,7 +153,6 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/recommended",
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -205,7 +202,6 @@ explorerRouter.get(
 explorerRouter.get(
   "/video-search/:query",
   requireUser,
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   check("query").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { query } = req.params;
@@ -231,7 +227,6 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/vlogs",
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -248,7 +243,6 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/animations",
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -265,7 +259,6 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/movies",
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -282,7 +275,6 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/search/series",
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   requireUser,
   async (req, res, next) => {
     try {
@@ -300,7 +292,6 @@ explorerRouter.get(
 explorerRouter.post(
   "/youlikeme/:id",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("id")
     .not()
     .isEmpty()
@@ -353,7 +344,6 @@ explorerRouter.post(
 explorerRouter.delete(
   "/youlikeme/revoke/:id/:videoid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("id")
     .not()
     .isEmpty()
@@ -393,7 +383,6 @@ explorerRouter.delete(
 explorerRouter.post(
   "/youdislikeme/:id",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("id")
     .not()
     .isEmpty()
@@ -446,7 +435,6 @@ explorerRouter.post(
 explorerRouter.delete(
   "/youdislikeme/revoke/:userid/:videoid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("id")
     .not()
     .isEmpty()
@@ -486,7 +474,6 @@ explorerRouter.delete(
 explorerRouter.get(
   "/mylikes/:videoid/:userid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("userid")
     .not()
     .isEmpty()
@@ -525,7 +512,6 @@ explorerRouter.get(
 explorerRouter.get(
   "/mydislikes/:videoid/:userid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("userid")
     .not()
     .isEmpty()
@@ -565,7 +551,6 @@ explorerRouter.get(
 explorerRouter.patch(
   "/update/viewcount/:videoid",
   requireUser,
-  rateLimiter({ secondsWindow: 60, allowedHits: 1 }),
   check("videoid")
     .not()
     .isEmpty()
@@ -597,7 +582,6 @@ explorerRouter.patch(
 explorerRouter.get(
   "/play/:videoid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("videoid")
     .not()
     .isEmpty()
@@ -625,7 +609,6 @@ explorerRouter.get(
 explorerRouter.post(
   "/comment/new",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("user_comment").not().isEmpty().trim().escape(),
   check("videoid")
     .not()
@@ -665,7 +648,6 @@ explorerRouter.post(
 explorerRouter.patch(
   "/comment/edit/:commentid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   cors(),
   check("user_comment")
     .not()
@@ -737,7 +719,6 @@ explorerRouter.delete(
 explorerRouter.get(
   "/comments/:videoid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 5 }),
   check("videoid")
     .not()
     .isEmpty()
@@ -768,7 +749,6 @@ explorerRouter.get(
 explorerRouter.get(
   "/mysubs/:userid",
   requireUser,
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   check("userid")
     .not()
     .isEmpty()
@@ -799,7 +779,6 @@ explorerRouter.get(
 explorerRouter.get(
   "/subscription-profiles/:userid",
   requireUser,
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   check("userid")
     .not()
     .isEmpty()
@@ -831,7 +810,6 @@ explorerRouter.get(
 explorerRouter.get(
   "/subscription-uploads/:userid",
   requireUser,
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   check("userid")
     .not()
     .isEmpty()
@@ -863,7 +841,6 @@ explorerRouter.get(
 explorerRouter.get(
   "/myfavs/:userid",
   requireUser,
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   check("userid")
     .not()
     .isEmpty()
@@ -888,7 +865,7 @@ explorerRouter.get(
     }
   });
 
-explorerRouter.post("/youfavedme", requireUser, rateLimiter({ secondsWindow: 15, allowedHits: 2 }), async (req, res, next) => {
+explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
   const videoid = req.body.videoid;
   const channel = req.body.channelname;
@@ -922,7 +899,6 @@ explorerRouter.post("/youfavedme", requireUser, rateLimiter({ secondsWindow: 15,
 explorerRouter.get(
   "/watchlist/:userid",
   requireUser,
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   check("userid")
     .not()
     .isEmpty()
@@ -950,7 +926,7 @@ explorerRouter.get(
     }
   });
 
-explorerRouter.post("/add/watchlist", rateLimiter({ secondsWindow: 10, allowedHits: 2 }), requireUser, async (req, res, next) => {
+explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
   const videoid = req.body.videoid;
   const channel = req.body.channelname;
@@ -990,7 +966,6 @@ explorerRouter.post("/add/watchlist", rateLimiter({ secondsWindow: 10, allowedHi
 explorerRouter.patch(
   "/userwatched/:id",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
   check("id")
     .not()
     .isEmpty()
@@ -1022,7 +997,6 @@ explorerRouter.patch(
 explorerRouter.delete(
   "/delete/watchlater/:userid/:videoid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 1 }),
   check("userid")
     .not()
     .isEmpty()
@@ -1060,7 +1034,6 @@ explorerRouter.delete(
 explorerRouter.delete(
   "/delete/favs/:userid/:videoid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("userid")
     .not()
     .isEmpty()
@@ -1098,7 +1071,6 @@ explorerRouter.delete(
 explorerRouter.patch(
   "/updatecommentcount/:id",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("id")
     .not()
     .isEmpty()
@@ -1130,7 +1102,6 @@ explorerRouter.patch(
 explorerRouter.patch(
   "/reducecommentcount/:id",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("id")
     .not()
     .isEmpty()
@@ -1162,7 +1133,6 @@ explorerRouter.patch(
 explorerRouter.patch(
   "/flag-comment/:commentid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("id")
     .not()
     .isEmpty()
@@ -1199,7 +1169,6 @@ explorerRouter.patch(
 explorerRouter.patch(
   "/flag-video/:videoid",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("id")
     .not()
     .isEmpty()
@@ -1233,7 +1202,6 @@ explorerRouter.patch(
 explorerRouter.post(
   "/copyright-issue",
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   check("requestor_name").not().isEmpty().trim().escape(),
   check("owner").not().isEmpty().trim().escape(),
   check("relationship").not().isEmpty().trim().escape(),
@@ -1285,7 +1253,6 @@ explorerRouter.post(
   "/add/watchhistory",
   cors(),
   requireUser,
-  rateLimiter({ secondsWindow: 10, allowedHits: 2 }),
   async (req, res, next) => {
     const { user } = req.user;
     const userID = req.body.userid;
@@ -1324,7 +1291,6 @@ explorerRouter.post(
 explorerRouter.get(
   "/gethistory/:userid",
   requireUser,
-  rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   check("userid")
     .not()
     .isEmpty()
@@ -1353,7 +1319,7 @@ explorerRouter.get(
     }
   });
 
-explorerRouter.get("/movierentals", rateLimiter({ secondsWindow: 45, allowedHits: 10 }), requireUser, async (req, res, next) => {
+explorerRouter.get("/movierentals", requireUser, async (req, res, next) => {
   try {
     const allmovieRental = await getMovieOrders();
     res.send({ allmovieRental });
