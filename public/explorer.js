@@ -1647,17 +1647,17 @@ function renderVideoSearchResults(videos) {
 
   for (let index = 0; index < videos.length; index++) {
     if (
-      videos[index].paid_content === "free" ||
-      videos[index].paid_content === null ||
-      videos[index].content_type === "vlog" ||
-      videos[index].content_type === "other"
+      videos[index].content_class === "free" ||
+      videos[index].content_class === null ||
+      videos[index].content_category === "vlog" ||
+      videos[index].content_category === "other"
     ) {
       freeVideos.push(videos[index]);
     } else if (
-      (videos[index].paid_content === "pay" &&
-        videos[index].content_type === "film") ||
-      (videos[index].paid_content === "pay" &&
-        videos[index].content_type === "shows")
+      (videos[index].content_class === "paid" &&
+        videos[index].content_category === "film") ||
+      (videos[index].content_class === "paid" &&
+        videos[index].content_category === "series")
     ) {
       payVideos.push(videos[index]);
     }
