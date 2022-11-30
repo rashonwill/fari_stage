@@ -1090,7 +1090,7 @@ td {
     align-items: center;
 }
 
-.content-type {
+.content-category {
 
     margin: 3rem 5rem;
     display: flex;
@@ -1103,7 +1103,7 @@ td {
     text-align: center;
 }
 
-.content-type label {
+.content-category label {
     font-size: 20px;
     margin: 10px 1rem;
     color: #dddddd;
@@ -1111,14 +1111,14 @@ td {
     font-weight: 700;
 }
 
-.paid-content {
+.content-class {
     margin: 1.5rem 5rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.paid-content label {
+.content-class label {
     font-size: 20px;
     margin: 10px 1rem;
     color: #dddddd;
