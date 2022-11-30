@@ -35,92 +35,50 @@ $("#logout").click(function () {
   window.location.href = "index";
 });
 
-$(".bio .fa-pen").click(function () {
-  $("#bio").attr("contenteditable", "true");
-  $("#bio").addClass("editMode");
+$('#info').on('click', async() =>{
+  $('.info').css('display', 'block');
+  $('.avatar-update').css('display', 'none');
+  $('.poster-update').css('display', 'none');
+  $('.registration').css('display', 'none');
+  $('#info').addClass('selected-settings');
+  $('#update-avatar').removeClass('selected-settings');
+  $('#update-poster').removeClass('selected-settings');
+  $('#registration').removeClass('selected-settings');
+})
 
-  let saveEdit = `
-   <div class="editSaveCancel" contenteditable="false">
-  <button class="editsSave" id="save">Save</button>
-  <button class="editsSave" id="cancel">Cancel</button>
-  </div>`;
+$('#update-avatar').on('click', async() =>{
+  $('.info').css('display', 'none');
+  $('.avatar-update').css('display', 'block');
+  $('.poster-update').css('display', 'none');
+  $('.registration').css('display', 'none');
+  $('#info').removeClass('selected-settings');
+  $('#update-avatar').addClass('selected-settings');
+  $('#update-poster').removeClass('selected-settings');
+  $('#registration').removeClass('selected-settings');
+})
 
-  $(".bio").append(saveEdit);
+$('#update-poster').on('click', async() =>{
+  $('.info').css('display', 'none');
+  $('.avatar-update').css('display', 'none');
+  $('.poster-update').css('display', 'block');
+  $('.registration').css('display', 'none');
+  $('#info').removeClass('selected-settings');
+  $('#update-avatar').removeClass('selected-settings');
+  $('#update-poster').addClass('selected-settings');
+  $('#registration').removeClass('selected-settings');
+})
 
-  $("#cancel").on("click", async function () {
-    $("#bio").removeClass("editMode");
-    $("#bio").attr("contenteditable", "false");
-    $(".editSaveCancel").remove();
-  });
+$('#registration').on('click', async() =>{
+  $('.info').css('display', 'none');
+  $('.avatar-update').css('display', 'none');
+  $('.poster-update').css('display', 'none');
+  $('.registration').css('display', 'block');
+  $('#info').removeClass('selected-settings');
+  $('#update-avatar').removeClass('selected-settings');
+  $('#update-poster').removeClass('selected-settings');
+  $('#registration').addClass('selected-settings');
+})
 
-  $("#save").on("click", async function () {
-    const channelBio = _.escape($("span#bio").text());
-    let id = localStorage.getItem("userID");
-    try {
-      const updateBio = {
-        bio: channelBio,
-      };
-
-      const response = await fetch(`${FARI_API}/account/addbio/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-        body: JSON.stringify(updateBio),
-      });
-      const data = await response.json();
-      $("#bio").removeClass("editMode");
-      $("#bio").attr("contenteditable", "false");
-      $(".editSaveCancel").remove();
-    } catch (error) {
-      response.status(400).send(error);
-    }
-  });
-});
-
-$(".location .fa-pen").click(function () {
-  $("#location").attr("contenteditable", "true");
-  $("#location").addClass("editMode");
-  let saveEdit = `
-   <div class="editSaveCancel" contenteditable="false">
-  <button class="editsSave" id="save">Save</button>
-  <button class="editsSave" id="cancel">Cancel</button>
-  </div>`;
-
-  $(".location").append(saveEdit);
-
-  $("#cancel").on("click", async function () {
-    $("#location").removeClass("editMode");
-    $("#location").attr("contenteditable", "false");
-    $(".editSaveCancel").remove();
-  });
-
-  $("#save").on("click", async function () {
-    const userLocation = _.escape($("span#location").text());
-    let id = localStorage.getItem("userID");
-    try {
-      const updateBio = {
-        location: userLocation,
-      };
-
-      const response = await fetch(`${FARI_API}/account/addlocation/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-        body: JSON.stringify(updateBio),
-      });
-      const data = await response.json();
-      $("#location").removeClass("editMode");
-      $("#location").attr("contenteditable", "false");
-      $(".editSaveCancel").remove();
-    } catch (error) {
-      response.status(400).send(error);
-    }
-  });
-});
 
 $(".content-sort li").click(function () {
   let selected = $(this);
@@ -280,6 +238,52 @@ function renderBio(profile) {
        <i class="fa-solid fa-pen"></i>    
 `).data("profile", profile);
   $(".about.bio").append(channelBio);
+
+$(channelBio).on('click', '.fa-pen', async function () {
+  $("#bio").attr("contenteditable", "true");
+  $("#bio").addClass("editMode");
+
+  let saveEdit = `
+   <div class="editSaveCancel" contenteditable="false">
+  <button class="editsSave" id="save">Save</button>
+  <button class="editsSave" id="cancel">Cancel</button>
+  </div>`;
+
+  $(".bio").append(saveEdit);
+
+  $("#cancel").on("click", async function () {
+    $("#bio").removeClass("editMode");
+    $("#bio").attr("contenteditable", "false");
+    $(".editSaveCancel").remove();
+  });
+
+  $("#save").on("click", async function () {
+    const channelBio = _.escape($("span#bio").text());
+    let id = localStorage.getItem("userID");
+    try {
+      const updateBio = {
+        bio: channelBio,
+      };
+
+      const response = await fetch(`${FARI_API}/account/addbio/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${myToken}`,
+        },
+        body: JSON.stringify(updateBio),
+      });
+      const data = await response.json();
+      $("#bio").removeClass("editMode");
+      $("#bio").attr("contenteditable", "false");
+      $(".editSaveCancel").remove();
+    } catch (error) {
+      response.status(400).send(error);
+    }
+  });
+});
+	
+	
   return channelBio;
 }
 
@@ -296,6 +300,49 @@ function renderLocation(profile) {
 	      <i class="fa-solid fa-pen"></i>   
 `).data("profile", profile);
   $(".about.location").append(channelLocation);
+
+$(channelLocation).on('click', '.fa-pen', async function () {
+  $("#location").attr("contenteditable", "true");
+  $("#location").addClass("editMode");
+  let saveEdit = `
+   <div class="editSaveCancel" contenteditable="false">
+  <button class="editsSave" id="save">Save</button>
+  <button class="editsSave" id="cancel">Cancel</button>
+  </div>`;
+
+  $(".location").append(saveEdit);
+
+  $("#cancel").on("click", async function () {
+    $("#location").removeClass("editMode");
+    $("#location").attr("contenteditable", "false");
+    $(".editSaveCancel").remove();
+  });
+
+  $("#save").on("click", async function () {
+    const userLocation = _.escape($("span#location").text());
+    let id = localStorage.getItem("userID");
+    try {
+      const updateBio = {
+        location: userLocation,
+      };
+
+      const response = await fetch(`${FARI_API}/account/addlocation/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${myToken}`,
+        },
+        body: JSON.stringify(updateBio),
+      });
+      const data = await response.json();
+      $("#location").removeClass("editMode");
+      $("#location").attr("contenteditable", "false");
+      $(".editSaveCancel").remove();
+    } catch (error) {
+      response.status(400).send(error);
+    }
+  });
+});
   return channelLocation;
 }
 
