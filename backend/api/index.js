@@ -62,6 +62,9 @@ apiRouter.use("/orders", ordersRouter);
 const uploadsRouter = require("./uploads");
 apiRouter.use("/uploads", uploadsRouter);
 
+const subscriptionsRouter = require("./subscriptions");
+apiRouter.use("/subscriptions", subscriptionsRouter);
+
 apiRouter.use((error, req, res, next) => {
   res.send(error);
 });
