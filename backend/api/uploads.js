@@ -93,8 +93,6 @@ uploadsRouter.put(
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
   async (req, res, next) => {
     const { channelname } = req.params;
-    const channel_name = channelname;
-    const commentorName = channelname;
     const cloudfront = process.env.CLOUDFRONT_URL;
     const pic1 = req.file;
     let errors = validationResult(req);
@@ -199,8 +197,8 @@ uploadsRouter.post(
             videoTitle: title,
             videoDescription: description,
             videoTags: tags,
-            content_type: content_category,
-            paid_content: content_class,
+            content_category: content_category,
+            content_class: content_class,
             rental_price: rental_price,
             vendor_email: vendor_email,
             stripe_acctid: stripe_acctid,
