@@ -68,7 +68,7 @@ CREATE TABLE user_channel(
   channelname varchar(255) UNIQUE,
   FOREIGN KEY(channelname) REFERENCES Users(Username) ON UPDATE CASCADE,
   Profile_Avatar TEXT NULL UNIQUE,
-  Profile_Poster TEXT NULL UNIQUE,
+  Profile_Poster TEXT NULL,
   Subscriber_Count INT DEFAULT 0,
   constraint Subscriber_Count_nonnegative check (Subscriber_Count >= 0),
   user_islive BOOLEAN DEFAULT FALSE,
@@ -110,7 +110,7 @@ CREATE TABLE channel_uploads (
   videokey TEXT NULL,
   videoThumbnail TEXT NULL,
   thumbnailKey TEXT NULL,
-  videoTitle varchar(255) NULL UNIQUE,
+  videoTitle varchar(255) NOT NULL UNIQUE,
   videoDescription varchar(8000) NULL,
   videoTags varchar(800) NULL,
   videopostDT DATE DEFAULT CURRENT_DATE NOT NULL,
@@ -185,7 +185,7 @@ vendorID INT,
 FOREIGN KEY(vendorid) REFERENCES vendors(id) ON DELETE CASCADE,
 
 vendorname varchar(255),
-FOREIGN KEY(vendorname) REFERENCES users(username) ON DELETE CASCADE,
+FOREIGN KEY(vendorname) REFERENCES users(username) ON UPDATE CASCADE,
 
 prod_category varchar(255) NULL,
 prod_sub_category varchar(255) NULL,
@@ -417,6 +417,14 @@ FOREIGN KEY (videoid) REFERENCES channel_uploads(id)
 async function createInitialUsers() {
   try {
     console.log("Starting to create users...");
+     await createUser({
+      username: "Fari",
+      email: "admin@letsfari.com",
+      location: "Made in the USA",
+      password: "Shonmusic92$",
+      confirmpassword: "Shonmusic92$",
+    });
+
     await createUser({
       username: "Rashon",
       email: "rashonwill92@gmail.com",
@@ -424,14 +432,31 @@ async function createInitialUsers() {
       password: "Shonmusic92$!",
       confirmpassword: "Shonmusic92$",
     });
-
-    await createUser({
-      username: "CupofJoe",
-      email: "cupofjoe@test.com",
-      location: "New York, NY",
-      password: "P@ssw0rd!!",
-      confirmpassword: "P@ssw0rd!!",
+    
+     await createUser({
+      username: "C.J.",
+      email: "chejwilliams@yahoo.com",
+      location: "The Boot",
+      password: "Shonmusic92$",
+      confirmpassword: "Shonmusic92$",
     });
+    
+      await createUser({
+      username: "ShowTime",
+      email: "test@test.com",
+      password: "Shonmusic92$",
+      confirmpassword: "Shonmusic92$",
+    });
+    
+     await createUser({
+      username: "HappyGilmore",
+      email: "test1@test.com",
+      location: "My happy place :)",
+      password: "Shonmusic92$",
+      confirmpassword: "Shonmusic92$",
+    });
+
+
 
     console.log("Finished creating users!");
   } catch (error) {
@@ -446,19 +471,31 @@ async function updateChannelPics() {
 
     await updateChannel({
       channelname: "Rashon",
-      profile_avatar:
-        "https://faribucket.s3.amazonaws.com/1629464622097_Rashon.png",
-      profile_poster:
-        "https://faribucket.s3.amazonaws.com/1629464622386_Greatness.jpg",
+      profile_avatar: "https://d32wkr8chcuveb.cloudfront.net/1669734512176_1667833451693_theo-document-1 (1).png",
+      profile_poster: "https://d32wkr8chcuveb.cloudfront.net/1669734710107_PINK CROWN.jpg",
     });
 
     await updateChannel({
-      channelname: "CupofJoe",
-      profile_avatar:
-        "https://faribucket.s3.amazonaws.com/1629487258233_Believe%20In%20Yourself.jpg",
-      profile_poster:
-        "https://faribucket.s3.amazonaws.com/1629487258270_Grit.jpg",
+      channelname: "Fari",
+      profile_avatar: "https://d32wkr8chcuveb.cloudfront.net/1669735748650_1667408386418_Logo Black.png",
+      profile_poster: "https://d32wkr8chcuveb.cloudfront.net/1669735898220_Logo Black.png",
     });
+    
+        await updateChannel({
+      channelname: "C.J.",
+      profile_avatar:"https://d32wkr8chcuveb.cloudfront.net/1669749371946_rapper_back_Smoke.png",
+      profile_poster: "https://d32wkr8chcuveb.cloudfront.net/1669749757872_stay humble_tranparent.png",
+    })
+    
+        await updateChannel({
+      channelname: "ShowTime",
+      profile_avatar: "https://d32wkr8chcuveb.cloudfront.net/1669753852336_michael j.gif",
+    })
+    
+        await updateChannel({
+      channelname: "HappyGilmore",
+      profile_avatar: "https://d32wkr8chcuveb.cloudfront.net/1669756362517_FINGERS SMILES.jpg",
+    })
 
     console.log("Finished updating users' channel!");
   } catch (error) {
@@ -471,109 +508,121 @@ async function createContent() {
   try {
     console.log("Starting to create uploads...");
     await createUploads({
-      channelID: "2",
-      channelname: "CupofJoe",
-      channelavi:
-        "https://faribucket.s3.amazonaws.com/1629487258233_Believe%20In%20Yourself.jpg",
-      videoFile:
-        "https://faribucket.s3.amazonaws.com/1629426670553_Inside+My+6%2C000+Sqft+House+_+Full+House+Tour.mp4",
-      videoThumbnail:
-        "https://faribucket.s3.amazonaws.com/1629426814648_ricky%20gutierrez.jpeg",
-      videoTitle: "Tour of my 6,000 Sqft Arizona Home",
-      videoDescription: "Ricky Guiterrez shows us a tour of his mansion.",
-      videoTags: "#DayTrading #LifeStyleVlog #RickyGuiterrez",
+      channelID: "1",
+      channelname: "Fari",
+      channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669735748650_1667408386418_Logo Black.png",
+      videoFile: "https://d32wkr8chcuveb.cloudfront.net/1669736145067_fari animation 2.MP4",
+      videoKey: "1669736145067_fari animation 2.MP4",
+      videoThumbnail: "https://d32wkr8chcuveb.cloudfront.net/1669736146799_Logo Black.png",
+      thumbnailKey: "1669736146799_Logo Black.png",
+      videoTitle: "Welcome to Fari!",
+      videoDescription: "Welcome.",
+      videoTags: "#welcome #fari",
+      videoviewcount: 5230,
+      content_category: "other",
     });
-
-    await createUploads({
+    
+    
+     await createUploads({
       channelID: "2",
-      channelname: "CupofJoe",
-      channelavi:
-        "https://faribucket.s3.amazonaws.com/1629487258233_Believe%20In%20Yourself.jpg",
-      videoFile:
-        "https://faribucket.s3.amazonaws.com/1629474137199_Forex+Bought+Me+a+%242.2+MILLION+Dollar+MANSION%21.mp4",
-      videoThumbnail:
-        "https://faribucket.s3.amazonaws.com/1629474228325_mambafx.jpeg",
-      videoTitle: "Forex got me a Mansion!!",
-      videoDescription: "Tour of my $2.2 Million mansion - MambaFX",
-      videoTags: "#HouseTour #DayTrading #MambaFX",
+      channelname: "Rashon",
+      channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669734512176_1667833451693_theo-document-1 (1).png",
+      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669744240661_1668611937503_CGI Animated Short Film_ _Unlucky Charms_ by Kris Theorin _ CGMeetup.mp4",
+      videoKey:"1669744240661_1668611937503_CGI Animated Short Film_ _Unlucky Charms_ by Kris Theorin _ CGMeetup.mp4",
+      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669744245619_1668611942352_Unlucky Charms (1).jpg",
+      thumbnailKey: "1669744245619_1668611942352_Unlucky Charms (1).jpg",
+      videoTitle: "CGI Animated Short Film: &amp;quot;Unlucky Charms&amp;quot; by Kris Theorin | CGMeetup",
+      videoDescription: "Late One Night, A Bored Cashier Collects All Three Toys From A Box Of Magic Munchos And Unwittingly Unleashes The Ancient Evil That Lies Within…",
+      videoTags: "#animation #shortfilm",
+      videoviewcount: 4500,
+      content_category: "film",
+      content_class: "free" 
     });
-
-    await createUploads({
-      channelID: "2",
-      channelname: "CupofJoe",
-      channelavi:
-        "https://faribucket.s3.amazonaws.com/1629487258233_Believe%20In%20Yourself.jpg",
-      videoFile:
-        "https://faribucket.s3.amazonaws.com/1629426240310_Day+in+the+Life+of+a+Millionaire+Entrepreneur+%2825+Years+Old%29.mp4",
-      videoThumbnail:
-        "https://faribucket.s3.amazonaws.com/1629426334946_Chris%20Williams.jpeg",
+    
+      await createUploads({
+      channelID: "3",
+      channelname: "C.J.",
+      channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669749371946_rapper_back_Smoke.png",
+      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669751658656_The Boondocks (S03E08) - Pause Full Episode.mp4",
+      videoKey: "1669751658656_The Boondocks (S03E08) - Pause Full Episode.mp4",
+      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669751670021_pause.jpg",
+      thumbnailKey: "1669751670021_pause.jpg",
+      videoTitle: "The Boondocks - &amp;quot;Pause&amp;quot;",
+      videoDescription: "Granddad believes he will become a superstar when he is cast as a leading man by Winston Jerome. Huey and Riley need to step in when the group is not exactly what Granddad was expecting.",
+      videoTags: "#animation #boondocks #anime #series",
+      videoviewcount: 7534,
+      content_category: "series",
+      content_class: "free"  
+    });
+    
+      await createUploads({
+      channelID: "3",
+      channelname: "C.J.",
+      channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669749371946_rapper_back_Smoke.png",
+      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669753357079_Swaggy C - Day In The Life.mp4",
+      videoKey: "1669753357079_Swaggy C - Day In The Life.mp4",
+      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669753374471_1629426334946_Chris Williams.jpeg",
+      thumbnailKey: "1669753374471_1629426334946_Chris Williams.jpeg",
       videoTitle: "Day in the Life of a 25 Year Old Millionaire",
-      videoDescription:
-        "Chris Swaggy C Williams shows us a day in the life of a forex, day trading millionaire.",
-      videoTags:
-        "#Forex #DayTrading #LifeStyleVlog #SwagAcademy #SwaggyC #ChrisWilliams #SwagAcademy",
+      videoDescription: "Chris Swaggy C Williams shows us a day in the life of a forex, day trading millionaire.",
+      videoTags: "#vlog #swaggyc #forex #daytrader",
+      videoviewcount: 2137,
+      content_category: "vlog",
     });
+    
+      await createUploads({
+      channelID: "4",
+      channelname: "C.J.",
+      channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669753852336_michael j.gif",
+      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669754610163_1669125608126_TRICK or TREAT! A Short Horror Film.mp4",
+      videoKey: "1669754610163_1669125608126_TRICK or TREAT! A Short Horror Film.mp4",
+      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669754616990_1669125614856_TrickorTreat.jpg",
+      thumbnailKey: "1669754616990_1669125614856_TrickorTreat.jpg",
+      videoTitle: "TRICK OR TREAT!",
+      videoDescription: "During their first Halloween in their new home, Travis and Beth encounter an unexpected trick or treater.",
+      videoTags: "#shortfilm #horrorfilm #movie",
+      videoviewcount: 1567, 
+      content_category: "film",
+      content_class: "free"  
+    });
+    
+    
+     await createUploads({
+      channelID: "5",
+      channelname: "HappyGilmore",
+      channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669756362517_FINGERS SMILES.jpg",
+      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669755428534_1666706988999_Runyon Canyon Hike & Lakers game _ VLOG 02.mp4",
+      videoKey: "1669755428534_1666706988999_Runyon Canyon Hike & Lakers game _ VLOG 02.mp4",
+      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669755452072_1666707012180_johnnyedlind.jpg",
+      thumbnailKey: "1669755452072_1666707012180_johnnyedlind.jpg",
+      videoTitle: "Runyon Canyon Hike &amp;amp; Lakers Game",
+      videoDescription: "Johnny Edlind | Vlog 2",
+      videoTags: "#VLOG #JOHNNYEDLIND #LAKERS",
+      videoviewcount: 3061, 
+      content_category: "vlog",
+    });
+    
+      await createUploads({
+      channelID: "5",
+      channelname: "HappyGilmore",
+      channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669756362517_FINGERS SMILES.jpg",
+      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669757415968_The Distinguished Gentleman Full Film - Eddie Murphy (1992 ).mp4",
+      videoKey: "1669757415968_The Distinguished Gentleman Full Film - Eddie Murphy (1992 ).mp4",
+      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669757463990_the distinguish.jpg",
+      thumbnailKey: "1669757463990_the distinguish.jpg",
+      videoTitle: "The Distinguished Gentleman",
+      videoDescription: "In the conniving world of politics, even a professional shyster like Thomas Jefferson Johnson (Eddie Murphy) can find himself outmatched. After using name recognition to get elected, Johnson enjoys many of the same financial perks as other politicians. However, while investigating the connection between electric companies and cancer in young children, he unexpectedly develops a conscience. Unfortunately, fellow Congressman Dick Dodge (Lane Smith) isn&amp;#x27;t about to let him rock the boat.",
+      videoTags: "#EddieMurphy #TheDistinguishGentlemen #Film #Movie #comedy",
+      videoviewcount: 2013,
+      content_category: "film",
+      content_class: "paid",
+      rental_price: 1.99
+    });
+    
+    
+    
 
-    await createUploads({
-      channelID: "1",
-      channelname: "Rashon",
-      channelavi:
-        "https://faribucket.s3.amazonaws.com/1629464622097_Rashon.png",
-      videoFile:
-        "https://faribucket.s3.amazonaws.com/1629424713018_Seventeen+Again+-+Full+Movie.mp4",
-      videoThumbnail:
-        "https://faribucket.s3.amazonaws.com/1629425161859_17Again.jpg",
-      videoTitle: "Seventeen Again",
-      videoDescription:
-        "While divorced and bickering grandparents watch their grandchildren (Tia Mowry, Tamera Mowry), a lab experiment gone awry transforms the elders into teenagers again.",
-      videoTags: "#Movie #TiaMowry #TameraMowry",
-    });
 
-    await createUploads({
-      channelID: "1",
-      channelname: "Rashon",
-      channelavi:
-        "https://faribucket.s3.amazonaws.com/1629464622097_Rashon.png",
-      videoFile:
-        "https://faribucket.s3.amazonaws.com/1629592484528_Building+a+6+Million+Dollar+Home+%26+Changing+My+Forex+Day+Trading+Strategy...+Secure+The+Swag+%28Ep.+5%29.mp4",
-      videoThumbnail:
-        "https://faribucket.s3.amazonaws.com/1629592670554_Swaggy-C-Favorite-Purchase.jpeg",
-      videoTitle:
-        "Building a 6 Million Dollar Home & Changing My Forex Day Trading Strategy.",
-      videoDescription:
-        "Millionaire Forex Trader Swaggy C - Secure the Swag Episode 5",
-      videoTags: "#Forex #DayTrader #Vlog",
-    });
-
-    await createUploads({
-      channelID: "1",
-      channelname: "Rashon",
-      channelavi:
-        "https://faribucket.s3.amazonaws.com/1629464622097_Rashon.png",
-      videoFile:
-        "https://faribucket.s3.amazonaws.com/1630968628118_Making+Of+Aston+Martin+Music.mp4",
-      videoThumbnail:
-        "https://faribucket.s3.amazonaws.com/1630968656762_Justic%20League.jpeg",
-      videoTitle: "The Making of Aston Martin Music - Justice League",
-      videoDescription:
-        "Grammy Award Winning Production team, The J.U.S.T.I.C.E. League, to talk about the latest single off of Teflon Don, 'Aston Martin Music'.",
-      videoTags: "#HipHop #Beats #MusicProduction #Drake #RickRoss",
-    });
-
-    await createUploads({
-      channelID: "2",
-      channelname: "CupofJoe",
-      channelavi:
-        "https://faribucket.s3.amazonaws.com/1629487258233_Believe%20In%20Yourself.jpg",
-      videoFile:
-        "https://faribucket.s3.amazonaws.com/1631373457280_I+Moved+Into+A+Van+-+Van+Life.mp4",
-      videoThumbnail:
-        "https://faribucket.s3.amazonaws.com/1631373636554_Jesse%20.jpeg",
-      videoTitle: "I Moved Into A Van - Van Life",
-      videoDescription:
-        "Jesse decided to get out of Los Angeles and out of his comfort zone.",
-      videoTags: "#Vlogger #VanLife #SimpleLife",
-    });
 
     console.log("Finished creating Uploads!");
   } catch (error) {
@@ -587,9 +636,9 @@ async function buildDB() {
     client.connect();
     await dropTables();
     await createTables();
-    //     await createInitialUsers();
-    //     await updateChannelPics();
-    //     await createContent();
+        await createInitialUsers();
+        await updateChannelPics();
+        await createContent();
   } catch (error) {
     throw error;
   }
