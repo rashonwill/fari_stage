@@ -427,12 +427,58 @@ async function reduceChannelSubscriptionCount(id) {
   }
 }
 
+
+
+async function getAllUsers() {
+  const { rows } = await client.query(`SELECT * FROM users;`);
+
+  return rows;
+}
+
+//Subscriptions
+async function registerVendor(id) {
+  try {
+    const {
+      rows: [vendor],
+    } = await client.query(
+      `
+ UPDATE vendors
+ SET registration_complete=true 
+ WHERE id=$1
+ RETURNING *;
+ `,[id]
+ );
+    return vendor;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+async function setStripeID(id, {stripe_acctid}) {
+  try {
+    const {
+      rows: [vendor],
+    } = await client.query(
+      `
+ UPDATE vendors
+ SET stripe_acctid=$2
+ WHERE id=$1
+ RETURNING *;
+ `,[id, stripe_acctid]
+ );
+    return vendor;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function updateUserSubscriptionStatus(id) {
   try {
     const { rows } = await client.query(
       `
               UPDATE users
-              SET subscribed_user_acct='true'
+              SET subscribed_user_acct=true
               WHERE id=$1
               RETURNING *;
             `,
@@ -449,7 +495,7 @@ async function updateVendorSubscriptionStatus(id) {
     const { rows } = await client.query(
       `
               UPDATE users
-              SET subscribed_vendor_acct='true'
+              SET subscribed_vendor_acct=true
               WHERE id=$1
               RETURNING *;
             `,
@@ -470,31 +516,6 @@ async function confirmVendorSubscription(id) {
  WHERE id=$1;
  `,
       [id]
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function getAllUsers() {
-  const { rows } = await client.query(`SELECT * FROM users;`);
-
-  return rows;
-}
-
-
-
-async function updateChannel(channelname, profile_avatar, profile_poster) {
-  try {
-    const { rows } = await client.query(
-      `
-              UPDATE user_channel
-              SET profile_avatar=$2, profile_poster=$3
-              WHERE channelname=$1
-              RETURNING *;
-            `,
-      [channelname, profile_avatar, profile_poster]
     );
     return rows;
   } catch (error) {
@@ -539,5 +560,7 @@ module.exports = {
   confirmVendorSubscription,
 
   getAllUsers,
-  updateChannel,
+  registerVendor,
+  setStripeID,
+ 
 };
