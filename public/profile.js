@@ -1403,6 +1403,62 @@ async function markAsRead() {
   }
 }
 
+
+//Subscriptions
+
+$(".connect .btn").click(function () {
+  onBoarding();
+});
+
+$(".subscriptions .btn").click(function () {
+  goSubscriptions();
+});
+
+async function onBoarding() {
+  fetch(`${FARI_API}/subscriptions/onboard-user`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${myToken}`,
+    },
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((json) => Promise.reject(json));
+    })
+    .then(({ url, accountid }) => {
+      localStorage.setItem("stripeAcctID", accountid);
+      window.location = url;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+async function goSubscriptions() {
+  let vendorid = localStorage.getItem("vendorID");
+  fetch(`${FARI_API}/subscriptions/vendor-subscription`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${myToken}`,
+    },
+    body: JSON.stringify({ vendor: vendorid }),
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((json) => Promise.reject(json));
+    })
+    .then(({ url }) => {
+      window.location = url;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+
+
 function bootstrap() {
 //   getUserProfile()
   vendorVerificationCheck();
