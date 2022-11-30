@@ -3,7 +3,10 @@ const subscriptionsRouter = express.Router();
 const { requireUser } = require("./utils");
 const { body, check, validationResult } = require("express-validator");
 const rateLimiter = require("./ratelimiter");
-
+const { STRIPE_SECRET } = process.env;
+const { STRIPE_BUSINESS_SECRET } = process.env;
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
+const stripe2 = require('stripe')(process.env.STRIPE_BUSINESS_SECRET);
 
 const {
   registerVendor,
