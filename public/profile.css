@@ -742,7 +742,12 @@ i.fa-solid.fa-pencil {
 /* Settings */
 
 .settings {
-    display: none;
+    transform:scale(0);
+    transition: 0.5s;
+}
+
+.settings.active{
+    transform: scale(1);
 }
 
 .settings .card {
