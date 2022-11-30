@@ -733,9 +733,9 @@ i.fa-solid.fa-pencil {
 
 
 /* Subscribers */
-.subscriptions {
+/* .subscriptions {
     display: none;
-}
+} */
 
 
 
@@ -750,9 +750,10 @@ i.fa-solid.fa-pencil {
   position: absolute;
   margin: 1rem auto;
   top: 20%;
-  left: 30%;
+  left: 25%;
   transform:scale(0);
   transition: 0.5s;
+  font-family: 'Teko';
 }
 
 .settings.active{
