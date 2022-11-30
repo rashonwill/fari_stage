@@ -144,7 +144,7 @@ const fariVendorID = req.body.vendorid
     },
   ],
   success_url: 'https://fari-stage.netlify.app/registration-complete?session_id={CHECKOUT_SESSION_ID}',
-  cancel_url: 'https://fari-stage.netlify.app/profile,
+  cancel_url: 'https://fari-stage.netlify.app/profile',
    
 });  
 res.json({url: session.url })             
