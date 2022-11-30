@@ -214,11 +214,11 @@ function renderPost(channelUploads, index) {
 
   for (let index = 0; index < channelUploads.length; index++) {
     if (
-      channelUploads[index].paid_content === "free" ||
-      channelUploads[index].paid_content === null
+      channelUploads[index].content_class === "free" ||
+      channelUploads[index].content_class === null
     ) {
       freeVideos.push(channelUploads[index]);
-    } else if (channelUploads[index].paid_content === "pay") {
+    } else if (channelUploads[index].content_class === "paid") {
       payVideos.push(channelUploads[index]);
     }
   }
