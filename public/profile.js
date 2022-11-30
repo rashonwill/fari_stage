@@ -86,7 +86,7 @@ $(".content-sort li").click(function () {
 });
 
 $("#videos").click(() => {
-  $(".settings").css("display", "none");
+  $(".settings").removeClass("active");
   $(".subscriptions").css("display", "none");
   $(".analytics").css("display", "none");
   $(".newUpload").css("display", "none");
@@ -95,7 +95,7 @@ $("#videos").click(() => {
 });
 
 $("#upload").click(() => {
-  $(".settings").css("display", "none");
+  $(".settings").removeClass("active");
   $(".subscriptions").css("display", "none");
   $(".analytics").css("display", "none");
   $(".newUpload").css("display", "flex");
@@ -103,7 +103,7 @@ $("#upload").click(() => {
 });
 
 $("#settings").click(() => {
-  $(".settings").css("display", "flex");
+  $(".settings").addClass('active');
   $(".subscriptions").css("display", "none");
   $(".analytics").css("display", "none");
   $(".newUpload").css("display", "none");
@@ -111,7 +111,7 @@ $("#settings").click(() => {
 });
 
 $("#subs").click(() => {
-  $(".settings").css("display", "none");
+  $(".settings").removeClass("active");
   $(".subscriptions").css("display", "flex");
   $(".analytics").css("display", "none");
   $(".newUpload").css("display", "none");
@@ -119,7 +119,7 @@ $("#subs").click(() => {
 });
 
 $("#analytics").click(() => {
-  $(".settings").css("display", "none");
+  $(".settings").removeClass("active");
   $(".subscriptions").css("display", "none");
   $(".analytics").css("display", "flex");
   $(".newUpload").css("display", "none");
