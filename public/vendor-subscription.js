@@ -18,7 +18,7 @@ $(".subscriptions .btn").click(function () {
 });
 
 async function onBoarding() {
-  fetch(`${FARI_API}/store/onboard-user`, {
+  fetch(`${FARI_API}/subscriptions/onboard-user`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -40,7 +40,7 @@ async function onBoarding() {
 
 async function goSubscriptions() {
   let vendorid = localStorage.getItem("vendorID");
-  fetch(`${FARI_API}/store/vendor-subscription`, {
+  fetch(`${FARI_API}/subscriptions/vendor-subscription`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -64,7 +64,7 @@ async function vendorVerification() {
   let id = localStorage.getItem("vendorID");
   try {
     const response = await fetch(
-      `${FARI_API}/store/vendor-registration/${id}`,
+      `${FARI_API}/subscriptions/vendor-registration/${id}`,
       {
         method: "PATCH",
         headers: {
