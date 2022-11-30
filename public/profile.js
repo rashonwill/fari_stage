@@ -103,7 +103,7 @@ $("#upload").click(() => {
 });
 
 $("#settings").click(() => {
-  $(".settings").addClass('active');
+  $(".settings").toggleClass('active');
   $(".subscriptions").css("display", "none");
   $(".analytics").css("display", "none");
   $(".newUpload").css("display", "none");
