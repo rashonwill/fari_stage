@@ -1,5 +1,5 @@
 const client = require("./client");
-const { createUser, createChannel, updateChannel} = require("./users");
+const { createUser, createChannel, updateChannel } = require("./users");
 const { createUpload } = require("./explorer");
 
 async function dropTables() {
