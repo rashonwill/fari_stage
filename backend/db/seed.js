@@ -538,22 +538,7 @@ async function createContent() {
       vendor_email: "rashonwill92@gmail.com"
     });
     
-      await createUpload({
-      channelID: "3",
-      channelname: "C.J.",
-      channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669749371946_rapper_back_Smoke.png",
-      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669751658656_The Boondocks (S03E08) - Pause Full Episode.mp4",
-      videoKey: "1669751658656_The Boondocks (S03E08) - Pause Full Episode.mp4",
-      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669751670021_pause.jpg",
-      thumbnailKey: "1669751670021_pause.jpg",
-      videoTitle: "The Boondocks - &amp;quot;Pause&amp;quot;",
-      videoDescription: "Granddad believes he will become a superstar when he is cast as a leading man by Winston Jerome. Huey and Riley need to step in when the group is not exactly what Granddad was expecting.",
-      videoTags: "#animation #boondocks #anime #series",
-      videoviewcount: 7534,
-      content_category: "series",
-      content_class: "free",
-      vendor_email: "chejwilliams@yahoo.com"  
-    });
+
     
       await createUpload({
       channelID: "3",
@@ -588,23 +573,7 @@ async function createContent() {
       vendor_email: "test@test.com"  
     });
     
-    
-     await createUpload({
-      channelID: "5",
-      channelname: "HappyGilmore",
-      channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669756362517_FINGERS SMILES.jpg",
-      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669755428534_1666706988999_Runyon Canyon Hike & Lakers game _ VLOG 02.mp4",
-      videoKey: "1669755428534_1666706988999_Runyon Canyon Hike & Lakers game _ VLOG 02.mp4",
-      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669755452072_1666707012180_johnnyedlind.jpg",
-      thumbnailKey: "1669755452072_1666707012180_johnnyedlind.jpg",
-      videoTitle: "Runyon Canyon Hike &amp;amp; Lakers Game",
-      videoDescription: "Johnny Edlind | Vlog 2",
-      videoTags: "#VLOG #JOHNNYEDLIND #LAKERS",
-      videoviewcount: 3061, 
-      content_category: "vlog",
-      vendor_email: "test1@test.com" 
-    });
-    
+
       await createUpload({
       channelID: "5",
       channelname: "HappyGilmore",
@@ -649,3 +618,40 @@ async function buildDB() {
 }
 
 buildDB();
+
+
+    
+//      await createUpload({
+//       channelID: "5",
+//       channelname: "HappyGilmore",
+//       channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669756362517_FINGERS SMILES.jpg",
+//       videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669755428534_1666706988999_Runyon Canyon Hike & Lakers game _ VLOG 02.mp4",
+//       videoKey: "1669755428534_1666706988999_Runyon Canyon Hike & Lakers game _ VLOG 02.mp4",
+//       videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669755452072_1666707012180_johnnyedlind.jpg",
+//       thumbnailKey: "1669755452072_1666707012180_johnnyedlind.jpg",
+//       videoTitle: "Runyon Canyon Hike &amp;amp; Lakers Game",
+//       videoDescription: "Johnny Edlind | Vlog 2",
+//       videoTags: "#VLOG #JOHNNYEDLIND #LAKERS",
+//       videoviewcount: 3061, 
+//       content_category: "vlog",
+//       vendor_email: "test1@test.com" 
+//     });
+
+
+//       await createUpload({
+//       channelID: "3",
+//       channelname: "C.J.",
+//       channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669749371946_rapper_back_Smoke.png",
+//       videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669751658656_The Boondocks (S03E08) - Pause Full Episode.mp4",
+//       videoKey: "1669751658656_The Boondocks (S03E08) - Pause Full Episode.mp4",
+//       videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669751670021_pause.jpg",
+//       thumbnailKey: "1669751670021_pause.jpg",
+//       videoTitle: "The Boondocks - &amp;quot;Pause&amp;quot;",
+//       videoDescription: "Granddad believes he will become a superstar when he is cast as a leading man by Winston Jerome. Huey and Riley need to step in when the group is not exactly what Granddad was expecting.",
+//       videoTags: "#animation #boondocks #anime #series",
+//       videoviewcount: 7534,
+//       content_category: "series",
+//       content_class: "free",
+//       vendor_email: "chejwilliams@yahoo.com"  
+//     });
+    
