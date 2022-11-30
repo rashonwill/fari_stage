@@ -95,16 +95,108 @@
             No uploads yet.
           </div>
         </div>
-        <div class="screen settings">
-          <div class="user-about">
-            <div class="about location"></div>
-            <div class="about bio"></div>
-          </div>
-          <form
+        <div class="settings">
+  <div class="left-menu">
+    <ul>
+      <li class="selected-settings" id="info">Channel Info</li>
+      <li id="update-avatar">Update Avatar</li>
+      <li id="update-poster">Update Poster</li>
+      <li id="registration">Vendor Registration</li>
+    </ul>
+  </div>
+  <div class="settings-main-view">
+    <div class="section info">
+      <div class="about location"></div>
+      <div class="about bio"></div>
+    </div>
+    <div class="section avatar-update" style="display: none">
+                <form
             class="card avatar-upload"
             enctype="multipart/form-data"
             id="profileAviUpdate"
           >
+            <h3>Profile Avatar</h3>
+            <img
+              src="https://img.icons8.com/ios-filled/50/000000/upload-to-cloud--v1.png"
+              alt="avatar"
+              class="avatar-preview"
+              id="avatar-photo"
+            />
+            <button class="upload-btn">
+              <input
+                type="file"
+                id="avatar"
+                name="avatar"
+                accept=".jpeg, .png, .jpg, .gif"
+                onchange="showPreviewAvi(event);"
+                required
+              />
+              <h4>Select Avatar</h4>
+            </button>
+            <button class="upload-btn" id="submitAvatar">
+              <h4>Upload Avatar</h4>
+            </button>
+          </form>
+    </div>
+    <div class="section poster-update" style="display: none">
+                <form
+            class="card poster-upload"
+            enctype="multipart/form-data"
+            id="profilePosterUpdate"
+          >
+            <h3>Profile Poster</h3>
+            <img
+              src="https://img.icons8.com/ios-filled/50/000000/upload-to-cloud--v1.png"
+              alt="poster"
+              class="poster-preview"
+              id="poster-photo"
+            />
+            <button class="upload-btn">
+              <input
+                type="file"
+                id="channel-poster"
+                name="channel-poster"
+                accept=".jpeg, .png, .jpg, .gif"
+                onchange="showPreviewPoster(event);"
+                required
+              />
+              <h4>Select Poster</h4>
+            </button>
+            <button class="upload-btn" id="submitPoster">
+              <h4>Upload Poster</h4>
+            </button>
+          </form>
+    </div>
+    <div class="section registration"style="display: none">
+      <div class="content">
+
+ <div class="progress connection"> 
+<i class="fa fa-check" aria-hidden="true"></i><h1> Step 1: Connect to us with via Stripe</h1>
+  </div>
+<div class="connect">
+<button class="btn">Connect with Stripe</button>
+</div>
+ <div class="progress subscription">
+<i class="fa fa-check" aria-hidden="true"></i><h1> Step 2: Vendor Subscription($18.99/Monthly)</h1>
+  </div>
+<div class="subscriptions">
+<button class="btn">Subscribe</button>
+</div>
+  </div>
+    </div>
+</div>
+  
+</div>
+        
+<!--         <div class="screen settings">
+<!--           <div class="user-about">
+            <div class="about location"></div>
+            <div class="about bio"></div> 
+          </div>
+          <form
+            class="card avatar-upload"
+            enctype="multipart/form-data"
+            id="profileAviUpdate">
             <h3>Profile Avatar</h3>
             <img
               src="https://img.icons8.com/ios-filled/50/000000/upload-to-cloud--v1.png"
@@ -155,7 +247,7 @@
               <h4>Upload Poster</h4>
             </button>
           </form>
-        </div>
+        </div> -->
         <div class="screen subscriptions"></div>
         <div class="screen analytics">
           <div class="dashboard">
