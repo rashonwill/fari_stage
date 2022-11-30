@@ -73,7 +73,7 @@ CREATE TABLE user_channel(
   constraint Subscriber_Count_nonnegative check (Subscriber_Count >= 0),
   user_islive BOOLEAN DEFAULT FALSE,
   channel_earnings decimal(6,2) NULL,
-  UNIQUE(channelName, userID)
+  UNIQUE(channelName, userID, Profile_Avatar)
 );
 
 
