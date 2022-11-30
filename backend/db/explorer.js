@@ -242,7 +242,7 @@ async function getPayToViewContent() {
   const { rows } = await client.query(`
   SELECT *, channel_uploads.id AS videoID
   FROM channel_uploads
-  WHERE content_category='film' AND content_class='pay' OR content_category='shows' AND content_class='pay'
+  WHERE content_category='film' AND content_class='paid' OR content_category='series' AND content_class='paid'
   ORDER BY random() limit 1000;
   `);
 
@@ -336,7 +336,7 @@ async function seriesSearch() {
       `
               SELECT *, channel_uploads.id AS videoid
               FROM channel_uploads
-              WHERE content_category='shows' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class='free' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class IS NULL
+              WHERE content_category='series' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class='free' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
     );
