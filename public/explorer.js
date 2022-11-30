@@ -488,10 +488,10 @@ function renderSubsVids(subscriptionUploads) {
     ) {
       freeSubVideos.push(subscriptionUploads[index]);
     } else if (
-      (subscriptionUploads[index].paid_content === "pay" &&
-        subscriptionUploads[index].content_type === "film") ||
-      (subscriptionUploads[index].paid_content === "pay" &&
-        subscriptionUploads[index].content_type === "shows")
+      (subscriptionUploads[index].content_class === "paid" &&
+        subscriptionUploads[index].content_category === "film") ||
+      (subscriptionUploads[index].content_class === "paid" &&
+        subscriptionUploads[index].content_category === "series")
     ) {
       paySubVideos.push(subscriptionUploads[index]);
     }
