@@ -520,6 +520,7 @@ async function createContent() {
       videoTags: "#welcome #fari",
       videoviewcount: 5230,
       content_category: "other",
+      vendor_email: "admin@letsfari.com"
     });
     
     
@@ -536,7 +537,8 @@ async function createContent() {
       videoTags: "#animation #shortfilm",
       videoviewcount: 4500,
       content_category: "film",
-      content_class: "free" 
+      content_class: "free",
+      vendor_email: "rashonwill92@gmail.com"
     });
     
       await createUploads({
@@ -552,7 +554,8 @@ async function createContent() {
       videoTags: "#animation #boondocks #anime #series",
       videoviewcount: 7534,
       content_category: "series",
-      content_class: "free"  
+      content_class: "free",
+      vendor_email: "chejwilliams@yahoo.com"  
     });
     
       await createUploads({
@@ -568,11 +571,12 @@ async function createContent() {
       videoTags: "#vlog #swaggyc #forex #daytrader",
       videoviewcount: 2137,
       content_category: "vlog",
+      vendor_email: "chejwilliams@yahoo.com"  
     });
     
       await createUploads({
       channelID: "4",
-      channelname: "C.J.",
+      channelname: "ShowTime",
       channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669753852336_michael j.gif",
       videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669754610163_1669125608126_TRICK or TREAT! A Short Horror Film.mp4",
       videoKey: "1669754610163_1669125608126_TRICK or TREAT! A Short Horror Film.mp4",
@@ -583,7 +587,8 @@ async function createContent() {
       videoTags: "#shortfilm #horrorfilm #movie",
       videoviewcount: 1567, 
       content_category: "film",
-      content_class: "free"  
+      content_class: "free",
+      vendor_email: "test@test.com"  
     });
     
     
@@ -600,6 +605,7 @@ async function createContent() {
       videoTags: "#VLOG #JOHNNYEDLIND #LAKERS",
       videoviewcount: 3061, 
       content_category: "vlog",
+      vendor_email: "test1@test.com" 
     });
     
       await createUploads({
@@ -616,7 +622,8 @@ async function createContent() {
       videoviewcount: 2013,
       content_category: "film",
       content_class: "paid",
-      rental_price: 1.99
+      rental_price: 1.99,
+      vendor_email: "test1@test.com"  
     });
     
     
