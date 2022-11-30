@@ -181,23 +181,6 @@ async function zeroSubs() {
 }
 
 
-async function updateChannel(channelname, profile_avatar, profile_poster) {
-  try {
-    const { rows } = await client.query(
-      `
-              UPDATE user_channel
-              SET profile_avatar=$2, profile_poster=$3
-              WHERE channelname=$1
-              RETURNING *;
-            `,
-      [channelname, profile_avatar, profile_poster]
-    );
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
 
 async function getAllUsersUsername() {
   const { rows } = await client.query(`
