@@ -8,8 +8,8 @@ const rateLimiter = require("./ratelimiter");
 const {
   registerVendor,
   setStripeID,
-  updateVendorSubscription,
-  updateUserSubscription,
+  updateVendorSubscriptionStatus,
+  updateUserSubscriptionStatus,
   
 } = require("../db");
 
@@ -42,7 +42,7 @@ const { id } = req.params;
    return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
 }else{ 
 try{
- const updatingVendor = await updateVendorSubscription(id);
+ const updatingVendor = await updateVendorSubscriptionStatus(id);
  res.send({updatedSubscription: updatingVendor})
 }catch(error){
 console.log('Oops, could not update vendor subscription status', error);
@@ -59,7 +59,7 @@ const { id } = req.params;
    return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
 }else{	
 try{
- const updatingUser = await updateUserSubscription(id);
+ const updatingUser = await updateUserSubscriptionStatus(id);
  res.send({updatedSubscription: updatingUser})
 }catch(error){
 console.log('Oops, could not update user subscription status', error);
