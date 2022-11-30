@@ -1410,7 +1410,7 @@ $(".connect .btn").click(function () {
   onBoarding();
 });
 
-$(".subscriptions .btn").click(function () {
+$(".monthly-subscriptions .btn").click(function () {
   goSubscriptions();
 });
 
