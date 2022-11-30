@@ -483,6 +483,26 @@ async function getAllUsers() {
   return rows;
 }
 
+
+
+async function updateChannel(channelname, profile_avatar, profile_poster) {
+  try {
+    const { rows } = await client.query(
+      `
+              UPDATE user_channel
+              SET profile_avatar=$2, profile_poster=$3
+              WHERE channelname=$1
+              RETURNING *;
+            `,
+      [channelname, profile_avatar, profile_poster]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 module.exports = {
   client,
   createUser,
@@ -517,4 +537,5 @@ module.exports = {
   confirmVendorSubscription,
 
   getAllUsers,
+  updateChannel,
 };
