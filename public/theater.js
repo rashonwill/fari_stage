@@ -1733,10 +1733,10 @@ $("#hate").click(() => {
 async function watchHistory() {
   var getFeature = await playVideo();
   if (
-    getFeature[0].paid_content === "free" ||
-    getFeature[0].paid_content === null ||
-    getFeature[0].content_type === "vlog" ||
-    getFeature[0].content_type === "other"
+    getFeature[0].content_class === "free" ||
+    getFeature[0].content_class === null ||
+    getFeature[0].content_category === "vlog" ||
+    getFeature[0].content_category === "other"
   ) {
     var userid = localStorage.getItem("userID");
     var vidID = getFeature[0].videoid;
