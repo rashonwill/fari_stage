@@ -1,6 +1,7 @@
 const client = require("./client");
-const { createUser, createChannel, updateChannel } = require("./users");
-const { createUploads } = require("./explorer");
+const { createUser, createChannel} = require("./users");
+const { createUpload } = require("./uploads");
+const { updateChannel } = require("./account");
 
 async function dropTables() {
   try {
@@ -504,7 +505,7 @@ async function updateChannelPics() {
 async function createContent() {
   try {
     console.log("Starting to create uploads...");
-    await createUploads({
+    await createUpload({
       channelID: "1",
       channelname: "Fari",
       channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669735748650_1667408386418_Logo Black.png",
@@ -521,7 +522,7 @@ async function createContent() {
     });
     
     
-     await createUploads({
+     await createUpload({
       channelID: "2",
       channelname: "Rashon",
       channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669734512176_1667833451693_theo-document-1 (1).png",
@@ -538,7 +539,7 @@ async function createContent() {
       vendor_email: "rashonwill92@gmail.com"
     });
     
-      await createUploads({
+      await createUpload({
       channelID: "3",
       channelname: "C.J.",
       channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669749371946_rapper_back_Smoke.png",
@@ -555,7 +556,7 @@ async function createContent() {
       vendor_email: "chejwilliams@yahoo.com"  
     });
     
-      await createUploads({
+      await createUpload({
       channelID: "3",
       channelname: "C.J.",
       channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669749371946_rapper_back_Smoke.png",
@@ -571,7 +572,7 @@ async function createContent() {
       vendor_email: "chejwilliams@yahoo.com"  
     });
     
-      await createUploads({
+      await createUpload({
       channelID: "4",
       channelname: "ShowTime",
       channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669753852336_michael j.gif",
@@ -589,7 +590,7 @@ async function createContent() {
     });
     
     
-     await createUploads({
+     await createUpload({
       channelID: "5",
       channelname: "HappyGilmore",
       channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669756362517_FINGERS SMILES.jpg",
@@ -605,7 +606,7 @@ async function createContent() {
       vendor_email: "test1@test.com" 
     });
     
-      await createUploads({
+      await createUpload({
       channelID: "5",
       channelname: "HappyGilmore",
       channelavi:"https://d32wkr8chcuveb.cloudfront.net/1669756362517_FINGERS SMILES.jpg",
