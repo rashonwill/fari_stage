@@ -944,7 +944,8 @@ margin-top: 100px;
 
 .progress{
 display: flex;
-margin: 10px;  
+margin: 10px; 
+margin-top: 2rem;    
 }
 
 .progress h1{
