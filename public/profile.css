@@ -886,6 +886,56 @@ i.fa-solid.fa-pen {
     opacity: 0;
 }
 
+.settings .content{
+margin: 1rem auto;  
+text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+margin-top: 100px;  
+}
+
+.progress{
+display: flex;
+margin: 10px;  
+}
+
+.progress h1{
+font-family: 'Teko';
+}
+
+.settings .btn{
+width: 200px;
+height: 50px;  
+background: #0C1559;
+color: #fdfbf9;
+font-family: 'Teko';
+font-size: 22px; 
+border: none; 
+cursor: pointer;  
+border-radius: 20px;  
+letter-spacing: .03rem;  
+}
+
+.fa{
+font-size: 50px;
+color: #B2022F;
+}
+
+.progress.subscription i {
+display: none;
+}
+
+.progress.connection i{
+display: none;
+}
+
+
+.thanks{
+margin: 10px;
+}
+
 /* Analytics */
 
 .analytics {
