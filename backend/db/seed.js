@@ -67,7 +67,7 @@ CREATE TABLE user_channel(
   FOREIGN KEY(userID) REFERENCES Users(id) ON DELETE CASCADE,
   channelname varchar(255) UNIQUE,
   FOREIGN KEY(channelname) REFERENCES Users(Username) ON UPDATE CASCADE,
-  Profile_Avatar TEXT NULL,
+  Profile_Avatar TEXT NULL UNIQUE,
   Profile_Poster TEXT NULL,
   Subscriber_Count INT DEFAULT 0,
   constraint Subscriber_Count_nonnegative check (Subscriber_Count >= 0),
