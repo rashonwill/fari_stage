@@ -264,8 +264,13 @@ async function getTopUploads() {
   const { rows } = await client.query(`
   SELECT *, channel_uploads.id AS videoID
   FROM channel_uploads
-  WHERE content_class='free' OR content_class IS NULL OR content_category='vlog' OR content_category='other' OR content_category IS NULL
-  ORDER BY random() limit 10;
+  WHERE content_class='free' AND videolikecount >=10000 
+  OR content_class IS NULL AND videolikecount >=10000  
+  OR content_category='vlog'  AND videolikecount >=10000 
+  OR content_category='other' AND videolikecount >=10000 
+  OR content_category IS NULL AND videolikecount >=10000 
+  OR videoviewcount >=10000
+  ORDER BY random() limit 9;
   `);
 
   return rows;
@@ -276,7 +281,7 @@ async function getTopChannels() {
   SELECT *
   FROM user_channel
   WHERE subscriber_count >= 500
-  ORDER BY random() limit 10;
+  ORDER BY random() limit 9;
   `);
 
   return rows;
