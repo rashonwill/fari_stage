@@ -307,17 +307,17 @@ function renderVideoInfo(video) {
 
   for (let index = 0; index < video.length; index++) {
     if (
-      video[index].paid_content === "free" ||
-      video[index].paid_content === null ||
-      video[index].content_type === "vlog" ||
-      video[index].content_type === "other"
+      video[index].content_class === "free" ||
+      video[index].content_class === null ||
+      video[index].content_category === "vlog" ||
+      video[index].content_category === "other"
     ) {
       freePresentations.push(video[index]);
     } else if (
-      (video[index].paid_content === "pay" &&
-        video[index].content_type === "film") ||
-      (video[index].paid_content === "pay" &&
-        video[index].content_type === "shows")
+      (video[index].content_class === "paid" &&
+        video[index].content_category === "film") ||
+      (video[index].content_class === "paid" &&
+        video[index].content_category === "series")
     ) {
       paidPresentations.push(video[index]);
     }
