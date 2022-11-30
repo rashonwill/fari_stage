@@ -46,7 +46,7 @@ ordersRouter.post(
 ordersRouter.post(
   "/stripe-checkout/rental",
   requireUser,
-  rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
+  rateLimiter({ secondsWindow: 15, allowedHits: 2}),
   async (req, res) => {
     const stripeAcctID = req.body.stripe_acct;
     const vendoremail = req.body.vendoremail;
