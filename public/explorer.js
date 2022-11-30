@@ -481,10 +481,10 @@ function renderSubsVids(subscriptionUploads) {
 
   for (let index = 0; index < subscriptionUploads.length; index++) {
     if (
-      subscriptionUploads[index].paid_content === "free" ||
-      subscriptionUploads[index].paid_content === null ||
-      subscriptionUploads[index].content_type === "vlog" ||
-      subscriptionUploads[index].content_type === "other"
+      subscriptionUploads[index].content_class === "free" ||
+      subscriptionUploads[index].content_class === null ||
+      subscriptionUploads[index].content_category === "vlog" ||
+      subscriptionUploads[index].content_category === "other"
     ) {
       freeSubVideos.push(subscriptionUploads[index]);
     } else if (
