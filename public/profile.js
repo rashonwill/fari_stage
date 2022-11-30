@@ -1279,7 +1279,7 @@ async function vendorVerificationCheck() {
       },
     });
     const data = await response.json();
-    if (data.vendor[0].registered === true) {
+    if (data.vendor[0].registration_complete === true) {
       $("#rent").attr("disabled", false);
     } else {
       $("#rent").attr("disabled", true);
