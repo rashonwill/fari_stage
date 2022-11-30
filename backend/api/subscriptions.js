@@ -103,8 +103,8 @@ subscriptionsRouter.post("/onboard-user", requireUser, async (req, res) => {
 });
   const accountLink = await stripe.accountLinks.create({
   account: account.id,
-  refresh_url: 'https://fari-test.netlify.app/vendor-registration',
-  return_url: 'https://fari-test.netlify.app/vendor-registration',
+  refresh_url: 'https://fari-stage.netlify.app/profile',
+  return_url: 'https://fari-stage.netlify.app/profile',
   type: 'account_onboarding',
 });
   
@@ -143,8 +143,8 @@ const fariVendorID = req.body.vendorid
       quantity: 1,
     },
   ],
-  success_url: 'https://fari-test.netlify.app/registration-complete?session_id={CHECKOUT_SESSION_ID}',
-  cancel_url: 'https://fari-test.netlify.app/vendor-registration',
+  success_url: 'https://fari-stage.netlify.app/registration-complete?session_id={CHECKOUT_SESSION_ID}',
+  cancel_url: 'https://fari-stage.netlify.app/profile,
    
 });  
 res.json({url: session.url })             
@@ -178,8 +178,8 @@ const fariUserID = req.body.userid
       quantity: 1,
     },
   ],
-  success_url: 'https://fari-test.netlify.app/subscription-complete?session_id={CHECKOUT_SESSION_ID}',
-  cancel_url: 'https://fari-test.netlify.app/settings',
+  success_url: 'https://fari-stage.netlify.app/subscription-complete?session_id={CHECKOUT_SESSION_ID}',
+  cancel_url: 'https://fari-stage.netlify.app/profile',
   
 }); 
 res.json({url: session.url })             
