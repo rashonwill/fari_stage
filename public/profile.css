@@ -1084,7 +1084,7 @@ td {
     text-align: center;
 }
 
-.categories .content-type {
+.categories .content-category {
     height: auto;
     display: flex;
     align-items: center;
