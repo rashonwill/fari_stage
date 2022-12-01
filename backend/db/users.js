@@ -33,7 +33,7 @@ async function createUser({
                 VALUES($1, $2, 'https://drotje36jteo8.cloudfront.net/noAvi.png')
                 RETURNING *;
      `,
-      [user.id, username, profile_avatar]
+      [user.id, username]
     );
 
     await client.query(
