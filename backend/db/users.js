@@ -30,7 +30,7 @@ async function createUser({
       `
      
      INSERT INTO user_channel(userID, channelName, profile_avatar) 
-                VALUES($1, $2, https://drotje36jteo8.cloudfront.net/noAvi.png)
+                VALUES($1, $2, "https://drotje36jteo8.cloudfront.net/noAvi.png")
                 RETURNING *;
      `,
       [user.id, username]
