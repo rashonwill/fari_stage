@@ -58,7 +58,6 @@ async function getUserProfile() {
     if (data.profile.length > 0) {
       localStorage.setItem("userID", data.profile[0].userid);
       localStorage.setItem("userUsername", data.profile[0].username);
-      localStorage.setItem("userAvi", data.profile[0].profile_avatar);
       localStorage.setItem("userEmail", data.profile[0].email);
       localStorage.setItem("vendorID", data.profile[0].vendorid);
       localStorage.setItem("channelID", data.profile[0].channelid);
