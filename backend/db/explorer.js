@@ -1005,39 +1005,20 @@ async function createHistoryVideo({
   }
 }
 
-// async function getUserWatchHistory(userid) {
-//   try {
-//     const { rows } = await client.query(
-//       `  
-//   SELECT
-//     *
-// FROM (
-//     SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelid, videofile, videothumbnail, videoviewcount, user_channel.profile_avatar, historydt
-//     FROM user_watch_history
-//     INNER JOIN user_channel ON user_watch_history.channelid = user_channel.id
-//     WHERE user_watch_history.userid=$1
-//     ORDER BY videotitle, historyDT DESC
-// ) s
-// ORDER BY historydt DESC
-//   `,
-//       [userid]
-//     );
-//     return rows;
-//   } catch (error) {
-//     console.error("Could not get history videos");
-//   }
-// }
-
-
 async function getUserWatchHistory(userid) {
   try {
     const { rows } = await client.query(
       `  
-    SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelid, videofile, videothumbnail, videoviewcount, historydt, user_channel.profile_avatar 
+  SELECT
+    *
+FROM (
+    SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelid, videofile, videothumbnail, videoviewcount, historydt
     FROM user_watch_history
-    INNER JOIN user_channel ON user_watch_history.channelid = user_channel.id
     WHERE user_watch_history.userid=$1
-    ORDER BY videotitle
+    ORDER BY videotitle, historyDT DESC
+) s
+INNER JOIN user_channel ON user_watch_history.channelid = user_channel.id
+ORDER BY historydt DESC
   `,
       [userid]
     );
@@ -1046,6 +1027,9 @@ async function getUserWatchHistory(userid) {
     console.error("Could not get history videos");
   }
 }
+
+
+
 
 module.exports = {
   client,
