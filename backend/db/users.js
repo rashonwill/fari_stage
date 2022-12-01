@@ -349,8 +349,7 @@ async function getPostByChannelID(id) {
   }
 }
 
-async function updateAvatar(channelname, photos) {
-  const { profile_avatar } = photos;
+async function updateAvatar(channelname, { profile_avatar }) {
   try {
     const { rows } = await client.query(
       `
@@ -368,8 +367,7 @@ async function updateAvatar(channelname, photos) {
   }
 }
 
-async function updatePoster(channelname, photos) {
-  const { profile_poster } = photos;
+async function updatePoster(channelname, { profile_poster }) {
   try {
     const { rows } = await client.query(
       `
