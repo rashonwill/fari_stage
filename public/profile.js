@@ -1199,14 +1199,14 @@ $("#submitAvatar").click(async function (event) {
 
 $("#film").click(function () {
   $(".content-class").css("display", "flex");
-  $("#rentalprice").css("display", "none");
   $(".message").css("display", "block");
+  $("#rentalprice").css("display", "block");	
 });
 
 $("#shows").click(function () {
   $(".content-class").css("display", "flex");
-  $("#rentalprice").css("display", "none");
   $(".message").css("display", "block");
+  $("#rentalprice").css("display", "block");	
 });
 
 $("#rent").click(function () {
