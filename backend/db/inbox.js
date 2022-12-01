@@ -74,7 +74,9 @@ async function getMyMessages(receiverid) {
   try {
     const { rows } = await client.query(
       `
-              SELECT * FROM channel_messages
+              SELECT *, user_channel.profile_avatar
+              FROM channel_messages
+              INNER JOIN user_channel ON channel_messages.sender_channelid = user_channel.id
               WHERE receiverid=$1 AND noteRead='false';
             `,
       [receiverid]
