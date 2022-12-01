@@ -159,7 +159,6 @@ uploadsRouter.post(
     const tags = req.body.tags;
     const channelid = req.body.channelid;
     const channelname = req.body.channelname;
-    const channelpic = req.body.channelavi;
     const content_category = req.body.content_category;
     const content_class = req.body.content_class;
     const rental_price = req.body.ticketprice;
@@ -189,7 +188,6 @@ uploadsRouter.post(
           const uploadData = {
             channelID: channelid,
             channelname: channelname,
-            channelavi: channelpic,
             videoFile: cloudfront + "/" + video1.Key,
             videoKey: video1.Key,
             videoThumbnail: cloudfront + "/" + thumbnail1.Key,
