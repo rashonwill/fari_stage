@@ -50,8 +50,7 @@ async function createUpload({
   }
 }
 
-async function editUpload(id, updateInfo) {
-  const { videoTitle, videoDescription, videoTags } = updateInfo;
+async function editUpload(id, { videoTitle, videoDescription, videoTags }) {
   try {
     const { rows } = await client.query(
       `
