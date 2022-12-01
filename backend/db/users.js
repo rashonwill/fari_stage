@@ -336,9 +336,9 @@ async function getPostByChannelID(id) {
   try {
     const { rows } = await client.query(
       `
-  SELECT *, channel_uploads.id AS videoID
+  SELECT *, channel_uploads.id AS videoID, user_channel.profile_avatar
   FROM channel_uploads 
-  RIGHT JOIN User_Channel ON channel_uploads.channelid = user_channel.id
+  INNER JOIN User_Channel ON channel_uploads.channelid = user_channel.id
   WHERE channelid=$1;
   `,
       [id]
