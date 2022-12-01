@@ -574,8 +574,8 @@ function rendersubChannels(mysubscriptions) {
   let subedChannels = $(`
     <div class="top-channel-card">
        <img src="${
-         mysubscriptions.channelavi
-           ? mysubscriptions.channelavi
+         mysubscriptions.profile_avatar
+           ? mysubscriptions.profile_avatar
            : "https://drotje36jteo8.cloudfront.net/noAvi.png"
        }" alt="avatar" />
         <h5 id="channelID"><a href="/channel">${unesChannel}</a></h5>
@@ -1279,7 +1279,6 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
   try {
     var profile = await getUserProfile();
     var channelname = profile[0].channelname;
-    var profile_avatar = profile[0].profile_avatar;
     var channelid = profile[0].channelid;
     var vendor_email = profile[0].email;
     var stripe_acct = profile[0].stripe_acctid;
@@ -1290,7 +1289,6 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     formData.append("tags", tags);
     formData.append("channelid", channelid);
     formData.append("channelname", channelname);
-    formData.append("channelavi", profile_avatar);
     formData.append("vendor_email", vendor_email);
     formData.append("stripe_acctid", stripe_acct);
     onFetchStart();
@@ -1366,7 +1364,7 @@ async function renderMessages(notes) {
   let note = $(`
 <div class="note">
 <div class="channel-avi">
-<a href="/channel"><img loading="lazy" src="${notes.senderpic}" alt="sender pic" /></a>
+<a href="/channel"><img loading="lazy" src="${notes.profile_avatar}" alt="sender pic" /></a>
 <h3 id="channel"><a href="#">${unesChannel}</a></h3>
 </div>
 <h4>${unesMessage}</h4>
