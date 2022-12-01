@@ -1198,13 +1198,13 @@ $("#submitAvatar").click(async function (event) {
 // New Upload
 
 $("#film").click(function () {
-  $(".paid-content").css("display", "flex");
+  $(".content-class").css("display", "flex");
   $("#rentalprice").css("display", "none");
   $(".message").css("display", "block");
 });
 
 $("#shows").click(function () {
-  $(".paid-content").css("display", "flex");
+  $(".content-class").css("display", "flex");
   $("#rentalprice").css("display", "none");
   $(".message").css("display", "block");
 });
@@ -1221,13 +1221,13 @@ $("#free").click(function () {
 });
 
 $("#vlog").click(function () {
-  $(".paid-content").css("display", "none");
+  $(".content-class").css("display", "none");
   $("#rentalprice").val("0.00");
   $(".message").css("display", "none");
 });
 
 $("#other").click(function () {
-  $(".paid-content").css("display", "none");
+  $(".content-class").css("display", "none");
   $("#rentalprice").val("0.00");
   $(".message").css("display", "none");
 });
