@@ -1328,8 +1328,10 @@ async function vendorVerificationCheck() {
     const data = await response.json();
     if (data.vendor[0].registration_complete === true) {
       $("#rent").attr("disabled", false);
+      $("#rentalprice").attr("disabled", false);
     } else {
       $("#rent").attr("disabled", true);
+      $("#rentprice").attr("disabled", true);	    
     }
     return data.vendor;
   } catch (error) {
