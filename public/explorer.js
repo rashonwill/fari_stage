@@ -1155,6 +1155,7 @@ async function getHistory() {
     return data.history;
     console.log(data);
   } catch (error) {
+	  console.log(error)
     response.status(400).send(error);
   }
 }
