@@ -1329,9 +1329,11 @@ async function vendorVerificationCheck() {
     if (data.vendor[0].registration_complete === true) {
       $("#rent").attr("disabled", false);
       $("#rentalprice").attr("disabled", false);
+      $('.newUpload .message').css('display', 'none');	    
     } else {
       $("#rent").attr("disabled", true);
-      $("#rentprice").attr("disabled", true);	    
+      $("#rentprice").attr("disabled", true);
+      $('.newUpload .message').css('display', 'block');	 	    
     }
     return data.vendor;
   } catch (error) {
