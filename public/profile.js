@@ -1302,6 +1302,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
       body: formData,
     });
     const data = await response.json();
+	  console.log(data)
   } catch (error) {
     response.status(400).send(error);
   } finally {
