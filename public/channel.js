@@ -440,26 +440,11 @@ async function updateViews() {
   }
 }
 
-// function newSuber() {
-//   var btn = document.getElementById("subscribe");
-//   if (btn.value === "SUBSCRIBE") {
-//     btn.value = "";
-//     btn.value = "SUBSCRIBED";
-//     btn.innerHTML = "SUBSCRIBED";
-//     btn.style.color = "#B2022F";
-//   } else {
-//     btn.value = "";
-//     btn.value = "SUBSCRIBE";
-//     btn.innerHTML = "SUBSCRIBE";
-//     btn.style.color = "#fdfbf9";
-//   }
-// }
 
 async function subscribe() {
   var getChannel = await getChannelProfile();
   var userid = localStorage.getItem("userID");
   var channelid = getChannel[0].channelid;
-  var channel_avi = getChannel[0].profile_avatar;
   var channel = getChannel[0].channelname;
 
   try {
@@ -467,7 +452,6 @@ async function subscribe() {
       userid: userid,
       channelID: channelid,
       channelname: channel,
-      channelavi: channel_avi,
     };
     var channelname = getChannel[0].channelname;
     const response = await fetch(`${FARI_API}/users/subscribe/${channelname}`, {
@@ -576,7 +560,6 @@ async function laterVideo() {
   var userid = localStorage.getItem("userID");
   var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
-  var channel_avi = getFeature[0].channelavi;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
@@ -587,7 +570,6 @@ async function laterVideo() {
     userid: userid,
     videoid: vidID,
     channelname: channelname,
-    channelavi: channel_avi,
     video: video,
     thumbnail: posFile,
     title: vidTitle,
@@ -641,20 +623,16 @@ async function newMessage() {
   var senderID = localStorage.getItem("userID");
   var channelid = localStorage.getItem("visitingChannelID");
   var senderName = localStorage.getItem("userUsername");
-  var senderPic = localStorage.getItem("userAvi");
   var receiverID = channelInfo[0].userid;
   var receiverName = channelInfo[0].channelname;
-  var receiverPic = channelInfo[0].profile_avatar;
   var message = _.escape($("#message-channel").val());
 
   const channelMessage = {
     senderid: senderID,
     sender_channelid: channelid,
     sendername: senderName,
-    senderpic: senderPic,
     receiverid: receiverID,
     receivername: receiverName,
-    receiverpic: receiverPic,
     note_message: message,
   };
 
