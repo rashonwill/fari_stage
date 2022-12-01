@@ -359,8 +359,8 @@ function renderPost(channelUploads, index) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info"><img loading="lazy" id="channelAvi" src="${
-                    channelUploads.channelavi
-                      ? channelUploads.channelavi
+                    channelUploads.profile_avatar
+                      ? channelUploads.profile_avatar
                       : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                   }" alt="channelAvatar" /></a>
                     <ul id="v">
