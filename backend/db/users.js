@@ -29,11 +29,11 @@ async function createUser({
     await client.query(
       `
      
-     INSERT INTO user_channel(userID, channelName, profile_avatar) 
-                VALUES($1, $2, "https://drotje36jteo8.cloudfront.net/noAvi.png")
+     INSERT INTO user_channel(userid, channelname, profile_avatar) 
+                VALUES($1, $2, 'https://drotje36jteo8.cloudfront.net/noAvi.png')
                 RETURNING *;
      `,
-      [user.id, username]
+      [user.id, username, profile_avatar]
     );
 
     await client.query(
