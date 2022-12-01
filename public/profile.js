@@ -1279,8 +1279,6 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     var profile = await getUserProfile();
     var channelname = profile[0].channelname;
     var profile_avatar = profile[0].profile_avatar
-      ? profile[0].profile_avatar
-      : "https://drotje36jteo8.cloudfront.net/noAvi.png";
     var channelid = profile[0].channelid;
     var vendor_email = profile[0].email;
     var stripe_acct = profile[0].stripe_acctid;
