@@ -107,23 +107,14 @@ uploadsRouter.put(
         req.file.mimetype === "image/jpg" ||
         req.file.mimetype === "image/gif"
       ) {
-        console.log("trying?");
         try {
           const result = await uploadPhotos(pic1);
           const updatedAvi = {
             profile_avatar: cloudfront + "/" + result.Key,
           };
-          const updateChannelPic = {
-            channelavi: cloudfront + "/" + result.Key,
-          };
-
-          const updateCommentPicture = {
-            commentorpic: cloudfront + "/" + result.Key,
-          };
           const updatedchannel = await updateAvatar(
             channelname,
             updatedAvi,
-            updateChannelPic
           );
           res.send({ channel: updatedchannel });
         } catch (error) {
