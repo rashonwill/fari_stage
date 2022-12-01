@@ -558,7 +558,6 @@ async function favVideo() {
   var favedUser = profile[0].userid;
   var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
-  var channel_avi = getFeature[0].channelavi;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
@@ -569,7 +568,6 @@ async function favVideo() {
     userid: favedUser,
     videoid: vidID,
     channelname: channelname,
-    channelavi: channel_avi,
     videofile: video,
     videothumbnail: posFile,
     videotitle: vidTitle,
@@ -629,7 +627,6 @@ async function laterVideo() {
   var userid = profile[0].userid;
   var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
-  var channel_avi = getFeature[0].channelavi;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
@@ -640,7 +637,6 @@ async function laterVideo() {
     userid: userid,
     videoid: vidID,
     channelname: channelname,
-    channelavi: channel_avi,
     videofile: video,
     videothumbnail: posFile,
     videotitle: vidTitle,
@@ -920,14 +916,12 @@ $("#send-comment").on("click", async function newComment(event) {
   var profile = await getUserProfile();
   var username = localStorage.getItem("userUsername");
   var userid = localStorage.getItem("userID");
-  var userPic = localStorage.getItem("userAvi");
   var postId = localStorage.getItem("videoID");
 
   const userRemark = {
     videoid: postId,
     commentorid: userid,
     commentorname: username,
-    commentorpic: userPic,
     user_comment: comRemark,
   };
   try {
@@ -1741,7 +1735,6 @@ async function watchHistory() {
     var userid = localStorage.getItem("userID");
     var vidID = getFeature[0].videoid;
     var channelname = getFeature[0].channelname;
-    var channel_avi = getFeature[0].profile_avatar;
     var video = getFeature[0].videofile;
     var posFile = getFeature[0].videothumbnail;
     var vidTitle = getFeature[0].videotitle;
@@ -1752,7 +1745,6 @@ async function watchHistory() {
       userid: userid,
       videoid: vidID,
       channelname: channelname,
-      channelavi: channel_avi,
       videofile: video,
       videothumbnail: posFile,
       videotitle: vidTitle,
