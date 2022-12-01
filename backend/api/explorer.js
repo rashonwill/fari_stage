@@ -1303,11 +1303,12 @@ explorerRouter.get(
         const videohistory = await getUserWatchHistory(userid);
         res.send({ history: videohistory });
       } catch (error) {
+         console.log(error);
         next({
           name: "ErrorGettinContent",
           message: "Could not get video history",
         });
-        console.log(error);
+       
       }
     }
   });
