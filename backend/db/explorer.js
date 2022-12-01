@@ -148,9 +148,9 @@ async function getVideoComments(videoid) {
     const { rows } = await client.query(
       `
     
-  SELECT *, upload_comments.id AS commentid, user_channel.id AS channelid
+  SELECT *, upload_comments.id AS commentid, user_channel.id AS channelid, user_channel.profile_avatar
   FROM upload_comments
-  RIGHT JOIN user_channel ON upload_comments.commentorname = user_channel.channelname
+  INNER JOIN user_channel ON upload_comments.commentorname = user_channel.channelname
   WHERE videoID=$1;
   `,
       [videoid]
@@ -198,7 +198,7 @@ async function getUploadByID(id) {
     
   SELECT *, channel_uploads.id AS videoID, user_channel.channelname, user_channel.profile_avatar
   FROM channel_uploads 
-  RIGHT JOIN user_channel ON channel_uploads.channelid = user_channel.id
+  INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
   WHERE channel_uploads.id=$1;
   `,
       [id]
@@ -228,8 +228,9 @@ async function getVideoByID(id) {
 
 async function getDiscoverContent() {
   const { rows } = await client.query(`
-  SELECT *, channel_uploads.id AS videoID
+  SELECT *, channel_uploads.id AS videoID, user_channel.profile_avatar
   FROM channel_uploads
+  INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
   WHERE content_class='free' OR content_class IS NULL
   ORDER BY random() limit 1000;
   `);
@@ -239,8 +240,9 @@ async function getDiscoverContent() {
 
 async function getPayToViewContent() {
   const { rows } = await client.query(`
-  SELECT *, channel_uploads.id AS videoID
+  SELECT *, channel_uploads.id AS videoID, user_channel.profile_avatar
   FROM channel_uploads
+  INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
   WHERE content_category='film' AND content_class='paid' OR content_category='series' AND content_class='paid'
   ORDER BY random() limit 1000;
   `);
@@ -250,8 +252,9 @@ async function getPayToViewContent() {
 
 async function getRecommendedUploads() {
   const { rows } = await client.query(`
-  SELECT *, channel_uploads.id AS videoID
+  SELECT *, channel_uploads.id AS videoID, user_channel.profile_avatar
   FROM channel_uploads
+  INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
   WHERE content_class='free' OR content_class IS NULL OR content_category='vlog' OR content_category='other' OR content_category IS NULL
   ORDER BY random() limit 200;
   `);
@@ -261,8 +264,9 @@ async function getRecommendedUploads() {
 
 async function getTopUploads() {
   const { rows } = await client.query(`
-  SELECT *, channel_uploads.id AS videoID
+  SELECT *, channel_uploads.id AS videoID, user_channel.profile_avatar
   FROM channel_uploads
+  INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
   WHERE content_class='free' AND videolikecount >=10000 
   OR content_class IS NULL AND videolikecount >=10000  
   OR content_category='vlog'  AND videolikecount >=10000 
@@ -290,8 +294,9 @@ async function videoSearch(query) {
   try {
     const { rows } = await client.query(
       `
-              SELECT *, channel_uploads.id AS videoid
+              SELECT *, channel_uploads.id AS videoid, user_channel.profile_avatar
               FROM channel_uploads
+              INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
               WHERE videotags ILIKE N'%${query}%' OR videotitle ILIKE N'%${query}%' OR channelname ILIKE N'%${query}%'
               ORDER BY random();
             `
@@ -306,8 +311,9 @@ async function animationSearch() {
   try {
     const { rows } = await client.query(
       `
-              SELECT *, channel_uploads.id AS videoid
+              SELECT *, channel_uploads.id AS videoid, user_channel.profile_avatar
               FROM channel_uploads
+              INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
               WHERE videotags ILIKE any (array['%Animation%','%Animiations%', '%Animated%']) AND content_class='free' OR videotags ILIKE any (array['%Animation%','%Animations%', '%Animated%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
@@ -322,8 +328,9 @@ async function movieSearch() {
   try {
     const { rows } = await client.query(
       `
-              SELECT *, channel_uploads.id AS videoid
+              SELECT *, channel_uploads.id AS videoid, user_channel.profile_avatar
               FROM channel_uploads
+              INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
               WHERE content_category='film' AND content_class='free' OR content_category='film' AND content_class IS NULL OR videotags ILIKE any (array['%Movie%', '%ShortFilm%', '%Films%', '%FullMovie%']) AND content_class='free' OR videotags ILIKE any (array['%Movie%', '%ShortFilm%', '%Films%', '%FullMovie%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
@@ -338,8 +345,9 @@ async function seriesSearch() {
   try {
     const { rows } = await client.query(
       `
-              SELECT *, channel_uploads.id AS videoid
+              SELECT *, channel_uploads.id AS videoid, user_channel.profile_avatar
               FROM channel_uploads
+              INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
               WHERE content_category='series' AND content_class='free' OR content_category='series' AND content_class IS NULL OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class='free' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
@@ -354,8 +362,9 @@ async function vlogSearch() {
   try {
     const { rows } = await client.query(
       `
-              SELECT *, channel_uploads.id AS videoid
+              SELECT *, channel_uploads.id AS videoid, user_channel.profile_avatar
               FROM channel_uploads
+              INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
               WHERE content_category='vlog' OR videotags ILIKE any (array['%Vlog%','%Vlogs%']) AND content_class='free' OR videotags ILIKE any (array['%Vlog%','%Vlogs%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
@@ -619,8 +628,9 @@ async function deleteFavorite(userid, videoid) {
 async function getUserFavorites(userid) {
   try {
     const { rows } = await client.query(
-      `SELECT * 
+      `SELECT *, user_channel.profile_avatar
        FROM user_favorites
+       INNER JOIN user_channel ON user_favorites.channelid = user_channel.id
        WHERE userid=$1;
       `,
       [userid]
@@ -689,8 +699,9 @@ async function deleteWatchlistVideo(userid, videoid) {
 async function getUserWatchlist(userid) {
   try {
     const { rows } = await client.query(
-      `SELECT * 
+      `SELECT *, user_channel.profile_avatar
        FROM user_watchlist
+       INNER JOIN user_channel ON user_watchlist.channelid = user_channel.id
        WHERE userid=$1;
       `,
       [userid]
@@ -771,8 +782,9 @@ async function removeChannelSubscription(userid, channelid) {
 async function getUserSubscriptions(userid) {
   try {
     const { rows } = await client.query(
-      `SELECT * 
+      `SELECT *, user_channel.profile_avatar
        FROM user_subscriptions
+       INNER JOIN user_channel ON user_subscriptions.channelid = user_channel.id
        WHERE userid=$1;
       `,
       [userid]
@@ -801,8 +813,9 @@ async function checkUserSubscriptionStatusToChannel(userid, channelID) {
 async function getUserSubscriptionsLimited(userid) {
   try {
     const { rows } = await client.query(
-      `SELECT * 
+      `SELECT *, user_channel.profile_avatar
        FROM user_subscriptions
+       INNER JOIN user_channel ON user_subscriptions.channelid = user_channel.id
        WHERE userid=$1
        ORDER BY random() limit 8;
       `,
@@ -817,9 +830,10 @@ async function getUserSubscriptionsLimited(userid) {
 async function getUserSubscriptionUploads(userid) {
   try {
     const { rows } = await client.query(
-      `SELECT *, channel_uploads.id AS videoid
+      `SELECT *, channel_uploads.id AS videoid, user_channel.profile_avatar
        FROM user_subscriptions
-       RIGHT JOIN channel_uploads ON user_subscriptions.channelid = channel_uploads.channelID
+       INNER JOIN channel_uploads ON user_subscriptions.channelid = channel_uploads.channelID
+       INNER JOIN user_channel ON user_subscriptions.channelid = user_channel.id
        WHERE userid=$1;
       `,
       [userid]
@@ -1008,8 +1022,9 @@ async function getUserWatchHistory(userid) {
   SELECT
     *
 FROM (
-    SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelavi, channelid, videofile, videothumbnail, videoviewcount, historydt
+    SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelavi, channelid, videofile, videothumbnail, videoviewcount, user_channel.profile_avatar, historydt
     FROM user_watch_history
+    INNER JOIN user_channel ON user_watch_history.channelid = user_channel.id
     WHERE userid=$1
     ORDER BY videotitle, historyDT DESC
 ) s
