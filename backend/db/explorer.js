@@ -1014,10 +1014,9 @@ async function getUserWatchHistory(userid) {
 FROM (
     SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelid, videofile, videothumbnail, videoviewcount, historydt
     FROM user_watch_history
-    WHERE user_watch_history.userid=$1
+    WHERE userid=$1
     ORDER BY videotitle, historyDT DESC
 ) s
-INNER JOIN user_channel ON user_watch_history.channelid = user_channel.id
 ORDER BY historydt DESC
   `,
       [userid]
