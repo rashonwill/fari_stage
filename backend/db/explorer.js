@@ -626,7 +626,7 @@ async function getUserFavorites(userid) {
       `SELECT *, user_channel.profile_avatar
        FROM user_favorites
        INNER JOIN user_channel ON user_favorites.channelid = user_channel.id
-       WHERE userid=$1;
+       WHERE user_favorites.userid=$1;
       `,
       [userid]
     );
@@ -695,7 +695,7 @@ async function getUserWatchlist(userid) {
       `SELECT *, user_channel.profile_avatar
        FROM user_watchlist
        INNER JOIN user_channel ON user_watchlist.channelid = user_channel.id
-       WHERE userid=$1;
+       WHERE user_watchlist.userid=$1;
       `,
       [userid]
     );
@@ -777,7 +777,7 @@ async function getUserSubscriptions(userid) {
       `SELECT *, user_channel.profile_avatar
        FROM user_subscriptions
        INNER JOIN user_channel ON user_subscriptions.channelid = user_channel.id
-       WHERE userid=$1;
+       WHERE usersubscriptions.userid=$1;
       `,
       [userid]
     );
@@ -808,8 +808,8 @@ async function getUserSubscriptionsLimited(userid) {
       `SELECT *, user_channel.profile_avatar
        FROM user_subscriptions
        INNER JOIN user_channel ON user_subscriptions.channelid = user_channel.id
-       WHERE userid=$1
-       ORDER BY random() limit 8;
+       WHERE user_subscriptions.userid=$1
+       ORDER BY random() limit 20;
       `,
       [userid]
     );
@@ -826,7 +826,7 @@ async function getUserSubscriptionUploads(userid) {
        FROM user_subscriptions
        INNER JOIN channel_uploads ON user_subscriptions.channelid = channel_uploads.channelID
        INNER JOIN user_channel ON user_subscriptions.channelid = user_channel.id
-       WHERE userid=$1;
+       WHERE user_subscriptions.userid=$1;
       `,
       [userid]
     );
@@ -1015,7 +1015,7 @@ FROM (
     SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelid, videofile, videothumbnail, videoviewcount, user_channel.profile_avatar, historydt
     FROM user_watch_history
     INNER JOIN user_channel ON user_watch_history.channelid = user_channel.id
-    WHERE userid=$1
+    WHERE user_watch_history.userid=$1
     ORDER BY videotitle, historyDT DESC
 ) s
 ORDER BY historydt DESC
