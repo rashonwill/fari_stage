@@ -3,10 +3,8 @@ const client = require("./client");
 async function createMessage({
   senderid,
   sendername,
-  senderpic,
   receiverid,
   receivername,
-  receiverpic,
   note_message,
 }) {
   try {
@@ -14,17 +12,15 @@ async function createMessage({
       rows: [message],
     } = await client.query(
       `
- INSERT INTO channel_messages(senderid, senderName, senderPic, receiverID, receiverName, receiverPic, note_message) 
-              VALUES($1, $2, $3, $4, $5, $6, $7)
+ INSERT INTO channel_messages(senderid, senderName, receiverID, receiverName, note_message) 
+              VALUES($1, $2, $3, $4, $5)
               RETURNING *;
             `,
       [
         senderid,
         sendername,
-        senderpic,
         receiverid,
         receivername,
-        receiverpic,
         note_message,
       ]
     );
