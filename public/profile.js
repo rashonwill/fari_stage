@@ -1279,7 +1279,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
   try {
     var profile = await getUserProfile();
     var channelname = profile[0].channelname;
-//     var profile_avatar = profile[0].profile_avatar
+    var profile_avatar = profile[0].profile_avatar ? profile[0].profile_avatar : null;
     var channelid = profile[0].channelid;
     var vendor_email = profile[0].email;
     var stripe_acct = profile[0].stripe_acctid;
@@ -1290,7 +1290,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     formData.append("tags", tags);
     formData.append("channelid", channelid);
     formData.append("channelname", channelname);
-//     formData.append("channelavi", profile_avatar);
+    formData.append("channelavi", profile_avatar);
     formData.append("vendor_email", vendor_email);
     formData.append("stripe_acctid", stripe_acct);
     onFetchStart();
