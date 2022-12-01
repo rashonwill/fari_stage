@@ -325,7 +325,7 @@ async function movieSearch() {
       `
               SELECT *, channel_uploads.id AS videoid
               FROM channel_uploads
-              WHERE content_category='film' OR videotags ILIKE any (array['%Movie%', '%ShortFilm%', '%Films%', '%FullMovie%']) AND content_class='free' OR videotags ILIKE any (array['%Movie%', '%ShortFilm%', '%Films%', '%FullMovie%']) AND content_class IS NULL
+              WHERE content_category='film' AND content_class='free' OR content_category='film' AND content_class IS NULL OR videotags ILIKE any (array['%Movie%', '%ShortFilm%', '%Films%', '%FullMovie%']) AND content_class='free' OR videotags ILIKE any (array['%Movie%', '%ShortFilm%', '%Films%', '%FullMovie%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
     );
@@ -341,7 +341,7 @@ async function seriesSearch() {
       `
               SELECT *, channel_uploads.id AS videoid
               FROM channel_uploads
-              WHERE content_category='series' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class='free' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class IS NULL
+              WHERE content_category='series' AND content_class='free' OR content_category='series' AND content_class IS NULL OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class='free' OR videotags ILIKE any (array['%Series%','%Sitcom%', '%Webseries%']) AND content_class IS NULL
               ORDER BY random() limit 1000;
             `
     );
