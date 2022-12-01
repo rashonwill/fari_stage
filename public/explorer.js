@@ -135,8 +135,8 @@ function renderFreeContent(uploads) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel"><img id="channelAvi" loading="lazy" src="${
-                      uploads.channelavi
-                        ? uploads.channelavi
+                      uploads.profile_avatar
+                        ? uploads.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
@@ -307,8 +307,8 @@ function renderPayMedia(uploads) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel"><img loading="lazy" id="channelAvi" src="${
-                      uploads.channelavi
-                        ? uploads.channelavi
+                      uploads.profile_avatar
+                        ? uploads.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
@@ -520,8 +520,8 @@ function renderSubsVids(subscriptionUploads) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      subscriptionUploads.channelavi
-                        ? subscriptionUploads.channelavi
+                      subscriptionUploads.profile_avatar
+                        ? subscriptionUploads.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar"/></a>
                     <ul id="v">
@@ -638,8 +638,8 @@ function renderSubsVids(subscriptionUploads) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      subscriptionUploads.channelavi
-                        ? subscriptionUploads.channelavi
+                      subscriptionUploads.profile_avatar
+                        ? subscriptionUploads.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
@@ -832,8 +832,8 @@ function renderFavs(myFavVids) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      myFavVids.channelavi
-                        ? myFavVids.channelavi
+                      myFavVids.profile_avatar
+                        ? myFavVids.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
@@ -989,8 +989,8 @@ function renderWatchLaters(myWatchList) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      myWatchList.channelavi
-                        ? myWatchList.channelavi
+                      myWatchList.profile_avatar
+                        ? myWatchList.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
@@ -1083,8 +1083,8 @@ function renderWatchLaters(myWatchList) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      myWatchList.channelavi
-                        ? myWatchList.channelavi
+                      myWatchList.profile_avatar
+                        ? myWatchList.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
@@ -1214,8 +1214,8 @@ function renderHistory(history) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      history.channelavi
-                        ? history.channelavi
+                      history.profile_avatar
+                        ? history.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
@@ -1465,8 +1465,8 @@ function renderFilteredContent(videos) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      videos.channelavi
-                        ? videos.channelavi
+                      videos.profile_avatar
+                        ? videos.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
@@ -1684,8 +1684,8 @@ function renderVideoSearchResults(videos) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      videos.channelavi
-                        ? videos.channelavi
+                      videos.profile_avatar
+                        ? videos.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
@@ -1810,8 +1810,8 @@ function renderVideoSearchResults(videos) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      videos.channelavi
-                        ? videos.channelavi
+                      videos.profile_avatar
+                        ? videos.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
@@ -2099,8 +2099,8 @@ function renderRecentUploadsChannels(mysubscriptions) {
   let recentchannel = $(`	
 	       <div class="top-channel-card">
               <img loading="lazy" src="${
-                mysubscriptions.channelavi
-                  ? mysubscriptions.channelavi
+                mysubscriptions.profile_avatar
+                  ? mysubscriptions.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar" />
               <h5 id="channelLink"><a href=/channel" aria-label="View user channel">${unesUsername}</a></h5>
