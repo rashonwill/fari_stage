@@ -1925,7 +1925,6 @@ async function getChannels() {
       },
     });
     const data = await response.json();
-	  console.log(data)
     return data.allChannels;
   } catch (error) {
     response.status(400).send(error);
