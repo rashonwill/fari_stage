@@ -743,14 +743,14 @@ i.fa-solid.fa-pencil {
 
 .settings {
   background: rgba(255, 255, 255, 0.1);
-  width: 60rem;
+  width: 55rem;
   height: 35rem;
   color: #dddddd;
   display: flex;
   position: absolute;
   margin: 1rem auto;
   top: 20%;
-  left: 25%;
+  left: 20%;
   transform:scale(0);
   transition: 0.5s;
   font-family: 'Teko';
