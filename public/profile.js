@@ -362,6 +362,7 @@ async function channelPost() {
       }
     );
     const data = await response.json();
+	  console.log(data)
     if (data.channelUploads.length > 0) {
       $(".user-uploads").empty();
       $(".noUploads").css("display", "none");
@@ -369,7 +370,6 @@ async function channelPost() {
       $(".noUploads").css("display", "block");
     }
     return data.channelUploads;
-	  console.log(data)
   } catch (error) {
     response.status(400).send(error);
   }
