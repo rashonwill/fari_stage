@@ -632,7 +632,6 @@ explorerRouter.post(
           videoID: videoid,
           commentorID: commentorid,
           commentorName: commentorname,
-          commentorPic: commentorpic,
           user_comment: user_comment,
         };
 
@@ -869,7 +868,6 @@ explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
   const videoid = req.body.videoid;
   const channel = req.body.channelname;
-  const channel_avi = req.body.channelavi;
   const video = req.body.videofile;
   const thumbnail = req.body.videothumbnail;
   const title = req.body.videotitle;
@@ -880,7 +878,6 @@ explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
       userid: userid,
       videoid: videoid,
       channelname: channel,
-      channelavi: channel_avi,
       videofile: video,
       videothumbnail: thumbnail,
       videotitle: title,
@@ -930,7 +927,6 @@ explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
   const videoid = req.body.videoid;
   const channel = req.body.channelname;
-  const channel_avi = req.body.channelavi;
   const video = req.body.videofile;
   const thumbnail = req.body.videothumbnail;
   const title = req.body.videotitle;
@@ -943,7 +939,6 @@ explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
       userid: userid,
       videoid: videoid,
       channelname: channel,
-      channelavi: channel_avi,
       videofile: video,
       videothumbnail: thumbnail,
       videotitle: title,
@@ -1258,7 +1253,6 @@ explorerRouter.post(
     const userID = req.body.userid;
     const videoid = req.body.videoid;
     const channel = req.body.channelname;
-    const channel_avi = req.body.channelavi;
     const channelid = req.body.channelid;
     const videofile = req.body.videofile;
     const videothumbnail = req.body.videothumbnail;
@@ -1270,7 +1264,6 @@ explorerRouter.post(
         userid: userID,
         videoid: videoid,
         channelname: channel,
-        channelavi: channel_avi,
         channelid: channelid,
         videofile: videofile,
         videothumbnail: videothumbnail,
