@@ -3,7 +3,6 @@ const client = require("./client");
 async function createUpload({
   channelID,
   channelname,
-  channelavi,
   videoFile,
   videoKey,
   videoThumbnail,
@@ -22,14 +21,13 @@ async function createUpload({
       rows: [uploads],
     } = await client.query(
       `
-              INSERT INTO channel_uploads(channelID, channelname, channelavi, videoFile, videoKey, videoThumbnail, thumbnailKey, videoTitle, videoDescription, videoTags, content_category, content_class, rental_price, vendor_email, stripe_acctid) 
-              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+              INSERT INTO channel_uploads(channelID, channelname, videoFile, videoKey, videoThumbnail, thumbnailKey, videoTitle, videoDescription, videoTags, content_category, content_class, rental_price, vendor_email, stripe_acctid) 
+              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
               RETURNING *;
             `,
       [
         channelID,
         channelname,
-        channelavi,
         videoFile,
         videoKey,
         videoThumbnail,
@@ -89,7 +87,6 @@ async function createComment({
   videoID,
   commentorID,
   commentorName,
-  commentorPic,
   user_comment,
 }) {
   try {
@@ -97,11 +94,11 @@ async function createComment({
       rows: [comment],
     } = await client.query(
       `
-              INSERT INTO upload_comments(videoID, commentorID, commentorName, commentorPic, user_comment) 
-              VALUES($1, $2, $3, $4, $5)
+              INSERT INTO upload_comments(videoID, commentorID, commentorName, user_comment) 
+              VALUES($1, $2, $3, $4)
               RETURNING *;
             `,
-      [videoID, commentorID, commentorName, commentorPic, user_comment]
+      [videoID, commentorID, commentorName, user_comment]
     );
     return comment;
   } catch (error) {
@@ -576,7 +573,6 @@ async function createFavorite({
   userid,
   videoid,
   channelname,
-  channelavi,
   videofile,
   videothumbnail,
   videotitle,
@@ -588,15 +584,14 @@ async function createFavorite({
       rows: [favs],
     } = await client.query(
       `
-              INSERT INTO user_favorites(userid, videoid, channelname, channelavi, videofile, videothumbnail, videotitle, channelid, videoviewcount) 
-              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+              INSERT INTO user_favorites(userid, videoid, channelname, videofile, videothumbnail, videotitle, channelid, videoviewcount) 
+              VALUES($1, $2, $3, $4, $5, $6, $7, $8)
               RETURNING *;
             `,
       [
         userid,
         videoid,
         channelname,
-        channelavi,
         videofile,
         videothumbnail,
         videotitle,
@@ -645,7 +640,6 @@ async function createWatchlistVideo({
   userid,
   videoid,
   channelname,
-  channelavi,
   videofile,
   videothumbnail,
   videotitle,
@@ -658,15 +652,14 @@ async function createWatchlistVideo({
       rows: [watchlater],
     } = await client.query(
       `
-              INSERT INTO user_watchlist(userid, videoid, channelname, channelavi, videofile, videothumbnail, videotitle, channelid, videoviewcount, paidtoview) 
-              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+              INSERT INTO user_watchlist(userid, videoid, channelname, videofile, videothumbnail, videotitle, channelid, videoviewcount, paidtoview) 
+              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
               RETURNING *;
             `,
       [
         userid,
         videoid,
         channelname,
-        channelavi,
         videofile,
         videothumbnail,
         videotitle,
@@ -745,18 +738,17 @@ async function createChannelSubscription({
   userid,
   channelID,
   channelname,
-  channelavi,
 }) {
   try {
     const {
       rows: [subs],
     } = await client.query(
       `
-              INSERT INTO user_subscriptions(userid, channelID, channelname, channelavi) 
-              VALUES($1, $2, $3, $4)
+              INSERT INTO user_subscriptions(userid, channelID, channelname) 
+              VALUES($1, $2, $3)
               RETURNING *;
             `,
-      [userid, channelID, channelname, channelavi]
+      [userid, channelID, channelname]
     );
     return subs;
   } catch (error) {
@@ -981,7 +973,6 @@ async function createHistoryVideo({
   userid,
   videoid,
   channelname,
-  channelavi,
   channelid,
   videofile,
   videothumbnail,
@@ -993,15 +984,14 @@ async function createHistoryVideo({
       rows: [history],
     } = await client.query(
       `
-              INSERT INTO user_watch_history(userid, videoid, channelname, channelavi, channelid, videofile, videothumbnail, videotitle, videoviewcount) 
-              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9 )
+              INSERT INTO user_watch_history(userid, videoid, channelname, channelid, videofile, videothumbnail, videotitle, videoviewcount) 
+              VALUES($1, $2, $3, $4, $5, $6, $7, $8 )
               RETURNING *;
             `,
       [
         userid,
         videoid,
         channelname,
-        channelavi,
         channelid,
         videofile,
         videothumbnail,
@@ -1022,7 +1012,7 @@ async function getUserWatchHistory(userid) {
   SELECT
     *
 FROM (
-    SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelavi, channelid, videofile, videothumbnail, videoviewcount, user_channel.profile_avatar, historydt
+    SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelid, videofile, videothumbnail, videoviewcount, user_channel.profile_avatar, historydt
     FROM user_watch_history
     INNER JOIN user_channel ON user_watch_history.channelid = user_channel.id
     WHERE userid=$1
