@@ -23,20 +23,16 @@ messageRouter.get("/", async (req, res, next) => {
 messageRouter.post("/new", requireUser, async (req, res, next) => {
   const senderID = req.body.senderid;
   const senderName = req.body.sendername;
-  const senderPic = req.body.senderpic;
   const receiverID = req.body.receiverid;
   const receiverName = req.body.receivername;
-  const receiverPic = req.body.receiverpic;
   const message = req.body.note_message;
 
   try {
     const inboxNote = {
       senderid: senderID,
       sendername: senderName,
-      senderpic: senderPic,
       receiverid: receiverID,
       receivername: receiverName,
-      receiverpic: receiverPic,
       note_message: message,
     };
     console.log(inboxNote);
