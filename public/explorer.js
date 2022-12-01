@@ -109,7 +109,6 @@ async function getFreeMedia() {
       },
     });
     const data = await response.json();
-	  console.log(data)
     return data.uploads;
   } catch (error) {
     response.status(400).send(error);
@@ -222,7 +221,6 @@ function renderFreeContent(uploads) {
       let videoUpload = $(this).closest(".card").data("uploads");
       let id = videoUpload.videoid;
       localStorage.setItem("videoID", id);
-      //      updateViews();
       try {
         const response = await fetch(`${FARI_API}/explorer`, {
           method: "GET",
@@ -380,21 +378,6 @@ function renderPayMedia(uploads) {
       videoArr.push(purchasingFilm);
       localStorage.setItem("videoPurchase", JSON.stringify(videoArr));
       let gettingYou = JSON.parse(localStorage.getItem("videoPurchase"));
-
-      let ticketBuy = $(`
-        <div class="ticketForm">
-     <div class="film">
-       <div class="movie-poster">
-         <img src="${uploads.videothumbnail}"/>
-       </div>
-       <div class="movie-info">
-         <h1>${uploads.videotitle}</h1>
-         <h1>$${uploads.rental_price}</h1>
-       </div>
-     </div>
-   </div>
-      
-       `).data("videoView", videoView);
       checkoutSessionStripe();
       $(".ticket-purchase").addClass("active");
       $(window).scrollTop(0);
@@ -702,23 +685,7 @@ function renderSubsVids(subscriptionUploads) {
       videoArr.push(purchasingFilm);
       localStorage.setItem("videoPurchase", JSON.stringify(videoArr));
       let gettingYou = JSON.parse(localStorage.getItem("videoPurchase"));
-
-//       let ticketBuy = $(`
-//         <div class="ticketForm">
-//      <div class="film">
-//        <div class="movie-poster">
-//          <img loading="lazy" src="${subscriptionUploads.videothumbnail}"/>
-//        </div>
-//        <div class="movie-info">
-//          <h1>${subscriptionUploads.videotitle}</h1>
-//         <h1>${subscriptionUploads.rental_price}</h1>
-//        </div>
-//      </div>
-//    </div>
-      
-//        `).data("videoView", videoView);
       checkoutSessionStripe();
-      $(".ticket-purchase").addClass("active");
       $(window).scrollTop(0);
     });
 
@@ -1125,7 +1092,6 @@ function renderWatchLaters(myWatchList) {
       let purchased = watchLater.id;
       localStorage.setItem("purchasedWatched", purchased);
       localStorage.setItem("videoID", id);
-      //     updateViews();
       userWatchedFlag();
       try {
         const response = await fetch(`${FARI_API}/explorer`, {
@@ -1874,7 +1840,6 @@ function renderVideoSearchResults(videos) {
       localStorage.setItem("videoPurchase", JSON.stringify(videoArr));
       let gettingYou = JSON.parse(localStorage.getItem("videoPurchase"));
       checkoutSessionStripe();
-      $(".ticket-purchase").addClass("active");
       $(window).scrollTop(0);
     });
 
@@ -2201,7 +2166,6 @@ async function laterVideo() {
   var userid = localStorage.getItem("userID");
   var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
-  var channelavi = getFeature[0].channelavi;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
@@ -2212,7 +2176,6 @@ async function laterVideo() {
     userid: userid,
     videoid: vidID,
     channelname: channelname,
-    channelavi: channelavi,
     videofile: video,
     videothumbnail: posFile,
     videotitle: vidTitle,
@@ -2243,7 +2206,6 @@ async function laterVideoPurchased() {
   var userid = localStorage.getItem("userID");
   var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
-  var channelavi = getFeature[0].channelavi;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
@@ -2254,7 +2216,6 @@ async function laterVideoPurchased() {
     userid: userid,
     videoid: vidID,
     channelname: channelname,
-    channelavi: channelavi,
     videofile: video,
     videothumbnail: posFile,
     videotitle: vidTitle,
