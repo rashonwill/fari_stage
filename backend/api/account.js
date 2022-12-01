@@ -86,7 +86,6 @@ accountRouter.post(
         }
         
         const _user = await getUserByUsername(username);
-        console.log('getUserByUsername', _user)
         if (_user) {
           next({
             error: "UserExistsError",
