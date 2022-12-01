@@ -369,6 +369,7 @@ async function channelPost() {
       $(".noUploads").css("display", "block");
     }
     return data.channelUploads;
+	  console.log(data)
   } catch (error) {
     response.status(400).send(error);
   }
