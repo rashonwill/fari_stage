@@ -167,7 +167,6 @@ usersRouter.post(
   async (req, res, next) => {
     const userid = req.body.userid;
     const channelID = req.body.channelID;
-    const channel_avi = req.body.channelavi;
     const channel = req.body.channelname;
     const subscriber_count = req.body.subscriber_count;
     const { channelname } = req.params;
@@ -182,7 +181,6 @@ usersRouter.post(
           userid: userid,
           channelID: channelID,
           channelname: channel,
-          channelavi: channel_avi,
         };
         const mySubs = await createChannelSubscription(subedData);
         const userSubs = await updateChannelSubscriptionCount(channelname);
