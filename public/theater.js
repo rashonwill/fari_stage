@@ -991,8 +991,8 @@ function renderCommentSection(comments, index) {
 </div>
               <div class="comment-content">
               <img loading="lazy" src="${
-                comments.commentorpic
-                  ? comments.commentorpic
+                comments.profile_avatar
+                  ? comments.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
                 <div class="commenter-info">
@@ -1133,8 +1133,8 @@ function renderCommentSection(comments, index) {
         <div class="comment-card">
               <div class="comment-content">
               <img loading="lazy" src="${
-                comments.commentorpic
-                  ? comments.commentorpic
+                comments.profile_avatar
+                  ? comments.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
                 <div class="commenter-info">
