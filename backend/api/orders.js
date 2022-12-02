@@ -65,7 +65,7 @@ ordersRouter.post(
                 product_data: {
                   name: item.name,
                   description: "Movie/Film",
-                  images: [item.image],
+//                   images: [item.image],
                   metadata: {
                     vendor: item.vendor,
                   },
