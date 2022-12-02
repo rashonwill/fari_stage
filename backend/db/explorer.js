@@ -237,9 +237,10 @@ async function getDiscoverContent() {
 
 async function getPayToViewContent() {
   const { rows } = await client.query(`
-  SELECT *, channel_uploads.id AS videoID, user_channel.profile_avatar
+  SELECT *, channel_uploads.id AS videoID, user_channel.profile_avatar, vendors.stripe_acctid
   FROM channel_uploads
   INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
+  INNER JOIN vendors ON channel_uploads.channelname = vendors.vendorname
   WHERE content_category='film' AND content_class='paid' OR content_category='series' AND content_class='paid'
   ORDER BY random() limit 1000;
   `);
