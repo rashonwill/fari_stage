@@ -103,7 +103,7 @@ async function markRead(id) {
     const { rows } = await client.query(
       `
               UPDATE channel_messages
-              SET noteRead='true'
+              SET noteRead=true
               WHERE id=$1;
             `,
       [id]
