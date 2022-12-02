@@ -226,21 +226,14 @@ function renderUserInfo(profile) {
 
 function renderBio(profile) {
   let unesBio = _.unescape(profile[0].bio);
-  let channelBio = $(`
-            <span
-                class="textarea"
-                contenteditable="false"
-                role="textbox"
-                id="bio"
-                name="title"
-              >${
-       unesBio ? unesBio : ""}</span>
-       <i class="fa-solid fa-pen" id="edit-bio"></i>    
-`).data("profile", profile);
-  $(".about.bio").append(channelBio);
+  let channelBio = $(` ${unesBio ? unesBio : ""}`).data("profile", profile);
+  $(".about.bio #bio").append(channelBio);	
+	
+  return channelBio;
+}
 
-$(channelBio).on("click", "#edit-bio", async function () {
-	console.log('got the click')
+
+$('#edit-bio').on("click", async function () {
   $("#bio").attr("contenteditable", "true");
   $("#bio").addClass("editMode");
 
@@ -282,11 +275,6 @@ $(channelBio).on("click", "#edit-bio", async function () {
       response.status(400).send(error);
     }
   });
-});
-	
-	
-  return channelBio;
-}
 
 function renderLocation(profile) {
   let unesLocation = _.unescape(profile[0].location);
