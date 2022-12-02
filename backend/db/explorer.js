@@ -1005,19 +1005,35 @@ async function createHistoryVideo({
   }
 }
 
+// async function getUserWatchHistory(userid) {
+//   try {
+//     const { rows } = await client.query(
+//       `  
+//   SELECT
+//     *
+// FROM (
+//     SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelid, videofile, videothumbnail, videoviewcount, historydt
+//     FROM user_watch_history
+//     WHERE userid=$1
+//     ORDER BY videotitle, historyDT DESC
+// ) s
+// ORDER BY historydt DESC
+//   `,
+//       [userid]
+//     );
+//     return rows;
+//   } catch (error) {
+//     console.error("Could not get history videos");
+//   }
+// }
+
 async function getUserWatchHistory(userid) {
   try {
     const { rows } = await client.query(
       `  
-  SELECT
-    *
-FROM (
-    SELECT DISTINCT ON (videotitle) videotitle, videoid, channelname, channelid, videofile, videothumbnail, videoviewcount, historydt
+    SELECT *
     FROM user_watch_history
     WHERE userid=$1
-    ORDER BY videotitle, historyDT DESC
-) s
-ORDER BY historydt DESC
   `,
       [userid]
     );
