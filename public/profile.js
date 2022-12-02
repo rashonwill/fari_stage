@@ -275,6 +275,8 @@ $('#edit-bio').on("click", async function () {
       response.status(400).send(error);
     }
   });
+	
+})
 
 function renderLocation(profile) {
   let unesLocation = _.unescape(profile[0].location);
