@@ -235,11 +235,11 @@ function renderBio(profile) {
                 name="title"
               >${
        unesBio ? unesBio : ""}</span>
-       <i class="fa-solid fa-pen"></i>    
+       <i class="fa-solid fa-pen" id="edit-bio"></i>    
 `).data("profile", profile);
   $(".about.bio").append(channelBio);
 
-$(channelBio).on("click", "#bio", async function () {
+$(channelBio).on("click", "#edit-bio", async function () {
 	console.log('got the click')
   $("#bio").attr("contenteditable", "true");
   $("#bio").addClass("editMode");
@@ -298,11 +298,11 @@ function renderLocation(profile) {
                 id="location"
                 name="title"
               >${unesLocation ? unesLocation : ""}</span>
-	      <i class="fa-solid fa-pen"></i>   
+	      <i class="fa-solid fa-pen" id="edit-location"></i>   
 `).data("profile", profile);
   $(".about.location").append(channelLocation);
 
-$(channelLocation).on('click', '#location', async function () {
+$(channelLocation).on('click', '#edit-location', async function () {
   $("#location").attr("contenteditable", "true");
   $("#location").addClass("editMode");
   let saveEdit = `
