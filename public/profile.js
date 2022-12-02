@@ -227,7 +227,7 @@ function renderUserInfo(profile) {
 function renderBio(profile) {
   let unesBio = _.unescape(profile[0].bio);
   let channelBio = $(` ${unesBio ? unesBio : ""}`).data("profile", profile);
-  $("#bio").append(channelBio);	
+  $("#bio").text(channelBio);	
 	
   return channelBio;
 }
@@ -282,7 +282,7 @@ function renderLocation(profile) {
   let unesLocation = _.unescape(profile[0].location);
   let channelLocation = $(`${unesLocation ? unesLocation : ""}`).data("profile", profile);
   console.log(channelLocation)	
-  $("#location").append(channelLocation);
+  $("#location").text(channelLocation);
   return channelLocation;
 }
 
@@ -544,11 +544,12 @@ async function getUserChannelSubscriptions() {
     if (data.mysubscriptions.length > 0) {
       $(".popular.subscribedTo .table").empty();
       $(".newUserMessage").css("display", "none");
-	   return data.mysubscriptions; 
     } else {
       $(".newUserMessage").css("display", "block");
 	    return null;
     }
+	  
+return data.mysubscriptions; 
     
   } catch (error) {
 	  console.log(error)
