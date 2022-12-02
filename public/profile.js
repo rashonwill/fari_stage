@@ -1326,11 +1326,13 @@ async function vendorVerificationCheck() {
     if (data.vendor[0].registration_complete === true) {
       $("#rent").attr("disabled", false);
       $("#rentalprice").attr("disabled", false);
-      $('.newUpload .message').css('display', 'none');	    
+      $('.newUpload .message').css('display', 'none');
+      $('.channel-name .fa-registered').css('display', 'flex')	    
     } else {
       $("#rent").attr("disabled", true);
       $("#rentprice").attr("disabled", true);
-      $('.newUpload .message').css('display', 'block');	 	    
+      $('.newUpload .message').css('display', 'block');	
+      $('.channel-name .fa-registered').css('display', 'none')		    
     }
     return data.vendor;
   } catch (error) {
