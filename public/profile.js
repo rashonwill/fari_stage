@@ -239,7 +239,7 @@ function renderBio(profile) {
 `).data("profile", profile);
   $(".about.bio").append(channelBio);
 
-$(channelBio).on('click', '.bio .fa-pen', async function () {
+$(channelBio).on('click', '.fa-pen', async function () {
 	console.log('got the click')
   $("#bio").attr("contenteditable", "true");
   $("#bio").addClass("editMode");
