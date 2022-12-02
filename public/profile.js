@@ -566,7 +566,8 @@ async function getUserChannelSubscriptions() {
     }
     return data.mysubscriptions;
   } catch (error) {
-    response.status(400).send(error);
+	  console.log(error)
+//     response.status(400).send(error);
   }
 }
 
