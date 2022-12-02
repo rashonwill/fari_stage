@@ -1013,7 +1013,7 @@ async function getUserWatchHistory(userid) {
     SELECT *, user_channel.profile_avatar
     FROM user_watch_history
     INNER JOIN user_channel ON user_watch_history.channelid = user_channel.id
-    WHERE userid=$1
+    WHERE user_watch_history.userid=$1
   `,
       [userid]
     );
