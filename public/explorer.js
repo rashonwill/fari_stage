@@ -1276,6 +1276,7 @@ $("#history").click(function (event) {
   $(".popular.uploads").css("display", "none");
   $(".right-pane2").css("display", "none");
   getHistory().then(renderHistoryList);
+  getRecentlySubsUploads().then(renderRecentSubsThatHaveUploaded);	
   $(window).scrollTop(0);
 });
 
