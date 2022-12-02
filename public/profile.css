@@ -991,6 +991,15 @@ display: none;
 margin: 10px;
 }
 
+#support{
+  margin: 2rem auto;
+}
+
+.registration-complete{
+  margin: 1rem auto;
+  display: none;
+}
+
 /* Analytics */
 
 .analytics {
