@@ -227,7 +227,7 @@ function renderUserInfo(profile) {
 function renderBio(profile) {
   let unesBio = _.unescape(profile[0].bio);
   let channelBio = $(` ${unesBio ? unesBio : ""}`).data("profile", profile);
-  $("#bio").text(channelBio);	
+  $("#bio").val(channelBio);	
 	
   return channelBio;
 }
@@ -281,8 +281,7 @@ $('#edit-bio').on("click", async function () {
 function renderLocation(profile) {
   let unesLocation = _.unescape(profile[0].location);
   let channelLocation = $(`${unesLocation ? unesLocation : ""}`).data("profile", profile);
-  console.log(channelLocation)	
-  $("#location").text(channelLocation);
+  $("#location").val(channelLocation);
   return channelLocation;
 }
 
