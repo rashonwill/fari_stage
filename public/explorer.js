@@ -913,7 +913,6 @@ async function getWatchList() {
       },
     });
     const data = await response.json();
-    console.log(data);
     if (data.myWatchList.length > 0) {
       $(".watchlist").empty();
       $(".newUserMessage-watchlater message").css("display", "none");
