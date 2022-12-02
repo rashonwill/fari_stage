@@ -621,7 +621,7 @@ async function checkoutSessionStripe() {
 async function newMessage() {
   var channelInfo = await getChannelProfile();
   var senderID = localStorage.getItem("userID");
-  var channelid = localStorage.getItem("visitingChannelID");
+  var channelid = localStorage.getItem("channelID");
   var senderName = localStorage.getItem("userUsername");
   var receiverID = channelInfo[0].userid;
   var receiverName = channelInfo[0].channelname;
