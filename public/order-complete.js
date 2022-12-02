@@ -66,7 +66,6 @@ async function laterVideoPurchased(){
   var userid = localStorage.getItem('userID');
   var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channel_name;
-  var channel_avi = getFeature[0].channelpic;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
@@ -76,10 +75,10 @@ async function laterVideoPurchased(){
   const laterBody = {
   userid: userid,
   videoid: vidID,
-  channel: channelname,
-  video: video,
-  thumbnail: posFile,
-  title: vidTitle, 
+  channelname: channelname,
+  videofile: video,
+  videothumbnail: posFile,
+  videotitle: vidTitle, 
   channelid: channelID,
   videoviewcount: views, 
   paidtoview: true,  
