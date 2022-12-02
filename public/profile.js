@@ -302,7 +302,7 @@ function renderLocation(profile) {
 `).data("profile", profile);
   $(".about.location").append(channelLocation);
 
-$(channelLocation).on('click', '.fa-pen', async function () {
+$(channelLocation).on('click', '#bio', async function () {
   $("#location").attr("contenteditable", "true");
   $("#location").addClass("editMode");
   let saveEdit = `
