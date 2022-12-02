@@ -1155,11 +1155,11 @@ async function getHistory() {
     }
     
     let results = data.history
-    const distinctHistory = Object.values(history.reduce((acc, { videoid, historydt }) => { 
+    const history = Object.values(results.reduce((acc, { videoid, historydt }) => { 
     if (!acc[videoid] || Date.parse(acc[videoid].historydt) > Date.parse(historydt)) acc[videoid] = { videoid, historydt };
     return acc;
 }, {}));
-    return distinctHistory;
+    return history;
   } catch (error) {
     console.log(error)
     response.status(400).send(error);
