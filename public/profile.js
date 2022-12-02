@@ -365,8 +365,7 @@ async function channelPost() {
     const data = await response.json();
     if (data.channelUploads.length > 0) {
       $(".user-uploads").empty();
-      $(".noUploads").css("display", "none");
-	  renderPostList();  
+      $(".noUploads").css("display", "none");  
     } else {
       $(".noUploads").css("display", "block");
     }
@@ -562,7 +561,6 @@ async function getUserChannelSubscriptions() {
     if (data.mysubscriptions.length > 0) {
       $(".popular.subscribedTo .table").empty();
       $(".newUserMessage").css("display", "none");
-	  renderSubsTable();  
     } else {
       $(".newUserMessage").css("display", "block");
     }
@@ -1361,10 +1359,7 @@ async function getMessages() {
         Authorization: `Bearer ${myToken}`,
       },
     });
-    const data = await response.json();
-    if(data.notes.length > 0){
-    rendermessageList();
-    }	  
+    const data = await response.json();	  
     return data.notes;
   } catch (error) {
     response.status(400).send(error);
@@ -1479,11 +1474,10 @@ function bootstrap() {
   userChannel().then(renderUserInfo);
   userChannel().then(renderBio);
   userChannel().then(renderLocation);	
-  channelPost();
-  getUserChannelSubscriptions();
-  getMessages();
+  channelPost().then(renderPostList);
+  getUserChannelSubscriptions().then(renderSubsTable);
+  getMessages().then(rendermessageList);
   totalEarningsRentals().then(totalEarningsMarketplace).then(totalEarnings);
-  // totalRentedSold().then(totalShopSold).then(totalSold);
   totalViews().then(renderViews);
   totalLikes().then(renderLikes);
   totalDislikes().then(renderdisLikes);
@@ -1493,10 +1487,6 @@ function bootstrap() {
     .then(rentalCount)
     .then(rentalSoldCountByVideoID)
     .then(renderrentalSoldCount);
-  // marketSoldCount()
-  //   .then(productCount)
-  //   .then(getItemPurchaseTotal)
-  //   .then(renderMarketSoldCount);
 }
 
 bootstrap();
