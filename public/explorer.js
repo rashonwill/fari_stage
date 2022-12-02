@@ -1154,6 +1154,8 @@ async function getHistory() {
     }
     return data.history;
     console.log(data);
+let unique = [...new Set(data.history)]
+    console.log(unique)
   } catch (error) {
 	  console.log(error)
     response.status(400).send(error);
@@ -1168,9 +1170,6 @@ function renderHistory(history) {
   } else if (history.videoviewcount > 1_000) {
     viewsString = (history.videoviewcount / 1_000).toFixed(1) + "k";
   }
-   
-    let unique = [...new Set(history)]
-    console.log(unique)
   
 
   let unesTitle = _.unescape(history.videotitle);
