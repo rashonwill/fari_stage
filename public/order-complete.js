@@ -99,6 +99,22 @@ response.status(400).send(error);
 }
 };
 
+async function moviePurchaseEmail(){
+  let email = localStorage.getItem('vendorEmail');
+  try {
+    const response = await fetch(`${FARI_API}/mailer/newsale/movierental/${email}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data;
+  }catch (error) {
+    response.status(400).send(error);
+  }
+}
+
 
 
 
