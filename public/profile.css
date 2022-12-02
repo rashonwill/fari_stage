@@ -346,6 +346,7 @@ i.fa-solid.fa-bars.id\= {
     color: #dddddd;
     font-family: 'Teko';
     display: flex;
+    justify-content:center;
 }
 
 .channel-name h3 {
