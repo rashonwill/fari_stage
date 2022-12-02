@@ -1156,7 +1156,7 @@ async function getHistory() {
     
     let results = data.history
     const historyData = [...new Map(results.map((result) => [result["videoid"], result])).values()];
-    const history = historyData.sort((a, b) =>{ return new Date(a.historydt) - new Date(b.historydt)})  
+    const history = historyData.sort((a, b) =>{ return new Date(b.historydt) - new Date(a.historydt) })  
     console.log(history)
     return history;
   } catch (error) {
