@@ -1159,7 +1159,7 @@ async function getHistory() {
 //     if (!acc[videoid] || Date.parse(acc[videoid].historydt) > Date.parse(historydt)) acc[videoid] = { id, channelid, channelname, userid, videofile, videoid, vidoethumbnail, videotitle, videoviewcount, historydt };
 //     return acc;
 // }, {}));
-    const history = Array.from(new Set(results.map((content) => {content.videoid})))
+    const history = [...new Set(results.map((result) => result.videoid))];
 	  console.log(history)
     return history;
   } catch (error) {
