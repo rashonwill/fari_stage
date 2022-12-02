@@ -1341,6 +1341,7 @@ async function getMessages() {
       },
     });
     const data = await response.json();	  
+	  console.log(data)
     return data.notes;
   } catch (error) {
     response.status(400).send(error);
