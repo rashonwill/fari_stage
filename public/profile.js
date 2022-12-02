@@ -366,6 +366,7 @@ async function channelPost() {
     if (data.channelUploads.length > 0) {
       $(".user-uploads").empty();
       $(".noUploads").css("display", "none");
+	  renderPostList();  
     } else {
       $(".noUploads").css("display", "block");
     }
@@ -560,6 +561,7 @@ async function getUserChannelSubscriptions() {
     if (data.mysubscriptions.length > 0) {
       $(".popular.subscribedTo .table").empty();
       $(".newUserMessage").css("display", "none");
+	  renderSubsTable();  
     } else {
       $(".newUserMessage").css("display", "block");
     }
@@ -1359,6 +1361,9 @@ async function getMessages() {
       },
     });
     const data = await response.json();
+    if(data.notes.length > 0){
+    rendermessageList();
+    }	  
     return data.notes;
   } catch (error) {
     response.status(400).send(error);
@@ -1469,14 +1474,13 @@ async function goSubscriptions() {
 
 
 function bootstrap() {
-//   getUserProfile()
   vendorVerificationCheck();
   userChannel().then(renderUserInfo);
   userChannel().then(renderBio);
   userChannel().then(renderLocation);	
-  channelPost().then(renderPostList);
-  getUserChannelSubscriptions().then(renderSubsTable);
-  getMessages().then(rendermessageList);
+  channelPost();
+  getUserChannelSubscriptions();
+  getMessages();
   totalEarningsRentals().then(totalEarningsMarketplace).then(totalEarnings);
   // totalRentedSold().then(totalShopSold).then(totalSold);
   totalViews().then(renderViews);
