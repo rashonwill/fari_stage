@@ -758,7 +758,8 @@ i.fa-solid.fa-pencil {
   position: absolute;
   margin: 1rem auto;
   top: 20%;
-  left: 20%;
+  left: 0;
+  right:0;  
   transform:scale(0);
   transition: 0.5s;
   font-family: 'Teko';
