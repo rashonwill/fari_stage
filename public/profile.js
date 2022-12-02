@@ -1341,7 +1341,6 @@ async function getMessages() {
       },
     });
     const data = await response.json();	  
-	  console.log(data)
     return data.notes;
   } catch (error) {
     response.status(400).send(error);
@@ -1354,14 +1353,15 @@ async function renderMessages(notes) {
   let note = $(`
 <div class="note">
 <div class="channel-avi">
-<a href="/channel"><img loading="lazy" src="${notes.profile_avatar}" alt="sender pic" /></a>
-<h3 id="channel"><a href="#">${unesChannel}</a></h3>
+<a href="/channel"><img loading="lazy" src="${notes.profile_avatar}" alt="sender pic" id="picture" /></a>
+<h3 id="channel"><a href="/channel">${unesChannel}</a></h3>
 </div>
 <h4>${unesMessage}</h4>
 <button id="read" title="Mark as Read">Mark as Read</button>
 </div>
 `).data("notes", notes);
   $(".messages .table").append(note);
+	
 
   $(note).on("click", "#read", async function () {
     let thisNote = $(this).closest(".note").data("notes");
@@ -1369,6 +1369,20 @@ async function renderMessages(notes) {
     localStorage.setItem("noteID", id);
     markAsRead().then(getMessages).then(rendermessageList);
   });
+
+	
+  $(note).on("click", "#channel", async function () {
+    let thisNote = $(this).closest(".note").data("notes");
+    let id = thisNote.sender_channelid;
+    localStorage.setItem("visitingChannelID", id);
+  });	
+
+  $(note).on("click", "#picture", async function () {
+    let thisNote = $(this).closest(".note").data("notes");
+    let id = thisNote.sender_channelid;
+    localStorage.setItem("visitingChannelID", id);
+  });	
+	
 }
 
 function rendermessageList(messageList) {
