@@ -372,6 +372,7 @@ async function channelPost() {
     }
     return data.channelUploads;
   } catch (error) {
+	  console.log(error)
     response.status(400).send(error);
   }
 }
