@@ -227,7 +227,7 @@ function renderUserInfo(profile) {
 function renderBio(profile) {
   let unesBio = _.unescape(profile[0].bio);
   let channelBio = $(` ${unesBio ? unesBio : ""}`).data("profile", profile);
-  $("span#bio").text(channelBio);	
+  $("span#bio").text(unesBio ? unesBio : "");	
 	
   return channelBio;
 }
