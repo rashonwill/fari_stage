@@ -226,11 +226,7 @@ function renderUserInfo(profile) {
 
 function renderBio(profile) {
   let unesBio = _.unescape(profile[0].bio);
-	console.log(unesBio)
-  let channelBio = $(` ${unesBio ? unesBio : ""}`).data("profile", profile);
-  $("span#bio").text(unesBio);	
-	
-  return channelBio;
+  $("span#bio").append(unesBio);		
 }
 
 
@@ -281,10 +277,7 @@ $('#edit-bio').on("click", async function () {
 
 function renderLocation(profile) {
   let unesLocation = _.unescape(profile[0].location);
-	console.log(unesLocation)
-  let channelLocation = $(`${unesLocation ? unesLocation : ""}`).data("profile", profile);
-  $("span#location").text(unesLocation);
-  return channelLocation;
+  $("span#location").append(unesLocation);
 }
 
 
