@@ -561,10 +561,12 @@ async function getUserChannelSubscriptions() {
     if (data.mysubscriptions.length > 0) {
       $(".popular.subscribedTo .table").empty();
       $(".newUserMessage").css("display", "none");
+	   return data.mysubscriptions; 
     } else {
       $(".newUserMessage").css("display", "block");
+	    return null;
     }
-    return data.mysubscriptions;
+    
   } catch (error) {
 	  console.log(error)
 //     response.status(400).send(error);
