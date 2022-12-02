@@ -216,7 +216,7 @@ function renderUserInfo(profile) {
             </div>
           </div>
           <div class="channel-name">
-            <h2>${unesName}</h2>
+            <h2>${unesName}</h2><i class="fa-regular fa-registered"></i>
           </div>
     
 `).data("profile", profile);
