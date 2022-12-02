@@ -239,7 +239,7 @@ function renderBio(profile) {
 `).data("profile", profile);
   $(".about.bio").append(channelBio);
 
-$(channelBio).on("click", ".fa-pen", async function () {
+$(channelBio).on("click", "#bio", async function () {
 	console.log('got the click')
   $("#bio").attr("contenteditable", "true");
   $("#bio").addClass("editMode");
@@ -302,7 +302,7 @@ function renderLocation(profile) {
 `).data("profile", profile);
   $(".about.location").append(channelLocation);
 
-$(channelLocation).on('click', '#bio', async function () {
+$(channelLocation).on('click', '#location', async function () {
   $("#location").attr("contenteditable", "true");
   $("#location").addClass("editMode");
   let saveEdit = `
