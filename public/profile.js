@@ -1329,7 +1329,7 @@ async function vendorVerificationCheck() {
       $('.newUpload .message').css('display', 'none');
       $('.channel-name .fa-registered').css('display', 'flex');
       $('.reg-process').css('display', 'none');	    
-      $('.registration-complete').css('display', 'block');	    
+      $('.registration-complete').css('display', 'flex');	    
     } else {
       $("#rent").attr("disabled", true);
       $("#rentprice").attr("disabled", true);
