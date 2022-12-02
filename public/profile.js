@@ -1327,12 +1327,17 @@ async function vendorVerificationCheck() {
       $("#rent").attr("disabled", false);
       $("#rentalprice").attr("disabled", false);
       $('.newUpload .message').css('display', 'none');
-      $('.channel-name .fa-registered').css('display', 'flex')	    
+      $('.channel-name .fa-registered').css('display', 'flex');
+      $('.reg-process').css('display', 'none');	    
+      $('.registration-complete').css('display', 'block');	    
     } else {
       $("#rent").attr("disabled", true);
       $("#rentprice").attr("disabled", true);
       $('.newUpload .message').css('display', 'block');	
-      $('.channel-name .fa-registered').css('display', 'none')		    
+      $('.channel-name .fa-registered').css('display', 'none');
+     $('.registration-complete').css('display', 'none');
+     $('.reg-process').css('display', 'flex');		    
+	     
     }
     return data.vendor;
   } catch (error) {
