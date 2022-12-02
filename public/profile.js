@@ -240,6 +240,7 @@ function renderBio(profile) {
   $(".about.bio").append(channelBio);
 
 $(channelBio).on('click', '.fa-pen', async function () {
+	console.log('got the click')
   $("#bio").attr("contenteditable", "true");
   $("#bio").addClass("editMode");
 
