@@ -1168,6 +1168,10 @@ function renderHistory(history) {
   } else if (history.videoviewcount > 1_000) {
     viewsString = (history.videoviewcount / 1_000).toFixed(1) + "k";
   }
+   
+    let unique = [...new Set(history)]
+    console.log(unique)
+  
 
   let unesTitle = _.unescape(history.videotitle);
   let unesUsername = _.unescape(history.channelname);
