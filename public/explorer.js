@@ -1152,10 +1152,10 @@ async function getHistory() {
     } else {
       $(".newUserMessage-history message").css("display", "block");
     }
-    return data.history;
-    console.log(data);
+	console.log(data);
 let unique = [...new Set(data.history)]
     console.log(unique)
+    return data.history;
   } catch (error) {
 	  console.log(error)
     response.status(400).send(error);
@@ -2054,7 +2054,6 @@ async function getRecentlySubsUploads() {
       }
     );
     const data = await response.json();
-    console.log(data);
     return data.mysubscriptions;
   } catch (error) {
     console.log(error);
