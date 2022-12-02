@@ -1155,12 +1155,9 @@ async function getHistory() {
     }
     
     let results = data.history
-//     const history = Object.values(results.reduce((acc, { videoid, historydt }) => { 
-//     if (!acc[videoid] || Date.parse(acc[videoid].historydt) > Date.parse(historydt)) acc[videoid] = { id, channelid, channelname, userid, videofile, videoid, vidoethumbnail, videotitle, videoviewcount, historydt };
-//     return acc;
-// }, {}));
-    const history = [...new Map(results.map((result) => [result["videoid"], result])).values()];
-	  console.log(history)
+    const historyData = [...new Map(results.map((result) => [result["videoid"], result])).values()];
+    const history = historyData.sort((a, b) =>{ return b.historydt - a.historydt}  
+    console.log(history)
     return history;
   } catch (error) {
     console.log(error)
