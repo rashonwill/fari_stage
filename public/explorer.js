@@ -1156,7 +1156,7 @@ async function getHistory() {
     
     let results = data.history
     const history = Object.values(results.reduce((acc, { videoid, historydt }) => { 
-    if (!acc[videoid] || Date.parse(acc[videoid].historydt) > Date.parse(historydt)) acc[videoid] = { videoid, historydt };
+    if (!acc[videoid] || Date.parse(acc[videoid].historydt) > Date.parse(historydt)) acc[videoid] = { id, channelid, channelname, userid, videofile, videoid, vidoethumbnail, videotitle, videoviewcount, historydt };
     return acc;
 }, {}));
 	  console.log(history)
