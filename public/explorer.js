@@ -1159,6 +1159,7 @@ async function getHistory() {
     if (!acc[videoid] || Date.parse(acc[videoid].historydt) > Date.parse(historydt)) acc[videoid] = { videoid, historydt };
     return acc;
 }, {}));
+	  console.log(history)
     return history;
   } catch (error) {
     console.log(error)
