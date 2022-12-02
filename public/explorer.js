@@ -1152,9 +1152,12 @@ async function getHistory() {
     } else {
       $(".newUserMessage-history message").css("display", "block");
     }
-	console.log(data);
-let unique = [...new Set(data.history)]
-    console.log(unique)
+    console.log(data);
+    const result = Object.values(data.reduce((acc, { videoid, historydt }) => { 
+    if (!acc[videoid] || Date.parse(acc[videoid].historydt) > Date.parse(historydt)) acc[videoid] = { videoid, historydt };
+    return acc;
+}, {}));
+    console.log(result)
     return data.history;
   } catch (error) {
 	  console.log(error)
