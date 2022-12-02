@@ -55,6 +55,7 @@ async function getUserProfile() {
       },
     });
     const data = await response.json();
+    console.log(data)
     if (data.profile.length > 0) {
       localStorage.setItem("userID", data.profile[0].userid);
       localStorage.setItem("userUsername", data.profile[0].username);
