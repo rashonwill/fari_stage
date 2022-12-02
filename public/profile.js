@@ -1365,8 +1365,9 @@ async function renderMessages(notes) {
 
   $(note).on("click", "#read", async function () {
     let thisNote = $(this).closest(".note").data("notes");
-    let id = thisNote.id;
-    localStorage.setItem("noteID", id);
+	  console.log(thisNote)
+    let noteid = thisNote.id;
+    localStorage.setItem("noteID", noteid);
     markAsRead().then(getMessages).then(rendermessageList);
   });
 
