@@ -280,19 +280,13 @@ $('#edit-bio').on("click", async function () {
 
 function renderLocation(profile) {
   let unesLocation = _.unescape(profile[0].location);
-  let channelLocation = $(`
-    <span
-                class="textarea"
-                contenteditable="false"
-                role="textbox"
-                id="location"
-                name="title"
-              >${unesLocation ? unesLocation : ""}</span>
-	      <i class="fa-solid fa-pen" id="edit-location"></i>   
-`).data("profile", profile);
-  $(".about.location").append(channelLocation);
+  let channelLocation = $(`${unesLocation ? unesLocation : ""}`).data("profile", profile);
+  $("#location").append(channelLocation);
+  return channelLocation;
+}
 
-$(channelLocation).on('click', '#edit-location', async function () {
+
+$('#edit-location').on('click', async function () {
   $("#location").attr("contenteditable", "true");
   $("#location").addClass("editMode");
   let saveEdit = `
@@ -334,8 +328,6 @@ $(channelLocation).on('click', '#edit-location', async function () {
     }
   });
 });
-  return channelLocation;
-}
 
 //Videos
 
