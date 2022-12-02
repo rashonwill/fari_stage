@@ -281,7 +281,7 @@ $('#edit-bio').on("click", async function () {
 function renderLocation(profile) {
   let unesLocation = _.unescape(profile[0].location);
   let channelLocation = $(`${unesLocation ? unesLocation : ""}`).data("profile", profile);
-  $("span#location").text(channelLocation);
+  $("span#location").text(unesLocation ? unesLocation : "");
   return channelLocation;
 }
 
