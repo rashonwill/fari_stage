@@ -1146,6 +1146,7 @@ async function getHistory() {
       },
     });
     const data = await response.json();
+	  console.log(data)
     if (data.history.length > 0) {
       $(".history").empty();
       $(".newUserMessage-history message").css("display", "none");
@@ -1154,13 +1155,13 @@ async function getHistory() {
     }
     
     let results = data.history
-    const history = Object.values(history.reduce((acc, { videoid, historydt }) => { 
+    const distinctHistory = Object.values(history.reduce((acc, { videoid, historydt }) => { 
     if (!acc[videoid] || Date.parse(acc[videoid].historydt) > Date.parse(historydt)) acc[videoid] = { videoid, historydt };
     return acc;
 }, {}));
-    return history;
+    return distinctHistory;
   } catch (error) {
-	  console.log(error)
+    console.log(error)
     response.status(400).send(error);
   }
 }
