@@ -465,19 +465,6 @@ function renderPost(channelUploads) {
       let videoUpload = $(this).closest(".card").data("channelUploads");
       let id = videoUpload.videoid;
       localStorage.setItem("videoID", id);
-      try {
-        const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-          },
-        });
-        const data = await response.json();
-      } catch (error) {
-        console.log(error);
-        response.status(400).send(error);
-      }
     });
   });
   return upload;
