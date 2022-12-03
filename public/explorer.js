@@ -1384,8 +1384,7 @@ function renderFilteredContent(videos) {
 
     $(video).on("click", ".fa-play", async function () {
       let videoSearched = $(this).closest(".card").data("videos");
-	        console.log(videoSearched)
-      let id = videoSearched.id;
+      let id = videoSearched.videoid;
       localStorage.setItem("videoID", id);
     });
   });
