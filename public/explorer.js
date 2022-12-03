@@ -1869,7 +1869,7 @@ function renderRecentUploadsChannels(mysubscriptions) {
                   ? mysubscriptions.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar" />
-              <h5 id="channelLink"><a href=/channel" aria-label="View user channel">${unesUsername}</a></h5>
+              <h5 id="channelLink"><a href="/channel" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
    `).data("mysubscriptions", mysubscriptions);
