@@ -301,7 +301,7 @@ function renderPost(channelUploads, index) {
             .css("font-weight", "bold")
             .css("font-family", "Teko")
             .css("text-align", "center");
-          laterVideo();}
+          laterVideo();
       });
 
       $(freeUpload).on("click", ".fa-play", async function () {
