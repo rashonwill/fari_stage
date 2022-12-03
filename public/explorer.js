@@ -181,15 +181,6 @@ function renderFreeContent(uploads) {
       let mySubs = $(this).closest(".card").data("uploads");
       let id = mySubs.videoid;
       localStorage.setItem("videoID", id);
-      try {
-        const response = await fetch(`${FARI_API}/explorer`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-          },
-        });
-        const data = await response.json();
         $(this)
           .closest(".options")
           .text("Added to Watchlist")
@@ -199,10 +190,7 @@ function renderFreeContent(uploads) {
           .css("font-family", "Teko")
           .css("text-align", "center");
         laterVideo();
-        return data;
-      } catch (error) {
-        response.status(400).send(error);
-      }
+
     });
 
     $(videos).on("click", "#channelName", function () {
@@ -221,18 +209,6 @@ function renderFreeContent(uploads) {
       let videoUpload = $(this).closest(".card").data("uploads");
       let id = videoUpload.videoid;
       localStorage.setItem("videoID", id);
-      try {
-        const response = await fetch(`${FARI_API}/explorer`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-          },
-        });
-        const data = await response.json();
-      } catch (error) {
-        response.status(400).send(error);
-      }
     });
   });
 
@@ -387,18 +363,6 @@ function renderPayMedia(uploads) {
       let videoUpload = $(this).closest(".card").data("uploads");
       let id = videoUpload.videoid;
       localStorage.setItem("videoID", id);
-      try {
-        const response = await fetch(`${FARI_API}/explorer`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-          },
-        });
-        const data = await response.json();
-      } catch (error) {
-        response.status(400).send(error);
-      }
     });
   });
 }
@@ -552,15 +516,6 @@ function renderSubsVids(subscriptionUploads) {
       let mySubs = $(this).closest(".card").data("subscriptionUploads");
       let id = mySubs.videoid;
       localStorage.setItem("videoID", id);
-      try {
-        const response = await fetch(`${FARI_API}/explorer`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-          },
-        });
-        const data = await response.json();
         $(this)
           .closest(".options")
           .text("Added to Watchlist")
@@ -570,29 +525,12 @@ function renderSubsVids(subscriptionUploads) {
           .css("font-family", "Teko")
           .css("text-align", "center");
         laterVideo();
-        return data;
-      } catch (error) {
-        response.status(400).send(error);
-      }
     });
 
     $(mySubVideos).on("click", ".fa-play", async function () {
       let mySubs = $(this).closest(".card").data("subscriptionUploads");
       let id = mySubs.videoid;
       localStorage.setItem("videoID", id);
-      //    updateViews();
-      try {
-        const response = await fetch(`${FARI_API}/explorer`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-          },
-        });
-        const data = await response.json();
-      } catch (error) {
-        response.status(400).send(error);
-      }
     });
   });
 
@@ -702,15 +640,6 @@ function renderSubsVids(subscriptionUploads) {
         let mySubs = $(this).closest(".card").data("subscriptionUploads");
         let id = mySubs.videoid;
         localStorage.setItem("videoID", id);
-        try {
-          const response = await fetch(`${FARI_API}/explorer`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${myToken}`,
-            },
-          });
-          const data = await response.json();
           $(this)
             .closest(".options")
             .text("Added to Watchlist")
@@ -720,10 +649,6 @@ function renderSubsVids(subscriptionUploads) {
             .css("font-family", "Teko")
             .css("text-align", "center");
           laterVideo();
-          return data.uploads;
-        } catch (error) {
-          response.status(400).send(error);
-        }
       });
 
       return mySubVideos;
@@ -856,18 +781,6 @@ function renderFavs(myFavVids) {
     let myFaved = $(this).closest(".card").data("myFavVids");
     let id = myFaved.videoid;
     localStorage.setItem("videoID", id);
-    try {
-      const response = await fetch(`${FARI_API}/explorer`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-      });
-      const data = await response.json();
-    } catch (error) {
-      response.status(400).send(error);
-    }
   });
   return myFavs;
 }
@@ -1012,19 +925,6 @@ function renderWatchLaters(myWatchList) {
       let watchLater = $(this).closest(".card").data("myWatchList");
       let id = watchLater.videoid;
       localStorage.setItem("videoID", id);
-      //    updateViews();
-      try {
-        const response = await fetch(`${FARI_API}/explorer`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-          },
-        });
-        const data = await response.json();
-      } catch (error) {
-        response.status(400).send(error);
-      }
     });
   });
 
@@ -1092,18 +992,6 @@ function renderWatchLaters(myWatchList) {
       localStorage.setItem("purchasedWatched", purchased);
       localStorage.setItem("videoID", id);
       userWatchedFlag();
-      try {
-        const response = await fetch(`${FARI_API}/explorer`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-          },
-        });
-        const data = await response.json();
-      } catch (error) {
-        response.status(400).send(error);
-      }
     });
 
     return myLater;
@@ -1235,19 +1123,6 @@ function renderHistory(history) {
     let myFaved = $(this).closest(".card").data("history");
     let id = myFaved.videoid;
     localStorage.setItem("videoID", id);
-    //     updateViews();
-    try {
-      const response = await fetch(`${FARI_API}/explorer`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-      });
-      const data = await response.json();
-    } catch (error) {
-      response.status(400).send(error);
-    }
   });
   return myHistory;
 }
@@ -1495,15 +1370,6 @@ function renderFilteredContent(videos) {
       let mySubs = $(this).closest(".card").data("videos");
       let id = mySubs.videoid;
       localStorage.setItem("videoID", id);
-      try {
-        const response = await fetch(`${FARI_API}/explorer`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-          },
-        });
-        const data = await response.json();
         $(this)
           .closest(".options")
           .text("Added to Watchlist")
@@ -1513,29 +1379,13 @@ function renderFilteredContent(videos) {
           .css("font-family", "Teko")
           .css("text-align", "center");
         laterVideo();
-        return data;
-      } catch (error) {
-        response.status(400).send(error);
-      }
+
     });
 
     $(video).on("click", ".fa-play", async function () {
       let videoSearched = $(this).closest(".card").data("videos");
       let id = videoSearched.id;
       localStorage.setItem("videoID", id);
-      //    updateViews();
-      try {
-        const response = await fetch(`${FARI_API}/explorer`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${myToken}`,
-          },
-        });
-        const data = await response.json();
-      } catch (error) {
-        response.status(400).send(error);
-      }
     });
   });
   return video;
@@ -1714,15 +1564,6 @@ function renderVideoSearchResults(videos) {
         let mySubs = $(this).closest(".card").data("videos");
         let id = mySubs.videoid;
         localStorage.setItem("videoID", id);
-        try {
-          const response = await fetch(`${FARI_API}/explorer`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${myToken}`,
-            },
-          });
-          const data = await response.json();
           $(this)
             .closest(".options")
             .text("Added to Watchlist")
@@ -1732,30 +1573,13 @@ function renderVideoSearchResults(videos) {
             .css("font-family", "Teko")
             .css("text-align", "center");
           laterVideo();
-          return data.uploads;
-        } catch (error) {
-          response.status(400).send(error);
-        }
+
       });
 
       $(video).on("click", ".fa-play", async function () {
         let videoSearched = $(this).closest(".card").data("videos");
         let id = videoSearched.id;
         localStorage.setItem("videoID", id);
-        //    updateViews();
-        try {
-          const response = await fetch(`${FARI_API}/explorer`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${myToken}`,
-            },
-          });
-          const data = await response.json();
-          updateViews();
-        } catch (error) {
-          response.status(400).send(error);
-        }
       });
     });
   });
@@ -1861,15 +1685,6 @@ function renderVideoSearchResults(videos) {
         let mySubs = $(this).closest(".card").data("videos");
         let id = mySubs.videoid;
         localStorage.setItem("videoID", id);
-        try {
-          const response = await fetch(`${FARI_API}/explorer`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${myToken}`,
-            },
-          });
-          const data = await response.json();
           $(this)
             .closest(".options")
             .text("Added to Watchlist")
@@ -1879,10 +1694,6 @@ function renderVideoSearchResults(videos) {
             .css("font-family", "Teko")
             .css("text-align", "center");
           laterVideo();
-          return data.uploads;
-        } catch (error) {
-          response.status(400).send(error);
-        }
       });
     });
     return videos;
@@ -2013,19 +1824,6 @@ function renderTopUploads(uploads) {
     let videoUpload = $(this).closest(".pop-card").data("uploads");
     let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
-    updateViews();
-    try {
-      const response = await fetch(`${FARI_API}/explorer`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-      });
-      const data = await response.json();
-    } catch (error) {
-      response.status(400).send(error);
-    }
   });
   return popularVideo;
 }
