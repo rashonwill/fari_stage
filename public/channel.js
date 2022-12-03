@@ -293,15 +293,6 @@ function renderPost(channelUploads, index) {
         let mySubs = $(this).closest(".card").data("channelUploads");
         let id = mySubs.videoid;
         localStorage.setItem("videoID", id);
-        try {
-          const response = await fetch(`${FARI_API}/explorer`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${myToken}`,
-            },
-          });
-          const data = await response.json();
           $(this)
             .closest(".options")
             .text("Added to Watchlist")
@@ -310,29 +301,13 @@ function renderPost(channelUploads, index) {
             .css("font-weight", "bold")
             .css("font-family", "Teko")
             .css("text-align", "center");
-          laterVideo();
-          return data;
-        } catch (error) {
-          response.status(400).send(error);
-        }
+          laterVideo();}
       });
 
       $(freeUpload).on("click", ".fa-play", async function () {
         let videoUpload = $(this).closest(".card").data("channelUploads");
         let id = videoUpload.videoid;
         localStorage.setItem("videoID", id);
-        try {
-          const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${myToken}`,
-            },
-          });
-          const data = await response.json();
-        } catch (error) {
-          response.status(400).send(error);
-        }
       });
       return freeUpload;
     });
@@ -570,9 +545,9 @@ async function laterVideo() {
     userid: userid,
     videoid: vidID,
     channelname: channelname,
-    video: video,
-    thumbnail: posFile,
-    title: vidTitle,
+    videofile: video,
+    videothumbnail: posFile,
+    videotitle: vidTitle,
     channelid: channelID,
     videoviewcount: views,
     paidtoview: false,
