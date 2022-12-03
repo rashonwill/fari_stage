@@ -712,20 +712,7 @@ function renderRecomVideos(uploads) {
     let videoUpload = $(this).closest(".card").data("uploads");
     let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
-
-    try {
-      const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-      });
-      const data = await response.json();
-      window.location.href = "/theater";
-    } catch (error) {
-      response.status(400).send(error);
-    }
+    window.location.href = "/theater";
   });
 
   return recVids;
@@ -794,19 +781,7 @@ async function renderFavVideos(myFavVids) {
     let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
 
-    try {
-      const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-      });
-      const data = await response.json();
-      window.location.href = "/theater";
-    } catch (error) {
-      response.status(400).send(error);
-    }
+    window.location.href = "/theater";
   });
 
   return favVids;
@@ -875,20 +850,6 @@ async function renderLaterVideos(myWatchList) {
     let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
     window.location.href = "/theater";
-
-//     try {
-//       const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${myToken}`,
-//         },
-//       });
-//       const data = await response.json();
-//       window.location.href = "/theater";
-//     } catch (error) {
-//       response.status(400).send(error);
-//     }
  });
 
  return laterVids;
@@ -1552,20 +1513,7 @@ function renderSearchedContent(videos) {
     let videoSearc = $(this).closest(".card").data("videos");
     let id = videoSearc.videoid;
     localStorage.setItem("videoID", id);
-    try {
-      const response = await fetch(`${FARI_API}/explorer`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-      });
-      const data = await response.json();
-      window.location.reload();
-      return data;
-    } catch (error) {
-      response.status(400).send(error);
-    }
+    window.location.href = "/theater";
   });
   return video;
 }
