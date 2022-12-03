@@ -714,7 +714,7 @@ function renderRecomVideos(uploads) {
     localStorage.setItem("videoID", id);
 
     try {
-      const response = await fetch(`${FARI_API}/explorer`, {
+      const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -795,7 +795,7 @@ async function renderFavVideos(myFavVids) {
     localStorage.setItem("videoID", id);
 
     try {
-      const response = await fetch(`${FARI_API}/explorer`, {
+      const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -874,23 +874,24 @@ async function renderLaterVideos(myWatchList) {
     let videoUpload = $(this).closest(".card").data("myWatchList");
     let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
+    window.location.href = "/theater";
 
-    try {
-      const response = await fetch(`${FARI_API}/explorer`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-      });
-      const data = await response.json();
-      window.location.href = "/theater";
-    } catch (error) {
-      response.status(400).send(error);
-    }
-  });
+//     try {
+//       const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
+//         method: "GET",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${myToken}`,
+//         },
+//       });
+//       const data = await response.json();
+//       window.location.href = "/theater";
+//     } catch (error) {
+//       response.status(400).send(error);
+//     }
+ });
 
-  return laterVids;
+ return laterVids;
 }
 
 function renderlaterVids(laterVid) {
