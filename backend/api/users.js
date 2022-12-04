@@ -44,7 +44,7 @@ usersRouter.get("/", async (req, res, next) => {
 });
 
 usersRouter.get(
-  "/usersearch/:query",
+  "/user-search/:query",
   check("query").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { query } = req.params;
