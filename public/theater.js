@@ -1437,7 +1437,7 @@ async function getSearchResults() {
   let videotags = _.escape($("#searchfield").val());
   try {
     const response = await fetch(
-      `${FARI_API}/explorer/video/search/${videotags}`,
+      `${FARI_API}/explorer/video-search/${videotags}`,
       {
         method: "GET",
         headers: {
@@ -1467,7 +1467,7 @@ $("#searchfield").keyup(function (event) {
 async function getEnteredSearch() {
   let query = _.escape($("#searchfield").val());
   try {
-    const response = await fetch(`${FARI_API}/explorer/video/search/${query}`, {
+    const response = await fetch(`${FARI_API}/explorer/video-search/${query}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
