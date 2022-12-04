@@ -1397,7 +1397,7 @@ async function getChannelSearchResults() {
   let username = _.escape($("#searchfield").val());
   try {
     const response = await fetch(
-      `${FARI_API}/users/myprofile/channel/${username}`,
+      `${FARI_API}/users/user-search/${username}`,
       {
         method: "GET",
         headers: {
@@ -1443,7 +1443,7 @@ function renderChannelSearched(profile) {
 async function getEnteredSearch() {
   let query = _.escape($("#searchfield").val());
   try {
-    const response = await fetch(`${FARI_API}/explorer/video/search/${query}`, {
+    const response = await fetch(`${FARI_API}/explorer/video-search/${query}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
