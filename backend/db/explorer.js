@@ -295,7 +295,7 @@ async function videoSearch(query) {
               SELECT *, channel_uploads.id AS videoid, user_channel.profile_avatar
               FROM channel_uploads
               INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
-              WHERE videotags ILIKE N'%${query}%' OR videotitle ILIKE N'%${query}%' OR channelname ILIKE N'%${query}%'
+              WHERE videotags ILIKE N'%${query}%' OR videotitle ILIKE N'%${query}%' OR channel_uploads.channelname ILIKE N'%${query}%'
               ORDER BY random();
             `
     );
