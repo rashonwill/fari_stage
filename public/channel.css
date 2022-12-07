@@ -167,11 +167,11 @@ body::-webkit-scrollbar-corner {
 }
 
 .card {
-    width: 18rem;
-    height: 12rem;
+    width: 20rem;
+    height: 12.5rem;
     background: rgba(128, 128, 128, 0.15);
     border: none;
-    border-radius: 10px;
+    border-radius: 30px;
     margin: 2rem;
     color: #dddddd;
     font-family: 'Teko';
