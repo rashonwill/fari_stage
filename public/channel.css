@@ -195,7 +195,7 @@ video[poster] {
     height: 100%;
     padding: 5px;
     background: rgba(19, 19, 19, 0.8);
-    border-radius: 10px;
+    border-radius: 30px;
     z-index: 10;
     position: absolute;
     top: 0;
