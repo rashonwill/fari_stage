@@ -445,7 +445,7 @@ video[poster] {
     position: absolute;
     top: 0;
     background: rgba(19, 19, 19, 0.8);
-    border-radius: 10px;
+    border-radius: 30px;
     z-index: 10;
     display: block;
     backdrop-filter: blur(.5px);
