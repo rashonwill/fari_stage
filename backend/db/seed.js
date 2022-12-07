@@ -59,6 +59,8 @@ async function createTables() {
     subscribed_user_acct BOOLEAN DEFAULT FALSE,
     UNIQUE(Username, Email)
   );
+  
+  CREATE INDEX idx_username ON users(username);
           
     
 CREATE TABLE user_channel(
@@ -128,6 +130,9 @@ CREATE TABLE channel_uploads (
   flag_reason varchar(255) NULL,
   videoActive BOOLEAN DEFAULT TRUE
 );
+
+CREATE INDEX idx_videotitle ON channel_uploads(videotitle);
+CREATE INDEX idx_channelname ON channel_uploads(channelname);
 
 CREATE TABLE upload_comments (
   ID SERIAL PRIMARY KEY UNIQUE,
