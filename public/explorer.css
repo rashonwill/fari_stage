@@ -415,11 +415,11 @@ i#mobile-view-bars {
 }
 
 .card {
-    width: 18rem;
-    height: 12rem;
+    width: 20rem;
+    height: 12.5rem;
     background: rgba(255, 255, 255, 0.1);
     border: none;
-    border-radius: 10px;
+    border-radius: 30px;
     margin: 10px;
     color: #dddddd;
     font-family: 'Teko';
