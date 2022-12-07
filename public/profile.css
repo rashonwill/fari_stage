@@ -397,11 +397,11 @@ display: none;
 }
 
 .user-uploads .card {
-    width: 18rem;
-    height: 12rem;
+    width: 20rem;
+    height: 12.5rem;
     background: rgba(128, 128, 128, 0.15);
     border: none;
-    border-radius: 10px;
+    border-radius: 30px;
     margin: 10px;
     color: #dddddd;
     font-family: 'Teko';
@@ -425,7 +425,7 @@ display: none;
     height: 100%;
     padding: 5px;
     background: rgba(19, 19, 19, 0.8);
-    border-radius: 10px;
+    border-radius: 30px;
     z-index: 10;
     position: absolute;
     top: 0;
