@@ -35,17 +35,21 @@ body::-webkit-scrollbar-corner {
 }
 
 
-
-header {
+.content-container {
     width: 100%;
-    height: 70px;
-    background: rgba(0, 0, 0, 0.3);
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.header {
+    width: 100%;
+    height: 10%;
     padding: 5px;
     display: flex;
     letter-spacing: 0.02rem;
 }
 
-header h1 {
+.header h1 {
     font-family: 'Teko';
     color: rgba(255, 255, 255, 0.3);
     letter-spacing: 0.3rem;
@@ -62,7 +66,7 @@ header h1 {
     margin-top: -1.5rem;
 }
 
-header .fa-bars {
+.header .fa-bars {
     display: none;
 }
 
@@ -110,28 +114,23 @@ header .fa-bars {
     box-shadow: inset 2px 2px 4px #6a6a6a, inset -2px -2px 4px #050606;
 }
 
-.content-container {
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    letter-spacing: 0.02rem;
+.center {
     display: flex;
+    height: 90%;
+    width: 100%;
 }
 
 
 .main-content {
     width: 75%;
-    height: 100vh;
     padding: 0 10px 0 80px;
-    background: rgba(0, 0, 0, 0.3);
     overflow: hidden;
     padding-bottom: 80px;
 }
 
 .feature-presentation {
     width: 100%;
-    height: 65%;
-    background: rgba(0, 0, 0, 0.1);
+    height: 55%;
     border-radius: 15px;
     border: none;
     margin-bottom: .5rem;
@@ -169,7 +168,7 @@ header .fa-bars {
 
 .video-status #status {
     text-align: center;
-    margin: 12rem auto;
+    margin: 15rem auto;
     font-size: 55px;
     color: rgba(255, 255, 255, 0.5);
     user-select: none;
@@ -264,9 +263,6 @@ header .fa-bars {
     border-radius: 10px;
 }
 
-
-
-
 .buffer {
     width: 250px;
     height: 250px;
@@ -340,8 +336,8 @@ header .fa-bars {
 
 
 .display-options {
-    background: rgba(0, 0, 0, .2);
-    height: 43%;
+    height: 45%;
+    width: 100%;
     border-radius: 15px;
     padding: 5px;
     position: relative;
@@ -369,13 +365,11 @@ header .fa-bars {
 .options {
     display: flex;
     align-items: center;
-    /*   border-bottom: .5px solid rgba(255, 255, 255, 0.1); */
 }
 
 .interactions {
     position: absolute;
     width: 750px;
-    /* margin-left: 5rem; */
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -397,10 +391,10 @@ header .fa-bars {
 .feature-info {
     padding: 5px;
     height: 100%;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
-.feature-info::-webkit-scrollbar {
+/* .feature-info::-webkit-scrollbar {
     width: 5px;
 }
 
@@ -417,7 +411,7 @@ header .fa-bars {
 
 .feature-info::-webkit-scrollbar-corner {
     background: #03002e;
-}
+} */
 
 .feature-info img {
     width: 50px;
@@ -478,7 +472,7 @@ header .fa-bars {
 }
 
 .usersComments {
-    height: 16rem;
+    height: 100%;
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -635,9 +629,7 @@ header .fa-bars {
 
 .right-pane {
     width: 25%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 0 0 15px 0;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -656,8 +648,8 @@ header .fa-bars {
 
 
 .discover-videos {
-    width: 97%;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     padding: 5px;
     overflow-y: scroll;
     padding-bottom: 100px;
@@ -684,8 +676,8 @@ header .fa-bars {
 
 
 .fav-videos {
-    width: 97%;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     padding: 5px;
     overflow-y: scroll;
     padding-bottom: 100px;
@@ -713,8 +705,8 @@ header .fa-bars {
 
 
 .later-videos {
-    width: 97%;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     padding: 5px;
     overflow-y: scroll;
     padding-bottom: 100px;

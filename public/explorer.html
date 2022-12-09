@@ -44,15 +44,7 @@
     <script defer src="explorer.js"></script>
   </head>
 
-  <header>
-    <i class="fa-solid fa-bars" id="mobile-view-bars"></i>
-    <img id="logo" src="/images/Logo Black.png" alt="Fari-Logo" />
-    <div class="search">
-      <input type="search" id="searchfield" placeholder="Search" />
-    </div>
-
-    <i class="fa-solid fa-bars" id="main-view-bars"></i>
-  </header>
+  <header></header>
 
   <body>
     <div class="nav">
@@ -101,91 +93,106 @@
     </div>
 
     <div class="content-container">
-      <div class="left-pane">
-        <h4>Menu</h4>
-        <div class="menu">
-          <ul class="content-sort">
-            <li id="discover">
-              <i class="fa-solid fa-magnifying-glass"></i>Discover
-            </li>
-            <li id="paytoview">
-              <i class="fa-solid fa-dollar-sign"></i>Pay to View
-            </li>
-            <li id="subscriptions">
-              <i class="fa-solid fa-user-check"></i>Subscriptions
-            </li>
-            <li id="favorites"><i class="fa-solid fa-heart"></i>Favorites</li>
-            <li id="watchlist"><i class="fa-solid fa-clock"></i>Watchlist</li>
-            <li id="history">
-              <i class="fa-solid fa-clock-rotate-left"></i>Watch History
-            </li>
-          </ul>
+      <div class="header">
+        <i class="fa-solid fa-bars" id="mobile-view-bars"></i>
+        <img id="logo" src="/images/Logo Black.png" alt="Fari-Logo" />
+        <div class="search">
+          <input type="search" id="searchfield" placeholder="Search" />
         </div>
 
-        <h4>Category</h4>
-        <div class="category">
-          <ul class="content-sort">
-            <li id="movies"><i class="fa-solid fa-film"></i>Movies & Films</li>
-            <li id="shows">
-              <i class="fa-solid fa-clapperboard"></i>Shows & Webseries
-            </li>
-            <li id="animations"><i class="fa-solid fa-robot"></i>Animations</li>
-            <li id="vlogs"><i class="fa-solid fa-video"></i>Vlogs</li>
-          </ul>
-        </div>
+        <i class="fa-solid fa-bars" id="main-view-bars"></i>
       </div>
+      <div class="center">
+        <div class="left-pane">
+          <h4>Menu</h4>
+          <div class="menu">
+            <ul class="content-sort">
+              <li id="discover">
+                <i class="fa-solid fa-magnifying-glass"></i>Discover
+              </li>
+              <li id="paytoview">
+                <i class="fa-solid fa-dollar-sign"></i>Pay to View
+              </li>
+              <li id="subscriptions">
+                <i class="fa-solid fa-user-check"></i>Subscriptions
+              </li>
+              <li id="favorites"><i class="fa-solid fa-heart"></i>Favorites</li>
+              <li id="watchlist"><i class="fa-solid fa-clock"></i>Watchlist</li>
+              <li id="history">
+                <i class="fa-solid fa-clock-rotate-left"></i>Watch History
+              </li>
+            </ul>
+          </div>
 
-      <div class="main-content">
-        <h2 id="title"></h2>
-        <div class="screen searched" style="display: none">
-          <div class="channel-search"></div>
-          <div class="searched-content-results">
-            <div class="noSearch-results message">
-              Your search criteria didn't return any video results.
+          <h4>Category</h4>
+          <div class="category">
+            <ul class="content-sort">
+              <li id="movies">
+                <i class="fa-solid fa-film"></i>Movies & Films
+              </li>
+              <li id="shows">
+                <i class="fa-solid fa-clapperboard"></i>Shows & Webseries
+              </li>
+              <li id="animations">
+                <i class="fa-solid fa-robot"></i>Animations
+              </li>
+              <li id="vlogs"><i class="fa-solid fa-video"></i>Vlogs</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="main-content">
+          <h2 id="title"></h2>
+          <div class="screen searched" style="display: none">
+            <div class="channel-search"></div>
+            <div class="searched-content-results">
+              <div class="noSearch-results message">
+                Your search criteria didn't return any video results.
+              </div>
+            </div>
+          </div>
+          <div class="screen discover"></div>
+          <div class="screen paytoview" style="display: none"></div>
+          <div class="screen subscriptions" style="display: none">
+            <div class="newUserMessage-subs message">
+              You do not have any Subscriptions yet.
+            </div>
+          </div>
+          <div class="screen favorites" style="display: none">
+            <div class="newUserMessage-favs message">
+              You do not have any Favorites yet.
+            </div>
+          </div>
+          <div class="screen watchlist" style="display: none">
+            <div class="newUserMessage-watchlater message">
+              You do not have any videos on your Watchlist yet.
+            </div>
+          </div>
+          <div class="screen history" style="display: none">
+            <div class="newUserMessage-history message">
+              You do not have any recent Watch History.
             </div>
           </div>
         </div>
-        <div class="screen discover"></div>
-        <div class="screen paytoview" style="display: none"></div>
-        <div class="screen subscriptions" style="display: none">
-          <div class="newUserMessage-subs message">
-            You do not have any Subscriptions yet.
-          </div>
-        </div>
-        <div class="screen favorites" style="display: none">
-          <div class="newUserMessage-favs message">
-            You do not have any Favorites yet.
-          </div>
-        </div>
-        <div class="screen watchlist" style="display: none">
-          <div class="newUserMessage-watchlater message">
-            You do not have any videos on your Watchlist yet.
-          </div>
-        </div>
-        <div class="screen history" style="display: none">
-          <div class="newUserMessage-history message">
-            You do not have any recent Watch History.
-          </div>
-        </div>
-      </div>
 
-      <div class="right-pane">
-        <div class="popular channels">
-          <h3>Popular Channels</h3>
-          <div class="table"></div>
+        <div class="right-pane">
+          <div class="popular channels">
+            <h3>Popular Channels</h3>
+            <div class="table"></div>
+          </div>
+          <div class="popular uploads">
+            <h3>Popular Uploads</h3>
+            <div class="grid"></div>
+          </div>
+          <div class="popular channels-subbed">
+            <h3>Subscriptions</h3>
+            <div class="table"></div>
+          </div>
+          <!--         <div class="popular channels-live">
+            <h3>Live</h3>
+            <div class="table"></div>
+          </div> -->
         </div>
-        <div class="popular uploads">
-          <h3>Popular Uploads</h3>
-          <div class="grid"></div>
-        </div>
-        <div class="popular channels-subbed">
-          <h3>Subscriptions</h3>
-          <div class="table"></div>
-        </div>
-<!--         <div class="popular channels-live">
-          <h3>Live</h3>
-          <div class="table"></div>
-        </div> -->
       </div>
 
       <div class="ticket-purchase">

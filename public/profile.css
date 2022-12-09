@@ -38,92 +38,6 @@ body::-webkit-scrollbar-corner {
 
 
 
-
-
-header {
-    width: 100%;
-    height: 70px;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 5px;
-    display: flex;
-    letter-spacing: 0.02rem;
-}
-
-header h1 {
-    color: rgba(255, 255, 255, 0.3);
-    letter-spacing: 0.3rem;
-    margin: 0 1rem;
-    font-family: 'Teko';
-}
-
-#logo {
-    position: absolute;
-    left: 0;
-    top: 0;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    margin-top: -1.5rem;
-}
-
-.retreat {
-    width: 7rem;
-    height: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 1rem;
-    position: absolute;
-    right: 0;
-}
-
-.retreat a {
-    text-decoration: none;
-    color: #dddddd;
-}
-
-.retreat .btn {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    color: #dddddd;
-    font-family: "Teko";
-    font-size: 18px;
-    cursor: pointer;
-    border: none;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-    box-shadow: inset 2px 2px 4px #6a6a6a, inset -2px -2px 4px #050606;
-    border-radius: 10px;
-}
-
-.retreat i {
-    margin-left: 5px;
-}
-
-i#main-view-bars {
-    color: #dddddd;
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 30px;
-    margin: 1rem;
-    cursor: pointer;
-}
-
-i.fa-solid.fa-bars.id\= {
-    display: none;
-}
-
-#logo {
-    position: absolute;
-    left: 0;
-    top: 0;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    margin-top: -1.5rem;
-}
-
 .nav {
     position: absolute;
     top: 0;
@@ -219,16 +133,97 @@ i.fa-solid.fa-bars.id\= {
 
 .content-container {
     width: 100%;
-    height: 120%;
-    border-radius: 15px;
+    height: 100%;
+    background: rgba(0, 0, 0, .2);
+}
+
+.header {
+    width: 100%;
+    height: 10%;
+    padding: 5px;
     display: flex;
+    letter-spacing: 0.02rem;
+}
+
+.header h1 {
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.3rem;
+    margin: 0 1rem;
+    font-family: 'Teko';
+}
+
+#logo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: -1.5rem;
+}
+
+.retreat {
+    width: 7rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+    position: absolute;
+    right: 0;
+}
+
+.retreat a {
+    text-decoration: none;
+    color: #dddddd;
+}
+
+.retreat .btn {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: #dddddd;
+    font-family: "Teko";
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 2px 2px 4px #6a6a6a, inset -2px -2px 4px #050606;
+    border-radius: 10px;
+}
+
+.retreat i {
+    margin-left: 5px;
+}
+
+i#main-view-bars {
+    color: #dddddd;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 30px;
+    margin: 1rem;
+    cursor: pointer;
+}
+
+i.fa-solid.fa-bars.id\= {
+    display: none;
+}
+
+#logo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: -1.5rem;
 }
 
 
 .left-pane {
-    width: 20%;
-    height: 120vh;
-    background: rgba(0, 0, 0, 0.3);
+    width: 15%;
+    height: 100%;
 }
 
 .left-pane h4 {
@@ -238,10 +233,14 @@ i.fa-solid.fa-bars.id\= {
     color: rgba(255, 255, 255, 0.4);
 }
 
+.center {
+    display: flex;
+    width: 100%;
+    height: 90%;
+}
 
 .menu {
     width: 100%;
-    height: 100vh;
 }
 
 .content-sort {
@@ -345,29 +344,28 @@ i.fa-solid.fa-bars.id\= {
     color: #dddddd;
     font-family: 'Teko';
     display: flex;
-    justify-content:center;
+    justify-content: center;
 }
 
 .channel-name h3 {
     margin-bottom: 20px;
 }
 
-.channel-name .fa-registered{
-color: rgba(255, 255, 255, 0.3);
-margin-left: 5px;
-display: none;    
+.channel-name .fa-registered {
+    color: rgba(255, 255, 255, 0.3);
+    margin-left: 5px;
+    display: none;
 }
 
 .main-content {
-    width: 80%;
-    height: 120vh;
+    width: 70%;
+    height: 100%;
     padding: 5px;
-    background: rgba(0, 0, 0, 0.3);
 }
 
 .screen {
     width: 100%;
-    height: 120vh;
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -588,15 +586,13 @@ i.fa-solid.fa-pencil {
 }
 
 .right-pane {
-    width: 25%;
-    height: 120vh;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 0 0 15px 0;
+    width: 15%;
+    height: 100%;
 }
 
 .popular {
-    width: 97%;
-    max-height: 42%;
+    width: 100%;
+    max-height: 50%;
     background: rgba(128, 128, 128, 0.08);
     margin: 1rem auto;
     padding: 8px;
@@ -607,9 +603,6 @@ i.fa-solid.fa-pencil {
     overflow-x: hidden;
 }
 
-.popular.messages {
-    max-height: 40%;
-}
 
 .popular::-webkit-scrollbar {
     width: 5px;
@@ -749,61 +742,61 @@ i.fa-solid.fa-pencil {
 /* Settings */
 
 .settings {
-  background: rgba(255, 255, 255, 0.1);
-  width: 55rem;
-  height: 35rem;
-  color: #dddddd;
-  display: flex;
-  position: absolute;
-  margin: 1rem auto;
-  top: 20%;
-  left: 0;
-  right:0;  
-  transform:scale(0);
-  transition: 0.5s;
-  font-family: 'Teko';
+    background: rgba(255, 255, 255, 0.1);
+    width: 55rem;
+    height: 35rem;
+    color: #dddddd;
+    display: flex;
+    position: absolute;
+    margin: 1rem auto;
+    top: 10%;
+    left: 0;
+    right: 0;
+    transform: scale(0);
+    transition: 0.5s;
+    font-family: 'Teko';
 }
 
-.settings.active{
+.settings.active {
     transform: scale(1);
 }
 
-.left-menu{
-  width: 30%;
-  height: 100%;
-  border-right: 1px solid rgba(0, 0, 0, .1);
-  padding: 10px;
-  position: relative;
+.left-menu {
+    width: 30%;
+    height: 100%;
+    border-right: 1px solid rgba(0, 0, 0, .1);
+    padding: 10px;
+    position: relative;
 }
 
-.left-menu ul{
-  list-style-type: none;
+.left-menu ul {
+    list-style-type: none;
 }
 
-.left-menu ul li{
-  margin: 1rem auto;
-  height: 50px;
-  border-radius: 20px;
-  cursor: pointer;
-  padding: 10px;
-  font-size: 20px;  
+.left-menu ul li {
+    margin: 1rem auto;
+    height: 50px;
+    border-radius: 20px;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 20px;
 }
 
-.selected-settings{
-  background: rgba(255, 255, 255, 0.1)
+.selected-settings {
+    background: rgba(255, 255, 255, 0.1)
 }
 
-.settings-main-view{
-  width: 70%;
-  height: 100%;
-  position: relative;
-  
+.settings-main-view {
+    width: 70%;
+    height: 100%;
+    position: relative;
+
 }
 
-.section{
-  height: 100%;
-  width: 100%;
-  padding: 10px;
+.section {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
 }
 
 .about {
@@ -940,66 +933,66 @@ i.fa-solid.fa-pen {
     opacity: 0;
 }
 
-.settings .reg-process{
-margin: 1rem auto;  
-text-align: center;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-margin-top: 100px;  
+.settings .reg-process {
+    margin: 1rem auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
 }
 
-.progress{
-display: flex;
-margin: 10px; 
-margin-top: 2rem;    
+.progress {
+    display: flex;
+    margin: 10px;
+    margin-top: 2rem;
 }
 
-.progress h1{
-font-family: 'Teko';
+.progress h1 {
+    font-family: 'Teko';
 }
 
-.settings .btn{
-width: 200px;
-height: 50px;  
-background: #0C1559;
-color: #fdfbf9;
-font-family: 'Teko';
-font-size: 22px; 
-border: none; 
-cursor: pointer;  
-border-radius: 20px;  
-letter-spacing: .03rem;  
+.settings .btn {
+    width: 200px;
+    height: 50px;
+    background: #0C1559;
+    color: #fdfbf9;
+    font-family: 'Teko';
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    letter-spacing: .03rem;
 }
 
-.fa{
-font-size: 50px;
-color: #B2022F;
+.fa {
+    font-size: 50px;
+    color: #B2022F;
 }
 
 .progress.subscription i {
-display: none;
+    display: none;
 }
 
-.progress.connection i{
-display: none;
+.progress.connection i {
+    display: none;
 }
 
 
-.thanks{
-margin: 10px;
+.thanks {
+    margin: 10px;
 }
 
-#support{
-  margin: 2rem auto;
+#support {
+    margin: 2rem auto;
 }
 
-.registration-complete{
+.registration-complete {
     flex-direction: column;
     margin: 8rem auto;
     justify-content: center;
-    align-items: center;  
+    align-items: center;
     display: none;
 }
 
