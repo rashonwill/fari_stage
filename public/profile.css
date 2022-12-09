@@ -370,8 +370,8 @@ i.fa-solid.fa-bars.id\= {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    overflow: scroll;
-    /* overflow-x: hidden; */
+    overflow-y: scroll;
+    overflow-x: hidden;
     padding-bottom: 100px;
     font-family: 'Teko';
 }
@@ -744,7 +744,7 @@ i.fa-solid.fa-pencil {
 
 .settings {
     background: rgba(255, 255, 255, 0.1);
-    width: 55rem;
+    width: 50rem;
     height: 35rem;
     color: #dddddd;
     display: flex;
@@ -1031,7 +1031,7 @@ i.fa-solid.fa-pen {
 }
 
 .analytics .card {
-    width: 15rem;
+    width: 13rem;
     height: 12rem;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 15px;
@@ -1075,7 +1075,7 @@ i.fa-solid.fa-pen {
 }
 
 .graph {
-    width: 525px;
+    width: 800px;
     height: 20rem;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 15px;
@@ -1138,6 +1138,10 @@ td {
     display: none;
 }
 
+.newUpload form {
+    width: 100%;
+}
+
 .newUpload .user-input {
     display: flex;
     justify-content: center;
@@ -1146,7 +1150,7 @@ td {
 }
 
 .newUpload .video-info {
-    width: 525px;
+    width: 50%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -1189,7 +1193,7 @@ td {
 }
 
 .categories {
-    width: 525px;
+    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
