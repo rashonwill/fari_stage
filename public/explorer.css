@@ -609,7 +609,7 @@ button:hover {
 
 .popular {
     width: 100%;
-    height: 50%;
+    max-height: 50%;
     background: rgba(128, 128, 128, 0.08);
     margin: 1rem auto;
     padding: 8px;
