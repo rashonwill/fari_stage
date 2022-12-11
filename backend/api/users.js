@@ -43,6 +43,15 @@ usersRouter.get("/", async (req, res, next) => {
   }
 });
 
+usersRouter.get("/me", requireUser, async (req, res, next) => {		
+  try {	  
+    res.send({user: req.user});
+  } catch (error) {
+    console.error("Hmm, can't seem to get that user", error);
+    next(error);
+  }
+});
+
 usersRouter.get(
   "/user-search/:query",
   check("query").not().isEmpty().trim().escape(),
