@@ -94,7 +94,6 @@ const {
 explorerRouter.get(
   "/discover",
 //   rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
-  requireUser,
   async (req, res, next) => {
     try {
       const freeContent = await getDiscoverContent();
