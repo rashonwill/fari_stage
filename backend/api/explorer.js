@@ -168,7 +168,6 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/getVideo/:videoid",
-  requireUser,
   check("videoid")
     .not()
     .isEmpty()
@@ -201,7 +200,6 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/video-search/:query",
-  requireUser,
   check("query").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { query } = req.params;
@@ -550,7 +548,6 @@ explorerRouter.get(
 
 explorerRouter.patch(
   "/update/viewcount/:videoid",
-  requireUser,
   check("videoid")
     .not()
     .isEmpty()
@@ -581,7 +578,6 @@ explorerRouter.patch(
 
 explorerRouter.get(
   "/play/:videoid",
-  requireUser,
   check("videoid")
     .not()
     .isEmpty()
@@ -717,7 +713,6 @@ explorerRouter.delete(
 
 explorerRouter.get(
   "/comments/:videoid",
-  requireUser,
   check("videoid")
     .not()
     .isEmpty()
