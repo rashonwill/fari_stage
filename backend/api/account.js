@@ -72,7 +72,7 @@ accountRouter.post(
     if (!errors.isEmpty()) {
       return res
         .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
+        .send({ name: "Validation Error", message: errors.array()});
     } else {
       try {
 
