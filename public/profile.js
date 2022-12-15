@@ -569,6 +569,27 @@ function renderSubsTable(subsList) {
 
 //Analytics
 
+async function totalPost() {
+  let channelid = localStorage.getItem("channelID");
+
+  try {
+    const response = await fetch(
+      `${FARI_API}/analytics/totalpost/${channelid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${myToken}`,
+        },
+      }
+    );
+    const data = await response.json();
+    return data.total;
+  } catch (error) {
+    response.status(400).send(error);
+  }
+}
+
 async function totalViews() {
   let channelid = localStorage.getItem("channelID");
 
