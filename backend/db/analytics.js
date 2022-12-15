@@ -193,6 +193,25 @@ async function getTotalRentalOrders(channelid) {
   }
 }
 
+
+async function totalChannelPost(channelid) {
+  try {
+    const { rows } = await client.query(
+      `
+        SELECT COUNT(*)
+        FROM channel_uploads
+        WHERE channelid=$1;
+       `,
+      [channelid]
+    );
+
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 async function getChannelRentals(channelid) {
   try {
     const { rows } = await client.query(
@@ -350,4 +369,5 @@ module.exports = {
   filterOrdersByDate,
   getPurchaseItemsTotal,
   getRentalItemsTotal,
+  totalChannelPost,
 };
