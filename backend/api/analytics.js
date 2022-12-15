@@ -27,6 +27,7 @@ const {
   filterOrdersByDate,
   getPurchaseItemsTotal,
   getRentalItemsTotal,
+  totalChannelPost,
 } = require("../db");
 
 analyticsRouter.get(
@@ -262,6 +263,36 @@ analyticsRouter.get(
     }
   }
 );
+
+
+analyticsRouter.get(
+  "/totalpost/:channelid",
+  check("channelid")
+    .not()
+    .isEmpty()
+    .isNumeric()
+    .withMessage("Not a valid value")
+    .trim()
+    .escape(),
+  async (req, res, next) => {
+    const { channelid } = req.params;
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .send({ name: "Validation Error", message: errors.array()[0].msg });
+    } else {
+      try {
+        const postTotal = await totalChannelPost(channelid);
+        res.send({ total: postTotal });
+      } catch (error) {
+        console.log("Oops, could not get total number of post", error);
+        next(error);
+      }
+    }
+  }
+);
+
 
 analyticsRouter.get(
   "/rentedtotal/:channelid",
