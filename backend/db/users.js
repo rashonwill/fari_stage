@@ -298,7 +298,7 @@ async function getUserChannelByName(username) {
   try {
     const { rows } = await client.query(
       `
-  SELECT *, user_channel.id AS channelid, COALESCE(SUM(user_channel.channelid),0) AS totalpost
+  SELECT *, user_channel.id AS channelid
   FROM users
   RIGHT JOIN user_channel ON users.username = user_channel.channelname
   WHERE username=$1;
