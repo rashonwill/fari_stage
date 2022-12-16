@@ -1290,7 +1290,7 @@ function addTag(event){
 
 input.addEventListener('keyup', addTag);
 
-$("#upload").on("click", async function submitUpload(event) {
+$(".newUpload form").on("click", async function submitUpload(event) {
   event.preventDefault();
 
   const title = _.escape($("span#title").text());
