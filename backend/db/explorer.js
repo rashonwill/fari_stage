@@ -1,6 +1,6 @@
 const client = require("./client");
 
-async function createUpload(
+async function createUpload({
   channelID,
   channelname,
   videoFile,
@@ -9,13 +9,13 @@ async function createUpload(
   thumbnailKey,
   videoTitle,
   videoDescription,
-  {videoTags},
+  videoTags,
   content_category,
   content_class,
   rental_price,
   vendor_email,
   stripe_acctid,
-) {
+}) {
   try {
     const {
       rows: [uploads],
