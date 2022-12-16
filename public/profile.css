@@ -1232,7 +1232,7 @@ td {
     border-radius: 10px;
     outline: none;
     color: rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
     font-size: 18px;
     font-family: 'Unbounded';
     height: 4rem;
