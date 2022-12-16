@@ -6,29 +6,8 @@ async function alterDatabase() {
     
     
     await client.query(`
-    ALTER TABLE channel_messages 
-    DROP COLUMN senderpic;
-    
-    ALTER TABLE channel_messages 
-    DROP COLUMN receiverpic;
-    
-    ALTER TABLE channel_uploads 
-    DROP COLUMN channelavi;
-    
-    ALTER TABLE upload_comments 
-    DROP COLUMN commentorpic;
-    
-    ALTER TABLE user_favorites 
-    DROP COLUMN channelavi;
-    
-    ALTER TABLE user_watchlist 
-    DROP COLUMN channelavi;
-    
-    ALTER TABLE user_subscriptions 
-    DROP COLUMN channelavi;
-    
-    ALTER TABLE user_watch_history 
-    DROP COLUMN channelavi;
+    ALTER TABLE channel_uploads
+    ALTER COLUMN videotags TYPE TEXT []
          
     `);
 
