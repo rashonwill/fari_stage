@@ -1275,8 +1275,8 @@ function remove(element, tag){
 }
 
 function addTag(event){
-	 event.preventDefault();
   if(event.keyCode == 13){
+	  event.preventDefault();
     let tag = event.target.value.replace(/\s+/g, ' ');
 	  console.log(tag)
      if(tag.length > 1 && !tags.includes(tag)){
