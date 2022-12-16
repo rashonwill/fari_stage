@@ -1256,11 +1256,11 @@ function setPoster(event) {
 
 const ul = document.querySelector("#tags-list"), input = ul.querySelector("#tags-input");
 
- let tags = []; 
+ let videotags = []; 
 
 function createTag(){
   ul.querySelectorAll('li').forEach(li => li.remove());
-  tags.forEach(tag => {
+  videotags.forEach(tag => {
     let newTag = `<li>${tag} <i class="fa-solid fa-xmark" onclick="remove(this, '${tag}')"></i></li>`;
     ul.insertAdjacentHTML('afterbegin', newTag);
   })
@@ -1269,19 +1269,18 @@ function createTag(){
 
 
 function remove(element, tag){
-  let index = tags.indexOf(tag);
-  tags = [...tags.slice(0, index), ...tags.slice(index + 1)]
+  let index = videotags.indexOf(tag);
+  videotags = [...videotags.slice(0, index), ...videotags.slice(index + 1)]
   element.parentElement.remove();
 }
 
 function addTag(event){
   if(event.keyCode == 32){
-	  event.preventDefault();
+    event.preventDefault();
     let tag = event.target.value.replace(/\s+/g, ' ');
-	  console.log(tag)
-     if(tag.length > 1 && !tags.includes(tag)){
+     if(tag.length > 1 && !videotags.includes(tag)){
       tag.split(',').forEach(tag =>{
-        tags.push(tag);
+        videotags.push(tag);
         createTag();
       })
     }
@@ -1290,6 +1289,8 @@ function addTag(event){
 }
 
 input.addEventListener('keyup', addTag);
+
+console.log(videotags)
 
 $(".newUpload form").on("submit", async function submitUpload(event) {
   event.preventDefault();
