@@ -110,7 +110,7 @@ CREATE TABLE channel_uploads (
   thumbnailKey TEXT NULL,
   videoTitle varchar(255) NOT NULL UNIQUE,
   videoDescription varchar(8000) NULL,
-  videoTags varchar(800) NULL,
+  videoTags TEXT [] NULL,
   videopostDT DATE DEFAULT CURRENT_DATE NOT NULL,
   videoLikeCount INT DEFAULT 0,
   constraint likes_nonnegative check (videoLikeCount >= 0),
