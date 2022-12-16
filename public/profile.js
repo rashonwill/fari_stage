@@ -1254,7 +1254,7 @@ function setPoster(event) {
   }
 }
 
-const ul = document.querySelector("tags-list"), input = ul.querySelector("tags-input");
+const ul = document.querySelector("#tags-list"), input = ul.querySelector("#tags-input");
 
  let tags = []; 
 
@@ -1294,7 +1294,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
 
   const title = _.escape($("span#title").text());
   const description = _.escape($("span#description").text());
-  const tags = _.escape($("span#tags").text());
+  const tags = _.escape($("#tags-input").text());
   const rentalprice = _.escape($("#rentalprice").val());
   const contenttype = $('input[name="content_category"]:checked').val();
   const paidOrFree = $('input[name="content_class"]:checked').val();
@@ -1332,7 +1332,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     onFetchEnd();
     $("span#title").text("");
     $("span#description").text("");
-    $("span#tags").text("");
+    $("#tags-inpu").text("");
     $("#video-file").attr("src", "");
     $("#video-poster").attr("poster", "");
   }
