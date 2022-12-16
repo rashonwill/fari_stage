@@ -1215,6 +1215,8 @@ td {
     padding: 5px 8px 5px 10px;
     display: flex;
     height: 2rem;
+    color: #dddddd;
+    font-weight: 700;
 }
 
 .content-tags ul li i{
