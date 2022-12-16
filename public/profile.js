@@ -1296,7 +1296,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
 
   const title = _.escape($("span#title").text());
   const description = _.escape($("span#description").text());
-  const tags = _.escape($("#tags-input").text());
+  const tags = _.escape($("#tags-input").val());
   const rentalprice = _.escape($("#rentalprice").val());
   const contenttype = $('input[name="content_category"]:checked').val();
   const paidOrFree = $('input[name="content_class"]:checked').val();
