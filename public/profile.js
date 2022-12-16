@@ -1275,7 +1275,7 @@ function remove(element, tag){
 }
 
 function addTag(event){
-  if(event.keyCode == 13){
+  if(event.keyCode == 9){
     let tag = event.target.value.replace(/\s+/g, ' ');
 	  console.log(tag)
      if(tag.length > 1 && !tags.includes(tag)){
@@ -1290,7 +1290,7 @@ function addTag(event){
 
 input.addEventListener('keyup', addTag);
 
-$(".newUpload form").on("click", async function submitUpload(event) {
+$(".newUpload form").on("submit", async function submitUpload(event) {
   event.preventDefault();
 
   const title = _.escape($("span#title").text());
