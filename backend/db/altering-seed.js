@@ -6,8 +6,12 @@ async function alterDatabase() {
     
     
     await client.query(`
+    
     ALTER TABLE channel_uploads
-    ALTER COLUMN videotags TYPE TEXT []
+    DROP COLUMN videotagS;
+    
+    ALTER TABLE channel_uploads
+    ADD COLUMN videotags TEXT [] NULL;
          
     `);
 
