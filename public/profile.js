@@ -1254,6 +1254,41 @@ function setPoster(event) {
   }
 }
 
+const ul = document.querySelector("tags-list"), input = ul.querySelector("tags-input");
+
+ let tags = []; 
+
+function createTag(){
+  ul.querySelectorAll('li').forEach(li => li.remove());
+  tags.forEach(tag => {
+    let newTag = `<li>${tag} <i class="fa-solid fa-xmark" onclick="remove(this, '${tag}')"></i></li>`;
+    ul.insertAdjacentHTML('afterbegin', newTag);
+  })
+  
+}
+
+
+function remove(element, tag){
+  let index = tags.indexOf(tag);
+  tags = [...tags.slice(0, index), ...tags.slice(index + 1)]
+  element.parentElement.remove();
+}
+
+function addTag(event){
+  if(event.keyCode == 13){
+    let tag = event.target.value.replace(/\s+/g, ' ');
+     if(tag.length > 1 && !tags.includes(tag)){
+      tag.split(',').forEach(tag =>{
+        tags.push(tag);
+        createTag();
+      })
+    }
+    event.target.value = "";
+  }
+}
+
+input.addEventListener('keyup', addTag);
+
 $(".newUpload form").on("submit", async function submitUpload(event) {
   event.preventDefault();
 
