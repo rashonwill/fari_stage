@@ -1335,7 +1335,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     onFetchEnd();
     $("span#title").text("");
     $("span#description").text("");
-    $("#tags-inpu").text("");
+    $("#tags-input").text("");
     $("#video-file").attr("src", "");
     $("#video-poster").attr("poster", "");
   }
