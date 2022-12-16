@@ -143,18 +143,9 @@ uploadsRouter.post(
   async (req, res, next) => {
     const { user } = req.user;
     const cloudfront = process.env.CLOUDFRONT_URL;
-    const title = req.body.title;
     const vid = req.files["video"][0];
     const thumbnail = req.files["thumbnail"][0];
-    const description = req.body.description;
-    const tags = req.body.tags;
-    const channelid = req.body.channelid;
-    const channelname = req.body.channelname;
-    const content_category = req.body.content_category;
-    const content_class = req.body.content_class;
-    const rental_price = req.body.ticketprice;
-    const vendor_email = req.body.vendor_email;
-    const stripe_acctid = req.body.stripe_acctid;
+    const {title, description, tags, channelid, channelname, content_category, content_class, rental_price, vendor_email, stripe_acctid} = req.body
 
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
