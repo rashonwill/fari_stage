@@ -1303,6 +1303,8 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
   const paidOrFree = $('input[name="content_class"]:checked').val();
   const poster = _.escape($("#video-poster").attr("poster"));
   const vid = _.escape($("#video-file").attr("src"));
+	
+	console.log(tags)
 
   try {
     var profile = await getUserProfile();
@@ -1314,7 +1316,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     const formData = new FormData(document.getElementById("newUpload"));
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("tags", array[tags]);
+    formData.append("tags", videotags);
     formData.append("channelid", channelid);
     formData.append("channelname", channelname);
     formData.append("vendor_email", vendor_email);
