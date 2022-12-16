@@ -1314,7 +1314,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     const formData = new FormData(document.getElementById("newUpload"));
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("tags", tags);
+    formData.append("tags", {tags});
     formData.append("channelid", channelid);
     formData.append("channelname", channelname);
     formData.append("vendor_email", vendor_email);
