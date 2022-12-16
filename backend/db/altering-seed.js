@@ -11,7 +11,7 @@ async function alterDatabase() {
     DROP COLUMN videotags;
     
     ALTER TABLE channel_uploads
-    ADD COLUMN videotags TEXT [] NULL;
+    ADD COLUMN videotags TEXT NULL;
          
     `);
 
