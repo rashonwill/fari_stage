@@ -9,7 +9,7 @@ async function createUpload({
   thumbnailKey,
   videoTitle,
   videoDescription,
-  videoTags,
+  {videoTags},
   content_category,
   content_class,
   rental_price,
