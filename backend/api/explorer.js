@@ -761,6 +761,7 @@ explorerRouter.get(
         const userSubs = await getUserSubscriptions(userid);
         res.send({ mysubscriptions: userSubs });
       } catch (error) {
+        console.log(error)
         next({
           name: "ErrorGettingUserSubs",
           message: "Could not get subscriptions",
