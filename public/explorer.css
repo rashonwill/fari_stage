@@ -227,6 +227,18 @@ i#mobile-view-bars {
     display: flex;
 }
 
+.loggedIn{
+width: 60px;
+height: 60px;    
+}
+
+.loggedIn img{
+width: 60px;
+height: 60px;    
+border-radius: 50%;
+box-shadow: 1px 1px 4px 3px black;    
+}
+
 /* Left Pane */
 
 .left-pane {
