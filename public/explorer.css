@@ -232,11 +232,11 @@ width: 60px;
 height: 60px;    
 }
 
-.loggedIn img{
-width: 60px;
-height: 60px;    
-border-radius: 50%;
-box-shadow: 1px 1px 4px 3px black;    
+.loggedIn img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 4px 3px rgb(255 255 255 / 20%);
 }
 
 /* Left Pane */
