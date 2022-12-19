@@ -275,10 +275,10 @@ accountRouter.get(
         "Content-Security-Policy",
         "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'"
       );
-      res.sendFile(path.join(__dirname, "../public/password-reset.html"));
+      res.sendFile(path.join(__dirname, ".../public/password-reset.html"));
     } catch (error) {
       console.log(error);
-      res.sendFile(path.join(__dirname, "../public/password-reset-link.html"));
+      res.sendFile(path.join(__dirname, ".../public/password-reset-link.html"));
     }
   }
 );
@@ -338,12 +338,12 @@ accountRouter.post(
         }
         const updatingUser = await updatePassword(id, updatedPassword);
         res.sendFile(
-          path.join(__dirname, "../public/password-reset-success.html")
+          path.join(__dirname, ".../public/password-reset-success.html")
         );
       } catch (error) {
         console.log("Oops, could not update user password", error);
         res.sendFile(
-          path.join(__dirname, "../public/password-reset-unsuccessful.html")
+          path.join(__dirname, ".../public/password-reset-unsuccessful.html")
         );
         next(error);
       }
