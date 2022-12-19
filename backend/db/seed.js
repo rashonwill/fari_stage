@@ -58,6 +58,7 @@ async function createTables() {
     subscribed_vendor_acct BOOLEAN DEFAULT FALSE,
     subscribed_user_acct BOOLEAN DEFAULT FALSE,
     disclaimer_accepted BOOLEAN DEFAULT FALSE,
+    termsofuse_accepted BOOLEAN DEFAULT FALSE
     UNIQUE(Username, Email)
   );
   
