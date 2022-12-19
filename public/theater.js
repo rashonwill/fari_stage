@@ -350,6 +350,9 @@ function renderVideoInfo(video) {
 
     let unesDescription = _.unescape(video.videodescription);
     let unesTitle = _.unescape(video.videotitle);
+    let unesUsername = _.unescape(video.videotitle)
+	
+	
 
     let featurePresentationInfo = $(` 
                <div class="author">
@@ -358,8 +361,8 @@ function renderVideoInfo(video) {
                   ? video.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
-                <h3><a href="/channel" style="color:#fdfbf9; text-decoration:none;">${
-                  video.channelname
+                <h3><a href="/channel?profile=${unesUsername}" style="color:#fdfbf9; text-decoration:none;">${
+                  unesUsername
                 }</a></h3>
               </div>
               <div class="titles">
@@ -439,7 +442,8 @@ function renderVideoInfo(video) {
     } else if (video.videodislikecount > 1_000) {
       dislikesString = (video.videodislikecount / 1_000).toFixed(1) + "k";
     }
-
+	  
+	 let unesUsername = _.unescape(video.videotitle) 
     let featurePresentationInfo = $(` 
                <div class="author">
               <img src="${
@@ -447,8 +451,8 @@ function renderVideoInfo(video) {
                   ? video.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
-                <h3><a href="/channel" style="color:#fdfbf9; text-decoration:none;">${
-                  video.channelname
+                <h3><a href="/channel?profile=${unesUsername}" style="color:#fdfbf9; text-decoration:none;">${
+                  unesUsername
                 }</a></h3>
               </div>
               <div class="titles">
@@ -689,10 +693,10 @@ function renderRecomVideos(uploads) {
             <div class="upload">
               <video poster="${uploads.videothumbnail}" src ="${uploads.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${uploads.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
-                  <h6><a href="/channel" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
+                  <h6><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
                 <h5>${unesTitle}</h5>
               </div>
             </div>
@@ -757,10 +761,10 @@ async function renderFavVideos(myFavVids) {
             <div class="upload">
               <video poster="${myFavVids.videothumbnail}" src ="${myFavVids.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${myFavVids.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
-                  <h6><a href="/channel" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
+                  <h6><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
                 <h5>${unesTitle}</h5>
               </div>
             </div>
@@ -826,10 +830,10 @@ async function renderLaterVideos(myWatchList) {
             <div class="upload">
               <video poster="${myWatchList.videothumbnail}" src ="${myWatchList.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${myWatchList.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
-                  <h6><a href="/channel" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
+                  <h6><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
                 <h5>${unesTitle}</h5>
               </div>
             </div>
@@ -937,6 +941,7 @@ function renderCommentSection(comments, index) {
 
   myRemarks.forEach(function (comments) {
     let unesComment = _.unescape(comments.user_comment);
+    let unesChannel = _.unescape(comments.commentorname);	  
     let commentsActive = $(`     
             <div class="my comment-card">
                    <div class="comment-options">
@@ -946,14 +951,14 @@ function renderCommentSection(comments, index) {
     </ul>
 </div>
               <div class="comment-content">
-              <img loading="lazy" src="${
+              <a href="/profile arai-label="visit channel"><img loading="lazy" src="${
                 comments.profile_avatar
                   ? comments.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-              }" alt="avatar"/>
+              }" alt="avatar"/></a>
                 <div class="commenter-info">
-                  <h5 class="user"><a href="/channel" style="color:#a9a9b0; text-decoration:none;">${
-                    comments.commentorname
+                  <h5 class="user"><a href="/profile" style="color:#a9a9b0; text-decoration:none;">${
+                    unesChannel
                   }</a></h5>
               <p id="user-comment">${unesComment}</p>
               </div>
@@ -1085,6 +1090,7 @@ function renderCommentSection(comments, index) {
 
   otherRemarks.forEach(function (comments) {
     let unesComment = _.unescape(comments.user_comment);
+    let unesChannel = _.unescape(comments.commentorname);  
     let otherComments = $(`        
         <div class="comment-card">
               <div class="comment-content">
@@ -1094,8 +1100,8 @@ function renderCommentSection(comments, index) {
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
                 <div class="commenter-info">
-                  <h5 class="user"><a href="/channel" style="color:#a9a9b0; text-decoration:none;">${
-                    comments.commentorname
+                  <h5 class="user"><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;">${
+                    unesChannel
                   }</a></h5>
               <h4>${unesComment}</h4>
                 </div>
@@ -1489,11 +1495,11 @@ function renderSearchedContent(videos) {
             <div class="upload">
               <video ${videos.videothumbnail}" src ="${videos.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${videos.videoid}"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
-                <a href="/channel">
-                  <h6><a href="/channel" style="color:#fdfbf9; text-decoration:none;">${unesChannel}</a><h6>
+                <a href="/channel?profile=${unesChannel}">
+                  <h6><a href="/channel?profile=${unesChannel}" style="color:#fdfbf9; text-decoration:none;">${unesChannel}</a><h6>
                 </a>
                 <h5>${unesTitle}</h5>
               </div>
