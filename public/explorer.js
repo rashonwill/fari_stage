@@ -176,7 +176,7 @@ function renderFreeContent(uploads) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${uploads.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
