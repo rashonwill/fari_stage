@@ -76,6 +76,18 @@ async function getUserProfile() {
   }
 }
 
+function dashboardAvi(profile) {
+  let profilePic = $(`
+  <img src="${
+    profile[0].profile_avatar
+      ? profile[0].profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" alt="userAvatar" />
+  `);
+  $(".header .loggedIn").append(profilePic);
+}
+
+
 async function getChannel() {
   let channelName = localStorage.getItem("channelname");
   try {
@@ -2188,6 +2200,7 @@ async function checkoutSessionStripe() {
 }
 
 function bootstrap() {
+  getUserProfile().then(dashboardAvi);
   getFreeMedia().then(renderMedia);
   getChannels().then(renderSuggestedChannels);
 //   getLiveChannels().then(renderLives);
