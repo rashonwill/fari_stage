@@ -343,7 +343,7 @@ accountRouter.post(
       } catch (error) {
         console.log("Oops, could not update user password", error);
         res.sendFile(
-          path.join(__dirname, "../public/password-reset-unsucessful.html")
+          path.join(__dirname, "../public/password-reset-unsuccessful.html")
         );
         next(error);
       }
