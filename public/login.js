@@ -62,11 +62,12 @@ $(".login-form").on("submit", async (event) => {
         .css("color", "#B2022F")
         .css("letter-spacing", ".05rem");
     } else if (data.success) {
+      getUserProfile();
       $(".message")
         .text(data.message)
         .css("color", "#100a1c")
         .css("letter-spacing", ".05rem");
-      window.location.href = "/dashboard";
+      window.location.href = "/explorer";
       localStorage.setItem("fariToken", data.token);
     }
   } catch (error) {
@@ -302,3 +303,31 @@ $("#reg-pass").on("keyup", function () {
     $("#special-character").removeClass("pass");
   }
 });
+
+async function getUserProfile() {
+  try {
+    const response = await fetch(`${FARI_API}/users/myprofile`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${myToken}`,
+      },
+    });
+    const data = await response.json();
+    if (data.profile.length > 0) {
+      localStorage.setItem("userID", data.profile[0].userid);
+      localStorage.setItem("userUsername", data.profile[0].username);
+      localStorage.setItem("userEmail", data.profile[0].email);
+      localStorage.setItem("vendorID", data.profile[0].vendorid);
+      localStorage.setItem("channelID", data.profile[0].channelid);
+      localStorage.setItem("channelName", data.profile[0].channelname);
+      localStorage.setItem("userStripeAcct", data.profile[0].stripe_acctid);
+    } else if (data.profile.length === 0) {
+      window.location.href = "login";
+    }
+
+    return data.profile;
+  } catch (error) {
+    response.status(400).send(error);
+  }
+}
