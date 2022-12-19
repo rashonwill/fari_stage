@@ -57,6 +57,7 @@ async function createTables() {
     CreationDT DATE DEFAULT CURRENT_DATE NOT NULL,
     subscribed_vendor_acct BOOLEAN DEFAULT FALSE,
     subscribed_user_acct BOOLEAN DEFAULT FALSE,
+    disclaimer_accepted BOOLEAN DEFAULT FALSE,
     UNIQUE(Username, Email)
   );
   
