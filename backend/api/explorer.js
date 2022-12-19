@@ -594,7 +594,7 @@ explorerRouter.get(
     } else {
       try {
         const playMe = await getUploadByID(videoid);
-        res.send({ video: playMe, query: req.query });
+        res.send({ video: playMe, videoid: playMe.videoid });
       } catch (error) {
         next({ name: "ErrorGettingVideo", message: "Could Not get the video" });
       }
