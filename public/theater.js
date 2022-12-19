@@ -113,10 +113,11 @@ async function getUserProfile() {
 
 async function playVideo() {
  let paramaters = new URLSearchParams(window.location.search)
- let id = paramaters.get('play')
- console.log(id)
+ let playid = paramaters.get('play')
+ console.log(playid)
+ localStorage.setItem('videoID', playid)	
   try {
-//     const id = localStorage.getItem("videoID");
+    const id = localStorage.getItem("videoID");
     const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
       method: "GET",
       headers: {
