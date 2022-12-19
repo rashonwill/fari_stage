@@ -1777,7 +1777,7 @@ function renderChannels(allChannels) {
                 allChannels.profile_avatar
                   ? allChannels.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-              }" alt="avatar" /></a>
+              }" alt="avatar" id="channelLink"/></a>
               <h5 id="channelID"><a href="/channel" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
@@ -1785,6 +1785,12 @@ function renderChannels(allChannels) {
   $(".popular.channels .table").append(channel);
 
   $(channel).on("click", "#channelID", async function () {
+    let channelView = $(this).closest(".top-channel-card").data("allChannels");
+    let id = channelView.id;
+    localStorage.setItem("visitingChannelID", id);
+  });
+  
+   $(channel).on("click", "#channelLink", async function () {
     let channelView = $(this).closest(".top-channel-card").data("allChannels");
     let id = channelView.id;
     localStorage.setItem("visitingChannelID", id);
@@ -1891,7 +1897,7 @@ function renderRecentUploadsChannels(mysubscriptions) {
                 mysubscriptions.profile_avatar
                   ? mysubscriptions.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-              }" alt="avatar" /></a>
+              }" alt="avatar" id="channelpic"/></a>
               <h5 id="channelLink"><a href="/channel" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
@@ -1905,6 +1911,14 @@ function renderRecentUploadsChannels(mysubscriptions) {
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
   });
+	
+   $(recentchannel).on("click", "#channelpic", async function () {
+     let channelView = $(this)
+      .closest(".top-channel-card")
+      .data("mysubscriptions");
+    let id = channelView.channelid;
+    localStorage.setItem("visitingChannelID", id);
+  });	
   return recentchannel;
 }
 
