@@ -62,13 +62,13 @@ $(".login-form").on("submit", async (event) => {
         .css("color", "#B2022F")
         .css("letter-spacing", ".05rem");
     } else if (data.success) {
-      getUserProfile();
       $(".message")
         .text(data.message)
         .css("color", "#100a1c")
         .css("letter-spacing", ".05rem");
       window.location.href = "/explorer";
       localStorage.setItem("fariToken", data.token);
+      getUserProfile();
     }
   } catch (error) {
     response.status(400).send(error);
