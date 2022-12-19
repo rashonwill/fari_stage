@@ -541,8 +541,8 @@ return data.mysubscriptions;
 function rendersubChannels(mysubscriptions) {
   let unesChannel = _.unescape(mysubscriptions.channelname);
   let subedChannels = $(`
-    <a href="/channel?profile=${unesChannel}" aria-label="visit channel"><div class="top-channel-card">
-       <img src="${
+    <div class="top-channel-card">
+       <a href="/channel?profile=${unesChannel}" aria-label="visit channel"><img src="${
          mysubscriptions.profile_avatar
            ? mysubscriptions.profile_avatar
            : "https://drotje36jteo8.cloudfront.net/noAvi.png"
