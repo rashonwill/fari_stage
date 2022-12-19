@@ -78,11 +78,13 @@ async function getUserProfile() {
 
 function dashboardAvi(profile) {
   let profilePic = $(`
+  <a href="/profile" aria-label="My Profile">
   <img src="${
     profile[0].profile_avatar
       ? profile[0].profile_avatar
       : "https://drotje36jteo8.cloudfront.net/noAvi.png"
   }" alt="userAvatar" />
+  </a>
   `);
   $(".header .loggedIn").append(profilePic);
 }
@@ -1762,11 +1764,11 @@ function renderChannels(allChannels) {
   let unesUsername = _.unescape(allChannels.channelname);
   let channel = $(`
             <div class="top-channel-card">
-              <img loading="lazy" src="${
+              <a href="/channel" aria-label="visit channel"><img loading="lazy" src="${
                 allChannels.profile_avatar
                   ? allChannels.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-              }" alt="avatar" />
+              }" alt="avatar" /></a>
               <h5 id="channelID"><a href="/channel" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
@@ -1876,11 +1878,11 @@ function renderRecentUploadsChannels(mysubscriptions) {
   let unesUsername = _.unescape(mysubscriptions.channelname);
   let recentchannel = $(`	
 	       <div class="top-channel-card">
-              <img loading="lazy" src="${
+              <a href="/channel" aria-label="visit channel"><img loading="lazy" src="${
                 mysubscriptions.profile_avatar
                   ? mysubscriptions.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-              }" alt="avatar" />
+              }" alt="avatar" /></a>
               <h5 id="channelLink"><a href="/channel" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
@@ -1928,11 +1930,11 @@ async function getLiveChannels() {
 function renderLiveChannels(live) {
   let livechannel = $(`
                   <div class="top-channel-card">
-              <img loading="lazy" src="${
+              <a href="/channel" aria-label="visit channel"><img loading="lazy" src="${
                 live.profile_avatar
                   ? live.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-              }" alt="avatar" />
+              }" alt="avatar" /></a>
               <h5 id="liveLink"><a href="#" style="color:#fdfbf9; text-decoration:none;" aria-label="View live stream">Join</a></h5>
             </div>
     
