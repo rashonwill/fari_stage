@@ -541,13 +541,13 @@ return data.mysubscriptions;
 function rendersubChannels(mysubscriptions) {
   let unesChannel = _.unescape(mysubscriptions.channelname);
   let subedChannels = $(`
-    <div class="top-channel-card">
+    <a href="/channel?profile=${unesChannel}" aria-label="visit channel"><div class="top-channel-card">
        <img src="${
          mysubscriptions.profile_avatar
            ? mysubscriptions.profile_avatar
            : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-       }" alt="avatar" />
-        <h5 id="channelID"><a href="/channel">${unesChannel}</a></h5>
+       }" alt="avatar" /></a>
+        <h5 id="channelID"><a href="/channel?profile=${unesChannel}">${unesChannel}</a></h5>
     </div>
     
    `).data("mysubscriptions", mysubscriptions);
@@ -1401,8 +1401,8 @@ async function renderMessages(notes) {
   let note = $(`
 <div class="note">
 <div class="channel-avi">
-<a href="/channel"><img loading="lazy" src="${notes.profile_avatar}" alt="sender pic" id="picture" /></a>
-<h3 id="channel"><a href="/channel">${unesChannel}</a></h3>
+<a href="/channel?profile=${unesChannel}"><img loading="lazy" src="${notes.profile_avatar}" alt="sender pic" id="picture" /></a>
+<h3 id="channel"><a href="/channel?profile=${unesChannel}">${unesChannel}</a></h3>
 </div>
 <h4>${unesMessage}</h4>
 <button id="read" title="Mark as Read">Mark as Read</button>
