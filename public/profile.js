@@ -1290,21 +1290,18 @@ function addTag(event){
 
 input.addEventListener('keyup', addTag);
 
-console.log(videotags)
 
 $(".newUpload form").on("submit", async function submitUpload(event) {
   event.preventDefault();
 
   const title = _.escape($("span#title").text());
   const description = _.escape($("span#description").text());
-  const tags = JSON.stringify(_.escape(videotags)).replace('[', '{').replace(']', '}');
+  const tags = JSON.stringify(_.escape(videotags));
   const rentalprice = _.escape($("#rentalprice").val());
   const contenttype = $('input[name="content_category"]:checked').val();
   const paidOrFree = $('input[name="content_class"]:checked').val();
   const poster = _.escape($("#video-poster").attr("poster"));
   const vid = _.escape($("#video-file").attr("src"));
-	
-	console.log(tags)
 
   try {
     var profile = await getUserProfile();
@@ -1316,7 +1313,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     const formData = new FormData(document.getElementById("newUpload"));
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("tags", videotags);
+    formData.append("tags", tags);
     formData.append("channelid", channelid);
     formData.append("channelname", channelname);
     formData.append("vendor_email", vendor_email);
