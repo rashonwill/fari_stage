@@ -5,7 +5,7 @@ let TOKEN;
   $("#login").addClass("selected");
   let setUser = localStorage.getItem("fariToken");
   if (setUser) {
-    window.location.href = "/dashboard";
+    window.location.href = "/explorer";
   }
 })();
 
