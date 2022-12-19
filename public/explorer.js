@@ -56,6 +56,7 @@ $(".category .content-sort li").click(function () {
   $(".menu .content-sort li").removeClass("selected");
 });
 
+
 async function getUserProfile() {
   try {
     const response = await fetch(`${FARI_API}/users/myprofile`, {
@@ -66,7 +67,15 @@ async function getUserProfile() {
       },
     });
     const data = await response.json();
-    if (data.profile.length === 0) {
+    if (data.profile.length > 0) {
+      localStorage.setItem("userID", data.profile[0].userid);
+      localStorage.setItem("userUsername", data.profile[0].username);
+      localStorage.setItem("userEmail", data.profile[0].email);
+      localStorage.setItem("vendorID", data.profile[0].vendorid);
+      localStorage.setItem("channelID", data.profile[0].channelid);
+      localStorage.setItem("channelName", data.profile[0].channelname);
+      localStorage.setItem("userStripeAcct", data.profile[0].stripe_acctid);
+    } else if (data.profile.length === 0) {
       window.location.href = "login";
     }
 
