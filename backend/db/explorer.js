@@ -778,7 +778,7 @@ async function getUserSubscriptions(userid) {
       `SELECT *, user_channel.profile_avatar
        FROM user_subscriptions
        INNER JOIN user_channel ON user_subscriptions.channelid = user_channel.id
-       WHERE usersubscriptions.userid=$1;
+       WHERE user_subscriptions.userid=$1;
       `,
       [userid]
     );
