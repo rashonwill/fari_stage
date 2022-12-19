@@ -156,13 +156,13 @@ function renderFreeContent(uploads) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel"><img id="channelAvi" loading="lazy" src="${
+                    <a href="/channel?profile=${unesUsername}"><img id="channelAvi" loading="lazy" src="${
                       uploads.profile_avatar
                         ? uploads.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -303,13 +303,13 @@ function renderPayMedia(uploads) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="/channel?profile=${unesUsername}"><img loading="lazy" id="channelAvi" src="${
                       uploads.profile_avatar
                         ? uploads.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -489,13 +489,13 @@ function renderSubsVids(subscriptionUploads) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       subscriptionUploads.profile_avatar
                         ? subscriptionUploads.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar"/></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -509,7 +509,7 @@ function renderSubsVids(subscriptionUploads) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${subscriptionUploads.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -581,13 +581,13 @@ function renderSubsVids(subscriptionUploads) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       subscriptionUploads.profile_avatar
                         ? subscriptionUploads.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -746,13 +746,13 @@ function renderFavs(myFavVids) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       myFavVids.profile_avatar
                         ? myFavVids.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -766,7 +766,7 @@ function renderFavs(myFavVids) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${myFavVids.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -890,13 +890,13 @@ function renderWatchLaters(myWatchList) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       myWatchList.profile_avatar
                         ? myWatchList.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -910,7 +910,7 @@ function renderWatchLaters(myWatchList) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${myWatchList.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -971,13 +971,13 @@ function renderWatchLaters(myWatchList) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       myWatchList.profile_avatar
                         ? myWatchList.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -986,7 +986,7 @@ function renderWatchLaters(myWatchList) {
                   <div class="card-options"></div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${myWatchList.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1094,13 +1094,13 @@ function renderHistory(history) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       history.profile_avatar
                         ? history.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -1109,7 +1109,7 @@ function renderHistory(history) {
                   
                 </div>
                 <div class="card-mid">
-                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${history.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1333,13 +1333,13 @@ function renderFilteredContent(videos) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       videos.profile_avatar
                         ? videos.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -1353,7 +1353,7 @@ function renderFilteredContent(videos) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${videos.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1446,12 +1446,12 @@ function renderChannelSearched(profile) {
   let unesUsername = _.unescape(profile[0].channelname);
   let channelSearched = $(`
               <div class="channel-card">
-                <img loading="lazy" src="${
+                <a href="/channel?profile=${unesUsername} aria-label="view channel profile"><img loading="lazy" src="${
                   profile[0].profile_avatar
                     ? profile[0].profile_avatar
                     : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                }" alt="channel-avi" id="channel-search-avi" />
-                <h4 id="profile"><a href="/channel" aria-label="View user channel">${unesUsername}</a></h4>
+                }" alt="channel-avi" id="channel-search-avi" /></a>
+                <h4 id="profile"><a href="/channel?profile=${unesUsername}" aria-label="View user channel">${unesUsername}</a></h4>
               </div>
 `).data("profile", profile);
   $(".channel-search").append(channelSearched);
@@ -1527,13 +1527,13 @@ function renderVideoSearchResults(videos) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       videos.profile_avatar
                         ? videos.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -1547,7 +1547,7 @@ function renderVideoSearchResults(videos) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${videos.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1627,13 +1627,13 @@ function renderVideoSearchResults(videos) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       videos.profile_avatar
                         ? videos.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel" aria-label="View user channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel?profile=${unesUsername}" aria-label="View user channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -1773,12 +1773,12 @@ function renderChannels(allChannels) {
   let unesUsername = _.unescape(allChannels.channelname);
   let channel = $(`
             <div class="top-channel-card">
-              <a href="/channel" aria-label="visit channel"><img loading="lazy" src="${
+              <a href="/channel?profile=${unesUsername}" aria-label="visit channel"><img loading="lazy" src="${
                 allChannels.profile_avatar
                   ? allChannels.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar" id="channelLink"/></a>
-              <h5 id="channelID"><a href="/channel" aria-label="View user channel">${unesUsername}</a></h5>
+              <h5 id="channelID"><a href="/channel?profile=${unesUsername}" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
    `).data("allChannels", allChannels);
@@ -1831,10 +1831,10 @@ function renderTopUploads(uploads) {
             <div class="upload">
               <video src="${uploads.videofile}" poster="${uploads.videothumbnail}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${uploads.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
-                <a href="/channel" aria-label="View user channel">
+                <a href="/channel?profile=${unesUsername}" aria-label="View user channel">
                   <h6 id="channelNameLink">${unesUsername}<h6>
                 </a>
                 <h5>${unesTitle}</h5>
@@ -1893,12 +1893,12 @@ function renderRecentUploadsChannels(mysubscriptions) {
   let unesUsername = _.unescape(mysubscriptions.channelname);
   let recentchannel = $(`	
 	       <div class="top-channel-card">
-              <a href="/channel" aria-label="visit channel"><img loading="lazy" src="${
+              <a href="/channel?profile=${unesUsername}" aria-label="visit channel"><img loading="lazy" src="${
                 mysubscriptions.profile_avatar
                   ? mysubscriptions.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar" id="channelpic"/></a>
-              <h5 id="channelLink"><a href="/channel" aria-label="View user channel">${unesUsername}</a></h5>
+              <h5 id="channelLink"><a href="/channel?profile=${unesUsername}" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
    `).data("mysubscriptions", mysubscriptions);
