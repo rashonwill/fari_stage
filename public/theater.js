@@ -720,7 +720,7 @@ function renderRecomVideos(uploads) {
     let videoUpload = $(this).closest(".card").data("uploads");
     let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
-//     window.location.href = "/theater";
+    window.location.href = `/theater?play=${id}`;
   });
 
   return recVids;
@@ -791,7 +791,7 @@ async function renderFavVideos(myFavVids) {
     let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
 
-//     window.location.href = "/theater";
+    window.location.href = `/theater?play=${id}`;
   });
 
   return favVids;
