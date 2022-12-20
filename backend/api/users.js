@@ -156,6 +156,7 @@ usersRouter.get(
         const userChannel = await getUserChannelByChannelName(channelname);
         res.send({ channel: userChannel });
       } catch (error) {
+        console.log(error)
         return res.status(400).send({
           name: "Could not get user channel",
           message: "Could not get user channel",
