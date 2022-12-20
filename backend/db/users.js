@@ -294,6 +294,24 @@ async function getUserChannelByChannelID(channelid) {
   }
 }
 
+async function getUserChannelByChannelName(channelname) {
+  try {
+    const { rows } = await client.query(
+      `
+  SELECT *, user_channel.id AS channelid, users.location, users.bio
+  FROM user_channel
+  RIGHT JOIN users ON user_channel.channelname = users.username
+  WHERE user_channel.channelname=$1;
+  `,
+      [channelname]
+    );
+
+    return rows;
+  } catch (error) {
+    console.log("Could not get user channel in db");
+  }
+}
+
 async function getUserChannelByName(username) {
   try {
     const { rows } = await client.query(
@@ -545,6 +563,7 @@ module.exports = {
   userSearch,
   getLiveChannels,
   getUserChannelByChannelID,
+  getUserChannelByChannelName,
   getUserChannelByName,
   getUserProfile,
   getPostByChannelID,
