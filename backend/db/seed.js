@@ -130,7 +130,8 @@ CREATE TABLE channel_uploads (
   stripe_acctid TEXT NULL,
   flagged_content BOOLEAN DEFAULT FALSE,
   flag_reason varchar(255) NULL,
-  videoActive BOOLEAN DEFAULT TRUE
+  videoActive BOOLEAN DEFAULT TRUE,
+  uuid TEXT NOT NULL
 );
 
 CREATE INDEX idx_videotitle ON channel_uploads(videotitle);
@@ -407,7 +408,7 @@ FOREIGN KEY (videoid) REFERENCES channel_uploads(id)
 async function createInitialUsers() {
   try {
     console.log("Starting to create users...");
-     await createUser({
+    await createUser({
       username: "Fari",
       email: "admin@letsfari.com",
       location: "Made in the USA",
@@ -422,31 +423,29 @@ async function createInitialUsers() {
       password: "Shonmusic92$!",
       confirmpassword: "Shonmusic92$",
     });
-    
-     await createUser({
+
+    await createUser({
       username: "C.J.",
       email: "chejwilliams@yahoo.com",
       location: "The Boot",
       password: "Shonmusic92$",
       confirmpassword: "Shonmusic92$",
     });
-    
-      await createUser({
+
+    await createUser({
       username: "ShowTime",
       email: "test@test.com",
       password: "Shonmusic92$",
       confirmpassword: "Shonmusic92$",
     });
-    
-     await createUser({
+
+    await createUser({
       username: "HappyGilmore",
       email: "test1@test.com",
       location: "My happy place :)",
       password: "Shonmusic92$",
       confirmpassword: "Shonmusic92$",
     });
-
-
 
     console.log("Finished creating users!");
   } catch (error) {
@@ -461,31 +460,39 @@ async function updateChannelPics() {
 
     await updateChannel({
       channelname: "Rashon",
-      profile_avatar: "https://d32wkr8chcuveb.cloudfront.net/1669734512176_1667833451693_theo-document-1 (1).png",
-      profile_poster: "https://d32wkr8chcuveb.cloudfront.net/1669734710107_PINK CROWN.jpg",
+      profile_avatar:
+        "https://d32wkr8chcuveb.cloudfront.net/1669734512176_1667833451693_theo-document-1 (1).png",
+      profile_poster:
+        "https://d32wkr8chcuveb.cloudfront.net/1669734710107_PINK CROWN.jpg",
     });
 
     await updateChannel({
       channelname: "Fari",
-      profile_avatar: "https://d32wkr8chcuveb.cloudfront.net/1669735748650_1667408386418_Logo Black.png",
-      profile_poster: "https://d32wkr8chcuveb.cloudfront.net/1669735898220_Logo Black.png",
+      profile_avatar:
+        "https://d32wkr8chcuveb.cloudfront.net/1669735748650_1667408386418_Logo Black.png",
+      profile_poster:
+        "https://d32wkr8chcuveb.cloudfront.net/1669735898220_Logo Black.png",
     });
-    
-        await updateChannel({
+
+    await updateChannel({
       channelname: "C.J.",
-      profile_avatar:"https://d32wkr8chcuveb.cloudfront.net/1669749371946_rapper_back_Smoke.png",
-      profile_poster: "https://d32wkr8chcuveb.cloudfront.net/1669749757872_stay humble_tranparent.png",
-    })
-    
-        await updateChannel({
+      profile_avatar:
+        "https://d32wkr8chcuveb.cloudfront.net/1669749371946_rapper_back_Smoke.png",
+      profile_poster:
+        "https://d32wkr8chcuveb.cloudfront.net/1669749757872_stay humble_tranparent.png",
+    });
+
+    await updateChannel({
       channelname: "ShowTime",
-      profile_avatar: "https://d32wkr8chcuveb.cloudfront.net/1669753852336_michael j.gif",
-    })
-    
-        await updateChannel({
+      profile_avatar:
+        "https://d32wkr8chcuveb.cloudfront.net/1669753852336_michael j.gif",
+    });
+
+    await updateChannel({
       channelname: "HappyGilmore",
-      profile_avatar: "https://d32wkr8chcuveb.cloudfront.net/1669756362517_FINGERS SMILES.jpg",
-    })
+      profile_avatar:
+        "https://d32wkr8chcuveb.cloudfront.net/1669756362517_FINGERS SMILES.jpg",
+    });
 
     console.log("Finished updating users' channel!");
   } catch (error) {
@@ -500,121 +507,136 @@ async function createContent() {
     await createUpload({
       channelID: "1",
       channelname: "Fari",
-      videoFile: "https://d32wkr8chcuveb.cloudfront.net/1669736145067_fari animation 2.MP4",
+      videoFile:
+        "https://d32wkr8chcuveb.cloudfront.net/1669736145067_fari animation 2.MP4",
       videoKey: "1669736145067_fari animation 2.MP4",
-      videoThumbnail: "https://d32wkr8chcuveb.cloudfront.net/1669736146799_Logo Black.png",
+      videoThumbnail:
+        "https://d32wkr8chcuveb.cloudfront.net/1669736146799_Logo Black.png",
       thumbnailKey: "1669736146799_Logo Black.png",
       videoTitle: "Welcome to Fari!",
       videoDescription: "Welcome.",
       videoTags: "#welcome #fari",
       videoviewcount: 5230,
       content_category: "other",
-      vendor_email: "admin@letsfari.com"
+      vendor_email: "admin@letsfari.com",
     });
-    
-    
-     await createUpload({
+
+    await createUpload({
       channelID: "2",
       channelname: "Rashon",
-      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669744240661_1668611937503_CGI Animated Short Film_ _Unlucky Charms_ by Kris Theorin _ CGMeetup.mp4",
-      videoKey:"1669744240661_1668611937503_CGI Animated Short Film_ _Unlucky Charms_ by Kris Theorin _ CGMeetup.mp4",
-      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669744245619_1668611942352_Unlucky Charms (1).jpg",
+      videoFile:
+        "https://d32wkr8chcuveb.cloudfront.net/1669744240661_1668611937503_CGI Animated Short Film_ _Unlucky Charms_ by Kris Theorin _ CGMeetup.mp4",
+      videoKey:
+        "1669744240661_1668611937503_CGI Animated Short Film_ _Unlucky Charms_ by Kris Theorin _ CGMeetup.mp4",
+      videoThumbnail:
+        "https://d32wkr8chcuveb.cloudfront.net/1669744245619_1668611942352_Unlucky Charms (1).jpg",
       thumbnailKey: "1669744245619_1668611942352_Unlucky Charms (1).jpg",
-      videoTitle: "CGI Animated Short Film: &amp;quot;Unlucky Charms&amp;quot; by Kris Theorin | CGMeetup",
-      videoDescription: "Late One Night, A Bored Cashier Collects All Three Toys From A Box Of Magic Munchos And Unwittingly Unleashes The Ancient Evil That Lies Within…",
+      videoTitle:
+        "CGI Animated Short Film: &amp;quot;Unlucky Charms&amp;quot; by Kris Theorin | CGMeetup",
+      videoDescription:
+        "Late One Night, A Bored Cashier Collects All Three Toys From A Box Of Magic Munchos And Unwittingly Unleashes The Ancient Evil That Lies Within…",
       videoTags: "#animation #shortfilm",
       videoviewcount: 4500,
       content_category: "film",
       content_class: "free",
-      vendor_email: "rashonwill92@gmail.com"
+      vendor_email: "rashonwill92@gmail.com",
     });
-    
-    
 
-      await createUpload({
+    await createUpload({
       channelID: "3",
       channelname: "C.J.",
-      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669751658656_The Boondocks (S03E08) - Pause Full Episode.mp4",
+      videoFile:
+        "https://d32wkr8chcuveb.cloudfront.net/1669751658656_The Boondocks (S03E08) - Pause Full Episode.mp4",
       videoKey: "1669751658656_The Boondocks (S03E08) - Pause Full Episode.mp4",
-      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669751670021_pause.jpg",
+      videoThumbnail:
+        "https://d32wkr8chcuveb.cloudfront.net/1669751670021_pause.jpg",
       thumbnailKey: "1669751670021_pause.jpg",
       videoTitle: "The Boondocks - &amp;quot;Pause&amp;quot;",
-      videoDescription: "Granddad believes he will become a superstar when he is cast as a leading man by Winston Jerome. Huey and Riley need to step in when the group is not exactly what Granddad was expecting.",
+      videoDescription:
+        "Granddad believes he will become a superstar when he is cast as a leading man by Winston Jerome. Huey and Riley need to step in when the group is not exactly what Granddad was expecting.",
       videoTags: "#animation #boondocks #anime #series",
       videoviewcount: 7534,
       content_category: "series",
       content_class: "free",
-      vendor_email: "chejwilliams@yahoo.com"  
+      vendor_email: "chejwilliams@yahoo.com",
     });
-    
-    
-      await createUpload({
+
+    await createUpload({
       channelID: "3",
       channelname: "C.J.",
-      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669753357079_Swaggy C - Day In The Life.mp4",
+      videoFile:
+        "https://d32wkr8chcuveb.cloudfront.net/1669753357079_Swaggy C - Day In The Life.mp4",
       videoKey: "1669753357079_Swaggy C - Day In The Life.mp4",
-      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669753374471_1629426334946_Chris Williams.jpeg",
+      videoThumbnail:
+        "https://d32wkr8chcuveb.cloudfront.net/1669753374471_1629426334946_Chris Williams.jpeg",
       thumbnailKey: "1669753374471_1629426334946_Chris Williams.jpeg",
       videoTitle: "Day in the Life of a 25 Year Old Millionaire",
-      videoDescription: "Chris Swaggy C Williams shows us a day in the life of a forex, day trading millionaire.",
+      videoDescription:
+        "Chris Swaggy C Williams shows us a day in the life of a forex, day trading millionaire.",
       videoTags: "#vlog #swaggyc #forex #daytrader",
       videoviewcount: 2137,
       content_category: "vlog",
-      vendor_email: "chejwilliams@yahoo.com"  
+      vendor_email: "chejwilliams@yahoo.com",
     });
-    
-      await createUpload({
+
+    await createUpload({
       channelID: "4",
       channelname: "ShowTime",
-      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669754610163_1669125608126_TRICK or TREAT! A Short Horror Film.mp4",
-      videoKey: "1669754610163_1669125608126_TRICK or TREAT! A Short Horror Film.mp4",
-      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669754616990_1669125614856_TrickorTreat.jpg",
+      videoFile:
+        "https://d32wkr8chcuveb.cloudfront.net/1669754610163_1669125608126_TRICK or TREAT! A Short Horror Film.mp4",
+      videoKey:
+        "1669754610163_1669125608126_TRICK or TREAT! A Short Horror Film.mp4",
+      videoThumbnail:
+        "https://d32wkr8chcuveb.cloudfront.net/1669754616990_1669125614856_TrickorTreat.jpg",
       thumbnailKey: "1669754616990_1669125614856_TrickorTreat.jpg",
       videoTitle: "TRICK OR TREAT!",
-      videoDescription: "During their first Halloween in their new home, Travis and Beth encounter an unexpected trick or treater.",
+      videoDescription:
+        "During their first Halloween in their new home, Travis and Beth encounter an unexpected trick or treater.",
       videoTags: "#shortfilm #horrorfilm #movie",
-      videoviewcount: 1567, 
+      videoviewcount: 1567,
       content_category: "film",
       content_class: "free",
-      vendor_email: "test@test.com"  
+      vendor_email: "test@test.com",
     });
-    
 
-      await createUpload({
+    await createUpload({
       channelID: "5",
       channelname: "HappyGilmore",
-      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669757415968_The Distinguished Gentleman Full Film - Eddie Murphy (1992 ).mp4",
-      videoKey: "1669757415968_The Distinguished Gentleman Full Film - Eddie Murphy (1992 ).mp4",
-      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669757463990_the distinguish.jpg",
+      videoFile:
+        "https://d32wkr8chcuveb.cloudfront.net/1669757415968_The Distinguished Gentleman Full Film - Eddie Murphy (1992 ).mp4",
+      videoKey:
+        "1669757415968_The Distinguished Gentleman Full Film - Eddie Murphy (1992 ).mp4",
+      videoThumbnail:
+        "https://d32wkr8chcuveb.cloudfront.net/1669757463990_the distinguish.jpg",
       thumbnailKey: "1669757463990_the distinguish.jpg",
       videoTitle: "The Distinguished Gentleman",
-      videoDescription: "In the conniving world of politics, even a professional shyster like Thomas Jefferson Johnson (Eddie Murphy) can find himself outmatched. After using name recognition to get elected, Johnson enjoys many of the same financial perks as other politicians. However, while investigating the connection between electric companies and cancer in young children, he unexpectedly develops a conscience. Unfortunately, fellow Congressman Dick Dodge (Lane Smith) isn&amp;#x27;t about to let him rock the boat.",
+      videoDescription:
+        "In the conniving world of politics, even a professional shyster like Thomas Jefferson Johnson (Eddie Murphy) can find himself outmatched. After using name recognition to get elected, Johnson enjoys many of the same financial perks as other politicians. However, while investigating the connection between electric companies and cancer in young children, he unexpectedly develops a conscience. Unfortunately, fellow Congressman Dick Dodge (Lane Smith) isn&amp;#x27;t about to let him rock the boat.",
       videoTags: "#EddieMurphy #TheDistinguishGentlemen #Film #Movie #comedy",
       videoviewcount: 2013,
       content_category: "film",
       content_class: "paid",
       rental_price: 1.99,
-      vendor_email: "test1@test.com"  
+      vendor_email: "test1@test.com",
     });
-    
-    
-     await createUpload({
+
+    await createUpload({
       channelID: "5",
       channelname: "HappyGilmore",
-      videoFile:"https://d32wkr8chcuveb.cloudfront.net/1669755428534_1666706988999_Runyon Canyon Hike & Lakers game _ VLOG 02.mp4",
-      videoKey: "1669755428534_1666706988999_Runyon Canyon Hike & Lakers game _ VLOG 02.mp4",
-      videoThumbnail:"https://d32wkr8chcuveb.cloudfront.net/1669755452072_1666707012180_johnnyedlind.jpg",
+      videoFile:
+        "https://d32wkr8chcuveb.cloudfront.net/1669755428534_1666706988999_Runyon Canyon Hike & Lakers game _ VLOG 02.mp4",
+      videoKey:
+        "1669755428534_1666706988999_Runyon Canyon Hike & Lakers game _ VLOG 02.mp4",
+      videoThumbnail:
+        "https://d32wkr8chcuveb.cloudfront.net/1669755452072_1666707012180_johnnyedlind.jpg",
       thumbnailKey: "1669755452072_1666707012180_johnnyedlind.jpg",
       videoTitle: "Runyon Canyon Hike &amp;amp; Lakers Game",
       videoDescription: "Johnny Edlind | Vlog 2",
       videoTags: "#VLOG #JOHNNYEDLIND #LAKERS",
-      videoviewcount: 3061, 
+      videoviewcount: 3061,
       content_category: "vlog",
-      vendor_email: "test1@test.com" 
+      vendor_email: "test1@test.com",
     });
-       
-
-
 
     console.log("Finished creating Uploads!");
   } catch (error) {
@@ -626,22 +648,14 @@ async function createContent() {
 async function buildDB() {
   try {
     client.connect();
-//     await dropTables();
-//     await createTables();
-//         await createInitialUsers();
-//         await updateChannelPics();
-        await createContent();
+    //     await dropTables();
+    //     await createTables();
+    //         await createInitialUsers();
+    //         await updateChannelPics();
+    await createContent();
   } catch (error) {
     throw error;
   }
 }
 
 buildDB();
-
-
-    
-
-
-
-
-    
