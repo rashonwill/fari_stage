@@ -19,6 +19,7 @@ const {
   getUserChannelByChannelID,
   getUserChannelByName,
   getPostByChannelID,
+  getUserChannelByChannelName,
   getUserByName,
 
   confirmVendorSubscription,
@@ -152,7 +153,7 @@ usersRouter.get(
       try {
         const { channelid } = req.params;
         // const userChannel = await getUserChannelByChannelID(channelid);
-        const userChannel = await getUserChannelByName(channelname);
+        const userChannel = await getUserChannelByChannelName(channelname);
         res.send({ channel: userChannel });
       } catch (error) {
         return res.status(400).send({
