@@ -151,7 +151,7 @@ usersRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const { channelid } = req.params;
+        const { channelid, channelname } = req.params;
         // const userChannel = await getUserChannelByChannelID(channelid);
         const userChannel = await getUserChannelByChannelName(channelname);
         res.send({ channel: userChannel });
