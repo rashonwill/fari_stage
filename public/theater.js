@@ -861,7 +861,7 @@ async function renderLaterVideos(myWatchList) {
     let videoUpload = $(this).closest(".card").data("myWatchList");
     let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
-//     window.location.href = "/theater";
+    window.location.href = `/theater?play=${id}`;
   });
 
   return laterVids;
