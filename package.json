@@ -53,7 +53,8 @@
     "rate-limit-memcached": "^0.6.0",
     "rate-limit-redis": "^3.0.1",
     "redis": "^4.5.0",
-    "stripe": "^11.1.0"
+    "stripe": "^11.1.0",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "http-proxy-middleware": "^2.0.6",
