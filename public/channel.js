@@ -85,9 +85,13 @@ async function getVideoData() {
 }
 
 async function getChannelProfile() {
-  let channelid = localStorage.getItem("visitingChannelID");
+  let paramaters = new URLSearchParams(window.location.search);
+  let channel = paramaters.get("profile");
+  localStorage.setItem("visitingChannel", channel);
+
   try {
-    const response = await fetch(`${FARI_API}/users/channel/${channelid}`, {
+    let channelname = localStorage.getItem("visitingChannel");
+    const response = await fetch(`${FARI_API}/users/channel/${channelname}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -264,7 +268,9 @@ function renderPost(channelUploads, index) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="theater?play=${channelUploads.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="theater?play=${
+                    channelUploads.videoid
+                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -293,15 +299,15 @@ function renderPost(channelUploads, index) {
         let mySubs = $(this).closest(".card").data("channelUploads");
         let id = mySubs.videoid;
         localStorage.setItem("videoID", id);
-          $(this)
-            .closest(".options")
-            .text("Added to Watchlist")
-            .css("color", "#B2022F")
-            .css("font-size", "17px")
-            .css("font-weight", "bold")
-            .css("font-family", "Teko")
-            .css("text-align", "center");
-          laterVideo();
+        $(this)
+          .closest(".options")
+          .text("Added to Watchlist")
+          .css("color", "#B2022F")
+          .css("font-size", "17px")
+          .css("font-weight", "bold")
+          .css("font-family", "Teko")
+          .css("text-align", "center");
+        laterVideo();
       });
 
       $(freeUpload).on("click", ".fa-play", async function () {
@@ -415,7 +421,6 @@ async function updateViews() {
   }
 }
 
-
 async function subscribe() {
   var getChannel = await getChannelProfile();
   var userid = localStorage.getItem("userID");
@@ -439,7 +444,7 @@ async function subscribe() {
     });
     const data = await response.json();
   } catch (error) {
-    console.log(error)
+    console.log(error);
     response.status(400).send(error);
   }
 }
@@ -492,7 +497,7 @@ async function unsubscribe() {
     );
     const data = await response.json();
   } catch (error) {
-    console.log(error)
+    console.log(error);
     response.status(400).send(error);
   }
 }

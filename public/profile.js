@@ -35,50 +35,49 @@ $("#logout").click(function () {
   window.location.href = "index";
 });
 
-$('#info').on('click', async() =>{
-  $('.info').css('display', 'block');
-  $('.avatar-update').css('display', 'none');
-  $('.poster-update').css('display', 'none');
-  $('.registration').css('display', 'none');
-  $('#info').addClass('selected-settings');
-  $('#update-avatar').removeClass('selected-settings');
-  $('#update-poster').removeClass('selected-settings');
-  $('#registration').removeClass('selected-settings');
-})
+$("#info").on("click", async () => {
+  $(".info").css("display", "block");
+  $(".avatar-update").css("display", "none");
+  $(".poster-update").css("display", "none");
+  $(".registration").css("display", "none");
+  $("#info").addClass("selected-settings");
+  $("#update-avatar").removeClass("selected-settings");
+  $("#update-poster").removeClass("selected-settings");
+  $("#registration").removeClass("selected-settings");
+});
 
-$('#update-avatar').on('click', async() =>{
-  $('.info').css('display', 'none');
-  $('.avatar-update').css('display', 'block');
-  $('.poster-update').css('display', 'none');
-  $('.registration').css('display', 'none');
-  $('#info').removeClass('selected-settings');
-  $('#update-avatar').addClass('selected-settings');
-  $('#update-poster').removeClass('selected-settings');
-  $('#registration').removeClass('selected-settings');
-})
+$("#update-avatar").on("click", async () => {
+  $(".info").css("display", "none");
+  $(".avatar-update").css("display", "block");
+  $(".poster-update").css("display", "none");
+  $(".registration").css("display", "none");
+  $("#info").removeClass("selected-settings");
+  $("#update-avatar").addClass("selected-settings");
+  $("#update-poster").removeClass("selected-settings");
+  $("#registration").removeClass("selected-settings");
+});
 
-$('#update-poster').on('click', async() =>{
-  $('.info').css('display', 'none');
-  $('.avatar-update').css('display', 'none');
-  $('.poster-update').css('display', 'block');
-  $('.registration').css('display', 'none');
-  $('#info').removeClass('selected-settings');
-  $('#update-avatar').removeClass('selected-settings');
-  $('#update-poster').addClass('selected-settings');
-  $('#registration').removeClass('selected-settings');
-})
+$("#update-poster").on("click", async () => {
+  $(".info").css("display", "none");
+  $(".avatar-update").css("display", "none");
+  $(".poster-update").css("display", "block");
+  $(".registration").css("display", "none");
+  $("#info").removeClass("selected-settings");
+  $("#update-avatar").removeClass("selected-settings");
+  $("#update-poster").addClass("selected-settings");
+  $("#registration").removeClass("selected-settings");
+});
 
-$('#registration').on('click', async() =>{
-  $('.info').css('display', 'none');
-  $('.avatar-update').css('display', 'none');
-  $('.poster-update').css('display', 'none');
-  $('.registration').css('display', 'block');
-  $('#info').removeClass('selected-settings');
-  $('#update-avatar').removeClass('selected-settings');
-  $('#update-poster').removeClass('selected-settings');
-  $('#registration').addClass('selected-settings');
-})
-
+$("#registration").on("click", async () => {
+  $(".info").css("display", "none");
+  $(".avatar-update").css("display", "none");
+  $(".poster-update").css("display", "none");
+  $(".registration").css("display", "block");
+  $("#info").removeClass("selected-settings");
+  $("#update-avatar").removeClass("selected-settings");
+  $("#update-poster").removeClass("selected-settings");
+  $("#registration").addClass("selected-settings");
+});
 
 $(".content-sort li").click(function () {
   let selected = $(this);
@@ -103,7 +102,7 @@ $("#upload").click(() => {
 });
 
 $("#settings").click(() => {
-  $(".settings").toggleClass('active');
+  $(".settings").toggleClass("active");
   $(".subscriptions").css("display", "none");
   $(".analytics").css("display", "none");
   $(".newUpload").css("display", "none");
@@ -226,11 +225,10 @@ function renderUserInfo(profile) {
 
 function renderBio(profile) {
   let unesBio = _.unescape(profile[0].bio);
-  $("span#bio").append(unesBio);		
+  $("span#bio").append(unesBio);
 }
 
-
-$('#edit-bio').on("click", async function () {
+$("#edit-bio").on("click", async function () {
   $("#bio").attr("contenteditable", "true");
   $("#bio").addClass("editMode");
 
@@ -272,16 +270,14 @@ $('#edit-bio').on("click", async function () {
       response.status(400).send(error);
     }
   });
-	
-})
+});
 
 function renderLocation(profile) {
   let unesLocation = _.unescape(profile[0].location);
   $("span#location").append(unesLocation);
 }
 
-
-$('#edit-location').on('click', async function () {
+$("#edit-location").on("click", async function () {
   $("#location").attr("contenteditable", "true");
   $("#location").addClass("editMode");
   let saveEdit = `
@@ -342,13 +338,13 @@ async function channelPost() {
     const data = await response.json();
     if (data.channelUploads.length > 0) {
       $(".user-uploads").empty();
-      $(".noUploads").css("display", "none");  
+      $(".noUploads").css("display", "none");
     } else {
       $(".noUploads").css("display", "block");
     }
     return data.channelUploads;
   } catch (error) {
-	  console.log(error)
+    console.log(error);
     response.status(400).send(error);
   }
 }
@@ -397,7 +393,9 @@ function renderPost(channelUploads) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater?play=${channelUploads.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${
+                    channelUploads.videoid
+                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -527,14 +525,13 @@ async function getUserChannelSubscriptions() {
       $(".newUserMessage").css("display", "none");
     } else {
       $(".newUserMessage").css("display", "block");
-	    return null;
+      return null;
     }
-	  
-return data.mysubscriptions; 
-    
+
+    return data.mysubscriptions;
   } catch (error) {
-	  console.log(error)
-//     response.status(400).send(error);
+    console.log(error);
+    //     response.status(400).send(error);
   }
 }
 
@@ -543,10 +540,10 @@ function rendersubChannels(mysubscriptions) {
   let subedChannels = $(`
     <div class="top-channel-card">
        <a href="/channel?profile=${unesChannel}" aria-label="visit channel"><img src="${
-         mysubscriptions.profile_avatar
-           ? mysubscriptions.profile_avatar
-           : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-       }" alt="avatar" /></a>
+    mysubscriptions.profile_avatar
+      ? mysubscriptions.profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" alt="avatar" /></a>
         <h5 id="channelID"><a href="/channel?profile=${unesChannel}">${unesChannel}</a></h5>
     </div>
     
@@ -557,6 +554,8 @@ function rendersubChannels(mysubscriptions) {
     let channel = $(this).closest(".top-channel-card").data("mysubscriptions");
     let id = channel.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channel.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
   return subedChannels;
 }
@@ -1191,13 +1190,13 @@ $("#submitAvatar").click(async function (event) {
 $("#film").click(function () {
   $(".content-class").css("display", "flex");
   $(".message").css("display", "block");
-  $("#rentalprice").css("display", "block");	
+  $("#rentalprice").css("display", "block");
 });
 
 $("#shows").click(function () {
   $(".content-class").css("display", "flex");
   $(".message").css("display", "block");
-  $("#rentalprice").css("display", "block");	
+  $("#rentalprice").css("display", "block");
 });
 
 $("#rent").click(function () {
@@ -1254,42 +1253,40 @@ function setPoster(event) {
   }
 }
 
-const ul = document.querySelector("#tags-list"), input = ul.querySelector("#tags-input");
+const ul = document.querySelector("#tags-list"),
+  input = ul.querySelector("#tags-input");
 
- let videotags = []; 
+let videotags = [];
 
-function createTag(){
-  ul.querySelectorAll('li').forEach(li => li.remove());
-  videotags.forEach(tag => {
+function createTag() {
+  ul.querySelectorAll("li").forEach((li) => li.remove());
+  videotags.forEach((tag) => {
     let newTag = `<li>${tag} <i class="fa-solid fa-xmark" onclick="remove(this, '${tag}')"></i></li>`;
-    ul.insertAdjacentHTML('afterbegin', newTag);
-  })
-  
+    ul.insertAdjacentHTML("afterbegin", newTag);
+  });
 }
 
-
-function remove(element, tag){
+function remove(element, tag) {
   let index = videotags.indexOf(tag);
-  videotags = [...videotags.slice(0, index), ...videotags.slice(index + 1)]
+  videotags = [...videotags.slice(0, index), ...videotags.slice(index + 1)];
   element.parentElement.remove();
 }
 
-function addTag(event){
-  if(event.keyCode == 32){
+function addTag(event) {
+  if (event.keyCode == 32) {
     event.preventDefault();
-    let tag = event.target.value.replace(/\s+/g, ' ');
-     if(tag.length > 1 && !videotags.includes(tag)){
-      tag.split(',').forEach(tag =>{
+    let tag = event.target.value.replace(/\s+/g, " ");
+    if (tag.length > 1 && !videotags.includes(tag)) {
+      tag.split(",").forEach((tag) => {
         videotags.push(tag);
         createTag();
-      })
+      });
     }
     event.target.value = "";
   }
 }
 
-input.addEventListener('keyup', addTag);
-
+input.addEventListener("keyup", addTag);
 
 $(".newUpload form").on("submit", async function submitUpload(event) {
   event.preventDefault();
@@ -1328,7 +1325,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     });
     const data = await response.json();
   } catch (error) {
-	  console.log(error)
+    console.log(error);
     response.status(400).send(error);
   } finally {
     onFetchEnd();
@@ -1354,18 +1351,17 @@ async function vendorVerificationCheck() {
     if (data.vendor[0].registration_complete === true) {
       $("#rent").attr("disabled", false);
       $("#rentalprice").attr("disabled", false);
-      $('.newUpload .message').css('display', 'none');
-      $('.channel-name .fa-registered').css('display', 'flex');
-      $('.reg-process').css('display', 'none');	    
-      $('.registration-complete').css('display', 'flex');	    
+      $(".newUpload .message").css("display", "none");
+      $(".channel-name .fa-registered").css("display", "flex");
+      $(".reg-process").css("display", "none");
+      $(".registration-complete").css("display", "flex");
     } else {
       $("#rent").attr("disabled", true);
       $("#rentprice").attr("disabled", true);
-      $('.newUpload .message').css('display', 'block');	
-      $('.channel-name .fa-registered').css('display', 'none');
-     $('.registration-complete').css('display', 'none');
-     $('.reg-process').css('display', 'flex');		    
-	     
+      $(".newUpload .message").css("display", "block");
+      $(".channel-name .fa-registered").css("display", "none");
+      $(".registration-complete").css("display", "none");
+      $(".reg-process").css("display", "flex");
     }
     return data.vendor;
   } catch (error) {
@@ -1385,7 +1381,7 @@ async function getMessages() {
         Authorization: `Bearer ${myToken}`,
       },
     });
-    const data = await response.json();	  
+    const data = await response.json();
     return data.notes;
   } catch (error) {
     response.status(400).send(error);
@@ -1406,29 +1402,30 @@ async function renderMessages(notes) {
 </div>
 `).data("notes", notes);
   $(".messages .table").append(note);
-	
 
   $(note).on("click", "#read", async function () {
     let thisNote = $(this).closest(".note").data("notes");
-	  console.log(thisNote)
+    console.log(thisNote);
     let noteid = thisNote.noteid;
     localStorage.setItem("noteID", noteid);
     markAsRead().then(getMessages).then(rendermessageList);
   });
 
-	
   $(note).on("click", "#channel", async function () {
     let thisNote = $(this).closest(".note").data("notes");
     let id = thisNote.sender_channelid;
     localStorage.setItem("visitingChannelID", id);
-  });	
+    let channelname = thisNote.channelname;
+    localStorage.setItem("visitingChannel", channelname);
+  });
 
   $(note).on("click", "#picture", async function () {
     let thisNote = $(this).closest(".note").data("notes");
     let id = thisNote.sender_channelid;
     localStorage.setItem("visitingChannelID", id);
-  });	
-	
+    let channelname = thisNote.channelname;
+    localStorage.setItem("visitingChannel", channelname);
+  });
 }
 
 function rendermessageList(messageList) {
@@ -1454,7 +1451,6 @@ async function markAsRead() {
     response.status(400).send(error);
   }
 }
-
 
 //Subscriptions
 
@@ -1509,13 +1505,11 @@ async function goSubscriptions() {
     });
 }
 
-
-
 function bootstrap() {
   vendorVerificationCheck();
   userChannel().then(renderUserInfo);
   userChannel().then(renderBio);
-  userChannel().then(renderLocation);	
+  userChannel().then(renderLocation);
   channelPost().then(renderPostList);
   getUserChannelSubscriptions().then(renderSubsTable);
   getMessages().then(rendermessageList);

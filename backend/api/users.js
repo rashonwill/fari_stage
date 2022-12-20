@@ -20,7 +20,7 @@ const {
   getUserChannelByName,
   getPostByChannelID,
   getUserByName,
-  
+
   confirmVendorSubscription,
 
   createChannelSubscription,
@@ -43,9 +43,9 @@ usersRouter.get("/", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/me", requireUser, async (req, res, next) => {		
-  try {	  
-    res.send({user: req.user});
+usersRouter.get("/me", requireUser, async (req, res, next) => {
+  try {
+    res.send({ user: req.user });
   } catch (error) {
     console.error("Hmm, can't seem to get that user", error);
     next(error);
@@ -139,15 +139,9 @@ usersRouter.get(
 );
 
 usersRouter.get(
-  "/channel/:channelid",
+  "/channel/:channelname",
   requireUser,
-  check("channelid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  check("channelname").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -157,7 +151,8 @@ usersRouter.get(
     } else {
       try {
         const { channelid } = req.params;
-        const userChannel = await getUserChannelByChannelID(channelid);
+        // const userChannel = await getUserChannelByChannelID(channelid);
+        const userChannel = await getUserChannelByName(channelname);
         res.send({ channel: userChannel });
       } catch (error) {
         return res.status(400).send({

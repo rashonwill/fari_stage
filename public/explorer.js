@@ -56,7 +56,6 @@ $(".category .content-sort li").click(function () {
   $(".menu .content-sort li").removeClass("selected");
 });
 
-
 async function getUserProfile() {
   try {
     const response = await fetch(`${FARI_API}/users/myprofile`, {
@@ -98,7 +97,6 @@ function dashboardAvi(profile) {
   $(".header .loggedIn").append(profilePic);
 }
 
-
 async function getChannel() {
   let channelName = localStorage.getItem("channelname");
   try {
@@ -118,7 +116,6 @@ async function getChannel() {
     response.status(400).send(error);
   }
 }
-
 
 //Discover
 
@@ -157,10 +154,10 @@ function renderFreeContent(uploads) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}"><img id="channelAvi" loading="lazy" src="${
-                      uploads.profile_avatar
-                        ? uploads.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+    uploads.profile_avatar
+      ? uploads.profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -176,7 +173,9 @@ function renderFreeContent(uploads) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater?play=${uploads.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${
+                    uploads.videoid
+                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -204,28 +203,31 @@ function renderFreeContent(uploads) {
       let mySubs = $(this).closest(".card").data("uploads");
       let id = mySubs.videoid;
       localStorage.setItem("videoID", id);
-        $(this)
-          .closest(".options")
-          .text("Added to Watchlist")
-          .css("color", "#B2022F")
-          .css("font-size", "17px")
-          .css("font-weight", "bold")
-          .css("font-family", "Teko")
-          .css("text-align", "center");
-        laterVideo();
-
+      $(this)
+        .closest(".options")
+        .text("Added to Watchlist")
+        .css("color", "#B2022F")
+        .css("font-size", "17px")
+        .css("font-weight", "bold")
+        .css("font-family", "Teko")
+        .css("text-align", "center");
+      laterVideo();
     });
 
     $(videos).on("click", "#channelName", function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(videos).on("click", "#channelAvi", function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(videos).on("click", ".fa-play", async function () {
@@ -304,10 +306,10 @@ function renderPayMedia(uploads) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}"><img loading="lazy" id="channelAvi" src="${
-                      uploads.profile_avatar
-                        ? uploads.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+    uploads.profile_avatar
+      ? uploads.profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -341,12 +343,16 @@ function renderPayMedia(uploads) {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(paidVids).on("click", "#channelAvi", function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(paidVids).on("click", ".purchase", function () {
@@ -490,10 +496,10 @@ function renderSubsVids(subscriptionUploads) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      subscriptionUploads.profile_avatar
-                        ? subscriptionUploads.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar"/></a>
+      subscriptionUploads.profile_avatar
+        ? subscriptionUploads.profile_avatar
+        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+    }" alt="channelAvatar"/></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -509,7 +515,9 @@ function renderSubsVids(subscriptionUploads) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater?play=${subscriptionUploads.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${
+                    subscriptionUploads.videoid
+                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -527,27 +535,31 @@ function renderSubsVids(subscriptionUploads) {
       let channelView = $(this).closest(".card").data("subscriptionUploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(mySubVideos).on("click", "#channelAvi", function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(mySubVideos).on("click", "#add", async function () {
       let mySubs = $(this).closest(".card").data("subscriptionUploads");
       let id = mySubs.videoid;
       localStorage.setItem("videoID", id);
-        $(this)
-          .closest(".options")
-          .text("Added to Watchlist")
-          .css("color", "#B2022F")
-          .css("font-size", "17px")
-          .css("font-weight", "bold")
-          .css("font-family", "Teko")
-          .css("text-align", "center");
-        laterVideo();
+      $(this)
+        .closest(".options")
+        .text("Added to Watchlist")
+        .css("color", "#B2022F")
+        .css("font-size", "17px")
+        .css("font-weight", "bold")
+        .css("font-family", "Teko")
+        .css("text-align", "center");
+      laterVideo();
     });
 
     $(mySubVideos).on("click", ".fa-play", async function () {
@@ -582,10 +594,10 @@ function renderSubsVids(subscriptionUploads) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      subscriptionUploads.profile_avatar
-                        ? subscriptionUploads.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+      subscriptionUploads.profile_avatar
+        ? subscriptionUploads.profile_avatar
+        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+    }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -609,12 +621,16 @@ function renderSubsVids(subscriptionUploads) {
       let channelView = $(this).closest(".card").data("subscriptionUploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(mySubVideos).on("click", "#channelAvi", function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(mySubVideos).on("click", ".purchase", function () {
@@ -663,22 +679,21 @@ function renderSubsVids(subscriptionUploads) {
         let mySubs = $(this).closest(".card").data("subscriptionUploads");
         let id = mySubs.videoid;
         localStorage.setItem("videoID", id);
-          $(this)
-            .closest(".options")
-            .text("Added to Watchlist")
-            .css("color", "#B2022F")
-            .css("font-size", "17px")
-            .css("font-weight", "bold")
-            .css("font-family", "Teko")
-            .css("text-align", "center");
-          laterVideo();
+        $(this)
+          .closest(".options")
+          .text("Added to Watchlist")
+          .css("color", "#B2022F")
+          .css("font-size", "17px")
+          .css("font-weight", "bold")
+          .css("font-family", "Teko")
+          .css("text-align", "center");
+        laterVideo();
       });
 
       return mySubVideos;
     });
   });
 }
-
 
 $("#subscriptions").click(function (event) {
   event.preventDefault();
@@ -747,10 +762,10 @@ function renderFavs(myFavVids) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      myFavVids.profile_avatar
-                        ? myFavVids.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+    myFavVids.profile_avatar
+      ? myFavVids.profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -766,7 +781,9 @@ function renderFavs(myFavVids) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater?play=${myFavVids.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${
+                    myFavVids.videoid
+                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -784,12 +801,16 @@ function renderFavs(myFavVids) {
     let channelView = $(this).closest(".card").data("myFavVids");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 
   $(myFavs).on("click", "#channelAvi", function () {
     let channelView = $(this).closest(".card").data("uploads");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 
   $(myFavs).on("click", "#delete", function () {
@@ -886,15 +907,17 @@ function renderWatchLaters(myWatchList) {
 
     let myLater = $(`
 <div class="card" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
-           <video src="${myWatchList.videofile}" poster="${myWatchList.videothumbnail}" preload="none" muted></video>
+           <video src="${myWatchList.videofile}" poster="${
+      myWatchList.videothumbnail
+    }" preload="none" muted></video>
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      myWatchList.profile_avatar
-                        ? myWatchList.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+      myWatchList.profile_avatar
+        ? myWatchList.profile_avatar
+        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+    }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -910,7 +933,9 @@ function renderWatchLaters(myWatchList) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater?play=${myWatchList.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${
+                    myWatchList.videoid
+                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -928,12 +953,16 @@ function renderWatchLaters(myWatchList) {
       let channelView = $(this).closest(".card").data("myWatchList");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(myLater).on("click", "#channelAvi", function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(myLater).on("click", "#delete", function () {
@@ -972,10 +1001,10 @@ function renderWatchLaters(myWatchList) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      myWatchList.profile_avatar
-                        ? myWatchList.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+      myWatchList.profile_avatar
+        ? myWatchList.profile_avatar
+        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+    }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -986,7 +1015,9 @@ function renderWatchLaters(myWatchList) {
                   <div class="card-options"></div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater?play=${myWatchList.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${
+                    myWatchList.videoid
+                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1000,12 +1031,16 @@ function renderWatchLaters(myWatchList) {
       let channelView = $(this).closest(".card").data("myWatchList");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(myLater).on("click", "#channelAvi", function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(myLater).on("click", ".fa-play", async function () {
@@ -1062,13 +1097,17 @@ async function getHistory() {
     } else {
       $(".newUserMessage-history message").css("display", "block");
     }
-    
-    let results = data.history
-    const historyData = [...new Map(results.map((result) => [result["videoid"], result])).values()];
-    const history = historyData.sort((a, b) =>{ return new Date(b.historydt) - new Date(a.historydt) })  
+
+    let results = data.history;
+    const historyData = [
+      ...new Map(results.map((result) => [result["videoid"], result])).values(),
+    ];
+    const history = historyData.sort((a, b) => {
+      return new Date(b.historydt) - new Date(a.historydt);
+    });
     return history;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     response.status(400).send(error);
   }
 }
@@ -1081,7 +1120,6 @@ function renderHistory(history) {
   } else if (history.videoviewcount > 1_000) {
     viewsString = (history.videoviewcount / 1_000).toFixed(1) + "k";
   }
-  
 
   let unesTitle = _.unescape(history.videotitle);
   let unesUsername = _.unescape(history.channelname);
@@ -1095,10 +1133,10 @@ function renderHistory(history) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      history.profile_avatar
-                        ? history.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+    history.profile_avatar
+      ? history.profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -1109,7 +1147,9 @@ function renderHistory(history) {
                   
                 </div>
                 <div class="card-mid">
-                  <a href="/theater?play=${history.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${
+                    history.videoid
+                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1127,12 +1167,16 @@ function renderHistory(history) {
     let channelView = $(this).closest(".card").data("history");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 
   $(myHistory).on("click", "#channelAvi", function () {
     let channelView = $(this).closest(".card").data("history");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 
   $(myHistory).on("click", "#delete", function () {
@@ -1174,7 +1218,7 @@ $("#history").click(function (event) {
   $(".popular.uploads").css("display", "none");
   $(".right-pane2").css("display", "none");
   getHistory().then(renderHistoryList);
-  getRecentlySubsUploads().then(renderRecentSubsThatHaveUploaded);	
+  getRecentlySubsUploads().then(renderRecentSubsThatHaveUploaded);
   $(window).scrollTop(0);
 });
 
@@ -1334,10 +1378,10 @@ function renderFilteredContent(videos) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      videos.profile_avatar
-                        ? videos.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+    videos.profile_avatar
+      ? videos.profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -1353,7 +1397,9 @@ function renderFilteredContent(videos) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater?play=${videos.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${
+                    videos.videoid
+                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1372,12 +1418,16 @@ function renderFilteredContent(videos) {
     let channelView = $(this).closest(".card").data("videos");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 
   $(videos).on("click", "#channelAvi", function () {
     let channelView = $(this).closest(".card").data("uploads");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 
   $(document).ready(function () {
@@ -1393,16 +1443,15 @@ function renderFilteredContent(videos) {
       let mySubs = $(this).closest(".card").data("videos");
       let id = mySubs.videoid;
       localStorage.setItem("videoID", id);
-        $(this)
-          .closest(".options")
-          .text("Added to Watchlist")
-          .css("color", "#B2022F")
-          .css("font-size", "17px")
-          .css("font-weight", "bold")
-          .css("font-family", "Teko")
-          .css("text-align", "center");
-        laterVideo();
-
+      $(this)
+        .closest(".options")
+        .text("Added to Watchlist")
+        .css("color", "#B2022F")
+        .css("font-size", "17px")
+        .css("font-weight", "bold")
+        .css("font-family", "Teko")
+        .css("text-align", "center");
+      laterVideo();
     });
 
     $(video).on("click", ".fa-play", async function () {
@@ -1419,16 +1468,13 @@ function renderFilteredContent(videos) {
 async function getChannelSearchResults() {
   let username = _.escape($("#searchfield").val());
   try {
-    const response = await fetch(
-      `${FARI_API}/users/user-search/${username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
-        },
-      }
-    );
+    const response = await fetch(`${FARI_API}/users/user-search/${username}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${myToken}`,
+      },
+    });
     const data = await response.json();
     if (data.profile.length === 0) {
       $(".channel-search").css("display", "none");
@@ -1447,10 +1493,10 @@ function renderChannelSearched(profile) {
   let channelSearched = $(`
               <div class="channel-card">
                 <a href="/channel?profile=${unesUsername} aria-label="view channel profile"><img loading="lazy" src="${
-                  profile[0].profile_avatar
-                    ? profile[0].profile_avatar
-                    : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                }" alt="channel-avi" id="channel-search-avi" /></a>
+    profile[0].profile_avatar
+      ? profile[0].profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" alt="channel-avi" id="channel-search-avi" /></a>
                 <h4 id="profile"><a href="/channel?profile=${unesUsername}" aria-label="View user channel">${unesUsername}</a></h4>
               </div>
 `).data("profile", profile);
@@ -1460,6 +1506,8 @@ function renderChannelSearched(profile) {
     let channelView = $(this).closest(".channel-card").data("profile");
     let id = channelView[0].channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 }
 
@@ -1528,10 +1576,10 @@ function renderVideoSearchResults(videos) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      videos.profile_avatar
-                        ? videos.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+      videos.profile_avatar
+        ? videos.profile_avatar
+        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+    }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -1547,7 +1595,9 @@ function renderVideoSearchResults(videos) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater?play=${videos.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater?play=${
+                    videos.videoid
+                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1566,12 +1616,16 @@ function renderVideoSearchResults(videos) {
       let channelView = $(this).closest(".card").data("videos");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(videos).on("click", "#channelAvi", function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(document).ready(function () {
@@ -1587,16 +1641,15 @@ function renderVideoSearchResults(videos) {
         let mySubs = $(this).closest(".card").data("videos");
         let id = mySubs.videoid;
         localStorage.setItem("videoID", id);
-          $(this)
-            .closest(".options")
-            .text("Added to Watchlist")
-            .css("color", "#B2022F")
-            .css("font-size", "17px")
-            .css("font-weight", "bold")
-            .css("font-family", "Teko")
-            .css("text-align", "center");
-          laterVideo();
-
+        $(this)
+          .closest(".options")
+          .text("Added to Watchlist")
+          .css("color", "#B2022F")
+          .css("font-size", "17px")
+          .css("font-weight", "bold")
+          .css("font-family", "Teko")
+          .css("text-align", "center");
+        laterVideo();
       });
 
       $(video).on("click", ".fa-play", async function () {
@@ -1628,10 +1681,10 @@ function renderVideoSearchResults(videos) {
                 <div class="card-top">
                   <div class="video-info">
                     <a href="/channel?profile=${unesUsername}" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      videos.profile_avatar
-                        ? videos.profile_avatar
-                        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+      videos.profile_avatar
+        ? videos.profile_avatar
+        : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+    }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="/channel?profile=${unesUsername}" aria-label="View user channel">${unesUsername}</a></li>
                       <li id="videoViews">${
@@ -1655,12 +1708,16 @@ function renderVideoSearchResults(videos) {
       let channelView = $(this).closest(".card").data("videos");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(videos).on("click", "#channelAvi", function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(video).on("click", ".purchase", function () {
@@ -1708,15 +1765,15 @@ function renderVideoSearchResults(videos) {
         let mySubs = $(this).closest(".card").data("videos");
         let id = mySubs.videoid;
         localStorage.setItem("videoID", id);
-          $(this)
-            .closest(".options")
-            .text("Added to Watchlist")
-            .css("color", "#B2022F")
-            .css("font-size", "17px")
-            .css("font-weight", "bold")
-            .css("font-family", "Teko")
-            .css("text-align", "center");
-          laterVideo();
+        $(this)
+          .closest(".options")
+          .text("Added to Watchlist")
+          .css("color", "#B2022F")
+          .css("font-size", "17px")
+          .css("font-weight", "bold")
+          .css("font-family", "Teko")
+          .css("text-align", "center");
+        laterVideo();
       });
     });
     return videos;
@@ -1774,10 +1831,10 @@ function renderChannels(allChannels) {
   let channel = $(`
             <div class="top-channel-card">
               <a href="/channel?profile=${unesUsername}" aria-label="visit channel"><img loading="lazy" src="${
-                allChannels.profile_avatar
-                  ? allChannels.profile_avatar
-                  : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-              }" alt="avatar" id="channelLink"/></a>
+    allChannels.profile_avatar
+      ? allChannels.profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" alt="avatar" id="channelLink"/></a>
               <h5 id="channelID"><a href="/channel?profile=${unesUsername}" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
@@ -1788,12 +1845,16 @@ function renderChannels(allChannels) {
     let channelView = $(this).closest(".top-channel-card").data("allChannels");
     let id = channelView.id;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
-  
-   $(channel).on("click", "#channelLink", async function () {
+
+  $(channel).on("click", "#channelLink", async function () {
     let channelView = $(this).closest(".top-channel-card").data("allChannels");
     let id = channelView.id;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
   return channel;
 }
@@ -1848,6 +1909,8 @@ function renderTopUploads(uploads) {
     let channelView = $(this).closest(".pop-card").data("uploads");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
   $(popularVideo).on("click", ".fa-play", async function () {
     let videoUpload = $(this).closest(".pop-card").data("uploads");
@@ -1885,7 +1948,7 @@ async function getRecentlySubsUploads() {
     return data.mysubscriptions;
   } catch (error) {
     console.log(error);
-//     response.status(400).send(error);
+    //     response.status(400).send(error);
   }
 }
 
@@ -1894,10 +1957,10 @@ function renderRecentUploadsChannels(mysubscriptions) {
   let recentchannel = $(`	
 	       <div class="top-channel-card">
               <a href="/channel?profile=${unesUsername}" aria-label="visit channel"><img loading="lazy" src="${
-                mysubscriptions.profile_avatar
-                  ? mysubscriptions.profile_avatar
-                  : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-              }" alt="avatar" id="channelpic"/></a>
+    mysubscriptions.profile_avatar
+      ? mysubscriptions.profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" alt="avatar" id="channelpic"/></a>
               <h5 id="channelLink"><a href="/channel?profile=${unesUsername}" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
@@ -1910,15 +1973,19 @@ function renderRecentUploadsChannels(mysubscriptions) {
       .data("mysubscriptions");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
-	
-   $(recentchannel).on("click", "#channelpic", async function () {
-     let channelView = $(this)
+
+  $(recentchannel).on("click", "#channelpic", async function () {
+    let channelView = $(this)
       .closest(".top-channel-card")
       .data("mysubscriptions");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
-  });	
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
+  });
   return recentchannel;
 }
 
@@ -2228,7 +2295,7 @@ function bootstrap() {
   getUserProfile().then(dashboardAvi);
   getFreeMedia().then(renderMedia);
   getChannels().then(renderSuggestedChannels);
-//   getLiveChannels().then(renderLives);
+  //   getLiveChannels().then(renderLives);
   getPopularMedia().then(renderPopularVideos);
 }
 

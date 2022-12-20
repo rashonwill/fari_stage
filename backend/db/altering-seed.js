@@ -1,20 +1,14 @@
 const client = require("./client");
 
-
 async function alterDatabase() {
   try {
-    
-    
     await client.query(`
     
-    ALTER TABLE channel_uploads
-    DROP COLUMN videotags;
     
     ALTER TABLE channel_uploads
-    ADD COLUMN videotags TEXT NULL;
+    ADD COLUMN uuid TEXT NULL;
          
     `);
-
 
     console.log("Finished altering tables!");
   } catch (error) {

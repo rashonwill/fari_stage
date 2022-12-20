@@ -5,6 +5,7 @@ const path = require("path");
 const { check, validationResult } = require("express-validator");
 const rateLimiter = require("./ratelimiter");
 const multer = require("multer");
+const { uuid } = require("uuidv4");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -112,10 +113,7 @@ uploadsRouter.put(
           const updatedAvi = {
             profile_avatar: cloudfront + "/" + result.Key,
           };
-          const updatedchannel = await updateAvatar(
-            channelname,
-            updatedAvi,
-          );
+          const updatedchannel = await updateAvatar(channelname, updatedAvi);
           res.send({ channel: updatedchannel });
         } catch (error) {
           console.log("Could not update user profile", error);
@@ -145,8 +143,18 @@ uploadsRouter.post(
     const cloudfront = process.env.CLOUDFRONT_URL;
     const vid = req.files["video"][0];
     const thumbnail = req.files["thumbnail"][0];
-    const {title, description, tags, channelid, channelname, content_category, content_class, rental_price, vendor_email, stripe_acctid} = req.body
-
+    const {
+      title,
+      description,
+      tags,
+      channelid,
+      channelname,
+      content_category,
+      content_class,
+      rental_price,
+      vendor_email,
+      stripe_acctid,
+    } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -182,7 +190,10 @@ uploadsRouter.post(
             rental_price: rental_price,
             vendor_email: vendor_email,
             stripe_acctid: stripe_acctid,
+            uuid: uuid(),
           };
+
+          console.log(uploadData);
           const newUpload = await createUpload(uploadData);
           res.send({ upload: newUpload });
         } catch (error) {

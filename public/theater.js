@@ -112,10 +112,10 @@ async function getUserProfile() {
 }
 
 async function playVideo() {
- let paramaters = new URLSearchParams(window.location.search)
- let playid = paramaters.get('play')
- console.log(playid)
- localStorage.setItem('videoID', playid)	
+  let paramaters = new URLSearchParams(window.location.search);
+  let playid = paramaters.get("play");
+  console.log(playid);
+  localStorage.setItem("videoID", playid);
   try {
     const id = localStorage.getItem("videoID");
     const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
@@ -354,9 +354,7 @@ function renderVideoInfo(video) {
 
     let unesDescription = _.unescape(video.videodescription);
     let unesTitle = _.unescape(video.videotitle);
-    let unesUsername = _.unescape(video.videotitle)
-	
-	
+    let unesUsername = _.unescape(video.videotitle);
 
     let featurePresentationInfo = $(` 
                <div class="author">
@@ -365,9 +363,7 @@ function renderVideoInfo(video) {
                   ? video.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
-                <h3><a href="/channel?profile=${unesUsername}" style="color:#fdfbf9; text-decoration:none;">${
-                  unesUsername
-                }</a></h3>
+                <h3><a href="/channel?profile=${unesUsername}" style="color:#fdfbf9; text-decoration:none;">${unesUsername}</a></h3>
               </div>
               <div class="titles">
               <h2>${unesTitle}</h2>
@@ -382,6 +378,8 @@ function renderVideoInfo(video) {
       let channelView = $(this).closest(".author").data("video");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     let videoData = $(`
@@ -446,8 +444,8 @@ function renderVideoInfo(video) {
     } else if (video.videodislikecount > 1_000) {
       dislikesString = (video.videodislikecount / 1_000).toFixed(1) + "k";
     }
-	  
-	 let unesUsername = _.unescape(video.videotitle) 
+
+    let unesUsername = _.unescape(video.videotitle);
     let featurePresentationInfo = $(` 
                <div class="author">
               <img src="${
@@ -455,9 +453,7 @@ function renderVideoInfo(video) {
                   ? video.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
-                <h3><a href="/channel?profile=${unesUsername}" style="color:#fdfbf9; text-decoration:none;">${
-                  unesUsername
-                }</a></h3>
+                <h3><a href="/channel?profile=${unesUsername}" style="color:#fdfbf9; text-decoration:none;">${unesUsername}</a></h3>
               </div>
               <div class="titles">
               <h2>${video.videotitle}</h2>
@@ -472,6 +468,8 @@ function renderVideoInfo(video) {
       let channelView = $(this).closest(".author").data("video");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     let videoData = $(`
@@ -621,7 +619,7 @@ async function updateViews() {
     );
     const data = await response.json();
     playVideo().then(renderVideoInfo);
-	    watchHistory();
+    watchHistory();
     return data;
   } catch (error) {
     response.status(400).send(error);
@@ -711,6 +709,8 @@ function renderRecomVideos(uploads) {
     let channelView = $(this).closest(".card").data("uploads");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 
   $(recVids).on("click", ".fa-play", async function (event) {
@@ -779,6 +779,8 @@ async function renderFavVideos(myFavVids) {
     let channelView = $(this).closest(".card").data("myFavVids");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 
   $(favVids).on("click", ".fa-play", async function (event) {
@@ -848,6 +850,8 @@ async function renderLaterVideos(myWatchList) {
     let channelView = $(this).closest(".card").data("myWatchList");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 
   $(laterVids).on("click", ".fa-play", async function (event) {
@@ -858,9 +862,9 @@ async function renderLaterVideos(myWatchList) {
     let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
     window.location.href = "/theater";
- });
+  });
 
- return laterVids;
+  return laterVids;
 }
 
 function renderlaterVids(laterVid) {
@@ -945,7 +949,7 @@ function renderCommentSection(comments, index) {
 
   myRemarks.forEach(function (comments) {
     let unesComment = _.unescape(comments.user_comment);
-    let unesChannel = _.unescape(comments.commentorname);	  
+    let unesChannel = _.unescape(comments.commentorname);
     let commentsActive = $(`     
             <div class="my comment-card">
                    <div class="comment-options">
@@ -961,9 +965,7 @@ function renderCommentSection(comments, index) {
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/></a>
                 <div class="commenter-info">
-                  <h5 class="user"><a href="/profile" style="color:#a9a9b0; text-decoration:none;">${
-                    unesChannel
-                  }</a></h5>
+                  <h5 class="user"><a href="/profile" style="color:#a9a9b0; text-decoration:none;">${unesChannel}</a></h5>
               <p id="user-comment">${unesComment}</p>
               </div>
               </div>
@@ -980,6 +982,8 @@ function renderCommentSection(comments, index) {
       let channelView = $(this).closest(".comment-card").data("comments");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(commentsActive).keyup(function (event) {
@@ -1094,7 +1098,7 @@ function renderCommentSection(comments, index) {
 
   otherRemarks.forEach(function (comments) {
     let unesComment = _.unescape(comments.user_comment);
-    let unesChannel = _.unescape(comments.commentorname);  
+    let unesChannel = _.unescape(comments.commentorname);
     let otherComments = $(`        
         <div class="comment-card">
               <div class="comment-content">
@@ -1104,9 +1108,7 @@ function renderCommentSection(comments, index) {
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
                 <div class="commenter-info">
-                  <h5 class="user"><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;">${
-                    unesChannel
-                  }</a></h5>
+                  <h5 class="user"><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;">${unesChannel}</a></h5>
               <h4>${unesComment}</h4>
                 </div>
               </div>
@@ -1121,12 +1123,16 @@ function renderCommentSection(comments, index) {
       let channelView = $(this).closest(".comment-card").data("comments");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(otherComments).on("click", ".user", function () {
       let channelView = $(this).closest(".comment-card").data("comments");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
+      let channelname = channelView.channelname;
+      localStorage.setItem("visitingChannel", channelname);
     });
 
     $(otherComments).on("click", ".fa-circle-exclamation", function () {
@@ -1204,7 +1210,7 @@ async function commentCount() {
     }
     return data;
   } catch (error) {
-	  console.log(error)
+    console.log(error);
     response.status(400).send(error);
   }
 }
@@ -1516,6 +1522,8 @@ function renderSearchedContent(videos) {
     let channelView = $(this).closest(".card").data("videos");
     let id = channelView.channelid;
     localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
   });
 
   $(searchvideo).on("click", ".fa-play", async function (event) {
@@ -1721,7 +1729,7 @@ async function watchHistory() {
         body: JSON.stringify(historyVideo),
       });
       const data = await response.json();
-	    console.log(data)
+      console.log(data);
       return data.upload;
     } catch (error) {
       response.status(400).send(error);
