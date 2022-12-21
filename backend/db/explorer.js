@@ -15,14 +15,15 @@ async function createUpload({
   rental_price,
   vendor_email,
   stripe_acctid,
+  uuid,
 }) {
   try {
     const {
       rows: [uploads],
     } = await client.query(
       `
-              INSERT INTO channel_uploads(channelID, channelname, videoFile, videoKey, videoThumbnail, thumbnailKey, videoTitle, videoDescription, videoTags, content_category, content_class, rental_price, vendor_email, stripe_acctid) 
-              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+              INSERT INTO channel_uploads(channelID, channelname, videoFile, videoKey, videoThumbnail, thumbnailKey, videoTitle, videoDescription, videoTags, content_category, content_class, rental_price, vendor_email, stripe_acctid, uuid) 
+              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
               RETURNING *;
             `,
       [
@@ -40,6 +41,7 @@ async function createUpload({
         rental_price,
         vendor_email,
         stripe_acctid,
+        uuid,
       ]
     );
     return uploads;
