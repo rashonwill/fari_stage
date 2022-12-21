@@ -174,7 +174,7 @@ function renderFreeContent(uploads) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    uploads.videoid
+                    uploads.uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -516,7 +516,7 @@ function renderSubsVids(subscriptionUploads) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    subscriptionUploads.videoid
+                    subscriptionUploads.uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -782,7 +782,7 @@ function renderFavs(myFavVids) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    myFavVids.videoid
+                    myFavVids.uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -934,7 +934,7 @@ function renderWatchLaters(myWatchList) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    myWatchList.videoid
+                    myWatchList.uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -1016,7 +1016,7 @@ function renderWatchLaters(myWatchList) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    myWatchList.videoid
+                    myWatchList.uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -1148,7 +1148,7 @@ function renderHistory(history) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    history.videoid
+                    history.uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -1398,7 +1398,7 @@ function renderFilteredContent(videos) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    videos.videoid
+                    videos.uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -1596,7 +1596,7 @@ function renderVideoSearchResults(videos) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    videos.videoid
+                    videos.uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -1892,7 +1892,7 @@ function renderTopUploads(uploads) {
             <div class="upload">
               <video src="${uploads.videofile}" poster="${uploads.videothumbnail}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater?play=${uploads.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${uploads.uuid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
                 <a href="/channel?profile=${unesUsername}" aria-label="View user channel">
