@@ -112,10 +112,6 @@ async function getUserProfile() {
 }
 
 async function playVideo() {
-//   let paramaters = new URLSearchParams(window.location.search);
-//   let playid = paramaters.get("play");
-//   console.log(playid);
-//   localStorage.setItem("videoID", playid);
   try {
     const id = localStorage.getItem("videoID");
     const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
@@ -718,7 +714,7 @@ function renderRecomVideos(uploads) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("uploads");
-    let id = videoUpload.uuid;
+    let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
     window.location.href = `/theater?play=${id}`;
   });
@@ -788,7 +784,7 @@ async function renderFavVideos(myFavVids) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("myFavVids");
-    let id = videoUpload.uuid;
+    let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
 
     window.location.href = `/theater?play=${id}`;
@@ -859,7 +855,7 @@ async function renderLaterVideos(myWatchList) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("myWatchList");
-    let id = videoUpload.uuid;
+    let id = videoUpload.videoid;
     localStorage.setItem("videoID", id);
     window.location.href = `/theater?play=${id}`;
   });
@@ -1529,7 +1525,7 @@ function renderSearchedContent(videos) {
   $(searchvideo).on("click", ".fa-play", async function (event) {
     event.preventDefault();
     let videoSearc = $(this).closest(".card").data("videos");
-    let id = videoSearc.uuid;
+    let id = videoSearc.videoid;
     localStorage.setItem("videoID", id);
     window.location.href = "/theater";
   });
@@ -1729,7 +1725,6 @@ async function watchHistory() {
         body: JSON.stringify(historyVideo),
       });
       const data = await response.json();
-      console.log(data);
       return data.upload;
     } catch (error) {
       response.status(400).send(error);
