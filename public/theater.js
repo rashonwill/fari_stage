@@ -716,8 +716,9 @@ function renderRecomVideos(uploads) {
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("uploads");
     let id = videoUpload.videoid;
+    let uuid = videoUpload.uuid;	  
     localStorage.setItem("videoID", id);
-    window.location.href = `/theater?play=${id}`;
+    window.location.href = `/theater?play=${uuid}`;
   });
 
   return recVids;
@@ -786,9 +787,10 @@ async function renderFavVideos(myFavVids) {
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("myFavVids");
     let id = videoUpload.videoid;
+    let uuid = videoUpload.uuid;	  
     localStorage.setItem("videoID", id);
 
-    window.location.href = `/theater?play=${id}`;
+    window.location.href = `/theater?play=${uuid}`;
   });
 
   return favVids;
@@ -857,8 +859,9 @@ async function renderLaterVideos(myWatchList) {
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("myWatchList");
     let id = videoUpload.videoid;
+    let uuid = videoUpload.uuid;	  
     localStorage.setItem("videoID", id);
-    window.location.href = `/theater?play=${id}`;
+    window.location.href = `/theater?play=${uuid}`;
   });
 
   return laterVids;
@@ -1527,8 +1530,9 @@ function renderSearchedContent(videos) {
     event.preventDefault();
     let videoSearc = $(this).closest(".card").data("videos");
     let id = videoSearc.videoid;
+    let uuid = videoSearc.uuid;	  
     localStorage.setItem("videoID", id);
-    window.location.href = "/theater";
+    window.location.href = `/theater?play={uuid}`;
   });
   return video;
 }
