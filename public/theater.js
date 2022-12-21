@@ -122,6 +122,7 @@ async function playVideo() {
       },
     });
     const data = await response.json();
+	  console.log(data)
     if (data.video.length === 0) {
       window.location.href = "/explorer";
     }
