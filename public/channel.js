@@ -269,7 +269,7 @@ function renderPost(channelUploads, index) {
                 </div>
                 <div class="card-mid">
                   <a href="theater?play=${
-                    channelUploads.videoid
+                    channelUploads.uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
