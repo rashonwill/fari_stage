@@ -112,10 +112,10 @@ async function getUserProfile() {
 }
 
 async function playVideo() {
-  let paramaters = new URLSearchParams(window.location.search);
-  let playid = paramaters.get("play");
-  console.log(playid);
-  localStorage.setItem("videoID", playid);
+//   let paramaters = new URLSearchParams(window.location.search);
+//   let playid = paramaters.get("play");
+//   console.log(playid);
+//   localStorage.setItem("videoID", playid);
   try {
     const id = localStorage.getItem("videoID");
     const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
@@ -695,7 +695,7 @@ function renderRecomVideos(uploads) {
             <div class="upload">
               <video poster="${uploads.videothumbnail}" src ="${uploads.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater?play=${uploads.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${uploads.uuid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
                   <h6><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
@@ -718,7 +718,7 @@ function renderRecomVideos(uploads) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("uploads");
-    let id = videoUpload.videoid;
+    let id = videoUpload.uuid;
     localStorage.setItem("videoID", id);
     window.location.href = `/theater?play=${id}`;
   });
@@ -765,7 +765,7 @@ async function renderFavVideos(myFavVids) {
             <div class="upload">
               <video poster="${myFavVids.videothumbnail}" src ="${myFavVids.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater?play=${myFavVids.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${myFavVids.uuid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
                   <h6><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
@@ -788,7 +788,7 @@ async function renderFavVideos(myFavVids) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("myFavVids");
-    let id = videoUpload.videoid;
+    let id = videoUpload.uuid;
     localStorage.setItem("videoID", id);
 
     window.location.href = `/theater?play=${id}`;
@@ -836,7 +836,7 @@ async function renderLaterVideos(myWatchList) {
             <div class="upload">
               <video poster="${myWatchList.videothumbnail}" src ="${myWatchList.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater?play=${myWatchList.videoid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${myWatchList.uuid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
                   <h6><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
@@ -859,7 +859,7 @@ async function renderLaterVideos(myWatchList) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("myWatchList");
-    let id = videoUpload.videoid;
+    let id = videoUpload.uuid;
     localStorage.setItem("videoID", id);
     window.location.href = `/theater?play=${id}`;
   });
@@ -1505,7 +1505,7 @@ function renderSearchedContent(videos) {
             <div class="upload">
               <video ${videos.videothumbnail}" src ="${videos.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater?play=${videos.videoid}"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${videos.uuid}"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
                 <a href="/channel?profile=${unesChannel}">
@@ -1529,7 +1529,7 @@ function renderSearchedContent(videos) {
   $(searchvideo).on("click", ".fa-play", async function (event) {
     event.preventDefault();
     let videoSearc = $(this).closest(".card").data("videos");
-    let id = videoSearc.videoid;
+    let id = videoSearc.uuid;
     localStorage.setItem("videoID", id);
     window.location.href = "/theater";
   });
