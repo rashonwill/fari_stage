@@ -118,11 +118,9 @@ async function playVideo() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${myToken}`,
       },
     });
     const data = await response.json();
-	  console.log(data)
     if (data.video.length === 0) {
       window.location.href = "/explorer";
     }
@@ -610,7 +608,6 @@ async function updateViews() {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${myToken}`,
         },
       }
     );
@@ -674,7 +671,6 @@ async function recommendedVideos() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${myToken}`,
       },
     });
     const data = await response.json();
