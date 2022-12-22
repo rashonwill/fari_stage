@@ -152,7 +152,6 @@ explorerRouter.get(
 
 explorerRouter.get(
   "/recommended",
-  requireUser,
   async (req, res, next) => {
     try {
       const recUploads = await getRecommendedUploads();
