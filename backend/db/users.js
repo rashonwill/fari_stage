@@ -45,9 +45,24 @@ async function createUser({
      `,
       [user.id, username]
     );
-    
 
     return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function addToken(username) {
+  try {
+    const { rows } = await client.query(
+      `
+                UPDATE users
+                SET jwt_token=$2
+                WHERE username=$1;
+              `,
+      [username]
+    );
+    return rows;
   } catch (error) {
     throw error;
   }
@@ -444,8 +459,6 @@ async function reduceChannelSubscriptionCount(id) {
   }
 }
 
-
-
 async function getAllUsers() {
   const { rows } = await client.query(`SELECT * FROM users;`);
 
@@ -463,16 +476,16 @@ async function registerVendor(id) {
  SET registration_complete=true 
  WHERE id=$1
  RETURNING *;
- `,[id]
- );
+ `,
+      [id]
+    );
     return vendor;
   } catch (error) {
     throw error;
   }
 }
 
-
-async function setStripeID(id, {stripe_acctid}) {
+async function setStripeID(id, { stripe_acctid }) {
   try {
     const {
       rows: [vendor],
@@ -482,8 +495,9 @@ async function setStripeID(id, {stripe_acctid}) {
  SET stripe_acctid=$2
  WHERE id=$1
  RETURNING *;
- `,[id, stripe_acctid]
- );
+ `,
+      [id, stripe_acctid]
+    );
     return vendor;
   } catch (error) {
     throw error;
@@ -540,12 +554,10 @@ async function confirmVendorSubscription(id) {
   }
 }
 
-
-
-
 module.exports = {
   client,
   createUser,
+  addToken,
   createChannel,
   createVendor,
 
@@ -559,7 +571,7 @@ module.exports = {
   getUser,
   getUserById,
   getUserByName,
-  
+
   userSearch,
   getLiveChannels,
   getUserChannelByChannelID,
@@ -567,7 +579,7 @@ module.exports = {
   getUserChannelByName,
   getUserProfile,
   getPostByChannelID,
-  
+
   updateAvatar,
   updatePoster,
   updateChannelSubscriptionCount,
@@ -580,5 +592,4 @@ module.exports = {
   getAllUsers,
   registerVendor,
   setStripeID,
- 
 };

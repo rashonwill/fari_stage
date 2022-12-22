@@ -1,6 +1,6 @@
 const express = require("express");
 const accountRouter = express.Router();
-const { JWT_SECRET, JWT_SECRET_RESET } = process.env;
+const { JWT_SECRET, JWT_SECRET_RESET, JWT_REFRESH_SECRET } = process.env;
 const jwt = require("jsonwebtoken");
 const { requireUser } = require("./utils");
 const path = require("path");
@@ -8,6 +8,7 @@ const { body, check, validationResult } = require("express-validator");
 const rateLimiter = require("./ratelimiter");
 const {
   createUser,
+  addToken,
   getUser,
   addLocation,
   addBio,
@@ -72,10 +73,9 @@ accountRouter.post(
     if (!errors.isEmpty()) {
       return res
         .status(400)
-        .send({ name: "Validation Error", message: errors.array()});
+        .send({ name: "Validation Error", message: errors.array() });
     } else {
       try {
-
         const _email = await getUserByEmail(email);
         if (_email) {
           next({
@@ -84,7 +84,7 @@ accountRouter.post(
           });
           return false;
         }
-        
+
         const _user = await getUserByUsername(username);
         if (_user) {
           next({
@@ -116,7 +116,6 @@ accountRouter.post(
           confirmpassword,
           location,
         });
-        console.log('user object', user)
         if (!user) {
           next({
             message: "Ooops, could not create your account, please try again.",
@@ -127,14 +126,31 @@ accountRouter.post(
               id: user.id,
               username,
             },
-            JWT_SECRET
+            JWT_SECRET,
+            {
+              expiresIn: "15m",
+            }
           );
+
+          const refreshToken = jwt.sign(
+            {
+              id: user.id,
+              username,
+            },
+            JWT_REFRESH_SECRET,
+            {
+              expiresIn: "30d",
+            }
+          );
+
+          const addRefreshToken = await addToken(username, refreshToken);
 
           res.send({
             success: "SuccessfulRegistration",
             message: "Thank you for signing up, please return to login.",
             user,
             token,
+            refreshToken,
           });
         }
       } catch (error) {
@@ -162,7 +178,6 @@ accountRouter.post(
   rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   async (req, res, next) => {
     const { username, password } = req.body;
-
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -172,7 +187,7 @@ accountRouter.post(
       try {
         const user = await getUser({ username, password });
         if (user) {
-          const token = jwt.sign(user, process.env.JWT_SECRET);
+          const token = jwt.sign(user, process.env.JWT_REFRESH_SECRET);
           next({
             success: "SuccsessfulLogin",
             message: "Welcome to Fari!",
@@ -406,6 +421,5 @@ accountRouter.patch(
     }
   }
 );
-
 
 module.exports = accountRouter;

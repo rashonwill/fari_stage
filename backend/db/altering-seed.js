@@ -3,10 +3,19 @@ const client = require("./client");
 async function alterDatabase() {
   try {
     await client.query(`
+    CREATE INDEX idx_username ON users(username);
+    CREATE INDEX idx_videotitle ON channel_uploads(videotitle);
+    CREATE INDEX idx_videotags ON channel_uploads(videotags);
+    CREATE INDEX idx_channelname ON channel_uploads(channelname);
     
-    
-    ALTER TABLE channel_uploads
-    ADD COLUMN uuid TEXT NULL;
+    ALTER TABLE users
+    ADD COLUMN jwt_token TEXT NULL;
+
+    ALTER TABLE users
+    ADD COLUMN disclaimer_accepted BOOLEAN DEFAULT FALSE;
+
+    ALTER TABLE users
+    ADD COLUMN termsofuse_acceprted BOOLEAN DEFAULT FALSE;
          
     `);
 

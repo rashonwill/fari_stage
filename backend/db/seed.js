@@ -54,6 +54,7 @@ async function createTables() {
     ConfirmPassword varchar(255) NOT NULL,
     location varchar(255) NULL,
     bio varchar(8000) NULL,
+    jwt_token TEXT NOT NULL,
     CreationDT DATE DEFAULT CURRENT_DATE NOT NULL,
     subscribed_vendor_acct BOOLEAN DEFAULT FALSE,
     subscribed_user_acct BOOLEAN DEFAULT FALSE,
@@ -136,6 +137,7 @@ CREATE TABLE channel_uploads (
 
 CREATE INDEX idx_videotitle ON channel_uploads(videotitle);
 CREATE INDEX idx_channelname ON channel_uploads(channelname);
+CREATE INDEX idx_videotitle ON channel_uploads(videotags);
 
 CREATE TABLE upload_comments (
   ID SERIAL PRIMARY KEY UNIQUE,
