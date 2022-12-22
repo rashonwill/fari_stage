@@ -133,18 +133,18 @@ accountRouter.post(
             }
           );
 
-          const refreshToken = jwt.sign(
-            {
-              id: user.id,
-              username,
-            },
-            JWT_REFRESH_SECRET,
-            {
-              expiresIn: "30d",
-            }
-          );
+          // const refreshToken = jwt.sign(
+          //   {
+          //     id: user.id,
+          //     username,
+          //   },
+          //   JWT_REFRESH_SECRET,
+          //   {
+          //     expiresIn: "30d",
+          //   }
+          // );
 
-          const addRefreshToken = await addToken(username, refreshToken);
+          // const addRefreshToken = await addToken(username, refreshToken);
 
           res.send({
             success: "SuccessfulRegistration",
@@ -192,16 +192,15 @@ accountRouter.post(
           const token = jwt.sign(user, process.env.JWT_SECRET, {
             expiresIn: "15m",
           });
-          const refreshToken = jwt.sign(user, process.env.JWT_REFRESH_SECRET, {
-            expiresIn: "3m",
-          });
+          // const refreshToken = jwt.sign(user, process.env.JWT_REFRESH_SECRET, {
+          //   expiresIn: "3m",
+          // });
 
-          const addRefreshToken = await addToken(username, refreshToken);
+          // const addRefreshToken = await addToken(username, refreshToken);
           next({
             success: "SuccsessfulLogin",
             message: "Welcome to Fari!",
             token,
-            refreshToken,
           });
         } else {
           next({
