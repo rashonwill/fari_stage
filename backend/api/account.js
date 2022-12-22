@@ -143,8 +143,8 @@ accountRouter.post(
             }
           );
 
-          // const addRefreshToken = await addToken(username, refreshToken);
-          // console.log(addRefreshToken);
+          const addRefreshToken = await addToken(username, refreshToken);
+          console.log(addRefreshToken);
 
           res.send({
             success: "SuccessfulRegistration",
@@ -152,7 +152,7 @@ accountRouter.post(
             user,
             token,
             refreshToken,
-            // addRefreshToken,
+            addRefreshToken,
           });
         }
       } catch (error) {
