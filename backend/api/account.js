@@ -186,7 +186,8 @@ accountRouter.post(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const refreshToken = await getUserToken(username);
+        const newToken = await getUserToken(username);
+        let refreshToken = JSON.stringify(newToken);
         if (!refreshToken || refreshToken === null) {
           res.status(401).json({ message: "No token found" });
           return false;
