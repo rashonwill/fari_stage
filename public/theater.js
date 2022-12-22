@@ -9,9 +9,9 @@ let commentFlag = false;
 (function () {
   $("#info").addClass("selected");
   $("#discover").addClass("selected");
-  if (!myToken || myToken === null) {
-    window.location.href = "/login";
-  }
+//   if (!myToken || myToken === null) {
+//     window.location.href = "/login";
+//   }
   setTimeout(function () {
     updateViews();
   }, 60000);
