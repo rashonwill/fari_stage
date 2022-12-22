@@ -151,7 +151,6 @@ accountRouter.post(
             message: "Thank you for signing up, please return to login.",
             user,
             token,
-            refreshToken,
           });
         }
       } catch (error) {
