@@ -149,6 +149,7 @@ accountRouter.post(
             success: "SuccessfulRegistration",
             message: "Thank you for signing up, please return to login.",
             user,
+            addRefreshToken,
             token,
             refreshToken,
           });
