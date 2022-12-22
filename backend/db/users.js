@@ -52,7 +52,7 @@ async function createUser({
   }
 }
 
-async function addToken(username) {
+async function addToken(username, jwt_token) {
   try {
     const { rows } = await client.query(
       `
@@ -60,7 +60,7 @@ async function addToken(username) {
                 SET jwt_token=$2
                 WHERE username=$1;
               `,
-      [username]
+      [username, jwt_token]
     );
     return rows;
   } catch (error) {
