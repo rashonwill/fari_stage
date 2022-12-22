@@ -187,13 +187,17 @@ accountRouter.post(
     } else {
       try {
         const refreshToken = await getUserToken(username);
-        if (!refreshToken || refreshToken === null) {
-          res.status(401).json({ message: "No token found" });
+        if (!refreshToken) {
+          next({
+            error: "No token found.",
+            message: "Invalid token.",
+          });
           return false;
         }
-        if (!refreshToken.includes(refreshToken)) {
-          res.status(403).json({ message: "Invalid token found" });
+        if (refreshToken) {
+          res.status(401).json({ message: "No token found" });
         }
+
         jwt.verify(
           refreshToken,
           process.env.JWT_REFRESH_SECRET,
