@@ -9,6 +9,7 @@ const rateLimiter = require("./ratelimiter");
 const {
   createUser,
   addToken,
+  getUserToken,
   getUser,
   addLocation,
   addBio,
@@ -177,7 +178,7 @@ accountRouter.post(
     .withMessage({ message: "Please provide a valid password" }),
   rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   async (req, res, next) => {
-    const { username, password, refreshToken } = req.body;
+    const { username, password } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -185,18 +186,18 @@ accountRouter.post(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
+        const refreshToken = await getUserToken(username);
         if (!refreshToken || refreshToken === null) {
           res.status(401).json({ message: "No token found" });
           return false;
         }
         if (!refreshToken.includes(refreshToken)) {
           res.status(403).json({ message: "Invalid token found" });
-          return false;
         }
         jwt.verify(
           refreshToken,
           process.env.JWT_REFRESH_SECRET,
-          async (err, user) => {
+          async (err, refreshToken) => {
             if (err) {
               console.log(err);
               return false;

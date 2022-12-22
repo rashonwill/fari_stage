@@ -68,6 +68,22 @@ async function addToken(username, jwt_token) {
   }
 }
 
+async function getUserToken(username) {
+  try {
+    const { rows } = await client.query(
+      `
+                SELECT jwt_token 
+                FROM users
+                WHERE username=$1;
+              `,
+      [username]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function createChannel({
   userID,
   channelname,
@@ -558,6 +574,7 @@ module.exports = {
   client,
   createUser,
   addToken,
+  getUserToken,
   createChannel,
   createVendor,
 
