@@ -185,17 +185,11 @@ accountRouter.post(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        // const refreshToken = await getUserToken(username);
         const user = await getUser({ username, password });
         if (user) {
           const token = jwt.sign(user, process.env.JWT_SECRET, {
-            expiresIn: "15m",
+            expiresIn: "30d",
           });
-          // const refreshToken = jwt.sign(user, process.env.JWT_REFRESH_SECRET, {
-          //   expiresIn: "3m",
-          // });
-
-          // const addRefreshToken = await addToken(username, refreshToken);
           next({
             success: "SuccsessfulLogin",
             message: "Welcome to Fari!",
