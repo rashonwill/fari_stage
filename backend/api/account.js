@@ -186,44 +186,29 @@ accountRouter.post(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const refreshToken = await getUserToken(username);
-        if (!refreshToken) {
-          next({
-            error: "No token found.",
-            message: "Invalid token.",
+        // const refreshToken = await getUserToken(username);
+        const user = await getUser({ username, password });
+        if (user) {
+          const token = jwt.sign(user, process.env.JWT_SECRET, {
+            expiresIn: "15m",
           });
-          return false;
-        }
-        if (refreshToken) {
-          res.status(401).json({ message: "No token found" });
-        }
+          const refreshToken = jwt.sign(user, process.env.JWT_REFRESH_SECRET, {
+            expiresIn: "3m",
+          });
 
-        jwt.verify(
-          refreshToken,
-          process.env.JWT_REFRESH_SECRET,
-          async (err, refreshToken) => {
-            if (err) {
-              console.log(err);
-              return false;
-            } else {
-              const user = await getUser({ username, password });
-              if (user) {
-                const token = jwt.sign(user, process.env.JWT_SECRET);
-                next({
-                  success: "SuccsessfulLogin",
-                  message: "Welcome to Fari!",
-                  token,
-                  refreshToken,
-                });
-              } else {
-                next({
-                  error: "IncorrectCredentialsError",
-                  message: "Your username or password is invalid.",
-                });
-              }
-            }
-          }
-        );
+          const addRefreshToken = await addToken(username, refreshToken);
+          next({
+            success: "SuccsessfulLogin",
+            message: "Welcome to Fari!",
+            token,
+            refreshToken,
+          });
+        } else {
+          next({
+            error: "IncorrectCredentialsError",
+            message: "Your username or password is invalid.",
+          });
+        }
       } catch (error) {
         console.error(error, errors);
         next(error);
@@ -446,5 +431,19 @@ accountRouter.patch(
     }
   }
 );
+
+const checkToken = (req, res, next) => {
+  const header = req.headers["authorization"];
+
+  if (typeof header !== "undefined") {
+    const bearer = header.split(" ");
+    const token = bearer[1];
+
+    req.token = token;
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+};
 
 module.exports = accountRouter;
