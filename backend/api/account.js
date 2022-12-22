@@ -177,7 +177,7 @@ accountRouter.post(
     .withMessage({ message: "Please provide a valid password" }),
   rateLimiter({ secondsWindow: 60, allowedHits: 5 }),
   async (req, res, next) => {
-    const { username, password } = req.body;
+    const { username, password, refreshToken } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -185,20 +185,40 @@ accountRouter.post(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const user = await getUser({ username, password });
-        if (user) {
-          const token = jwt.sign(user, process.env.JWT_REFRESH_SECRET);
-          next({
-            success: "SuccsessfulLogin",
-            message: "Welcome to Fari!",
-            token,
-          });
-        } else {
-          next({
-            error: "IncorrectCredentialsError",
-            message: "Your username or password is invalid.",
-          });
+        if (!refreshToken || refreshToken === null) {
+          res.status(401).json({ message: "No token found" });
+          return false;
         }
+        if (!refreshToken.includes(refreshToken)) {
+          res.status(403).json({ message: "Invalid token found" });
+          return false;
+        }
+        jwt.verify(
+          refreshToken,
+          process.env.JWT_REFRESH_SECRET,
+          async (err, user) => {
+            if (err) {
+              console.log(err);
+              return false;
+            } else {
+              const user = await getUser({ username, password });
+              if (user) {
+                const token = jwt.sign(user, process.env.JWT_SECRET);
+                next({
+                  success: "SuccsessfulLogin",
+                  message: "Welcome to Fari!",
+                  token,
+                  refreshToken,
+                });
+              } else {
+                next({
+                  error: "IncorrectCredentialsError",
+                  message: "Your username or password is invalid.",
+                });
+              }
+            }
+          }
+        );
       } catch (error) {
         console.error(error, errors);
         next(error);
