@@ -66,7 +66,7 @@ $(".login-form").on("submit", async (event) => {
         .css("color", "#100a1c")
         .css("letter-spacing", ".05rem");
       window.location.href = "/explorer";
-      localStorage.setItem("fariToken", data.refreshToken);
+      localStorage.setItem("fariToken", data.token);
     }
   } catch (error) {
     response.status(400).send(error);
@@ -137,7 +137,7 @@ $(".register-form").on("submit", async (event) => {
         .text(data.message)
         .css("color", "#100a1c")
         .css("letter-spacing", ".05rem");
-      localStorage.setItem("fariToken", data.refreshToken);
+      localStorage.setItem("fariToken", data.token);
     }
   } catch (error) {
     response.status(400).send(error);
@@ -174,7 +174,7 @@ $(".password_reset-form").on("submit", async (event) => {
         .text(data.message)
         .css("color", "#100a1c")
         .css("letter-spacing", ".05rem");
-      localStorage.setItem("tempToken", data.refreshToken);
+      localStorage.setItem("tempToken", data.token);
     }
     return data;
   } catch (error) {
