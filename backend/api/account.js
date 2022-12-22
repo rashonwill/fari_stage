@@ -187,8 +187,6 @@ accountRouter.post(
     } else {
       try {
         const refreshToken = await getUserToken(username);
-        let refresher = res.json(refreshToken.jwt_token);
-        console.log(refresher);
         if (!refreshToken || refreshToken === null) {
           res.status(401).json({ message: "No token found" });
           return false;
