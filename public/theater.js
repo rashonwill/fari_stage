@@ -527,7 +527,7 @@ async function dislikeVideo() {
       video_uuid: uuid,
     };
 
-    const response = await fetch(`${FARI_API}/explorer/youdislikeme/${id}`, {
+    const response = await fetch(`${FARI_API}/explorer/youdislikeme/${uuid}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
