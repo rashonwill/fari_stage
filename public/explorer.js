@@ -7,8 +7,28 @@ const myToken = localStorage.getItem("fariToken");
   $(".main-content #title").text("Discover");
   if (!myToken || myToken === null) {
     window.location.href = "login";
+  } else {
+    checkToken();
   }
 })();
+
+async function checkToken() {
+  try {
+    const response = await fetch(`${FARI_API}/users/token`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${myToken}`,
+      },
+    });
+    const data = await response.json();
+    return data.user;
+  } catch (error) {
+    console.log(error);
+    window.location.href = "login";
+    response.status(400).send(error);
+  }
+}
 
 function onFetchStart() {
   $("#loading").addClass("active");
@@ -201,7 +221,7 @@ function renderFreeContent(uploads) {
     );
     $(videos).on("click", "#add", async function () {
       let mySubs = $(this).closest(".card").data("uploads");
-      let id = mySubs.videoid;
+      let id = mySubs.uuid;
       localStorage.setItem("videoID", id);
       $(this)
         .closest(".options")
@@ -232,8 +252,8 @@ function renderFreeContent(uploads) {
 
     $(videos).on("click", ".fa-play", async function () {
       let videoUpload = $(this).closest(".card").data("uploads");
-      let id = videoUpload.videoid;
-      localStorage.setItem("videoID", id);
+      let uuid = videoUpload.uuid;
+      localStorage.setItem("videoID", uuid);
     });
   });
 
@@ -364,14 +384,14 @@ function renderPayMedia(uploads) {
       onFetchStart();
       let videoArr = [];
       let videoView = $(this).closest(".card").data("uploads");
-      let id = videoView.videoid;
+      let id = videoView.uuid;
       localStorage.setItem("videoID", id);
 
       let price = videoView.rental_price;
       localStorage.setItem("ticketPrice", price);
 
       let purchasingFilm = {
-        videoid: videoView.videoid,
+        uuid: videoView.uuid,
         name: videoView.videotitle,
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
@@ -390,7 +410,7 @@ function renderPayMedia(uploads) {
 
     $(paidVids).on("click", ".fa-play", async function () {
       let videoUpload = $(this).closest(".card").data("uploads");
-      let id = videoUpload.videoid;
+      let id = videoUpload.uuid;
       localStorage.setItem("videoID", id);
     });
   });
@@ -549,7 +569,7 @@ function renderSubsVids(subscriptionUploads) {
 
     $(mySubVideos).on("click", "#add", async function () {
       let mySubs = $(this).closest(".card").data("subscriptionUploads");
-      let id = mySubs.videoid;
+      let id = mySubs.uuid;
       localStorage.setItem("videoID", id);
       $(this)
         .closest(".options")
@@ -564,7 +584,7 @@ function renderSubsVids(subscriptionUploads) {
 
     $(mySubVideos).on("click", ".fa-play", async function () {
       let mySubs = $(this).closest(".card").data("subscriptionUploads");
-      let id = mySubs.videoid;
+      let id = mySubs.uuid;
       localStorage.setItem("videoID", id);
     });
   });
@@ -643,14 +663,14 @@ function renderSubsVids(subscriptionUploads) {
       onFetchStart();
       let videoArr = [];
       let videoView = $(this).closest(".card").data("subscriptionUploads");
-      let id = videoView.videoid;
+      let id = videoView.uuid;
       localStorage.setItem("videoID", id);
 
       let price = videoView.rental_price;
       localStorage.setItem("ticketPrice", price);
 
       let purchasingFilm = {
-        videoid: videoView.videoid,
+        uuid: videoView.uuid,
         name: videoView.videotitle,
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
@@ -677,7 +697,7 @@ function renderSubsVids(subscriptionUploads) {
       );
       $(mySubVideos).on("click", ".fa-circle-plus", async function () {
         let mySubs = $(this).closest(".card").data("subscriptionUploads");
-        let id = mySubs.videoid;
+        let id = mySubs.uuid;
         localStorage.setItem("videoID", id);
         $(this)
           .closest(".options")
@@ -815,7 +835,7 @@ function renderFavs(myFavVids) {
 
   $(myFavs).on("click", "#delete", function () {
     let myFaved = $(this).closest(".card").data("myFavVids");
-    let id = myFaved.videoid;
+    let id = myFaved.uuid;
     localStorage.setItem("videoID", id);
     deleteFav();
     $(this).closest(".card").remove();
@@ -823,7 +843,7 @@ function renderFavs(myFavVids) {
 
   $(myFavs).on("click", ".fa-play", async function () {
     let myFaved = $(this).closest(".card").data("myFavVids");
-    let id = myFaved.videoid;
+    let id = myFaved.uuid;
     localStorage.setItem("videoID", id);
   });
   return myFavs;
@@ -967,7 +987,7 @@ function renderWatchLaters(myWatchList) {
 
     $(myLater).on("click", "#delete", function () {
       let watchLater = $(this).closest(".card").data("myWatchList");
-      let id = watchLater.videoid;
+      let id = watchLater.uuid;
       localStorage.setItem("videoID", id);
       deleteWatchLater();
       $(this).closest(".card").remove();
@@ -975,7 +995,7 @@ function renderWatchLaters(myWatchList) {
 
     $(myLater).on("click", ".fa-play", async function () {
       let watchLater = $(this).closest(".card").data("myWatchList");
-      let id = watchLater.videoid;
+      let id = watchLater.uuid;
       localStorage.setItem("videoID", id);
     });
   });
@@ -1045,7 +1065,7 @@ function renderWatchLaters(myWatchList) {
 
     $(myLater).on("click", ".fa-play", async function () {
       let watchLater = $(this).closest(".card").data("myWatchList");
-      let id = watchLater.videoid;
+      let id = watchLater.uuid;
       let purchased = watchLater.id;
       localStorage.setItem("purchasedWatched", purchased);
       localStorage.setItem("videoID", id);
@@ -1181,14 +1201,14 @@ function renderHistory(history) {
 
   $(myHistory).on("click", "#delete", function () {
     let myFaved = $(this).closest(".card").data("history");
-    let id = myFaved.videoid;
+    let id = myFaved.uuid;
     localStorage.setItem("videoID", id);
     $(this).closest(".card").remove();
   });
 
   $(myHistory).on("click", ".fa-play", async function () {
     let myFaved = $(this).closest(".card").data("history");
-    let id = myFaved.videoid;
+    let id = myFaved.uuid;
     localStorage.setItem("videoID", id);
   });
   return myHistory;
@@ -1441,7 +1461,7 @@ function renderFilteredContent(videos) {
     );
     $(video).on("click", "#add", async function () {
       let mySubs = $(this).closest(".card").data("videos");
-      let id = mySubs.videoid;
+      let id = mySubs.uuid;
       localStorage.setItem("videoID", id);
       $(this)
         .closest(".options")
@@ -1456,7 +1476,7 @@ function renderFilteredContent(videos) {
 
     $(video).on("click", ".fa-play", async function () {
       let videoSearched = $(this).closest(".card").data("videos");
-      let id = videoSearched.videoid;
+      let id = videoSearched.uuid;
       localStorage.setItem("videoID", id);
     });
   });
@@ -1639,7 +1659,7 @@ function renderVideoSearchResults(videos) {
       );
       $(video).on("click", "#add", async function () {
         let mySubs = $(this).closest(".card").data("videos");
-        let id = mySubs.videoid;
+        let id = mySubs.uuid;
         localStorage.setItem("videoID", id);
         $(this)
           .closest(".options")
@@ -1654,7 +1674,7 @@ function renderVideoSearchResults(videos) {
 
       $(video).on("click", ".fa-play", async function () {
         let videoSearched = $(this).closest(".card").data("videos");
-        let id = videoSearched.id;
+        let id = videoSearched.uuid;
         localStorage.setItem("videoID", id);
       });
     });
@@ -1729,14 +1749,14 @@ function renderVideoSearchResults(videos) {
       onFetchStart();
       let videoArr = [];
       let videoView = $(this).closest(".card").data("videos");
-      let id = videoView.videoid;
+      let id = videoView.uuid;
       localStorage.setItem("videoID", id);
 
       let price = videoView.rental_price;
       localStorage.setItem("ticketPrice", price);
 
       let purchasingFilm = {
-        videoid: videoView.videoid,
+        uuid: videoView.uuid,
         name: videoView.videotitle,
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
@@ -1763,7 +1783,7 @@ function renderVideoSearchResults(videos) {
       );
       $(video).on("click", "#add", async function () {
         let mySubs = $(this).closest(".card").data("videos");
-        let id = mySubs.videoid;
+        let id = mySubs.uuid;
         localStorage.setItem("videoID", id);
         $(this)
           .closest(".options")
@@ -1914,7 +1934,7 @@ function renderTopUploads(uploads) {
   });
   $(popularVideo).on("click", ".fa-play", async function () {
     let videoUpload = $(this).closest(".pop-card").data("uploads");
-    let id = videoUpload.videoid;
+    let id = videoUpload.uuid;
     localStorage.setItem("videoID", id);
   });
   return popularVideo;
@@ -2069,17 +2089,16 @@ async function getVideoData() {
 async function laterVideo() {
   var getFeature = await getVideoData();
   var userid = localStorage.getItem("userID");
-  var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
   var channelID = getFeature[0].channelid;
   var views = getFeature[0].videoviewcount;
+  var uniqueID = getFeature[0].uuid;
 
   const laterBody = {
     userid: userid,
-    videoid: vidID,
     channelname: channelname,
     videofile: video,
     videothumbnail: posFile,
@@ -2087,6 +2106,7 @@ async function laterVideo() {
     channelid: channelID,
     videoviewcount: views,
     paidtoview: false,
+    uuid: uniqueID,
   };
 
   try {
@@ -2109,17 +2129,16 @@ async function laterVideoPurchased() {
   var getFeature = await getVideoData();
 
   var userid = localStorage.getItem("userID");
-  var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
   var channelID = getFeature[0].channelid;
   var views = getFeature[0].videoviewcount;
+  var uniqueID = getFeature[0].uuid;
 
   const laterBody = {
     userid: userid,
-    videoid: vidID,
     channelname: channelname,
     videofile: video,
     videothumbnail: posFile,
@@ -2127,6 +2146,7 @@ async function laterVideoPurchased() {
     channelid: channelID,
     videoviewcount: views,
     paidtoview: true,
+    uuid: uniqueID,
   };
 
   try {
@@ -2166,11 +2186,11 @@ async function userWatchedFlag() {
 
 async function deleteFav() {
   var userid = localStorage.getItem("userID");
-  let videoid = localStorage.getItem("videoID");
+  let uuid = localStorage.getItem("videoID");
 
   try {
     const response = await fetch(
-      `${FARI_API}/explorer/delete/favs/${userid}/${videoid}`,
+      `${FARI_API}/explorer/delete/favs/${userid}/${uuid}`,
       {
         method: "DELETE",
         headers: {
@@ -2188,10 +2208,10 @@ async function deleteFav() {
 
 async function deleteWatchLater() {
   var userid = localStorage.getItem("userID");
-  let videoid = localStorage.getItem("videoID");
+  let uuid = localStorage.getItem("videoID");
   try {
     const response = await fetch(
-      `${FARI_API}/explorer/delete/watchlater/${userid}/${videoid}`,
+      `${FARI_API}/explorer/delete/watchlater/${userid}/${uuid}`,
       {
         method: "DELETE",
         headers: {
@@ -2210,7 +2230,7 @@ async function deleteWatchLater() {
 async function createRentalOrder() {
   var getFeature = await getVideoData();
 
-  var vidID = getFeature[0].videoid;
+  var vidID = getFeature[0].uuid;
   var posFile = getFeature[0].videothumbnail;
   var channelID = getFeature[0].channelid;
   var userPurchased = localStorage.getItem("userID");
@@ -2221,7 +2241,7 @@ async function createRentalOrder() {
   localStorage.setItem("vendorEmail", vendor_email);
 
   const rentalBody = {
-    videoid: vidID,
+    uuid: vidID,
     channelid: channelID,
     videothumbnail: posFile,
     userid: userPurchased,

@@ -6,8 +6,28 @@ const myToken = localStorage.getItem("fariToken");
   $("#videos").addClass("selected");
   if (!myToken || myToken === null) {
     window.location.href = "/login";
+  } else {
+    checkToken();
   }
 })();
+
+async function checkToken() {
+  try {
+    const response = await fetch(`${FARI_API}/users/token`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${myToken}`,
+      },
+    });
+    const data = await response.json();
+    return data.user;
+  } catch (error) {
+    console.log(error);
+    window.location.href = "login";
+    response.status(400).send(error);
+  }
+}
 
 function onFetchStart() {
   $("#loading").addClass("active");
@@ -427,7 +447,7 @@ function renderPost(channelUploads) {
       $(".editUpload").toggleClass("active");
 
       let videoEdit = $(this).closest(".card").data("channelUploads");
-      let editid = videoEdit.videoid;
+      let editid = videoEdit.uuid;
       localStorage.setItem("editID", editid);
       let unesvideoTitle = _.unescape(videoEdit.videotitle);
       let unesvideoDescription = _.unescape(unesvideoTitle);
@@ -440,7 +460,7 @@ function renderPost(channelUploads) {
 
     $(upload).on("click", "#delete", async function () {
       let videoDel = $(this).closest(".card").data("channelUploads");
-      let id = videoDel.videoid;
+      let id = videoDel.uuid;
       let videokey = videoDel.videokey;
       let thumbnailKey = videoDel.thumbnailkey;
       try {
@@ -461,8 +481,8 @@ function renderPost(channelUploads) {
 
     $(upload).on("click", ".fa-play", async function () {
       let videoUpload = $(this).closest(".card").data("channelUploads");
-      let id = videoUpload.videoid;
-      localStorage.setItem("videoID", id);
+      let uuid = videoUpload.uuid;
+      localStorage.setItem("videoID", uuid);
     });
   });
   return upload;

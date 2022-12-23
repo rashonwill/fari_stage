@@ -131,7 +131,7 @@ CREATE TABLE channel_uploads (
   flagged_content BOOLEAN DEFAULT FALSE,
   flag_reason varchar(255) NULL,
   videoActive BOOLEAN DEFAULT TRUE,
-  uuid TEXT NOT NULL
+  uuid TEXT NOT NULL UNIQUE
 );
 
 CREATE INDEX idx_videotitle ON channel_uploads(videotitle);
@@ -140,8 +140,6 @@ CREATE INDEX idx_videotitle ON channel_uploads(videotags);
 
 CREATE TABLE upload_comments (
   ID SERIAL PRIMARY KEY UNIQUE,
-  videoID INT,
-  FOREIGN KEY(videoID) REFERENCES channel_uploads(id) ON DELETE CASCADE,
   commentorID INT,
   FOREIGN KEY(commentorID) REFERENCES users(id) ON DELETE CASCADE,
   commentorName varchar(255),
@@ -149,14 +147,16 @@ CREATE TABLE upload_comments (
   user_comment varchar(8000) NULL,
   commentDT DATE DEFAULT CURRENT_DATE NOT NULL,
   flagged_comment BOOLEAN DEFAULT FALSE,
-  flag_reason varchar(255) NULL
+  flag_reason varchar(255) NULL, 
+  video_uuid TEXT NOT NULL,
+  FOREIGN KEY(video_uuid) REFERENCES channel_uploads(uuid) ON DELETE CASCADE
 
 );
 
 CREATE TABLE upload_copyright_reports (
 id SERIAL PRIMARY KEY UNIQUE,
-videoid INT NOT NULL,
-FOREIGN KEY(videoid) REFERENCES channel_uploads(id) ON DELETE CASCADE,
+video_uuid TEXT NOT NULL,
+FOREIGN KEY(video_uuid) REFERENCES channel_uploads(uuid) ON DELETE CASCADE
 userid INT NOT NULL,
 FOREIGN KEY(userid) REFERENCES users(id) ON DELETE CASCADE,
 requestor_name varchar(255) NULL,
@@ -237,8 +237,8 @@ ALTER SEQUENCE customer_orders_id_seq RESTART WITH 7001;
 
 CREATE TABLE customer_movie_orders(
 id SERIAL PRIMARY KEY UNIQUE,
-videoid INT,
-FOREIGN KEY(videoid) REFERENCES channel_uploads(id) ON DELETE CASCADE,
+video_uuid TEXT NOT NULL,
+FOREIGN KEY(video_uuid) REFERENCES channel_uploads(uuid) ON DELETE CASCADE
 videotitle varchar(255),
 videoprice decimal(6,2),
 channelid INT,
@@ -311,8 +311,8 @@ CREATE TABLE user_favorites (
 id SERIAL PRIMARY KEY UNIQUE,
 userid INT NOT NULL,
 FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE,
-videoid INT NULL,
-FOREIGN KEY (videoid) REFERENCES channel_uploads(id) ON DELETE CASCADE,
+video_uuid TEXT NOT NULL,
+FOREIGN KEY(video_uuid) REFERENCES channel_uploads(uuid) ON DELETE CASCADE
 channelid INT NOT NULL,
 FOREIGN KEY (channelid) REFERENCES user_channel(id) ON DELETE CASCADE,
 channelname varchar(255)  NULL,
@@ -330,8 +330,8 @@ CREATE TABLE user_watchlist (
 id SERIAL PRIMARY KEY UNIQUE,
 userid INT NOT NULL,
 FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE,
-videoid INT NULL,
-FOREIGN KEY (videoid) REFERENCES channel_uploads(id) ON DELETE CASCADE,
+video_uuid TEXT NOT NULL,
+FOREIGN KEY(video_uuid) REFERENCES channel_uploads(uuid) ON DELETE CASCADE
 channelid INT NOT NULL,
 FOREIGN KEY (channelid) REFERENCES user_channel(id) ON DELETE CASCADE,
 channelname varchar(255)  NULL,
@@ -364,8 +364,8 @@ CREATE TABLE user_watch_history(
 id SERIAL PRIMARY KEY UNIQUE,
 userid INT NOT NULL,
 FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE,
-videoid INT NULL,
-FOREIGN KEY (videoid) REFERENCES channel_uploads(id) ON DELETE CASCADE,
+video_uuid TEXT NOT NULL,
+FOREIGN KEY(video_uuid) REFERENCES channel_uploads(uuid) ON DELETE CASCADE
 channelid INT,
 FOREIGN KEY (channelid) REFERENCES user_channel(id) ON DELETE CASCADE,
 channelname varchar(255),
@@ -382,20 +382,19 @@ CREATE TABLE user_video_likes(
 id SERIAL PRIMARY KEY UNIQUE,
 userid INT NOT NULL,
 FOREIGN KEY (userid) REFERENCES users(id),
-videoid INT NULL,
-FOREIGN KEY (videoid) REFERENCES channel_uploads(id)
+video_uuid TEXT NOT NULL,
+FOREIGN KEY(video_uuid) REFERENCES channel_uploads(uuid) ON DELETE CASCADE
 );
 
 CREATE TABLE user_video_dislikes(
 id SERIAL PRIMARY KEY UNIQUE,
 userid INT NOT NULL,
 FOREIGN KEY (userid) REFERENCES users(id),
-videoid INT NULL,
-FOREIGN KEY (videoid) REFERENCES channel_uploads(id)
+video_uuid TEXT NOT NULL,
+FOREIGN KEY(video_uuid) REFERENCES channel_uploads(uuid) ON DELETE CASCADE
 );
 
-          
-          
+                   
           
   `);
 

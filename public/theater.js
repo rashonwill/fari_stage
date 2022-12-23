@@ -9,9 +9,6 @@ let commentFlag = false;
 (function () {
   $("#info").addClass("selected");
   $("#discover").addClass("selected");
-//   if (!myToken || myToken === null) {
-//     window.location.href = "/login";
-//   }
   setTimeout(function () {
     updateViews();
   }, 60000);
@@ -497,14 +494,14 @@ function renderVideoInfo(video) {
 }
 
 async function likeVideo() {
-  let id = localStorage.getItem("videoID");
+  let uuid = localStorage.getItem("videoID");
   var userlike = localStorage.getItem("userID");
   try {
     const likingUser = {
       userid: userlike,
-      videoid: id,
+      uuid: id,
     };
-    const response = await fetch(`${FARI_API}/explorer/youlikeme/${id}`, {
+    const response = await fetch(`${FARI_API}/explorer/youlikeme/${uuid}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -526,7 +523,7 @@ async function dislikeVideo() {
   try {
     const dislkingUser = {
       userid: userdislike,
-      videoid: id,
+      uuid: id,
     };
 
     const response = await fetch(`${FARI_API}/explorer/youdislikeme/${id}`, {
@@ -557,23 +554,23 @@ async function favVideo() {
   var getFeature = await playVideo();
 
   var favedUser = profile[0].userid;
-  var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
   var channelident = getFeature[0].channelid;
   let views = getFeature[0].videoviewcount;
+  var uniqueID = getFeature[0].uuid;
 
   const favedBody = {
     userid: favedUser,
-    videoid: vidID,
     channelname: channelname,
     videofile: video,
     videothumbnail: posFile,
     videotitle: vidTitle,
     channelid: channelident,
     videoviewcount: views,
+    uuid: uniqueID,
   };
 
   try {
@@ -625,17 +622,16 @@ async function laterVideo() {
   var getFeature = await playVideo();
 
   var userid = profile[0].userid;
-  var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
   var channelident = getFeature[0].channelid;
   let views = getFeature[0].videoviewcount;
+  var uniqueID = getFeature[0].uuid;
 
   const laterBody = {
     userid: userid,
-    videoid: vidID,
     channelname: channelname,
     videofile: video,
     videothumbnail: posFile,
@@ -643,6 +639,7 @@ async function laterVideo() {
     channelid: channelident,
     videoviewcount: views,
     paidtoview: false,
+    uuid: uniqueID,
   };
 
   try {
@@ -711,9 +708,8 @@ function renderRecomVideos(uploads) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("uploads");
-    let id = videoUpload.videoid;
-    let uuid = videoUpload.uuid;	  
-    localStorage.setItem("videoID", id);
+    let uuid = videoUpload.uuid;
+    localStorage.setItem("videoID", uuid);
     window.location.href = `/theater?play=${uuid}`;
   });
 
@@ -782,9 +778,8 @@ async function renderFavVideos(myFavVids) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("myFavVids");
-    let id = videoUpload.videoid;
-    let uuid = videoUpload.uuid;	  
-    localStorage.setItem("videoID", id);
+    let uuid = videoUpload.uuid;
+    localStorage.setItem("videoID", uuid);
 
     window.location.href = `/theater?play=${uuid}`;
   });
@@ -854,9 +849,8 @@ async function renderLaterVideos(myWatchList) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("myWatchList");
-    let id = videoUpload.videoid;
-    let uuid = videoUpload.uuid;	  
-    localStorage.setItem("videoID", id);
+    let uuid = videoUpload.uuid;
+    localStorage.setItem("videoID", uuid);
     window.location.href = `/theater?play=${uuid}`;
   });
 
@@ -889,10 +883,10 @@ $("#send-comment").on("click", async function newComment(event) {
   var postId = localStorage.getItem("videoID");
 
   const userRemark = {
-    videoid: postId,
     commentorid: userid,
     commentorname: username,
     user_comment: comRemark,
+    uuid: postId,
   };
   try {
     const response = await fetch(`${FARI_API}/explorer/comment/new`, {
@@ -914,9 +908,9 @@ $("#send-comment").on("click", async function newComment(event) {
 });
 
 async function videoComments() {
-  let videoid = localStorage.getItem("videoID");
+  let uuid = localStorage.getItem("videoID");
   try {
-    const response = await fetch(`${FARI_API}/explorer/comments/${videoid}`, {
+    const response = await fetch(`${FARI_API}/explorer/comments/${uuid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -1142,11 +1136,11 @@ function renderCommentSection(comments, index) {
 }
 
 async function updateCommentCount() {
-  let id = localStorage.getItem("videoID");
+  let uuid = localStorage.getItem("videoID");
 
   try {
     const response = await fetch(
-      `${FARI_API}/explorer/updatecommentcount/${id}`,
+      `${FARI_API}/explorer/updatecommentcount/${uuid}`,
       {
         method: "PATCH",
         headers: {
@@ -1164,11 +1158,11 @@ async function updateCommentCount() {
 }
 
 async function reduceCommentCount() {
-  let id = localStorage.getItem("videoID");
+  let uuid = localStorage.getItem("videoID");
 
   try {
     const response = await fetch(
-      `${FARI_API}/explorer/reducecommentcount/${id}`,
+      `${FARI_API}/explorer/reducecommentcount/${uuid}`,
       {
         method: "PATCH",
         headers: {
@@ -1186,10 +1180,10 @@ async function reduceCommentCount() {
 }
 
 async function commentCount() {
-  let videoid = localStorage.getItem("videoID");
+  let uuid = localStorage.getItem("videoID");
   try {
     const response = await fetch(
-      `${FARI_API}/analytics/commentscount/${videoid}`,
+      `${FARI_API}/analytics/commentscount/${uuid}`,
       {
         method: "GET",
         headers: {
@@ -1232,11 +1226,11 @@ function renderCommentCount(total) {
 //Check Users Likes
 
 async function checkUserLikes() {
-  let videoid = localStorage.getItem("videoID");
+  let uuid = localStorage.getItem("videoID");
   var userid = localStorage.getItem("userID");
   try {
     const response = await fetch(
-      `${FARI_API}/explorer/mylikes/${videoid}/${userid}`,
+      `${FARI_API}/explorer/mylikes/${uuid}/${userid}`,
       {
         method: "GET",
         headers: {
@@ -1525,10 +1519,9 @@ function renderSearchedContent(videos) {
   $(searchvideo).on("click", ".fa-play", async function (event) {
     event.preventDefault();
     let videoSearc = $(this).closest(".card").data("videos");
-    let id = videoSearc.videoid;
-    let uuid = videoSearc.uuid;	  
-    localStorage.setItem("videoID", id);
-    window.location.href = `/theater?play={uuid}`;
+    let uuid = videoSearc.uuid;
+    localStorage.setItem("videoID", uuid);
+    window.location.href = `/theater?play=${uuid}`;
   });
   return video;
 }
@@ -1608,7 +1601,7 @@ async function copyRightClaim() {
   let videoid = JSON.parse(localStorage.getItem("videoID"));
 
   let copyrightPlaintiff = {
-    videoid: videoid,
+    uuid: videoid,
     userid: user,
     requestor_name: requestor_name,
     owner: copyrightOwner,
@@ -1697,23 +1690,23 @@ async function watchHistory() {
     getFeature[0].content_category === "other"
   ) {
     var userid = localStorage.getItem("userID");
-    var vidID = getFeature[0].videoid;
     var channelname = getFeature[0].channelname;
     var video = getFeature[0].videofile;
     var posFile = getFeature[0].videothumbnail;
     var vidTitle = getFeature[0].videotitle;
     var channelID = getFeature[0].channelid;
     var views = getFeature[0].videoviewcount;
+    var uniqueID = getFeature[0].uuid;
 
     const historyVideo = {
       userid: userid,
-      videoid: vidID,
       channelname: channelname,
       videofile: video,
       videothumbnail: posFile,
       videotitle: vidTitle,
       channelid: channelID,
       videoviewcount: views,
+      uuid: uniqueID,
     };
 
     try {

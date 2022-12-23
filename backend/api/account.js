@@ -424,18 +424,13 @@ accountRouter.patch(
   }
 );
 
-const checkToken = (req, res, next) => {
-  const header = req.headers["authorization"];
-
-  if (typeof header !== "undefined") {
-    const bearer = header.split(" ");
-    const token = bearer[1];
-
-    req.token = token;
-    next();
-  } else {
-    res.sendStatus(403);
+accountRouter.get("/token", requireUser, async (req, res, next) => {
+  try {
+    res.send({ user: req.user });
+  } catch (error) {
+    console.error("Hmm, can't seem to get that user", error);
+    next(error);
   }
-};
+});
 
 module.exports = accountRouter;

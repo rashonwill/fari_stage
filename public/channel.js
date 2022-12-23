@@ -1,11 +1,11 @@
 const FARI_API = "https://fari-stage.herokuapp.com/api";
 const myToken = localStorage.getItem("fariToken");
 
-(function () {
-  if (!myToken || myToken === null) {
-    window.location.href = "login";
-  }
-})();
+// (function () {
+//   if (!myToken || myToken === null) {
+//     window.location.href = "login";
+//   }
+// })();
 
 function onFetchStart() {
   $("#loading").addClass("active");
@@ -297,7 +297,7 @@ function renderPost(channelUploads, index) {
 
       $(freeUpload).on("click", "#add", async function () {
         let mySubs = $(this).closest(".card").data("channelUploads");
-        let id = mySubs.videoid;
+        let id = mySubs.uuid;
         localStorage.setItem("videoID", id);
         $(this)
           .closest(".options")
@@ -312,7 +312,7 @@ function renderPost(channelUploads, index) {
 
       $(freeUpload).on("click", ".fa-play", async function () {
         let videoUpload = $(this).closest(".card").data("channelUploads");
-        let id = videoUpload.videoid;
+        let id = videoUpload.uuid;
         localStorage.setItem("videoID", id);
       });
       return freeUpload;
@@ -372,14 +372,14 @@ function renderPost(channelUploads, index) {
       onFetchStart();
       let videoArr = [];
       let videoView = $(this).closest(".card").data("channelUploads");
-      let id = videoView.videoid;
+      let id = videoView.uuid;
       localStorage.setItem("videoID", id);
 
       let price = videoView.rental_price;
       localStorage.setItem("ticketPrice", price);
 
       let purchasingFilm = {
-        videoid: videoView.videoid,
+        uuid: videoView.uuid,
         name: videoView.videotitle,
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
@@ -538,17 +538,16 @@ async function toSubOrNot() {
 async function laterVideo() {
   var getFeature = await getVideoData();
   var userid = localStorage.getItem("userID");
-  var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
   var channelID = getFeature[0].channelid;
   var views = getFeature[0].videoviewcount;
+  var uniqueID = getFeature[0].uuid;
 
   const laterBody = {
     userid: userid,
-    videoid: vidID,
     channelname: channelname,
     videofile: video,
     videothumbnail: posFile,
@@ -556,6 +555,7 @@ async function laterVideo() {
     channelid: channelID,
     videoviewcount: views,
     paidtoview: false,
+    uuid: uniqueID,
   };
 
   try {

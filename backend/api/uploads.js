@@ -5,7 +5,7 @@ const path = require("path");
 const { check, validationResult } = require("express-validator");
 const rateLimiter = require("./ratelimiter");
 const multer = require("multer");
-const { uuid } = require("uuidv4");
+const uuid = require("uuid");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -190,10 +190,9 @@ uploadsRouter.post(
             rental_price: rental_price,
             vendor_email: vendor_email,
             stripe_acctid: stripe_acctid,
-            uuid: uuid(),
+            uuid: uuid.v4(),
           };
 
-          console.log(uploadData);
           const newUpload = await createUpload(uploadData);
           res.send({ upload: newUpload });
         } catch (error) {

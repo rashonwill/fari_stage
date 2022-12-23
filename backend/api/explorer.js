@@ -3,12 +3,13 @@ const explorerRouter = express.Router();
 const { requireUser } = require("./utils");
 const rateLimiter = require("./ratelimiter");
 const { check, validationResult } = require("express-validator");
+const uuid = require("uuid");
 
 // const redis = require('redis');
 // let redisClient = redis.createClient({url: process.env.REDIS_URL, socket: {
 //     tls: true,
 //     rejectUnauthorized: false
-//   }}); 
+//   }});
 
 const cors = require("cors");
 explorerRouter.use(cors());
@@ -93,7 +94,7 @@ const {
 
 explorerRouter.get(
   "/discover",
-//   rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
+  //   rateLimiter({ secondsWindow: 45, allowedHits: 10 }),
   async (req, res, next) => {
     try {
       const freeContent = await getDiscoverContent();
@@ -105,23 +106,21 @@ explorerRouter.get(
         message: "Could Not get the free uploads",
       });
     }
-  });
+  }
+);
 
-explorerRouter.get(
-  "/popular-uploads",
-  requireUser,
-  async (req, res, next) => {
-    try {
-      const freeContent = await getTopUploads();
-      res.send({ uploads: freeContent });
-    } catch (error) {
-      console.log(error);
-      next({
-        name: "ErrorGettingUploads",
-        message: "Could Not get the free uploads",
-      });
-    }
-  });
+explorerRouter.get("/popular-uploads", requireUser, async (req, res, next) => {
+  try {
+    const freeContent = await getTopUploads();
+    res.send({ uploads: freeContent });
+  } catch (error) {
+    console.log(error);
+    next({
+      name: "ErrorGettingUploads",
+      message: "Could Not get the free uploads",
+    });
+  }
+});
 
 explorerRouter.get("/popular-channels", requireUser, async (req, res, next) => {
   try {
@@ -135,46 +134,35 @@ explorerRouter.get("/popular-channels", requireUser, async (req, res, next) => {
   }
 });
 
-explorerRouter.get(
-  "/paytoview",
-  requireUser,
-  async (req, res, next) => {
-    try {
-      const payContent = await getPayToViewContent();
-      res.send({ uploads: payContent });
-    } catch (error) {
-      next({
-        name: "ErrorGettingUploads",
-        message: "Could Not get the paid uploads",
-      });
-    }
-  });
+explorerRouter.get("/paytoview", requireUser, async (req, res, next) => {
+  try {
+    const payContent = await getPayToViewContent();
+    res.send({ uploads: payContent });
+  } catch (error) {
+    next({
+      name: "ErrorGettingUploads",
+      message: "Could Not get the paid uploads",
+    });
+  }
+});
+
+explorerRouter.get("/recommended", async (req, res, next) => {
+  try {
+    const recUploads = await getRecommendedUploads();
+    res.send({ uploads: recUploads });
+  } catch (error) {
+    next({
+      name: "ErrorGettingUploads",
+      message: "Could Not get the uploads",
+    });
+  }
+});
 
 explorerRouter.get(
-  "/recommended",
+  "/getVideo/:uuid",
+  check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    try {
-      const recUploads = await getRecommendedUploads();
-      res.send({ uploads: recUploads });
-    } catch (error) {
-      next({
-        name: "ErrorGettingUploads",
-        message: "Could Not get the uploads",
-      });
-    }
-  });
-
-explorerRouter.get(
-  "/getVideo/:videoid",
-  check("videoid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
-  async (req, res, next) => {
-    const { videoid } = req.params;
+    const { uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -182,7 +170,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const selectedVideo = await getVideoByID(videoid);
+        const selectedVideo = await getVideoByID(uuid);
         res.send({
           uploads: selectedVideo,
         });
@@ -221,21 +209,18 @@ explorerRouter.get(
   }
 );
 
-explorerRouter.get(
-  "/search/vlogs",
-  requireUser,
-  async (req, res, next) => {
-    try {
-      const vlogVids = await vlogSearch();
-      res.send({ videos: vlogVids });
-    } catch (error) {
-      console.log("Oops could not find search results", error);
-      next({
-        name: "ErrorGettingSearchResults",
-        message: "Could not get the search results for Vloggers",
-      });
-    }
-  });
+explorerRouter.get("/search/vlogs", requireUser, async (req, res, next) => {
+  try {
+    const vlogVids = await vlogSearch();
+    res.send({ videos: vlogVids });
+  } catch (error) {
+    console.log("Oops could not find search results", error);
+    next({
+      name: "ErrorGettingSearchResults",
+      message: "Could not get the search results for Vloggers",
+    });
+  }
+});
 
 explorerRouter.get(
   "/search/animations",
@@ -251,50 +236,39 @@ explorerRouter.get(
         message: "Could not get the search results Animations",
       });
     }
-  });
+  }
+);
 
-explorerRouter.get(
-  "/search/movies",
-  requireUser,
-  async (req, res, next) => {
-    try {
-      const movieVids = await movieSearch();
-      res.send({ videos: movieVids });
-    } catch (error) {
-      console.log("Oops could not find search results", error);
-      next({
-        name: "ErrorGettingSearchResults",
-        message: "Could not get the search results for Movies",
-      });
-    }
-  });
+explorerRouter.get("/search/movies", requireUser, async (req, res, next) => {
+  try {
+    const movieVids = await movieSearch();
+    res.send({ videos: movieVids });
+  } catch (error) {
+    console.log("Oops could not find search results", error);
+    next({
+      name: "ErrorGettingSearchResults",
+      message: "Could not get the search results for Movies",
+    });
+  }
+});
 
-explorerRouter.get(
-  "/search/series",
-  requireUser,
-  async (req, res, next) => {
-    try {
-      const showsVids = await seriesSearch();
-      res.send({ videos: showsVids });
-    } catch (error) {
-      console.log("Oops could not find search results", error);
-      next({
-        name: "ErrorGettingSearchResults",
-        message: "Could not get the search results for Shows",
-      });
-    }
-  });
+explorerRouter.get("/search/series", requireUser, async (req, res, next) => {
+  try {
+    const showsVids = await seriesSearch();
+    res.send({ videos: showsVids });
+  } catch (error) {
+    console.log("Oops could not find search results", error);
+    next({
+      name: "ErrorGettingSearchResults",
+      message: "Could not get the search results for Shows",
+    });
+  }
+});
 
 explorerRouter.post(
-  "/youlikeme/:id",
+  "/youlikeme/:uuid",
   requireUser,
-  check("id")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  check("uuid").not().isEmpty().trim().escape(),
   check("userid")
     .not()
     .isEmpty()
@@ -302,15 +276,8 @@ explorerRouter.post(
     .withMessage("Not a valid value")
     .trim()
     .escape(),
-  check("videoid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
   async (req, res, next) => {
-    const { id } = req.params;
+    const { uuid } = req.params;
     const { userid, videoid } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -321,10 +288,10 @@ explorerRouter.post(
       try {
         const likingUser = {
           userid: userid,
-          videoid: videoid,
+          uuid: videoid,
         };
 
-        const upvote = await addVideoLike(id);
+        const upvote = await addVideoLike(uuid);
         const likedVid = await createUserVideoLike(likingUser);
         res.send({ video: upvote });
       } catch (error) {
@@ -335,10 +302,11 @@ explorerRouter.post(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.delete(
-  "/youlikeme/revoke/:id/:videoid",
+  "/youlikeme/revoke/:id/:uuid",
   requireUser,
   check("id")
     .not()
@@ -347,7 +315,7 @@ explorerRouter.delete(
     .withMessage("Not a valid value")
     .trim()
     .escape(),
-  check("videoid")
+  check("uuid")
     .not()
     .isEmpty()
     .isNumeric()
@@ -355,7 +323,7 @@ explorerRouter.delete(
     .trim()
     .escape(),
   async (req, res, next) => {
-    const { id, videoid } = req.params;
+    const { id, uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -364,7 +332,7 @@ explorerRouter.delete(
     } else {
       try {
         const unlikedVid = await removeUserVideoLike(id);
-        const removeLike = await revokeVideoLike(videoid);
+        const removeLike = await revokeVideoLike(uuid);
         res.send({ video: removeLike });
       } catch (error) {
         console.log("Oops could not unlike this video", error);
@@ -374,18 +342,13 @@ explorerRouter.delete(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.post(
-  "/youdislikeme/:id",
+  "/youdislikeme/:uuid",
   requireUser,
-  check("id")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  check("uuid").not().isEmpty().trim().escape(),
   check("userid")
     .not()
     .isEmpty()
@@ -401,12 +364,12 @@ explorerRouter.post(
     .trim()
     .escape(),
   async (req, res, next) => {
-    const { id } = req.params;
+    const { uuid } = req.params;
     const { userid, videoid } = req.body;
 
     const dislikingUser = {
       userid: userid,
-      videoid: videoid,
+      uuid: videoid,
     };
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -415,7 +378,7 @@ explorerRouter.post(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const downvote = await addVideoDislike(id);
+        const downvote = await addVideoDislike(uuid);
         const dislikedVid = await createUserVideoDislike(dislikingUser);
         res.send({ video: downvote });
       } catch (error) {
@@ -426,27 +389,22 @@ explorerRouter.post(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.delete(
-  "/youdislikeme/revoke/:userid/:videoid",
+  "/youdislikeme/revoke/:userid/:uuid",
   requireUser,
-  check("id")
+  check("userid")
     .not()
     .isEmpty()
     .isNumeric()
     .withMessage("Not a valid value")
     .trim()
     .escape(),
-  check("videoid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const { userid, videoid } = req.params;
+    const { userid, uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -455,7 +413,7 @@ explorerRouter.delete(
     } else {
       try {
         const undislikedVid = await removeUserVideoDislike(userid);
-        const removeDislike = await revokeVideoDislike(videoid);
+        const removeDislike = await revokeVideoDislike(uuid);
         res.send({ video: removeDislike });
       } catch (error) {
         console.log("Oops could not undislike this video", error);
@@ -465,10 +423,11 @@ explorerRouter.delete(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.get(
-  "/mylikes/:videoid/:userid",
+  "/mylikes/:uuid/:userid",
   requireUser,
   check("userid")
     .not()
@@ -477,15 +436,9 @@ explorerRouter.get(
     .withMessage("Not a valid value")
     .trim()
     .escape(),
-  check("videoid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const { videoid, userid } = req.params;
+    const { uuid, userid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -493,7 +446,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const myLike = await checkUserVideoLikeStatus(videoid, userid);
+        const myLike = await checkUserVideoLikeStatus(uuid, userid);
         res.send({ iLike: myLike });
       } catch (error) {
         console.log("Oops could not like this video", error);
@@ -503,10 +456,11 @@ explorerRouter.get(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.get(
-  "/mydislikes/:videoid/:userid",
+  "/mydislikes/:uuid/:userid",
   requireUser,
   check("userid")
     .not()
@@ -515,15 +469,9 @@ explorerRouter.get(
     .withMessage("Not a valid value")
     .trim()
     .escape(),
-  check("videoid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const { videoid, userid } = req.params;
+    const { uuid, userid } = req.params;
 
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -532,7 +480,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const myDisLike = await checkUserVideoDislikeStatus(videoid, userid);
+        const myDisLike = await checkUserVideoDislikeStatus(uuid, userid);
         res.send({ idisLike: myDisLike });
       } catch (error) {
         console.log("Oops could not like this video", error);
@@ -542,19 +490,14 @@ explorerRouter.get(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.patch(
-  "/update/viewcount/:videoid",
-  check("videoid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  "/update/viewcount/:uuid",
+  check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const { videoid } = req.params;
+    const { uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -562,7 +505,7 @@ explorerRouter.patch(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const likedVid = await updateVideoViews(videoid);
+        const likedVid = await updateVideoViews(uuid);
         res.send({ upload: likedVid });
       } catch (error) {
         console.log("Oops could not like this video", error);
@@ -572,19 +515,14 @@ explorerRouter.patch(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.get(
-  "/play/:videoid",
-  check("videoid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  "/play/:uuid",
+  check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const { videoid } = req.params;
+    const { uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -592,27 +530,22 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const playMe = await getUploadByID(videoid);
+        const playMe = await getUploadByID(uuid);
         res.send({ video: playMe });
       } catch (error) {
         next({ name: "ErrorGettingVideo", message: "Could Not get the video" });
       }
     }
-  });
+  }
+);
 
 explorerRouter.post(
   "/comment/new",
   requireUser,
   check("user_comment").not().isEmpty().trim().escape(),
-  check("videoid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const { videoid, commentorid, commentorname, commentorpic, user_comment } =
+    const { videoid, commentorid, commentorname, user_comment, uuid } =
       req.body;
 
     let errors = validationResult(req);
@@ -623,10 +556,10 @@ explorerRouter.post(
     } else {
       try {
         const commentData = {
-          videoID: videoid,
           commentorID: commentorid,
           commentorName: commentorname,
           user_comment: user_comment,
+          uuid: uuid,
         };
 
         const userComment = await createComment(commentData);
@@ -636,7 +569,8 @@ explorerRouter.post(
         next(error);
       }
     }
-  });
+  }
+);
 
 explorerRouter.patch(
   "/comment/edit/:commentid",
@@ -679,7 +613,8 @@ explorerRouter.patch(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.delete(
   "/comment/delete/:commentid",
@@ -707,11 +642,12 @@ explorerRouter.delete(
         next(error);
       }
     }
-  });
+  }
+);
 
 explorerRouter.get(
-  "/comments/:videoid",
-  check("videoid")
+  "/comments/:uuid",
+  check("uuid")
     .not()
     .isEmpty()
     .isNumeric()
@@ -719,7 +655,7 @@ explorerRouter.get(
     .trim()
     .escape(),
   async (req, res, next) => {
-    const { videoid } = req.params;
+    const { uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -727,7 +663,7 @@ explorerRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const videoComments = await getVideoComments(videoid);
+        const videoComments = await getVideoComments(uuid);
         res.send({ comments: videoComments });
       } catch (error) {
         next({
@@ -736,7 +672,8 @@ explorerRouter.get(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.get(
   "/mysubs/:userid",
@@ -760,14 +697,15 @@ explorerRouter.get(
         const userSubs = await getUserSubscriptions(userid);
         res.send({ mysubscriptions: userSubs });
       } catch (error) {
-        console.log(error)
+        console.log(error);
         next({
           name: "ErrorGettingUserSubs",
           message: "Could not get subscriptions",
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.get(
   "/subscription-profiles/:userid",
@@ -798,7 +736,8 @@ explorerRouter.get(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.get(
   "/subscription-uploads/:userid",
@@ -829,7 +768,8 @@ explorerRouter.get(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.get(
   "/myfavs/:userid",
@@ -856,7 +796,8 @@ explorerRouter.get(
         next({ name: "ErrorGettingUserFavs", message: "Could not get favs" });
       }
     }
-  });
+  }
+);
 
 explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
@@ -870,13 +811,13 @@ explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
   try {
     const favedData = {
       userid: userid,
-      videoid: videoid,
       channelname: channel,
       videofile: video,
       videothumbnail: thumbnail,
       videotitle: title,
       channelid: channelidentification,
       videoviewcount: videoviewcount,
+      uuid: uuid.v4(),
     };
 
     const usersFaved = await createFavorite(favedData);
@@ -915,7 +856,8 @@ explorerRouter.get(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
@@ -931,7 +873,6 @@ explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
   try {
     const laterData = {
       userid: userid,
-      videoid: videoid,
       channelname: channel,
       videofile: video,
       videothumbnail: thumbnail,
@@ -939,6 +880,7 @@ explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
       channelid: channelident,
       videoviewcount: views,
       paidtoview: paidtoview,
+      uuid: uuid.v4(),
     };
 
     const usersList = await createWatchlistVideo(laterData);
@@ -953,7 +895,7 @@ explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
 });
 
 explorerRouter.patch(
-  "/userwatched/:id",
+  "/userwatched/:uuid",
   requireUser,
   check("id")
     .not()
@@ -963,7 +905,7 @@ explorerRouter.patch(
     .trim()
     .escape(),
   async (req, res, next) => {
-    const { id } = req.params;
+    const { uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -971,7 +913,7 @@ explorerRouter.patch(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const userWatchedMe = await updatePaidWatchStartedFlag(id);
+        const userWatchedMe = await updatePaidWatchStartedFlag(uuid);
         res.send({ userWatchedMe });
       } catch (error) {
         console.log(error);
@@ -981,10 +923,11 @@ explorerRouter.patch(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.delete(
-  "/delete/watchlater/:userid/:videoid",
+  "/delete/watchlater/:userid/:uuid",
   requireUser,
   check("userid")
     .not()
@@ -993,7 +936,7 @@ explorerRouter.delete(
     .withMessage("Not a valid value")
     .trim()
     .escape(),
-  check("videoid")
+  check("uuid")
     .not()
     .isEmpty()
     .isNumeric()
@@ -1001,7 +944,7 @@ explorerRouter.delete(
     .trim()
     .escape(),
   async (req, res, next) => {
-    const { userid, videoid } = req.params;
+    const { userid, uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -1009,7 +952,7 @@ explorerRouter.delete(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const userWatchList = await deleteWatchlistVideo(userid, videoid);
+        const userWatchList = await deleteWatchlistVideo(userid, uuid);
         res.send({ removedWatchList: userWatchList });
       } catch (error) {
         next({
@@ -1018,10 +961,11 @@ explorerRouter.delete(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.delete(
-  "/delete/favs/:userid/:videoid",
+  "/delete/favs/:userid/:uuid",
   requireUser,
   check("userid")
     .not()
@@ -1030,7 +974,7 @@ explorerRouter.delete(
     .withMessage("Not a valid value")
     .trim()
     .escape(),
-  check("videoid")
+  check("uuid")
     .not()
     .isEmpty()
     .isNumeric()
@@ -1038,7 +982,7 @@ explorerRouter.delete(
     .trim()
     .escape(),
   async (req, res, next) => {
-    const { userid, videoid } = req.params;
+    const { userid, uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -1046,7 +990,7 @@ explorerRouter.delete(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const favedNo = await deleteFavorite(userid, videoid);
+        const favedNo = await deleteFavorite(userid, uuid);
         res.send({ removedFav: favedNo });
       } catch (error) {
         next({
@@ -1055,20 +999,15 @@ explorerRouter.delete(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.patch(
-  "/updatecommentcount/:id",
+  "/updatecommentcount/:uuid",
   requireUser,
-  check("id")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const { id } = req.params;
+    const { uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -1076,7 +1015,7 @@ explorerRouter.patch(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const updatedCount = await updateVideoCommentCount(id);
+        const updatedCount = await updateVideoCommentCount(uuid);
         res.send({ comment: updatedCount });
       } catch (error) {
         console.log(error);
@@ -1086,18 +1025,13 @@ explorerRouter.patch(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.patch(
-  "/reducecommentcount/:id",
+  "/reducecommentcount/:uuid",
   requireUser,
-  check("id")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { id } = req.params;
     let errors = validationResult(req);
@@ -1107,7 +1041,7 @@ explorerRouter.patch(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const reducedCount = await reduceVideoCommentCount(id);
+        const reducedCount = await reduceVideoCommentCount(uuid);
         res.send({ comment: reducedCount });
       } catch (error) {
         console.log(error);
@@ -1117,7 +1051,8 @@ explorerRouter.patch(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.patch(
   "/flag-comment/:commentid",
@@ -1153,20 +1088,15 @@ explorerRouter.patch(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.patch(
-  "/flag-video/:videoid",
+  "/flag-video/:uuid",
   requireUser,
-  check("id")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
+  check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const { videoid } = req.params;
+    const { uuid } = req.params;
     let { flagged_reason } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -1179,14 +1109,15 @@ explorerRouter.patch(
           flagged_reason: flagged_reason,
         };
 
-        const flaggedVid = await setVideoFlag(videoid, flagReason);
+        const flaggedVid = await setVideoFlag(uuid, flagReason);
         res.send({ video: flaggedVid });
       } catch (error) {
         console.log(error);
         next({ name: "ErrorUpdating", message: "Ooops, could not flag video" });
       }
     }
-  });
+  }
+);
 
 explorerRouter.post(
   "/copyright-issue",
@@ -1199,9 +1130,8 @@ explorerRouter.post(
   check("country").not().isEmpty().trim().escape(),
 
   async (req, res, next) => {
-    const { id } = req.params;
     let {
-      videoid,
+      uuid,
       userid,
       requestor_name,
       owner,
@@ -1216,7 +1146,7 @@ explorerRouter.post(
     } else {
       try {
         let copyrightPlaintiff = {
-          videoid: videoid,
+          uuid: uuid,
           userid: userid,
           requestor_name: requestor_name,
           owner: owner,
@@ -1236,7 +1166,8 @@ explorerRouter.post(
         });
       }
     }
-  });
+  }
+);
 
 explorerRouter.post(
   "/add/watchhistory",
@@ -1245,7 +1176,6 @@ explorerRouter.post(
   async (req, res, next) => {
     const { user } = req.user;
     const userID = req.body.userid;
-    const videoid = req.body.videoid;
     const channel = req.body.channelname;
     const channelid = req.body.channelid;
     const videofile = req.body.videofile;
@@ -1256,13 +1186,13 @@ explorerRouter.post(
     try {
       const videoHistory = {
         userid: userID,
-        videoid: videoid,
         channelname: channel,
         channelid: channelid,
         videofile: videofile,
         videothumbnail: videothumbnail,
         videotitle: videotitle,
         videoviewcount: videoviewcount,
+        uuid: uuid.v4(),
       };
       const newHistory = await createHistoryVideo(videoHistory);
       res.send({ upload: newHistory });
@@ -1273,7 +1203,8 @@ explorerRouter.post(
       });
       console.log(error);
     }
-  });
+  }
+);
 
 explorerRouter.get(
   "/gethistory/:userid",
@@ -1297,15 +1228,15 @@ explorerRouter.get(
         const videohistory = await getUserWatchHistory(userid);
         res.send({ history: videohistory });
       } catch (error) {
-         console.log(error);
+        console.log(error);
         next({
           name: "ErrorGettinContent",
           message: "Could not get video history",
         });
-       
       }
     }
-  });
+  }
+);
 
 explorerRouter.get("/movierentals", requireUser, async (req, res, next) => {
   try {
