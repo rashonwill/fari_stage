@@ -970,7 +970,6 @@ async function createCopyrightClaim({
 
 async function createHistoryVideo({
   userid,
-  videoid,
   channelname,
   channelid,
   videofile,
@@ -984,13 +983,12 @@ async function createHistoryVideo({
       rows: [history],
     } = await client.query(
       `
-              INSERT INTO user_watch_history(userid, videoid, channelname, channelid, videofile, videothumbnail, videotitle, videoviewcount, video_uuid) 
-              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9 )
+              INSERT INTO user_watch_history(userid, channelname, channelid, videofile, videothumbnail, videotitle, videoviewcount, video_uuid) 
+              VALUES($1, $2, $3, $4, $5, $6, $7, $8)
               RETURNING *;
             `,
       [
         userid,
-        videoid,
         channelname,
         channelid,
         videofile,
