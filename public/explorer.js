@@ -889,6 +889,7 @@ async function getWatchList() {
       },
     });
     const data = await response.json();
+	  console.log(data)
     if (data.myWatchList.length > 0) {
       $(".watchlist").empty();
       $(".newUserMessage-watchlater message").css("display", "none");
@@ -1460,7 +1461,7 @@ function renderFilteredContent(videos) {
     );
     $(video).on("click", "#add", async function () {
       let mySubs = $(this).closest(".card").data("videos");
-      let id = mySubs.video_uuid;
+      let id = mySubs.uuid;
       localStorage.setItem("videoID", id);
       $(this)
         .closest(".options")
@@ -1658,7 +1659,7 @@ function renderVideoSearchResults(videos) {
       );
       $(video).on("click", "#add", async function () {
         let mySubs = $(this).closest(".card").data("videos");
-        let id = mySubs.video_uuid;
+        let id = mySubs.uuid;
         localStorage.setItem("videoID", id);
         $(this)
           .closest(".options")
