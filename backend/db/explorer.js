@@ -977,14 +977,14 @@ async function createHistoryVideo({
   videothumbnail,
   videotitle,
   videoviewcount,
-  uuid,
+  video_uuid,
 }) {
   try {
     const {
       rows: [history],
     } = await client.query(
       `
-              INSERT INTO user_watch_history(userid, videoid, channelname, channelid, videofile, videothumbnail, videotitle, videoviewcount, uuid) 
+              INSERT INTO user_watch_history(userid, videoid, channelname, channelid, videofile, videothumbnail, videotitle, videoviewcount, video_uuid) 
               VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9 )
               RETURNING *;
             `,
@@ -997,7 +997,7 @@ async function createHistoryVideo({
         videothumbnail,
         videotitle,
         videoviewcount,
-        uuid,
+        video_uuid,
       ]
     );
     return history;
