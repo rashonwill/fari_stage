@@ -220,7 +220,7 @@ function renderFreeContent(uploads) {
     );
     $(videos).on("click", "#add", async function () {
       let mySubs = $(this).closest(".card").data("uploads");
-      let id = mySubs.video_uuid;
+      let id = mySubs.uuid;
       localStorage.setItem("videoID", id);
       $(this)
         .closest(".options")
@@ -568,7 +568,7 @@ function renderSubsVids(subscriptionUploads) {
 
     $(mySubVideos).on("click", "#add", async function () {
       let mySubs = $(this).closest(".card").data("subscriptionUploads");
-      let id = mySubs.video_uuid;
+      let id = mySubs.uuid;
       localStorage.setItem("videoID", id);
       $(this)
         .closest(".options")
