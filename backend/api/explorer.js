@@ -545,8 +545,7 @@ explorerRouter.post(
   check("user_comment").not().isEmpty().trim().escape(),
   check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const { videoid, commentorid, commentorname, user_comment, uuid } =
-      req.body;
+    const { commentorid, commentorname, user_comment, uuid } = req.body;
 
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -650,8 +649,6 @@ explorerRouter.get(
   check("uuid")
     .not()
     .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
     .trim()
     .escape(),
   async (req, res, next) => {
@@ -939,8 +936,6 @@ explorerRouter.delete(
   check("uuid")
     .not()
     .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
     .trim()
     .escape(),
   async (req, res, next) => {
@@ -977,8 +972,6 @@ explorerRouter.delete(
   check("uuid")
     .not()
     .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
     .trim()
     .escape(),
   async (req, res, next) => {
