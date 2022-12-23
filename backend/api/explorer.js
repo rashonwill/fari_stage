@@ -1169,6 +1169,7 @@ explorerRouter.post(
   async (req, res, next) => {
     const { user } = req.user;
     const userID = req.body.userid;
+    const videoID = req.body.video_uuid;
     const channel = req.body.channelname;
     const channelid = req.body.channelid;
     const videofile = req.body.videofile;
@@ -1185,7 +1186,7 @@ explorerRouter.post(
         videothumbnail: videothumbnail,
         videotitle: videotitle,
         videoviewcount: videoviewcount,
-        uuid: uuid.v4(),
+        video_uuid: videoID,
       };
       const newHistory = await createHistoryVideo(videoHistory);
       res.send({ upload: newHistory });
