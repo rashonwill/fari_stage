@@ -220,7 +220,7 @@ function renderFreeContent(uploads) {
     );
     $(videos).on("click", "#add", async function () {
       let mySubs = $(this).closest(".card").data("uploads");
-      let id = mySubs.uuid;
+      let id = mySubs.video_uuid;
       localStorage.setItem("videoID", id);
       $(this)
         .closest(".options")
@@ -568,7 +568,7 @@ function renderSubsVids(subscriptionUploads) {
 
     $(mySubVideos).on("click", "#add", async function () {
       let mySubs = $(this).closest(".card").data("subscriptionUploads");
-      let id = mySubs.uuid;
+      let id = mySubs.video_uuid;
       localStorage.setItem("videoID", id);
       $(this)
         .closest(".options")
@@ -801,7 +801,7 @@ function renderFavs(myFavVids) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    myFavVids.uuid
+                    myFavVids.video_uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -834,7 +834,7 @@ function renderFavs(myFavVids) {
 
   $(myFavs).on("click", "#delete", function () {
     let myFaved = $(this).closest(".card").data("myFavVids");
-    let id = myFaved.uuid;
+    let id = myFaved.video_uuid;
     localStorage.setItem("videoID", id);
     deleteFav();
     $(this).closest(".card").remove();
@@ -842,7 +842,7 @@ function renderFavs(myFavVids) {
 
   $(myFavs).on("click", ".fa-play", async function () {
     let myFaved = $(this).closest(".card").data("myFavVids");
-    let id = myFaved.uuid;
+    let id = myFaved.video_uuid;
     localStorage.setItem("videoID", id);
   });
   return myFavs;
@@ -953,7 +953,7 @@ function renderWatchLaters(myWatchList) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    myWatchList.uuid
+                    myWatchList.video_uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -986,7 +986,7 @@ function renderWatchLaters(myWatchList) {
 
     $(myLater).on("click", "#delete", function () {
       let watchLater = $(this).closest(".card").data("myWatchList");
-      let id = watchLater.uuid;
+      let id = watchLater.video_uuid;
       localStorage.setItem("videoID", id);
       deleteWatchLater();
       $(this).closest(".card").remove();
@@ -994,7 +994,7 @@ function renderWatchLaters(myWatchList) {
 
     $(myLater).on("click", ".fa-play", async function () {
       let watchLater = $(this).closest(".card").data("myWatchList");
-      let id = watchLater.uuid;
+      let id = watchLater.video_uuid;
       localStorage.setItem("videoID", id);
     });
   });
@@ -1035,7 +1035,7 @@ function renderWatchLaters(myWatchList) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    myWatchList.uuid
+                    myWatchList.video_uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -1064,7 +1064,7 @@ function renderWatchLaters(myWatchList) {
 
     $(myLater).on("click", ".fa-play", async function () {
       let watchLater = $(this).closest(".card").data("myWatchList");
-      let id = watchLater.uuid;
+      let id = watchLater.video_uuid;
       let purchased = watchLater.id;
       localStorage.setItem("purchasedWatched", purchased);
       localStorage.setItem("videoID", id);
@@ -1167,7 +1167,7 @@ function renderHistory(history) {
                 </div>
                 <div class="card-mid">
                   <a href="/theater?play=${
-                    history.uuid
+                    history.video_uuid
                   }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
@@ -1200,14 +1200,14 @@ function renderHistory(history) {
 
   $(myHistory).on("click", "#delete", function () {
     let myFaved = $(this).closest(".card").data("history");
-    let id = myFaved.uuid;
+    let id = myFaved.video_uuid;
     localStorage.setItem("videoID", id);
     $(this).closest(".card").remove();
   });
 
   $(myHistory).on("click", ".fa-play", async function () {
     let myFaved = $(this).closest(".card").data("history");
-    let id = myFaved.uuid;
+    let id = myFaved.video_uuid;
     localStorage.setItem("videoID", id);
   });
   return myHistory;
@@ -1460,7 +1460,7 @@ function renderFilteredContent(videos) {
     );
     $(video).on("click", "#add", async function () {
       let mySubs = $(this).closest(".card").data("videos");
-      let id = mySubs.uuid;
+      let id = mySubs.video_uuid;
       localStorage.setItem("videoID", id);
       $(this)
         .closest(".options")
@@ -1658,7 +1658,7 @@ function renderVideoSearchResults(videos) {
       );
       $(video).on("click", "#add", async function () {
         let mySubs = $(this).closest(".card").data("videos");
-        let id = mySubs.uuid;
+        let id = mySubs.video_uuid;
         localStorage.setItem("videoID", id);
         $(this)
           .closest(".options")
@@ -1782,7 +1782,7 @@ function renderVideoSearchResults(videos) {
       );
       $(video).on("click", "#add", async function () {
         let mySubs = $(this).closest(".card").data("videos");
-        let id = mySubs.uuid;
+        let id = mySubs.video_uuid;
         localStorage.setItem("videoID", id);
         $(this)
           .closest(".options")
