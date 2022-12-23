@@ -461,14 +461,14 @@ analyticsRouter.get(
 );
 
 analyticsRouter.get(
-  "/commentscount/:videoid",
-  check("uuid")
+  "/commentscount/:video_uuid",
+  check("video_uuid")
     .not()
     .isEmpty()
     .trim()
     .escape(),
   async (req, res, next) => {
-    const { videoid } = req.params;
+    const { video_uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -476,7 +476,7 @@ analyticsRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const videocommentCount = await commentCount(uuid);
+        const videocommentCount = await commentCount(video_uuid);
         res.send({ total: videocommentCount });
       } catch (error) {
         console.log("Oops, could not get comment count", error);
