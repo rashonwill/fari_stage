@@ -798,7 +798,7 @@ explorerRouter.get(
 
 explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
-  const videoid = req.body.videoid;
+  const videoid = req.body.video_uuid;
   const channel = req.body.channelname;
   const video = req.body.videofile;
   const thumbnail = req.body.videothumbnail;
@@ -814,7 +814,7 @@ explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
       videotitle: title,
       channelid: channelidentification,
       videoviewcount: videoviewcount,
-      video_uuid: uuid.v4(),
+      video_uuid: videoid,
     };
 
     const usersFaved = await createFavorite(favedData);
@@ -858,7 +858,7 @@ explorerRouter.get(
 
 explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
-  const videoid = req.body.videoid;
+  const videoid = req.body.video_uuid;
   const channel = req.body.channelname;
   const video = req.body.videofile;
   const thumbnail = req.body.videothumbnail;
@@ -877,7 +877,7 @@ explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
       channelid: channelident,
       videoviewcount: views,
       paidtoview: paidtoview,
-      video_uuid: uuid.v4(),
+      video_uuid: videoid,
     };
 
     const usersList = await createWatchlistVideo(laterData);
@@ -894,11 +894,9 @@ explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
 explorerRouter.patch(
   "/userwatched/:uuid",
   requireUser,
-  check("id")
+  check("uuid")
     .not()
     .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
     .trim()
     .escape(),
   async (req, res, next) => {
