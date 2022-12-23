@@ -545,7 +545,7 @@ explorerRouter.post(
   check("user_comment").not().isEmpty().trim().escape(),
   check("uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const { commentorid, commentorname, user_comment, uuid } = req.body;
+    const { commentorid, commentorname, user_comment, video_uuid } = req.body;
 
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -558,7 +558,7 @@ explorerRouter.post(
           commentorID: commentorid,
           commentorName: commentorname,
           user_comment: user_comment,
-          video_uuid: uuid,
+          video_uuid: video_uuid,
         };
 
         const userComment = await createComment(commentData);
