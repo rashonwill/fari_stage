@@ -435,16 +435,14 @@ analyticsRouter.get(
 );
 
 analyticsRouter.get(
-  "/rental-sells/:videoid",
-  check("videoid")
+  "/rental-sells/:video_uuid",
+  check("video_uuid")
     .not()
     .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
     .trim()
     .escape(),
   async (req, res, next) => {
-    const { videoid } = req.params;
+    const { video_uuid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -452,7 +450,7 @@ analyticsRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const videoSells = await getRentalItemsTotal(videoid);
+        const videoSells = await getRentalItemsTotal(video_uuid);
         res.send({ pricing: videoSells });
       } catch (error) {
         console.log("Oops, could not get product sells count", error);
@@ -464,11 +462,9 @@ analyticsRouter.get(
 
 analyticsRouter.get(
   "/commentscount/:videoid",
-  check("videoid")
+  check("uuid")
     .not()
     .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
     .trim()
     .escape(),
   async (req, res, next) => {
@@ -480,7 +476,7 @@ analyticsRouter.get(
         .send({ name: "Validation Error", message: errors.array()[0].msg });
     } else {
       try {
-        const videocommentCount = await commentCount(videoid);
+        const videocommentCount = await commentCount(uuid);
         res.send({ total: videocommentCount });
       } catch (error) {
         console.log("Oops, could not get comment count", error);
