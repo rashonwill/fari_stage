@@ -543,7 +543,7 @@ explorerRouter.post(
   "/comment/new",
   requireUser,
   check("user_comment").not().isEmpty().trim().escape(),
-  check("uuid").not().isEmpty().trim().escape(),
+  check("video_uuid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { commentorid, commentorname, user_comment, video_uuid } = req.body;
 
