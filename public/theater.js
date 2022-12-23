@@ -513,6 +513,7 @@ async function likeVideo() {
     playVideo().then(renderVideoInfo).then(checkUserLikes);
     return data;
   } catch (error) {
+	 console.log(error)
     response.status(400).send(error);
   }
 }
@@ -538,6 +539,7 @@ async function dislikeVideo() {
     playVideo().then(renderVideoInfo).then(checkUserDisLikes);
     return data;
   } catch (error) {
+	  console.log(error)
     response.status(400).send(error);
   }
 }
