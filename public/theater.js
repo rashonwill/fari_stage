@@ -920,6 +920,7 @@ async function videoComments() {
     const data = await response.json();
     return data.comments;
   } catch (error) {
+     console.log(error)
     response.status(400).send(error);
   }
 }
