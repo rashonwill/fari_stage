@@ -89,18 +89,18 @@ async function createComment({
   commentorID,
   commentorName,
   user_comment,
-  uuid,
+  video_uuid,
 }) {
   try {
     const {
       rows: [comment],
     } = await client.query(
       `
-              INSERT INTO upload_comments(uuid, commentorID, commentorName, user_comment) 
-              VALUES($1, $2, $3, $4, $5)
+              INSERT INTO upload_comments(commentorID, commentorName, user_comment, video_uuid) 
+              VALUES($1, $2, $3, $4)
               RETURNING *;
             `,
-      [uuid, commentorID, commentorName, user_comment]
+      [commentorID, commentorName, user_comment, video_uuid]
     );
     return comment;
   } catch (error) {
@@ -142,7 +142,7 @@ async function deleteComment(id) {
   }
 }
 
-async function getVideoComments(uuid) {
+async function getVideoComments(video_uuid) {
   try {
     const { rows } = await client.query(
       `
@@ -150,9 +150,9 @@ async function getVideoComments(uuid) {
   SELECT *, upload_comments.id AS commentid, user_channel.id AS channelid, user_channel.profile_avatar
   FROM upload_comments
   INNER JOIN user_channel ON upload_comments.commentorname = user_channel.channelname
-  WHERE uuid=$1;
+  WHERE video_uuid=$1;
   `,
-      [uuid]
+      [video_uuid]
     );
     return rows;
   } catch (error) {
