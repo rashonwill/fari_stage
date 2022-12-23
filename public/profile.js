@@ -24,6 +24,7 @@ async function checkToken() {
     return data.user;
   } catch (error) {
     console.log(error);
+    localStorage.clear();
     window.location.href = "login";
     response.status(400).send(error);
   }
