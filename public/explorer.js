@@ -2079,6 +2079,7 @@ async function getVideoData() {
       },
     });
     const data = await response.json();
+	  console.log(data)
     return data.uploads;
   } catch (error) {
     response.status(400).send(error);
