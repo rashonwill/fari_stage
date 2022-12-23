@@ -6,8 +6,6 @@ const myToken = localStorage.getItem("fariToken");
   $("#videos").addClass("selected");
   if (!myToken || myToken === null) {
     window.location.href = "/login";
-  } else {
-    checkToken();
   }
 })();
 
