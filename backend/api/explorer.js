@@ -288,7 +288,7 @@ explorerRouter.post(
       try {
         const likingUser = {
           userid: userid,
-          uuid: videoid,
+          video_uuid: videoid,
         };
 
         const upvote = await addVideoLike(uuid);
@@ -369,7 +369,7 @@ explorerRouter.post(
 
     const dislikingUser = {
       userid: userid,
-      uuid: videoid,
+      video_uuid: videoid,
     };
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -559,7 +559,7 @@ explorerRouter.post(
           commentorID: commentorid,
           commentorName: commentorname,
           user_comment: user_comment,
-          uuid: uuid,
+          video_uuid: uuid,
         };
 
         const userComment = await createComment(commentData);
@@ -817,7 +817,7 @@ explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
       videotitle: title,
       channelid: channelidentification,
       videoviewcount: videoviewcount,
-      uuid: uuid.v4(),
+      video_uuid: uuid.v4(),
     };
 
     const usersFaved = await createFavorite(favedData);
@@ -880,7 +880,7 @@ explorerRouter.post("/add/watchlist", requireUser, async (req, res, next) => {
       channelid: channelident,
       videoviewcount: views,
       paidtoview: paidtoview,
-      uuid: uuid.v4(),
+      video_uuid: uuid.v4(),
     };
 
     const usersList = await createWatchlistVideo(laterData);
@@ -1146,7 +1146,7 @@ explorerRouter.post(
     } else {
       try {
         let copyrightPlaintiff = {
-          uuid: uuid,
+          video_uuid: uuid,
           userid: userid,
           requestor_name: requestor_name,
           owner: owner,

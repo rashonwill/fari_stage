@@ -413,17 +413,17 @@ async function revokeVideoLike(uuid) {
   }
 }
 
-async function createUserVideoLike({ userid, uuid }) {
+async function createUserVideoLike({ userid, video_uuid }) {
   try {
     const {
       rows: [likedvideo],
     } = await client.query(
       `
-              INSERT INTO user_video_likes(userid, uuid)
+              INSERT INTO user_video_likes(userid, video_uuid)
               VALUES($1, $2)
               RETURNING *;
             `,
-      [userid, uuid]
+      [userid, video_uuid]
     );
     return likedvideo;
   } catch (error) {
@@ -448,15 +448,15 @@ async function removeUserVideoLike(id) {
   }
 }
 
-async function checkUserVideoLikeStatus(uuid, userid) {
+async function checkUserVideoLikeStatus(video_uuid, userid) {
   try {
     const { rows } = await client.query(
       `
               SELECT *, user_video_likes.id AS likeid
               FROM user_video_likes
-              WHERE uuid=$1 AND userid=$2 ;
+              WHERE video_uuid=$1 AND userid=$2 ;
             `,
-      [videoid, userid]
+      [video_uuid, userid]
     );
     return rows;
   } catch (error) {
@@ -502,17 +502,17 @@ async function revokeVideoDislike(uuid) {
   }
 }
 
-async function createUserVideoDislike({ userid, uuid }) {
+async function createUserVideoDislike({ userid, video_uuid }) {
   try {
     const {
       rows: [dislikedvideo],
     } = await client.query(
       `
-              INSERT INTO user_video_dislikes(userid, uuid)
+              INSERT INTO user_video_dislikes(userid, video_uuid)
               VALUES($1, $2)
               RETURNING *;
             `,
-      [userid, uuid]
+      [userid, video_uuid]
     );
     return dislikedvideo;
   } catch (error) {
@@ -537,15 +537,15 @@ async function removeUserVideoDislike(id) {
   }
 }
 
-async function checkUserVideoDislikeStatus(uuid, userid) {
+async function checkUserVideoDislikeStatus(video_uuid, userid) {
   try {
     const { rows } = await client.query(
       `
               SELECT *, user_video_dislikes.id AS dislikeid
               FROM user_video_dislikes
-              WHERE uuid=$1 AND userid=$2;
+              WHERE video_uuid=$1 AND userid=$2;
             `,
-      [uuid, userid]
+      [video_uuid, userid]
     );
     return rows;
   } catch (error) {
@@ -574,34 +574,32 @@ async function updateVideoViews(uuid) {
 
 async function createFavorite({
   userid,
-  videoid,
   channelname,
   videofile,
   videothumbnail,
   videotitle,
   channelid,
   videoviewcount,
-  uuid,
+  video_uuid,
 }) {
   try {
     const {
       rows: [favs],
     } = await client.query(
       `
-              INSERT INTO user_favorites(userid, videoid, channelname, videofile, videothumbnail, videotitle, channelid, videoviewcount, uuid) 
-              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+              INSERT INTO user_favorites(userid, channelname, videofile, videothumbnail, videotitle, channelid, videoviewcount, video_uuid) 
+              VALUES($1, $2, $3, $4, $5, $6, $7, $8)
               RETURNING *;
             `,
       [
         userid,
-        videoid,
         channelname,
         videofile,
         videothumbnail,
         videotitle,
         channelid,
         videoviewcount,
-        uuid,
+        video_uuid,
       ]
     );
     return favs;
@@ -610,14 +608,14 @@ async function createFavorite({
   }
 }
 
-async function deleteFavorite(userid, uuid) {
+async function deleteFavorite(userid, video_uuid) {
   try {
     const { rows } = await client.query(
       `
               DELETE FROM user_favorites
-              WHERE userid=$1 AND uuid=$2;
+              WHERE userid=$1 AND video_uuid=$2;
             `,
-      [userid, uuid]
+      [userid, video_uuid]
     );
     return rows;
   } catch (error) {
@@ -643,7 +641,6 @@ async function getUserFavorites(userid) {
 
 async function createWatchlistVideo({
   userid,
-  videoid,
   channelname,
   videofile,
   videothumbnail,
@@ -651,20 +648,19 @@ async function createWatchlistVideo({
   channelid,
   videoviewcount,
   paidtoview,
-  uuid,
+  video_uuid,
 }) {
   try {
     const {
       rows: [watchlater],
     } = await client.query(
       `
-              INSERT INTO user_watchlist(userid, videoid, channelname, videofile, videothumbnail, videotitle, channelid, videoviewcount, paidtoview, uuid) 
-              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9 $10)
+              INSERT INTO user_watchlist(userid, channelname, videofile, videothumbnail, videotitle, channelid, videoviewcount, paidtoview, video_uuid) 
+              VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
               RETURNING *;
             `,
       [
         userid,
-        videoid,
         channelname,
         videofile,
         videothumbnail,
@@ -672,7 +668,7 @@ async function createWatchlistVideo({
         channelid,
         videoviewcount,
         paidtoview,
-        uuid,
+        video_uuid,
       ]
     );
     return watchlater;
@@ -681,14 +677,14 @@ async function createWatchlistVideo({
   }
 }
 
-async function deleteWatchlistVideo(userid, videoid) {
+async function deleteWatchlistVideo(userid, video_uuid) {
   try {
     const { rows } = await client.query(
       `
               DELETE FROM user_watchlist
-              WHERE userid=$1 AND uuid=$2;
+              WHERE userid=$1 AND video_uuid=$2;
             `,
-      [userid, uuid]
+      [userid, video_uuid]
     );
     return rows;
   } catch (error) {
@@ -726,14 +722,14 @@ async function removePurchasedWatchlistVideosThreeDays() {
   }
 }
 
-async function updatePaidWatchStartedFlag(uuid) {
+async function updatePaidWatchStartedFlag(video_uuid) {
   try {
     const { rows } = await client.query(
       `UPDATE user_watchlist
        SET user_started_watching='true', first_viewingDT=CURRENT_DATE 
-       WHERE uuid=$1;
+       WHERE video_uuid=$1;
       `,
-      [uuid]
+      [video_uuid]
     );
     return rows;
   } catch (error) {
@@ -842,33 +838,31 @@ async function getUserSubscriptionUploads(userid) {
 //Movie Orders
 
 async function createMovieOrders({
-  videoid,
   channelid,
   videothumbnail,
   userid,
   videotitle,
   videoprice,
   vendor_email,
-  uuid,
+  video_uuid,
 }) {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-              INSERT INTO customer_movie_orders(videoid, channelid, videothumbnail, userid, videotitle, videoprice, vendor_email, uuid) 
-              VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+              INSERT INTO customer_movie_orders(channelid, videothumbnail, userid, videotitle, videoprice, vendor_email, video_uuid) 
+              VALUES($1, $2, $3, $4, $5, $6, $7)
               RETURNING *;
             `,
       [
-        videoid,
         channelid,
         videothumbnail,
         userid,
         videotitle,
         videoprice,
         vendor_email,
-        uuid,
+        video_uuid,
       ]
     );
     return order;
@@ -939,7 +933,7 @@ async function setCommentFlag(id, theReason) {
 }
 
 async function createCopyrightClaim({
-  videoid,
+  uuid,
   userid,
   requestor_name,
   owner,
@@ -953,12 +947,12 @@ async function createCopyrightClaim({
       rows: [flagged_upload],
     } = await client.query(
       `
-              INSERT INTO upload_copyright_reports(videoid, userid, requestor_name, owner, relationship, address, city_state_zip, country) 
+              INSERT INTO upload_copyright_reports(uuid, userid, requestor_name, owner, relationship, address, city_state_zip, country) 
               VALUES($1, $2, $3, $4, $5, $6, $7, $8)
               RETURNING *;
             `,
       [
-        videoid,
+        uuid,
         userid,
         requestor_name,
         owner,

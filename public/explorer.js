@@ -2106,7 +2106,7 @@ async function laterVideo() {
     channelid: channelID,
     videoviewcount: views,
     paidtoview: false,
-    uuid: uniqueID,
+    video_uuid: uniqueID,
   };
 
   try {
@@ -2146,7 +2146,7 @@ async function laterVideoPurchased() {
     channelid: channelID,
     videoviewcount: views,
     paidtoview: true,
-    uuid: uniqueID,
+    video_uuid: uniqueID,
   };
 
   try {
@@ -2241,7 +2241,7 @@ async function createRentalOrder() {
   localStorage.setItem("vendorEmail", vendor_email);
 
   const rentalBody = {
-    uuid: vidID,
+    video_uuid: vidID,
     channelid: channelID,
     videothumbnail: posFile,
     userid: userPurchased,

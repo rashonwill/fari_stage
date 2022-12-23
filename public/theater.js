@@ -499,7 +499,7 @@ async function likeVideo() {
   try {
     const likingUser = {
       userid: userlike,
-      uuid: id,
+      video_uuid: id,
     };
     const response = await fetch(`${FARI_API}/explorer/youlikeme/${uuid}`, {
       method: "POST",
@@ -523,7 +523,7 @@ async function dislikeVideo() {
   try {
     const dislkingUser = {
       userid: userdislike,
-      uuid: id,
+      video_uuid: id,
     };
 
     const response = await fetch(`${FARI_API}/explorer/youdislikeme/${id}`, {
@@ -570,7 +570,7 @@ async function favVideo() {
     videotitle: vidTitle,
     channelid: channelident,
     videoviewcount: views,
-    uuid: uniqueID,
+    video_uuid: uniqueID,
   };
 
   try {
@@ -639,7 +639,7 @@ async function laterVideo() {
     channelid: channelident,
     videoviewcount: views,
     paidtoview: false,
-    uuid: uniqueID,
+    video_uuid: uniqueID,
   };
 
   try {
@@ -886,7 +886,7 @@ $("#send-comment").on("click", async function newComment(event) {
     commentorid: userid,
     commentorname: username,
     user_comment: comRemark,
-    uuid: postId,
+    video_uuid: postId,
   };
   try {
     const response = await fetch(`${FARI_API}/explorer/comment/new`, {
@@ -1601,7 +1601,7 @@ async function copyRightClaim() {
   let videoid = JSON.parse(localStorage.getItem("videoID"));
 
   let copyrightPlaintiff = {
-    uuid: videoid,
+    video_uuid: videoid,
     userid: user,
     requestor_name: requestor_name,
     owner: copyrightOwner,
@@ -1706,7 +1706,7 @@ async function watchHistory() {
       videotitle: vidTitle,
       channelid: channelID,
       videoviewcount: views,
-      uuid: uniqueID,
+      video_uuid: uniqueID,
     };
 
     try {

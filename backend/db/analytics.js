@@ -147,7 +147,7 @@ async function getTotalChannelComments(channelid) {
       `
         SELECT COUNT(*)
         FROM channel_uploads
-        RIGHT JOIN upload_comments ON channel_uploads.id = upload_comments.videoid
+        RIGHT JOIN upload_comments ON channel_uploads.uuid = upload_comments.video_uuid
         WHERE channelid=$1;
        `,
       [channelid]
@@ -193,7 +193,6 @@ async function getTotalRentalOrders(channelid) {
   }
 }
 
-
 async function totalChannelPost(channelid) {
   try {
     const { rows } = await client.query(
@@ -210,7 +209,6 @@ async function totalChannelPost(channelid) {
     throw error;
   }
 }
-
 
 async function getChannelRentals(channelid) {
   try {
@@ -271,7 +269,7 @@ async function getPurchaseItemsTotal(productid) {
   }
 }
 
-async function getRentalItemsTotal(videoid) {
+async function getRentalItemsTotal(uuid) {
   try {
     const {
       rows: [price],
@@ -279,11 +277,11 @@ async function getRentalItemsTotal(videoid) {
       `
     SELECT videoid, COUNT(*) AS count, videotitle, videothumbnail, ROUND(SUM(videoprice), 2) AS videoOrderTotal
     FROM customer_movie_orders
-    WHERE videoid=$1
+    WHERE uuid=$1
     GROUP BY videoid, videotitle, videothumbnail
     ORDER BY videoid ASC;
   `,
-      [videoid]
+      [uuid]
     );
     return price;
   } catch (error) {
@@ -291,17 +289,17 @@ async function getRentalItemsTotal(videoid) {
   }
 }
 
-async function commentCount(videoid) {
+async function commentCount(video_uuid) {
   try {
     const { rows } = await client.query(
       `
     SELECT upload_comments.videoid, COUNT(*) AS count
     FROM upload_comments
-    WHERE upload_comments.videoid=$1
-    GROUP BY upload_comments.videoid;
+    WHERE upload_comments.video_uuid=$1
+    GROUP BY upload_comments.video_uuid;
  
   `,
-      [videoid]
+      [video_uuid]
     );
     return rows;
   } catch (error) {
@@ -315,7 +313,7 @@ async function filterVideosByDate(channelid, fromdt, thrudt) {
       `
     SELECT customer_movie_orders.videotitle, COUNT(*) AS count, to_char(DATE(customer_movie_orders.rental_date)::date, 'MM/DD/YYYY') as dateFormatted, channel_uploads.*
     FROM customer_movie_orders
-    RIGHT JOIN channel_uploads ON customer_movie_orders.videoid = channel_uploads.id
+    RIGHT JOIN channel_uploads ON customer_movie_orders.video_uuid = channel_uploads.uuid
     WHERE customer_movie_orders.channelid=$1 AND customer_movie_orders.rental_date BETWEEN '${fromdt}' AND '${thrudt}'
     GROUP BY customer_movie_orders.videotitle, channel_uploads.id, customer_movie_orders.rental_date
     ORDER BY customer_movie_orders.rental_date DESC;

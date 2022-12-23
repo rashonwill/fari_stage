@@ -12,23 +12,23 @@ ordersRouter.post(
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
   requireUser,
   async (req, res, next) => {
-    const thevideoid = req.body.videoid;
     const videoprice = req.body.videoprice;
     const videotitle = req.body.videotitle;
     const thechannelid = req.body.channelid;
     const thethumbnail = req.body.videothumbnail;
     const userid = req.body.userid;
     const vendor_email = req.body.vendor_email;
+    const uuid = req.body.video_uuid;
 
     try {
       const rentalOrder = {
-        videoid: thevideoid,
         channelid: thechannelid,
         videothumbnail: thethumbnail,
         userid: userid,
         videotitle: videotitle,
         videoprice: videoprice,
         vendor_email: vendor_email,
+        video_uuid: uuid,
       };
 
       const movieRental = await createMovieOrders(rentalOrder);
@@ -46,7 +46,7 @@ ordersRouter.post(
 ordersRouter.post(
   "/stripe-checkout/rental",
   requireUser,
-  rateLimiter({ secondsWindow: 15, allowedHits: 2}),
+  rateLimiter({ secondsWindow: 15, allowedHits: 2 }),
   async (req, res) => {
     const stripeAcctID = req.body.stripe_acct;
     const vendoremail = req.body.vendoremail;
@@ -65,7 +65,7 @@ ordersRouter.post(
                 product_data: {
                   name: item.name,
                   description: "Movie/Film",
-//                   images: [item.image],
+                  //                   images: [item.image],
                   metadata: {
                     vendor: item.vendor,
                   },
@@ -76,7 +76,7 @@ ordersRouter.post(
             };
           }),
           mode: "payment",
-          success_url:process.env.SUCCESS_URL,
+          success_url: process.env.SUCCESS_URL,
           cancel_url: process.env.CANCEL_URL,
         },
         {
