@@ -52,6 +52,9 @@ async function alterDatabase() {
     ALTER TABLE upload_copyright_reports
    DROP COLUMN videoid;
 
+   ALTER TABLE users
+   DROP COLUMN jwt_token;
+
 
          
     `);
