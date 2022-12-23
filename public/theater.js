@@ -499,7 +499,7 @@ async function likeVideo() {
   try {
     const likingUser = {
       userid: userlike,
-      video_uuid: id,
+      video_uuid: uuid,
     };
     const response = await fetch(`${FARI_API}/explorer/youlikeme/${uuid}`, {
       method: "POST",
@@ -519,12 +519,12 @@ async function likeVideo() {
 }
 
 async function dislikeVideo() {
-  let id = localStorage.getItem("videoID");
+  let uuid = localStorage.getItem("videoID");
   var userdislike = localStorage.getItem("userID");
   try {
     const dislkingUser = {
       userid: userdislike,
-      video_uuid: id,
+      video_uuid: uuid,
     };
 
     const response = await fetch(`${FARI_API}/explorer/youdislikeme/${id}`, {
