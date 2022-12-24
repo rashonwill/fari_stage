@@ -1,11 +1,11 @@
 const FARI_API = "https://fari-stage.herokuapp.com/api";
 const myToken = localStorage.getItem("fariToken");
 
-// (function () {
-//   if (!myToken || myToken === null) {
-//     window.location.href = "login";
-//   }
-// })();
+(function () {
+  if (!myToken || myToken === null) {
+    window.location.href = "login";
+  }
+})();
 
 function onFetchStart() {
   $("#loading").addClass("active");
