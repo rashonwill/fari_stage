@@ -117,7 +117,7 @@ async function playVideo() {
 
   let results = localStorage.getItem("userPurchased");
 
-  if (results === 1) {
+  if (results) {
     window.location.href = "login";
   } else {
     try {
