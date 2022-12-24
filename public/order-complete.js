@@ -62,7 +62,7 @@ async function laterVideoPurchased() {
 
   var userid = localStorage.getItem("userID");
   var vidID = getFeature[0].uuid;
-  var channelname = getFeature[0].channel_name;
+  var channelname = getFeature[0].channelname;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;

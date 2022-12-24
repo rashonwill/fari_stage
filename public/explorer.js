@@ -390,7 +390,7 @@ function renderPayMedia(uploads) {
       localStorage.setItem("ticketPrice", price);
 
       let purchasingFilm = {
-        uuid: videoView.uuid,
+        video_uuid: videoView.uuid,
         name: videoView.videotitle,
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
@@ -889,7 +889,7 @@ async function getWatchList() {
       },
     });
     const data = await response.json();
-	  console.log(data)
+    console.log(data);
     if (data.myWatchList.length > 0) {
       $(".watchlist").empty();
       $(".newUserMessage-watchlater message").css("display", "none");
@@ -2080,7 +2080,7 @@ async function getVideoData() {
       },
     });
     const data = await response.json();
-	  console.log(data)
+    console.log(data);
     return data.uploads;
   } catch (error) {
     response.status(400).send(error);
