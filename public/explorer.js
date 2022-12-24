@@ -1037,7 +1037,7 @@ function renderWatchLaters(myWatchList) {
                 <div class="card-mid">
                   <a href="/theater?play=${
                     myWatchList.video_uuid
-                  }" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  }?purchase=1" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1065,10 +1065,10 @@ function renderWatchLaters(myWatchList) {
 
     $(myLater).on("click", ".fa-play", async function () {
       let watchLater = $(this).closest(".card").data("myWatchList");
-      let id = watchLater.video_uuid;
+      let uuid = watchLater.video_uuid;
       let purchased = watchLater.id;
       localStorage.setItem("purchasedWatched", purchased);
-      localStorage.setItem("videoID", id);
+      localStorage.setItem("videoID", uuid);
       userWatchedFlag();
     });
 
