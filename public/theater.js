@@ -109,6 +109,9 @@ async function getUserProfile() {
 }
 
 async function playVideo() {
+  let paramaters = new URLSearchParams(window.location.search);
+  let video_id = paramaters.get("play");
+  localStorage.setItem("videoID", video_id);
   try {
     const id = localStorage.getItem("videoID");
     const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
@@ -513,7 +516,7 @@ async function likeVideo() {
     playVideo().then(renderVideoInfo).then(checkUserLikes);
     return data;
   } catch (error) {
-	 console.log(error)
+    console.log(error);
     response.status(400).send(error);
   }
 }
@@ -539,7 +542,7 @@ async function dislikeVideo() {
     playVideo().then(renderVideoInfo).then(checkUserDisLikes);
     return data;
   } catch (error) {
-	  console.log(error)
+    console.log(error);
     response.status(400).send(error);
   }
 }
@@ -922,7 +925,7 @@ async function videoComments() {
     const data = await response.json();
     return data.comments;
   } catch (error) {
-     console.log(error)
+    console.log(error);
     response.status(400).send(error);
   }
 }
