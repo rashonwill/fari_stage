@@ -789,7 +789,7 @@ async function renderFavVideos(myFavVids) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("myFavVids");
-    let uuid = videoUpload.uuid;
+    let uuid = videoUpload.video_uuid;
     localStorage.setItem("videoID", uuid);
 
     window.location.href = `/theater?play=${uuid}`;
@@ -861,7 +861,7 @@ async function renderLaterVideos(myWatchList) {
     $(".feature-info").empty();
     $(".feature-presentation").empty();
     let videoUpload = $(this).closest(".card").data("myWatchList");
-    let uuid = videoUpload.uuid;
+    let uuid = videoUpload.video_uuid;
     localStorage.setItem("videoID", uuid);
     window.location.href = `/theater?play=${uuid}`;
   });
