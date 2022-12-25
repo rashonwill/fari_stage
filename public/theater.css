@@ -388,6 +388,10 @@ body::-webkit-scrollbar-corner {
     color: rgba(187, 152, 71, 1) !important;
 }
 
+
+.hit {
+    color: rgba(187, 152, 71, 1) !important;
+}
 .feature-info {
     padding: 5px;
     height: 100%;
