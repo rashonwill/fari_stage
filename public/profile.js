@@ -451,7 +451,8 @@ function renderPost(channelUploads) {
       let unesvideoTitle = _.unescape(videoEdit.videotitle);
       let unesvideoDescription = _.unescape(unesvideoTitle);
       let unesvideoTags = _.unescape(videoEdit.videotags);
-      $("span#title-edit").append(videoEdit.videotitle);
+	    
+      $("span#title-edit").append(unesvideoTitle);
       $("span#description-edit").append(unesvideoDescription);
       $("span#tags-edit").append(unesvideoTags);
       $(window).scrollTop(0);
