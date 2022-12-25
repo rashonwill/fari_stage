@@ -396,12 +396,10 @@ function renderVideoInfo(video) {
     $(".options .interactions").append(videoData);
 
     $(videoData).on("click", ".fa-thumbs-up", async function () {
-	$('.fa-thumbs-up').toggleClass('hit')
       likeStatus();
     });
 
     $(videoData).on("click", ".fa-thumbs-down", async function () {
-	    $('.fa-thumbs-up').toggleClass('hit')
       dislikeStatus();
     });
 
