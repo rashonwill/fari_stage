@@ -111,15 +111,11 @@ async function getUserProfile() {
 async function playVideo() {
   let paramaters = new URLSearchParams(window.location.search);
   let video_id = paramaters.get("play");
-  let purchased = paramaters.get("purchase");
-  localStorage.setItem("userPurchased", purchased);
+//   let purchased = paramaters.get("purchase");
+//   localStorage.setItem("userPurchased", purchased);
   localStorage.setItem("videoID", video_id);
-
-  let results = localStorage.getItem("userPurchased");
-
-  if (results) {
-    window.location.href = "login";
-  } else {
+//   let results = localStorage.getItem("userPurchased");
+	
     try {
       const id = localStorage.getItem("videoID");
       const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
@@ -136,7 +132,7 @@ async function playVideo() {
     } catch (error) {
       response.status(400).send(error);
     }
-  }
+
 }
 
 function renderVideo(video) {
