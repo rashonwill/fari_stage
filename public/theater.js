@@ -765,7 +765,7 @@ async function renderFavVideos(myFavVids) {
             <div class="upload">
               <video poster="${myFavVids.videothumbnail}" src ="${myFavVids.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater?play=${myFavVids.uuid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${myFavVids.video_uuid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
                   <h6><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
@@ -836,7 +836,7 @@ async function renderLaterVideos(myWatchList) {
             <div class="upload">
               <video poster="${myWatchList.videothumbnail}" src ="${myWatchList.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater?play=${myWatchList.uuid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater?play=${myWatchList.video_uuid}" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
                   <h6><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
