@@ -354,13 +354,6 @@ explorerRouter.post(
     .withMessage("Not a valid value")
     .trim()
     .escape(),
-  check("videoid")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
-    .trim()
-    .escape(),
   async (req, res, next) => {
     const { uuid } = req.params;
     const { userid, video_uuid } = req.body;
