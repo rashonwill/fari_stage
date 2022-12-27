@@ -1364,6 +1364,7 @@ async function likeStatus() {
     }
     return data;
   } catch (error) {
+	  console.log(data)
     response.status(400).send(error);
   }
 }
