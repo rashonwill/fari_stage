@@ -318,8 +318,6 @@ explorerRouter.delete(
   check("uuid")
     .not()
     .isEmpty()
-    .isNumeric()
-    .withMessage("Not a valid value")
     .trim()
     .escape(),
   async (req, res, next) => {
