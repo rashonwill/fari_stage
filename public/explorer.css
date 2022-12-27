@@ -894,6 +894,10 @@ button:hover {
     .mobile-nav .content-sort {
         margin-top: 100px;
     }
+    
+     .loggedIn{
+    display: none;
+    }
 
 
 
@@ -956,6 +960,10 @@ button:hover {
     #logo {
         display: none;
     }
+    
+     .loggedIn{
+    display: none;
+    }
 
 }
 
@@ -1012,6 +1020,10 @@ button:hover {
 
     #logo {
         display: none;
+    }
+    
+    .loggedIn{
+    display: none;
     }
 
 }
