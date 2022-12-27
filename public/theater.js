@@ -745,7 +745,6 @@ async function getMyFavs() {
       },
     });
     const data = await response.json();
-	  console.log(data)
     if (data.myFavVids.length > 0) {
       $(".fav-videos").empty();
       $(".newUserMessage-favs message").css("display", "none");
@@ -817,7 +816,6 @@ async function getWatchList() {
       },
     });
     const data = await response.json();
-	  console.log(data)
     if (data.myWatchList.length > 0) {
       $(".later-videos").empty();
       $(".newUserMessage-watchlater message").css("display", "none");
