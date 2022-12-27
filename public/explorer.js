@@ -2324,7 +2324,7 @@ bootstrap();
 
 // Responsive Design
 
-$("header #mobile-view-bars").click(function (event) {
+$(".header #mobile-view-bars").click(function (event) {
   $(".mobile-nav").toggleClass("active");
 });
 
