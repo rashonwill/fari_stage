@@ -268,7 +268,7 @@ explorerRouter.get("/search/series", requireUser, async (req, res, next) => {
 explorerRouter.post(
   "/youlikeme/:uuid",
   requireUser,
-  check("uuid").not().isEmpty().trim().escape(),
+  check("video_uuid").not().isEmpty().trim().escape(),
   check("userid")
     .not()
     .isEmpty()
@@ -278,7 +278,7 @@ explorerRouter.post(
     .escape(),
   async (req, res, next) => {
     const { uuid } = req.params;
-    const { userid, videoid } = req.body;
+    const { userid, video_uuid } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -288,7 +288,7 @@ explorerRouter.post(
       try {
         const likingUser = {
           userid: userid,
-          video_uuid: videoid,
+          video_uuid: video_uuid,
         };
 
         const upvote = await addVideoLike(uuid);
@@ -348,7 +348,7 @@ explorerRouter.delete(
 explorerRouter.post(
   "/youdislikeme/:uuid",
   requireUser,
-  check("uuid").not().isEmpty().trim().escape(),
+  check("video_uuid").not().isEmpty().trim().escape(),
   check("userid")
     .not()
     .isEmpty()
@@ -365,11 +365,11 @@ explorerRouter.post(
     .escape(),
   async (req, res, next) => {
     const { uuid } = req.params;
-    const { userid, videoid } = req.body;
+    const { userid, video_uuid } = req.body;
 
     const dislikingUser = {
       userid: userid,
-      video_uuid: videoid,
+      video_uuid: video_uuid,
     };
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
