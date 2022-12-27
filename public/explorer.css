@@ -160,6 +160,8 @@ i#main-view-bars {
 
 i#mobile-view-bars {
     display: none;
+    font-size: 22px;
+    cursor: pointer;
 }
 
 #logo {
