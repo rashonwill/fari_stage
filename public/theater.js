@@ -352,7 +352,7 @@ function renderVideoInfo(video) {
 
     let unesDescription = _.unescape(video.videodescription);
     let unesTitle = _.unescape(video.videotitle);
-    let unesUsername = _.unescape(video.videotitle);
+    let unesUsername = _.unescape(video.channelname);
 
     let featurePresentationInfo = $(` 
                <div class="author">
