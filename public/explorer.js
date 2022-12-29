@@ -1035,9 +1035,7 @@ function renderWatchLaters(myWatchList) {
                   <div class="card-options"></div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater?play=${
-                    myWatchList.video_uuid
-                  }?purchase=1" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
