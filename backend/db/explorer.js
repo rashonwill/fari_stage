@@ -294,9 +294,10 @@ async function videoSearch(query) {
   try {
     const { rows } = await client.query(
       `
-              SELECT *, channel_uploads.id AS videoid, user_channel.profile_avatar
+              SELECT *, channel_uploads.id AS videoid, user_channel.profile_avatar, vendors.stripe_acctid
               FROM channel_uploads
               INNER JOIN user_channel ON channel_uploads.channelid = user_channel.id
+              INNER JOIN vendors ON channel_uploads.channelname = vendors.vendorname
               WHERE videotags ILIKE N'%${query}%' OR videotitle ILIKE N'%${query}%' OR channel_uploads.channelname ILIKE N'%${query}%'
               ORDER BY random();
             `
