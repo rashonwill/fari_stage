@@ -1639,7 +1639,7 @@ function renderVideoSearchResults(videos) {
     });
 
     $(videos).on("click", "#channelAvi", function () {
-      let channelView = $(this).closest(".card").data("uploads");
+      let channelView = $(this).closest(".card").data("videos");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
       let channelname = channelView.channelname;
@@ -1731,7 +1731,7 @@ function renderVideoSearchResults(videos) {
     });
 
     $(videos).on("click", "#channelAvi", function () {
-      let channelView = $(this).closest(".card").data("uploads");
+      let channelView = $(this).closest(".card").data("videos");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
       let channelname = channelView.channelname;
@@ -1739,14 +1739,14 @@ function renderVideoSearchResults(videos) {
     });
 
     $(video).on("click", ".purchase", function () {
-     let channelView = $(this).closest(".card").data("uploads");
+     let channelView = $(this).closest(".card").data("videos");
       let stripeID = channelView.stripe_acctid;
       let vendore = channelView.vendor_email;
       localStorage.setItem("vendorEmail", vendore);
       localStorage.setItem("productStripeAccount", stripeID);
       onFetchStart();
       let videoArr = [];
-      let videoView = $(this).closest(".card").data("uploads");
+      let videoView = $(this).closest(".card").data("videos");
       let id = videoView.uuid;
       localStorage.setItem("videoID", id);
 
