@@ -1739,14 +1739,14 @@ function renderVideoSearchResults(videos) {
     });
 
     $(video).on("click", ".purchase", function () {
-      let channelView = $(this).closest(".card").data("videos");
+     let channelView = $(this).closest(".card").data("uploads");
       let stripeID = channelView.stripe_acctid;
       let vendore = channelView.vendor_email;
       localStorage.setItem("vendorEmail", vendore);
       localStorage.setItem("productStripeAccount", stripeID);
       onFetchStart();
       let videoArr = [];
-      let videoView = $(this).closest(".card").data("videos");
+      let videoView = $(this).closest(".card").data("uploads");
       let id = videoView.uuid;
       localStorage.setItem("videoID", id);
 
@@ -1754,7 +1754,7 @@ function renderVideoSearchResults(videos) {
       localStorage.setItem("ticketPrice", price);
 
       let purchasingFilm = {
-        uuid: videoView.uuid,
+        video_uuid: videoView.uuid,
         name: videoView.videotitle,
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
@@ -1767,6 +1767,7 @@ function renderVideoSearchResults(videos) {
       localStorage.setItem("videoPurchase", JSON.stringify(videoArr));
       let gettingYou = JSON.parse(localStorage.getItem("videoPurchase"));
       checkoutSessionStripe();
+      $(".ticket-purchase").addClass("active");
       $(window).scrollTop(0);
     });
 
