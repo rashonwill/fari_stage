@@ -1740,6 +1740,7 @@ function renderVideoSearchResults(videos) {
 
     $(video).on("click", ".purchase", function () {
      let channelView = $(this).closest(".card").data("videos");
+	    console.log(channelView)
       let stripeID = channelView.stripe_acctid;
       let vendore = channelView.vendor_email;
       localStorage.setItem("vendorEmail", vendore);
