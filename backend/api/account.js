@@ -69,7 +69,7 @@ accountRouter.post(
         "Password must include one lowercase character, one uppercase character, a number, and a special character.",
     }),
   async (req, res, next) => {
-    const { username, email, password, confirmpassword, location } = req.body;
+    const { username, email, password, confirmpassword, location, termsofuse } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -116,6 +116,7 @@ accountRouter.post(
           password,
           confirmpassword,
           location,
+          termsofuse_acceprted: true,
         });
         if (!user) {
           next({
