@@ -81,7 +81,7 @@ $(".login-form").on("submit", async (event) => {
 
 $(".register-form").on("submit", async (event) => {
   event.preventDefault();
-  const userName = _.escape($("#reg-user").val());
+  const userName = $("#reg-user").val();
   const userEmail = _.escape($("#reg-email").val());
   const userPassword = _.escape($("#reg-pass").val());
   const userConPassword = _.escape($("#reg-conpass").val());
