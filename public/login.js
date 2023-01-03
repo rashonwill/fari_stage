@@ -86,6 +86,14 @@ $(".register-form").on("submit", async (event) => {
   const userPassword = _.escape($("#reg-pass").val());
   const userConPassword = _.escape($("#reg-conpass").val());
   const location = _.escape($("#reg-location").val());
+  const terms = $('input[name="termsofuse"]:checked').val();
+  
+  if(!terms){
+  $(".message")
+      .text("Please accept the terms and conditions.")
+      .css("color", "#B2022F")
+      .css("letter-spacing", ".05rem");
+  }
   if (userName.length < 3) {
     $(".message").empty();
     $(".message")
