@@ -1311,7 +1311,7 @@ input.addEventListener("keyup", addTag);
 $(".newUpload form").on("submit", async function submitUpload(event) {
   event.preventDefault();
 
-  const title = _.escape($("span#title").text());
+  const title = $("span#title").text();
   const description = _.escape($("span#description").text());
   const tags = JSON.stringify(_.escape(videotags));
   const rentalprice = _.escape($("#rentalprice").val());
