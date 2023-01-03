@@ -331,6 +331,19 @@ form input {
     color: green;
 }
 
+.terms{
+display: flex;
+font-family: 'Teko';    
+    
+}
+
+.terms #termsofuse{
+  width: 20px;
+  height: 20px;  
+  box-shadow: inset 2px 2px 4px lightgrey, inset -2px -2px 4px whitesmoke;  
+}
+
+
 
 
 /* Media Queries */
