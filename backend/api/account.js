@@ -116,7 +116,7 @@ accountRouter.post(
           password,
           confirmpassword,
           location,
-          termsofuse_acceprted: true,
+          termsofuse_accepted: true,
         });
         if (!user) {
           next({
