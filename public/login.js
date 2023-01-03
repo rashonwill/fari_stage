@@ -89,10 +89,12 @@ $(".register-form").on("submit", async (event) => {
   const terms = $('input[name="termsofuse"]:checked').val();
   
   if(!terms){
+    $(".message").empty();
   $(".message")
       .text("Please accept the terms and conditions.")
       .css("color", "#B2022F")
       .css("letter-spacing", ".05rem");
+    return false;
   }
   if (userName.length < 3) {
     $(".message").empty();
@@ -100,6 +102,7 @@ $(".register-form").on("submit", async (event) => {
       .text("Username must be at least 3 characters.")
       .css("color", "#B2022F")
       .css("letter-spacing", ".05rem");
+    return false;
   }
   if (userPassword != userConPassword) {
     event.preventDefault();
