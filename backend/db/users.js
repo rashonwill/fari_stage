@@ -8,7 +8,7 @@ async function createUser({
   password,
   confirmpassword,
   location,
-  termsofuse_acceprted,
+  termsofuse_accepted,
 }) {
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
   const confirmedhashedPassword = await bcrypt.hash(
@@ -20,11 +20,11 @@ async function createUser({
       rows: [user],
     } = await client.query(
       `
-                INSERT INTO users(username, email, password, confirmpassword, location, termsofuse_acceprted) 
+                INSERT INTO users(username, email, password, confirmpassword, location, termsofuse_accepted) 
                 VALUES($1, $2, $3, $4, $5, $6)
                 RETURNING *;
               `,
-      [username, email, hashedPassword, confirmedhashedPassword, location, termsofuse_acceprted]
+      [username, email, hashedPassword, confirmedhashedPassword, location, termsofuse_accepted]
     );
 
     await client.query(
