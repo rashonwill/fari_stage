@@ -1314,9 +1314,9 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
   const title = $("span#title").text();
   const description = $("span#description").text();
   const tags = JSON.stringify(videotags);
-  const rentalprice = _.escape($("#rentalprice").val());
-  const contenttype = $('input[name="content_category"]:checked').val();
-  const paidOrFree = $('input[name="content_class"]:checked').val();
+  const rental_price = _.escape($("#rentalprice").val());
+  const content_category = $('input[name="content_category"]:checked').val();
+  const content_class = $('input[name="content_class"]:checked').val();
   const poster = _.escape($("#video-poster").attr("poster"));
   const vid = _.escape($("#video-file").attr("src"));
 
@@ -1331,6 +1331,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("tags", tags);
+    formData.append("rental_price", rental_price);	  
     formData.append("channelid", channelid);
     formData.append("channelname", channelname);
     formData.append("vendor_email", vendor_email);
@@ -1351,7 +1352,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
     onFetchEnd();
     $("span#title").text("");
     $("span#description").text("");
-    $("#tags-input").text("");
+    $("#tags-input").val();
     $("#video-file").attr("src", "");
     $("#video-poster").attr("poster", "");
   }
