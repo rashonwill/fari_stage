@@ -331,10 +331,14 @@ form input {
     color: green;
 }
 
-.terms{
-display: flex;
-font-family: 'Teko';    
-    
+.terms {
+    display: flex;
+    width: 30%;
+    font-family: 'Teko';
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
 }
 
 .terms #termsofuse{
