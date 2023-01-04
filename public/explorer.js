@@ -85,7 +85,6 @@ async function getUserProfile() {
       },
     });
     const data = await response.json();
-	  console.log(data)
     if (data.profile.length > 0) {
       localStorage.setItem("userID", data.profile[0].userid);
       localStorage.setItem("userUsername", data.profile[0].username);
@@ -105,21 +104,26 @@ async function getUserProfile() {
 }
 
 function dashboardAvi(profile) {
+	
   let profilePic = $(`
-  <img id="profile-picture" src="${
+  <img src="${
     profile[0].profile_avatar
       ? profile[0].profile_avatar
       : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-  }" alt="userAvatar" />
+  }" alt="userAvatar" id="profilepicture" />
 
   `);
   $(".header .loggedIn").append(profilePic);
 	
-$(profilePic).on('click', '.loggedIn', function(){
-	console.log('clicking pic')
+$(profilePic).on('click', '#profilepicture', function(){
 $('.dropdown').toggleClass('active');
 })
 	
+}
+
+function dropdownInfo(profile){
+let unesUsername = _.unescape(profile[0].username);	
+let unesEmail = _.unescape(profile[0].email);	
   let profileInfo = $(`
       <img src="${
     profile[0].profile_avatar
@@ -127,8 +131,8 @@ $('.dropdown').toggleClass('active');
       : "https://drotje36jteo8.cloudfront.net/noAvi.png"
   }" alt="user-avatar"/>
     <div class="profile-info">
-    <h3>${profile[0].username}</h3>
-    <h3>${profile[0].email}</h3>
+    <h3>${unesUsername}</h3>
+    <h3>${unesEmail}</h3>
     </div>
 
   `);
@@ -252,7 +256,7 @@ function renderFreeContent(uploads) {
       laterVideo();
     });
 
-    $(videos).on("click", "#channelName", function () {
+    $(videos).on("click", "#channelName", async function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
@@ -260,7 +264,7 @@ function renderFreeContent(uploads) {
       localStorage.setItem("visitingChannel", channelname);
     });
 
-    $(videos).on("click", "#channelAvi", function () {
+    $(videos).on("click", "#channelAvi", async function () {
       let channelView = $(this).closest(".card").data("uploads");
       let id = channelView.channelid;
       localStorage.setItem("visitingChannelID", id);
@@ -2333,6 +2337,7 @@ async function checkoutSessionStripe() {
 
 function bootstrap() {
   getUserProfile().then(dashboardAvi);
+  getUserProfile().then(dropdownInfo);	
   getFreeMedia().then(renderMedia);
   getChannels().then(renderSuggestedChannels);
   //   getLiveChannels().then(renderLives);
