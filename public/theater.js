@@ -827,6 +827,18 @@ async function getWatchList() {
 }
 
 async function renderLaterVideos(myWatchList) {
+	
+ let paidWatchlistVideos = [];
+  let freeWatchlistVideos = [];
+
+  for (let index = 0; index < myWatchList.length; index++) {
+    if (myWatchList[index].paidtoview === false) {
+      freeWatchlistVideos.push(myWatchList[index]);
+    } else if (myWatchList[index].paidtoview === true) {
+      paidWatchlistVideos.push(myWatchList[index]);
+    }
+  }
+  freeWatchlistVideos.forEach(function (myWatchList) {
   let unesChannel = _.unescape(myWatchList.channelname);
   let unesTitle = _.unescape(myWatchList.videotitle);
   let laterVids = $(`   
@@ -861,6 +873,49 @@ async function renderLaterVideos(myWatchList) {
     localStorage.setItem("videoID", uuid);
     window.location.href = `/theater?play=${uuid}`;
   });
+	  
+  	  
+  })
+
+paidWatchlistVideos.forEach(function (myWatchList) {
+  let unesChannel = _.unescape(myWatchList.channelname);
+  let unesTitle = _.unescape(myWatchList.videotitle);
+  let laterVids = $(`   
+      <div class="card">
+            <div class="upload">
+              <video poster="${myWatchList.videothumbnail}" src ="${myWatchList.videofile}" preload="none"></video>
+              <div class="upload-overlay">
+                <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+              </div>
+              <div class="upload-info">
+                  <h6><a href="/channel?profile=${unesChannel}" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
+                <h5>${unesTitle}</h5>
+              </div>
+            </div>
+`).data("myWatchList", myWatchList);
+  $(".later-videos").append(laterVids);
+
+  $(laterVids).on("click", "h6", function () {
+    let channelView = $(this).closest(".card").data("myWatchList");
+    let id = channelView.channelid;
+    localStorage.setItem("visitingChannelID", id);
+    let channelname = channelView.channelname;
+    localStorage.setItem("visitingChannel", channelname);
+  });
+
+  $(laterVids).on("click", ".fa-play", async function (event) {
+    event.preventDefault();
+    $(".feature-info").empty();
+    $(".feature-presentation").empty();
+    let videoUpload = $(this).closest(".card").data("myWatchList");
+    let uuid = videoUpload.video_uuid;
+    localStorage.setItem("videoID", uuid);
+    window.location.href = `/theater`;
+  });
+	  
+  	  
+  })
+  
 
   return laterVids;
 }
