@@ -22,12 +22,13 @@ async function checkToken() {
       },
     });
     const data = await response.json();
-	  console.log(data)
+	if(data.name === "TokenExpiredError"){
+	localStorage.clear();
+        window.location.href = "login";
+	}
     return data.user;
   } catch (error) {
     console.log(error);
-    localStorage.clear();
-    window.location.href = "login";
     response.status(400).send(error);
   }
 }
