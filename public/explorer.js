@@ -120,14 +120,15 @@ $('.dropdown').toggleClass('active');
 })
 	
   let profileInfo = $(`
-      <img src=src="${
+      <img src="${
     profile[0].profile_avatar
       ? profile[0].profile_avatar
       : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-  }" />
+  }" alt="user-avatar"/>
     <div class="profile-info">
     <h3>${profile[0].username}</h3>
     <h3>${profile[0].email}</h3>
+    </div>
 
   `);
   $(".dropdown .userinfo").append(profileInfo);	
