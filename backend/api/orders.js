@@ -84,6 +84,7 @@ ordersRouter.post(
         }
       );
       console.log(session);
+      console.log('SessionID', session.id)
       res.json({ url: session.url, id: session.id });
     } catch (error) {
       console.log(error);
