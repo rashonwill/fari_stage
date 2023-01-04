@@ -196,7 +196,7 @@ accountRouter.post(
             message: "Welcome to Fari!",
             token,
           });
-        } else {
+        } else if(!user) {
           next({
             error: "IncorrectCredentialsError",
             message: "Your username or password is invalid.",
