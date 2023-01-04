@@ -105,15 +105,18 @@ async function getUserProfile() {
 
 function dashboardAvi(profile) {
   let profilePic = $(`
-  <a href="/profile" aria-label="My Profile">
-  <img src="${
+  <img id="profile-picture" src="${
     profile[0].profile_avatar
       ? profile[0].profile_avatar
       : "https://drotje36jteo8.cloudfront.net/noAvi.png"
   }" alt="userAvatar" />
-  </a>
+
   `);
   $(".header .loggedIn").append(profilePic);
+	
+$(profilePic).on('click', 'profile-picture', async function(){
+$('.dropdown').toggleClass('active');
+})
 }
 
 async function getChannel() {
