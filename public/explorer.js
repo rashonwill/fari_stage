@@ -7,6 +7,8 @@ const myToken = localStorage.getItem("fariToken");
   $(".main-content #title").text("Discover");
   if (!myToken || myToken === null) {
     window.location.href = "login";
+  }else{
+  checkToken();
   }
 })();
 
