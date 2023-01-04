@@ -115,7 +115,7 @@ function dashboardAvi(profile) {
   `);
   $(".header .loggedIn").append(profilePic);
 	
-$(profilePic).on('click', '#profile-picture', function(){
+$(profilePic).on('click', '.loggedIn', function(){
 	console.log('clicking pic')
 $('.dropdown').toggleClass('active');
 })
