@@ -64,7 +64,6 @@ $("#logout").click(function () {
 });
 
 $('.loggedIn').click(async function () {
-	
 $('.dropdown').toggleClass("active");
 
 });
@@ -120,12 +119,6 @@ function dashboardAvi(profile) {
 
   `);
   $(".header .loggedIn").append(profilePic);
-	
-$(profilePic).on("click", ".loggedIn", async function () {
-	
-$('.dropdown').toggleClass("active");
-
-});
 	
 }
 
