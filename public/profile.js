@@ -6,6 +6,8 @@ const myToken = localStorage.getItem("fariToken");
   $("#videos").addClass("selected");
   if (!myToken || myToken === null) {
     window.location.href = "/login";
+  }else{
+  checkToken()
   }
 })();
 
@@ -19,11 +21,13 @@ async function checkToken() {
       },
     });
     const data = await response.json();
+	  	if(data.name === "TokenExpiredError"){
+	localStorage.clear();
+        window.location.href = "login";
+	}
     return data.user;
   } catch (error) {
     console.log(error);
-    localStorage.clear();
-    window.location.href = "login";
     response.status(400).send(error);
   }
 }
