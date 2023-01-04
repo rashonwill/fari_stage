@@ -85,6 +85,7 @@ async function getUserProfile() {
       },
     });
     const data = await response.json();
+	  console.log(data)
     if (data.profile.length > 0) {
       localStorage.setItem("userID", data.profile[0].userid);
       localStorage.setItem("userUsername", data.profile[0].username);
@@ -117,6 +118,19 @@ function dashboardAvi(profile) {
 $(profilePic).on('click', 'profile-picture', async function(){
 $('.dropdown').toggleClass('active');
 })
+	
+  let profileInfo = $(`
+      <img src=src="${
+    profile[0].profile_avatar
+      ? profile[0].profile_avatar
+      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+  }" />
+    <div class="profile-info">
+    <h3>${profile[0].username}</h3>
+    <h3>${profile[0].email}</h3>
+
+  `);
+  $(".dropdown .userinfo").append(profileInfo);	
 }
 
 async function getChannel() {
