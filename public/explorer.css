@@ -148,6 +148,56 @@ body::-webkit-scrollbar-corner {
     font-family: 'Teko';
 }
 
+.dropdown{
+  background: rgba(255, 255, 255, 0.1);
+  width: 350px;
+  height: 550px;
+  border-radius: 10px;
+  z-index: 20;
+  padding: 10px;
+  color: #fdfbf9;
+  font-family: 'teko';
+  letter-spacing: 0.02rem;
+}
+
+.userinfo {
+  display: flex;
+  margin: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5)
+}
+
+.userinfo h3{
+  font-size: 18px;
+}
+
+.userinfo img{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.dropdown ul li{
+  list-style-type: none;
+   cursor: pointer;
+  margin: 1rem;
+}
+
+.dropdown a{
+  color: #dddddd;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dropdown i{
+  margin: 10px;
+}
+
+.dropdown-options{
+  height: 100px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5)
+}
+
 i#main-view-bars {
     color: #dddddd;
     position: absolute;
