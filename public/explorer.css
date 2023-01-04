@@ -242,12 +242,12 @@ i#mobile-view-bars {
 
 
 .search {
-    width: 30rem;
+    width: 40rem;
     margin: 0.5rem auto;
 }
 
 .search input {
-    width: 30rem;
+    width: 40rem;
     height: 2.5rem;
     border-radius: 10px;
     outline: none;
