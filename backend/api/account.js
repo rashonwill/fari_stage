@@ -189,7 +189,7 @@ accountRouter.post(
         const user = await getUser({ username, password });
         if (user) {
           const token = jwt.sign(user, process.env.JWT_SECRET, {
-            expiresIn: "10m",
+            expiresIn: "15d",
           });
           next({
             success: "SuccsessfulLogin",
