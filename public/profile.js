@@ -11,7 +11,7 @@ const myToken = localStorage.getItem("fariToken");
 
 async function checkToken() {
   try {
-    const response = await fetch(`${FARI_API}/users/token`, {
+    const response = await fetch(`${FARI_API}/account/token`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
