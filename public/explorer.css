@@ -149,7 +149,7 @@ body::-webkit-scrollbar-corner {
 }
 
 .dropdown{
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.8);
   width: 350px;
   height: 550px;
   border-radius: 10px;
@@ -159,7 +159,7 @@ body::-webkit-scrollbar-corner {
   font-family: 'teko';
   letter-spacing: 0.02rem;
     transition: 0.4s;
-    transform: scale(0);
+/*     transform: scale(0); */
     position: absolute;
     right: 2%;
     top: 50%;
