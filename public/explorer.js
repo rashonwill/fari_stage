@@ -63,6 +63,12 @@ $("#logout").click(function () {
   window.location.href = "index";
 });
 
+$('.loggedIn').click(async function () {
+	
+$('.dropdown').toggleClass("active");
+
+});
+
 $(".menu .content-sort li").click(function () {
   let selected = $(this);
   selected.addClass("selected").siblings().removeClass("selected");
@@ -110,14 +116,16 @@ function dashboardAvi(profile) {
     profile[0].profile_avatar
       ? profile[0].profile_avatar
       : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-  }" alt="userAvatar" id="profilepicture" />
+  }" alt="userAvatar" id="profile-picture" />
 
   `);
   $(".header .loggedIn").append(profilePic);
 	
-$(profilePic).on('click', '#profilepicture', function(){
-$('.dropdown').toggleClass('active');
-})
+$(profilePic).on("click", ".loggedIn", async function () {
+	
+$('.dropdown').toggleClass("active");
+
+});
 	
 }
 
