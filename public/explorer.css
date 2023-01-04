@@ -150,7 +150,7 @@ body::-webkit-scrollbar-corner {
 
 .dropdown{
   background: rgba(5, 5, 41, 0.85);
-  width: 350px;
+  width: 360px;
   height: 550px;
   border-radius: 10px;
   z-index: 20;
@@ -162,9 +162,9 @@ body::-webkit-scrollbar-corner {
   transition: 0.4s;
   transform: scale(0);
   position: absolute;
-  right: 2%;
+  right: 1%;
   top: 75%;
-      background-color: hsla(240, 80%, 9%, .95);
+      background-color: hsla(240, 80%, 9%, 1);
     background-image:
         radial-gradient(at 91% 79%, hsla(240, 0%, 96%, 0.2) 0px, transparent 50%),
         radial-gradient(at 0% 0%, hsla(0, 0%, 96%, 0.2) 0px, transparent 50%);  
