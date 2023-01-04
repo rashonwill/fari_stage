@@ -55,7 +55,7 @@ $("#watchlist-videos").click(() => {
   $("#favorite-videos").removeClass("selected");
   $(".fav-videos").css("display", "none");
 
-  getWatchList().then(renderlaterVids);
+  getWatchList().then(renderLaterVideos);
 });
 
 $("#favorite-videos").click(() => {
