@@ -149,7 +149,7 @@ body::-webkit-scrollbar-corner {
 }
 
 .dropdown{
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.8);
   width: 350px;
   height: 550px;
   border-radius: 10px;
@@ -162,7 +162,7 @@ body::-webkit-scrollbar-corner {
     transform: scale(0);
     position: absolute;
     right: 2%;
-    top: 10%;
+    top: 50%;
 }
 
 .dropdown.active{
