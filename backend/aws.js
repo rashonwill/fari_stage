@@ -114,6 +114,7 @@ function uploadPhotos(file) {
     Body: fileStream,
     Key: file.filename,
     ContentType: file.mimetype,
+    ContentDisposition: 'inline',
   };
 
   return s3.upload(uploadParams).promise();
