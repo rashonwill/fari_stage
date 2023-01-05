@@ -332,18 +332,19 @@ form input {
 
 .terms {
     display: flex;
-    width: 30%;
     font-family: 'Teko';
     margin-top: 20px;
     justify-content: center;
     align-items: center;
     padding: 8px;
+    
 }
 
 .terms #termsofuse{
   width: 20px;
   height: 20px;  
-  box-shadow: inset 2px 2px 4px lightgrey, inset -2px -2px 4px whitesmoke;  
+  box-shadow: inset 2px 2px 4px lightgrey, inset -2px -2px 4px whitesmoke; 
+  margin-right: 5px;
 }
 
 
@@ -419,11 +420,6 @@ form input {
         font-size: 20px;
     }
     
-   .terms {
-    width: 60%;
-
-}
-
 
 }
 
@@ -460,11 +456,6 @@ form input {
         font-size: 20px;
     }
     
-       .terms {
-    width: 60%;
-
-}
-
 
 
 
