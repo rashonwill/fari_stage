@@ -3,11 +3,35 @@ let TOKEN;
 
 (function () {
   $("#login").addClass("selected");
+  checkToken();
+})();
+
+async function checkToken() {
+  try {
+    const response = await fetch(`${FARI_API}/account/token`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${myToken}`,
+      },
+    });
+    const data = await response.json();
+	if(data.name === "TokenExpiredError"){
+	localStorage.clear();
+  window.location.href = "login";
+	}else{
   let setUser = localStorage.getItem("fariToken");
   if (setUser) {
     window.location.href = "/explorer";
   }
-})();
+  
+  }
+    return data.user;
+  } catch (error) {
+    console.log(error);
+    response.status(400).send(error);
+  }
+}
 
 $("#login").on("click", () => {
   $(".message").empty();
