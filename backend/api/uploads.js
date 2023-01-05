@@ -67,7 +67,7 @@ uploadsRouter.put(
         try {
           const result1 = await uploadPhotos(pic2);
           const updateData = {
-            profile_poster: cloudfront + "/" + result1.Key,
+            profile_poster: cloudfront + result1.Key,
           };
 
           const updatedchannel = await updatePoster(channelname, updateData);
@@ -111,7 +111,7 @@ uploadsRouter.put(
         try {
           const result = await uploadPhotos(pic1);
           const updatedAvi = {
-            profile_avatar: cloudfront + "/" + result.Key,
+            profile_avatar: cloudfront + result.Key,
           };
           const updatedchannel = await updateAvatar(channelname, updatedAvi);
           res.send({ channel: updatedchannel });
@@ -178,9 +178,9 @@ uploadsRouter.post(
           const uploadData = {
             channelID: channelid,
             channelname: channelname,
-            videoFile: cloudfront + "/" + video1.Key,
+            videoFile: cloudfront + video1.Key,
             videoKey: video1.Key,
-            videoThumbnail: cloudfront + "/" + thumbnail1.Key,
+            videoThumbnail: cloudfront + thumbnail1.Key,
             thumbnailKey: thumbnail1.Key,
             videoTitle: title,
             videoDescription: description,
