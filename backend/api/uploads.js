@@ -173,6 +173,7 @@ uploadsRouter.post(
       ) {
         try {
           const video1 = await uploadVideo(vid);
+          console.log(video1)
           const thumbnail1 = await uploadPhotos(thumbnail);
 
           const uploadData = {
