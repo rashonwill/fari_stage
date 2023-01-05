@@ -92,10 +92,8 @@ function uploadVideo(file) {
     Bucket: bucketName,
     Body: fileStream,
     Key: file.filename,
-      Metadata: {
-    'Content-Type': 'video/mp4',
-    'Content-Disposition': 'inline',    
-  },
+    ContentType: 'video/mp4',
+    ContentDisposition: 'inline',
   };
   const options = {
     partSize: 10 * 1024 * 1024,
