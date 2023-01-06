@@ -54,7 +54,7 @@ ordersRouter.post(
         {
           payment_method_types: ["card"],
           payment_intent_data: {
-            application_fee_amount: 100,
+//             application_fee_amount: 100,
             receipt_email: customeremail,
           },
           line_items: req.body.items.map((item) => {
