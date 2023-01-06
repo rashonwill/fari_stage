@@ -380,7 +380,7 @@ function renderPost(channelUploads, index) {
 
       let purchasingFilm = {
         uuid: videoView.uuid,
-        name: videoView.videotitle,
+        name: _.unescape(videoView.videotitle),
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
         quantity: 1,
