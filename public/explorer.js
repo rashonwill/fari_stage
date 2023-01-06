@@ -419,7 +419,7 @@ function renderPayMedia(uploads) {
 
       let purchasingFilm = {
         video_uuid: videoView.uuid,
-        name: videoView.videotitle,
+        name: _.unescape(videoView.videotitle),
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
         quantity: 1,
@@ -698,7 +698,7 @@ function renderSubsVids(subscriptionUploads) {
 
       let purchasingFilm = {
         uuid: videoView.uuid,
-        name: videoView.videotitle,
+        name: _.unescape(videoView.videotitle),
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
         quantity: 1,
@@ -1784,7 +1784,7 @@ function renderVideoSearchResults(videos) {
 
       let purchasingFilm = {
         video_uuid: videoView.uuid,
-        name: videoView.videotitle,
+        name: _.unescape(videoView.videotitle),
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
         quantity: 1,
