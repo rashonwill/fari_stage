@@ -578,7 +578,7 @@ async function checkoutSessionStripe() {
   const purchaseItems = JSON.parse(localStorage.getItem("videoPurchase"));
   const stripe_acct = localStorage.getItem("productStripeAccount");
   const vendoremail = localStorage.getItem("vendorEmail");
-  const customeremail localStorage.getItem('userEmail');
+  const customeremail = localStorage.getItem('userEmail');
   fetch(`${FARI_API}/orders/stripe-checkout/rental`, {
     method: "POST",
     headers: {
