@@ -109,6 +109,7 @@ exports.uploadVideo = uploadVideo;
 
 function uploadPhotos(file) {
   const fileStream = fs.createReadStream(file.path);
+  console.log(fileStream)
   const uploadParams = {
     Bucket: bucketName,
     Body: fileStream,
