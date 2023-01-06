@@ -56,6 +56,7 @@ ordersRouter.post(
           payment_intent_data: {
 //             application_fee_amount: 100,
             receipt_email: customeremail,
+            on_behalf_of: stripeAcctID,
           },
           line_items: req.body.items.map((item) => {
             return {
@@ -83,7 +84,6 @@ ordersRouter.post(
         }
       );
       console.log(session);
-      console.log('SessionID', session.id)
       res.json({ url: session.url, id: session.id });
     } catch (error) {
       console.log(error);
