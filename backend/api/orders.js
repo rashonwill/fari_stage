@@ -1,7 +1,7 @@
 const express = require("express");
 const ordersRouter = express.Router();
 const { requireUser } = require("./utils");
-const stripe = require("stripe")(process.env.STRIPE_BUSINESS_SECRET);
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const rateLimiter = require("./ratelimiter");
 
 const { createMovieOrders } = require("../db");
