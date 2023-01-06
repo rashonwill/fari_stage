@@ -48,14 +48,14 @@ ordersRouter.post(
   rateLimiter({ secondsWindow: 15, allowedHits: 2 }),
   async (req, res) => {
     const stripeAcctID = req.body.stripe_acct;
-    const vendoremail = req.body.vendoremail;
+    const customeremail = req.body.customeremail;
     try {
       const session = await stripe.checkout.sessions.create(
         {
           payment_method_types: ["card"],
           payment_intent_data: {
             application_fee_amount: 100,
-            receipt_email: vendoremail,
+            receipt_email: customeremail,
           },
           line_items: req.body.items.map((item) => {
             return {
