@@ -109,7 +109,6 @@ ordersRouter.post('/webhooks/fari', express.raw({ type: 'application/json' }), a
     const session = event.data.object;
 
     // Fulfill the purchase...
-    updateOrderStatus(session.FariOrderID);
   }
 
   response.status(200);
