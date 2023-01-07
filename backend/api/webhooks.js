@@ -1,5 +1,5 @@
 const express = require("express");
-const webhookRouter = express();
+const webhookRouter = express.Router();
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const { WEBHOOK_SECRET } = process.env;
