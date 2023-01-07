@@ -97,12 +97,13 @@ ordersRouter.post(
 
 ordersRouter.post('/webhooks/fari', express.raw({ type: 'application/json' }), async (request, response) => {
   const sig = request.headers['stripe-signature'];
-  const payload = request.body
+  const payload = JSON.parse(request.body)
   console.log('sig', sig)
   console.log('payload', payload)
    let event;
    try {
     event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+     console.log('event', event)
   } catch (err) {
     console.log(err)
     return response.status(400).send(`Webhook Error: ${err.message}`);
