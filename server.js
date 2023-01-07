@@ -20,7 +20,7 @@ server.use(express.static("public", { extensions: ["html"] }));
 server.use(express.urlencoded({ extended: false, limit: "1kb" }));
 // server.use(express.json({ limit: "100mb" }));
 server.use((req, res, next) => {
-  if (req.originalUrl === '/webhook') {
+  if (req.originalUrl === '/webhooks') {
     next(); //
   } else {
     express.json({ limit: "100mb" })(req, res, next);
