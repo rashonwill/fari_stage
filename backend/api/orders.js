@@ -3,6 +3,7 @@ const ordersRouter = express.Router();
 const { requireUser } = require("./utils");
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const rateLimiter = require("./ratelimiter");
+const bodyParser = require("body-parser");
 
 const endpointSecret = process.env.WEBHOOK_SECRET;
 
@@ -95,7 +96,7 @@ ordersRouter.post(
 
 
 
-ordersRouter.post('/webhooks/fari', express.raw({ type: 'application/json' }), async (request, response) => {
+ordersRouter.post('/webhooks/fari', bodyParser.raw({ type: 'application/json' }), async (request, response) => {
   const sig = request.headers['stripe-signature'];
   const payload = JSON.stringify(request.body)
   console.log('sig', sig)
