@@ -111,10 +111,9 @@ ordersRouter.post('/webhook', express.raw({ type: 'application/json' }), async (
   console.log('sig', sig)
   console.log('payload', payload)
   console.log('secret', WEBHOOK_SECRET);
-   let event;
+  let event;
    try {
     event = stripe.webhooks.constructEvent(payload, sig, WEBHOOK_SECRET);
-     console.log('event', event)
   } catch (err) {
     console.log(err)
     return response.status(400).send(`Webhook Error: ${err.message}`);
