@@ -65,8 +65,8 @@ apiRouter.use("/uploads", uploadsRouter);
 const subscriptionsRouter = require("./subscriptions");
 apiRouter.use("/subscriptions", subscriptionsRouter);
 
-const app = require("./webhooks");
-apiRouter.use("/webhooks", app);
+const webhookRouter = require("./webhooks");
+apiRouter.use("/webhooks", webhookRouter);
 
 apiRouter.use((error, req, res, next) => {
   res.send(error);
