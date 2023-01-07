@@ -92,7 +92,7 @@ ordersRouter.post(
 //Webhooks
 
 
-ordersRouter.post('/webhooks/fari', bodyParser.raw({ type: 'application/json' }), async (request, response) => {
+ordersRouter.post('/webhooks/fari', express.raw({ type: 'application/json' }), async (request, response) => {
   const endpointSecret = process.env.WEBHOOK_SECRET;
   const sig = request.headers['stripe-signature'];
   console.log(sig)
@@ -115,7 +115,7 @@ ordersRouter.post('/webhooks/fari', bodyParser.raw({ type: 'application/json' })
   response.status(200);
 })
 
-ordersRouter.post('/webhooks/fari-business', bodyParser.raw({ type: 'application/json' }), async (request, response) => {
+ordersRouter.post('/webhooks/fari-business', express.raw({ type: 'application/json' }), async (request, response) => {
   const endpointSecret = process.env.WEBHOOK_BUSINESS_SECRET;
   const sig = request.headers['stripe-signature'];
   console.log(sig)
