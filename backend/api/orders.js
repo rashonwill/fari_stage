@@ -5,7 +5,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const rateLimiter = require("./ratelimiter");
 const bodyParser = require("body-parser");
 
-const endpointSecret = process.env.WEBHOOK_SECRET;
+const { WEBHOOK_SECRET } = process.env;
 
 const { createMovieOrders } = require("../db");
 
@@ -97,13 +97,14 @@ ordersRouter.post(
 
 
 ordersRouter.post('/webhooks/fari', bodyParser.raw({ type: 'application/json' }), async (request, response) => {
-  const sig = (request.headers["Stripe-Signature"] || "").replace(/\[|]/gi, "");
+  const sig = request.headers["Stripe-Signature"];
   const payload = request.body
   console.log('sig', sig)
   console.log('payload', payload)
+  console.log('secret', WEBHOOK_SECRET);
    let event;
    try {
-    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(payload, sig, WEBHOOK_SECRET);
      console.log('event', event)
   } catch (err) {
     console.log(err)
