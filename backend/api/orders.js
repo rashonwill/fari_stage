@@ -9,6 +9,15 @@ const { WEBHOOK_SECRET } = process.env;
 
 const { createMovieOrders } = require("../db");
 
+// Use JSON parser for all non-webhook routes
+ordersRouter.use((req, res, next) => {
+  if (req.originalUrl === '/webhook') {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
+
 ordersRouter.post(
   "/create/movieorder",
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
@@ -96,7 +105,7 @@ ordersRouter.post(
 
 
 
-ordersRouter.post('/webhooks/fari', bodyParser.raw({ type: 'application/json' }), async (request, response) => {
+ordersRouter.post('/webhook', bodyParser.raw({ type: 'application/json' }), async (request, response) => {
   const sig = request.headers['stripe-signature'];
   const payload = request.body
   console.log('sig', sig)
