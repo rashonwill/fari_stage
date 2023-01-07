@@ -99,14 +99,14 @@ ordersRouter.post(
 
 
 ordersRouter.post('/webhook', express.raw({type: "*/*"}), async (request, response) => {
-  const sig = request.headers['stripe-signature'];
+//   const sig = request.headers['stripe-signature'];
   const payload = request.body
   console.log('sig', sig)
   console.log('payload', payload)
   console.log('secret', WEBHOOK_SECRET);
   let event;
    try {
-    event = stripe.webhooks.constructEvent(payload, sig, WEBHOOK_SECRET);
+    event = stripe.webhooks.constructEvent(payload, WEBHOOK_SECRET);
   } catch (err) {
     console.log(err)
     return response.status(400).send(`Webhook Error: ${err.message}`);
