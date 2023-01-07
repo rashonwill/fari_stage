@@ -1,5 +1,6 @@
 const FARI_API = "https://fari-stage.herokuapp.com/api";
 let TOKEN;
+const myToken = localStorage.getItem("fariToken");
 
 (function () {
   $("#login").addClass("selected");
