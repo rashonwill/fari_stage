@@ -103,7 +103,7 @@ ordersRouter.post('/webhooks/fari', bodyParser.raw({ type: 'application/json' })
   console.log('payload', payload)
    let event;
    try {
-    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(payload, JSON.parse(sig), endpointSecret);
      console.log('event', event)
   } catch (err) {
     console.log(err)
