@@ -9,14 +9,7 @@ const { WEBHOOK_SECRET } = process.env;
 
 const { createMovieOrders } = require("../db");
 
-// Use JSON parser for all non-webhook routes
-ordersRouter.use((req, res, next) => {
-  if (req.originalUrl === '/webhook') {
-    next();
-  } else {
-    express.json()(req, res, next);
-  }
-});
+
 
 ordersRouter.post(
   "/create/movieorder",
@@ -170,6 +163,14 @@ ordersRouter.post('/webhooks/fari-business', express.raw({ type: 'application/js
 
   response.status(200);
 })
+
+ordersRouter.use((req, res, next) => {
+  if (req.originalUrl === '/webhook') {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 
 
 module.exports = ordersRouter;
