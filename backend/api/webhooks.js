@@ -1,5 +1,5 @@
 const express = require("express");
-const webhookRouter = express.Router();
+const webhookRouter = express();
 
 const { buffer } = require("micro");
 
