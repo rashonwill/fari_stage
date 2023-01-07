@@ -4,6 +4,8 @@ const { requireUser } = require("./utils");
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const rateLimiter = require("./ratelimiter");
 
+const endpointSecret = process.env.WEBHOOK_SECRET;
+
 const { createMovieOrders } = require("../db");
 
 ordersRouter.post(
@@ -92,13 +94,15 @@ ordersRouter.post(
 //Webhooks
 
 
+
 ordersRouter.post('/webhooks/fari', express.raw({ type: 'application/json' }), async (request, response) => {
-  const endpointSecret = process.env.WEBHOOK_SECRET;
   const sig = request.headers['stripe-signature'];
-  console.log(sig)
+  const payload = request.body
+  console.log('sig', sig)
+  console.log('payload', payload)
    let event;
    try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
   } catch (err) {
     console.log(err)
     return response.status(400).send(`Webhook Error: ${err.message}`);
