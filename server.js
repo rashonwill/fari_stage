@@ -34,9 +34,9 @@ server.use(helmet());
 const cors = require("cors");
 server.use(cors({ origin: "*" }));
 
-// const bodyParser = require("body-parser");
-// server.use(bodyParser.json({ limit: "20mb" }));
-// server.use(bodyParser.urlencoded({ extended: false, limit: "20mb" }));
+const bodyParser = require("body-parser");
+server.use(bodyParser.json({ limit: "20mb" }));
+server.use(bodyParser.urlencoded({ extended: false, limit: "20mb" }));
 
 server.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", process.env.ORIGIN_URL);
