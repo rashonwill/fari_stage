@@ -105,7 +105,7 @@ ordersRouter.post(
 
 
 
-ordersRouter.post('/webhook', bodyParser.raw({ type: 'application/json' }), async (request, response) => {
+ordersRouter.post('/webhook', express.raw({ type: 'application/json' }), async (request, response) => {
   const sig = request.headers['stripe-signature'];
   const payload = request.body
   console.log('sig', sig)
