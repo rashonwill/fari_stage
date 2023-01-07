@@ -89,4 +89,72 @@ ordersRouter.post(
   }
 );
 
+//Webhooks
+
+
+ordersRouter.post('/webhooks/fari', bodyParser.raw({ type: 'application/json' }), async (request, response) => {
+  const endpointSecret = process.env.WEBHOOK_SECRET;
+  const sig = request.headers['stripe-signature'];
+  console.log(sig)
+   let event;
+   try {
+    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+  } catch (err) {
+    console.log(err)
+    return response.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the checkout.session.completed event
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+
+    // Fulfill the purchase...
+    updateOrderStatus(session.FariOrderID);
+  }
+
+  response.status(200);
+})
+
+ordersRouter.post('/webhooks/fari-business', bodyParser.raw({ type: 'application/json' }), async (request, response) => {
+  const endpointSecret = process.env.WEBHOOK_BUSINESS_SECRET;
+  const sig = request.headers['stripe-signature'];
+  console.log(sig)
+   let event;
+   try {
+    event = stripe2.webhooks.constructEvent(request.body, sig, endpointSecret);
+  } catch (err) {
+    console.log(err)
+    return response.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the checkout.session.completed event
+//   if (event.type === 'checkout.session.completed') {
+//     const session = event.data.object;
+   
+//      const priceID = 'price_1L1BVrF7h5B228czlK6zy2db'
+// //  const { accountid } = req.params;
+//   let accountid = req.body.accountid
+  
+//  const subscription = await stripe2.subscriptions.create({
+//   customer: accountid,
+//   items: [
+//     {
+//       price: priceID,
+//     },
+//   ],
+//   expand: ["latest_invoice.payment_intent"],
+//   application_fee_percent: 10,
+// }, {
+//   stripeAccount: customer,
+
+// });
+
+//     // Fulfill the purchase...
+//    registerVendor(session.FariVendorID)
+//   }
+
+  response.status(200);
+})
+
+
 module.exports = ordersRouter;
