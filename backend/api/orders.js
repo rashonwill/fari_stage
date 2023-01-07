@@ -97,7 +97,7 @@ ordersRouter.post(
 
 ordersRouter.post('/webhooks/fari', express.raw({ type: 'application/json' }), async (request, response) => {
   const sig = request.headers['stripe-signature'];
-  const payload = JSON.parse(request.body)
+  const payload = JSON.stringify(request.body)
   console.log('sig', sig)
   console.log('payload', payload)
    let event;
