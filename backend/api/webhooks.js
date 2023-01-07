@@ -15,7 +15,7 @@ webhookRouter.post(
   express.raw({ type: "application/json" }),
   async (request, response) => {
     const sig = request.headers["stripe-signature"];
-    const payload = request.rawBody;
+    const payload = request.rawbody;
     // const payload = await buffer(request.rawBody);
     console.log("sig", sig);
     console.log("payload", payload);
