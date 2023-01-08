@@ -26,14 +26,12 @@ async function createOrder(session) {
       video_uuid: uuid,
     };
 
+    console.log(rentalOrder);
+
     const movieRental = await createMovieOrders(rentalOrder);
-    res.send({ movieRental });
+    res.send({ order: movieRental });
   } catch (error) {
     console.log(error);
-    next({
-      name: "ErrorGettingRentals",
-      message: "Ooops, could not create movie order",
-    });
   }
 }
 
@@ -58,8 +56,10 @@ async function createWatchlistAdd(session) {
     video_uuid: vidID,
     paidtoview: true,
   };
+
+  console.log(laterBody);
   try {
-    let watchlistadd = await createWatchlistVideo(laterData);
+    let watchlistadd = await createWatchlistVideo(laterBody);
     res.send({ myWatchLaters: watchlistadd });
   } catch (error) {
     console.log(error);
