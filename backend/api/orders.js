@@ -54,6 +54,7 @@ ordersRouter.post(
     const customeremail = req.body.customeremail;
     const vendoremail = req.body.vendoremail;
     const items = req.body.items;
+    console.log(items);
     try {
       const session = await stripe.checkout.sessions.create(
         {
@@ -90,22 +91,18 @@ ordersRouter.post(
           mode: "payment",
           success_url: process.env.SUCCESS_URL,
           cancel_url: process.env.CANCEL_URL,
-          metadata: JSON.stringify(
-            items.map((item) => {
-              return {
-                vendor: item.vendor,
-                price: item.price,
-                channelid: item.channelid,
-                userid: item.buyerid,
-                videofile: item.videofile,
-                views: item.views,
-                videoid: item.video_uuid,
-                title: item.name,
-                thumbnail: item.image,
-                email: vendoremail,
-              };
-            })
-          ),
+          metadata: {
+            vendor: items[0].vendor,
+            price: items[0].price,
+            channelid: items[0].channelid,
+            userid: items[0].buyerid,
+            videofile: items[0].videofile,
+            views: items[0].views,
+            videoid: items[0].video_uuid,
+            title: items[0].name,
+            thumbnail: items[0].image,
+            email: vendoremail,
+          },
         },
         {
           stripeAccount: stripeAcctID,
