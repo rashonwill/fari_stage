@@ -96,7 +96,9 @@ ordersRouter.post(
             userid: req.body.items.map((item) => item.buyerid),
             videofile: req.body.items.map((item) => item.videofile),
             views: req.body.items.map((item) => item.views),
-            videoid: req.body.items.map((item) => item.video_uuid),
+            videoid: req.body.items.map((item) =>
+              JSON.stringfy(item.video_uuid)
+            ),
             title: req.body.items.map((item) => item.title),
             thumbnail: req.body.items.map((item) => item.image),
             email: vendoremail,
