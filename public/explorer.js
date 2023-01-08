@@ -409,25 +409,24 @@ function renderPayMedia(uploads) {
       let videoArr = [];
       let videoView = $(this).closest(".card").data("uploads");
       let id = videoView.uuid;
-      let channelid = videoView.channelid;
       localStorage.setItem("videoID", id);
-      let videofile = videoView.videofile;
-      let views = videoView.videoviewcount;
+
       let price = videoView.rental_price;
       localStorage.setItem("ticketPrice", price);
 
       let purchasingFilm = {
         video_uuid: videoView.uuid,
         name: _.unescape(videoView.videotitle),
+        title: videoView.videotitle,
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
         quantity: 1,
         price: videoView.rental_price,
         total: videoView.rental_price,
-        channelid: channelid,
+        channelid: videoView.channelid,
         buyerid: localStorage.getItem("userID"),
-        videofile: videofile,
-        views: views,
+        videofile: videoView.videofile,
+        views: videoView.videoviewcount,
       };
 
       videoArr.push(purchasingFilm);
@@ -700,13 +699,18 @@ function renderSubsVids(subscriptionUploads) {
       localStorage.setItem("ticketPrice", price);
 
       let purchasingFilm = {
-        uuid: videoView.uuid,
+        video_uuid: videoView.uuid,
         name: _.unescape(videoView.videotitle),
+        title: videoView.videotitle,
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
         quantity: 1,
         price: videoView.rental_price,
         total: videoView.rental_price,
+        channelid: channelid,
+        buyerid: localStorage.getItem("userID"),
+        videofile: videofile,
+        views: views,
       };
 
       videoArr.push(purchasingFilm);
@@ -1788,11 +1792,16 @@ function renderVideoSearchResults(videos) {
       let purchasingFilm = {
         video_uuid: videoView.uuid,
         name: _.unescape(videoView.videotitle),
+        title: videoView.videotitle,
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
         quantity: 1,
         price: videoView.rental_price,
         total: videoView.rental_price,
+        channelid: channelid,
+        buyerid: localStorage.getItem("userID"),
+        videofile: videofile,
+        views: views,
       };
 
       videoArr.push(purchasingFilm);

@@ -379,13 +379,18 @@ function renderPost(channelUploads, index) {
       localStorage.setItem("ticketPrice", price);
 
       let purchasingFilm = {
-        uuid: videoView.uuid,
+        video_uuid: videoView.uuid,
         name: _.unescape(videoView.videotitle),
+        title: videoView.videotitle,
         image: videoView.videothumbnail,
         vendor: videoView.channelname,
         quantity: 1,
         price: videoView.rental_price,
         total: videoView.rental_price,
+        channelid: channelid,
+        buyerid: localStorage.getItem("userID"),
+        videofile: videofile,
+        views: views,
       };
 
       videoArr.push(purchasingFilm);
@@ -578,14 +583,19 @@ async function checkoutSessionStripe() {
   const purchaseItems = JSON.parse(localStorage.getItem("videoPurchase"));
   const stripe_acct = localStorage.getItem("productStripeAccount");
   const vendoremail = localStorage.getItem("vendorEmail");
-  const customeremail = localStorage.getItem('userEmail');
+  const customeremail = localStorage.getItem("userEmail");
   fetch(`${FARI_API}/orders/stripe-checkout/rental`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${myToken}`,
     },
-    body: JSON.stringify({ items: purchaseItems, stripe_acct, vendoremail, customeremail }),
+    body: JSON.stringify({
+      items: purchaseItems,
+      stripe_acct,
+      vendoremail,
+      customeremail,
+    }),
   })
     .then((res) => {
       if (res.ok) return res.json();

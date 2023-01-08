@@ -54,7 +54,6 @@ ordersRouter.post(
     const customeremail = req.body.customeremail;
     const vendoremail = req.body.vendoremail;
     const items = req.body.items;
-    console.log(items);
     try {
       const session = await stripe.checkout.sessions.create(
         {
@@ -78,7 +77,7 @@ ordersRouter.post(
                     videofile: item.videofile,
                     views: item.views,
                     videoid: item.video_uuid,
-                    title: item.name,
+                    title: item.title,
                     thumbnail: item.image,
                     email: vendoremail,
                   },
@@ -99,7 +98,7 @@ ordersRouter.post(
             videofile: items[0].videofile,
             views: items[0].views,
             videoid: items[0].video_uuid,
-            title: items[0].name,
+            title: items[0].title,
             thumbnail: items[0].image,
             email: vendoremail,
           },
