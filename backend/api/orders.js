@@ -93,6 +93,8 @@ ordersRouter.post(
           stripeAccount: stripeAcctID,
         }
       );
+
+      console.log(session);
       res.json({ url: session.url, id: session.id });
     } catch (error) {
       console.log(error);
