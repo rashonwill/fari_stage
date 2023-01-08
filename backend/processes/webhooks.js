@@ -1,8 +1,6 @@
 const express = require("express");
 const webhookRouter = express();
 
-const { buffer } = require("micro");
-
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const { WEBHOOK_SECRET } = process.env;
 
@@ -15,8 +13,7 @@ webhookRouter.post(
   express.raw({ type: "application/json" }),
   async (request, response) => {
     const sig = request.headers["stripe-signature"];
-    const payload = request.rawbody;
-    // const payload = await buffer(request.rawBody);
+    const payload = request.body;
     console.log("sig", sig);
     console.log("payload", payload);
     console.log("secret", WEBHOOK_SECRET);
