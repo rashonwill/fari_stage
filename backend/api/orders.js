@@ -101,6 +101,7 @@ ordersRouter.post(
             title: items[0].title,
             thumbnail: items[0].image,
             email: vendoremail,
+            product_name: items[0].name,
           },
         },
         {
