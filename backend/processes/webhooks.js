@@ -26,7 +26,7 @@ async function createOrder(session) {
       video_uuid: uuid,
     };
 
-    // console.log("rentalorder", rentalOrder);
+    console.log("rentalorder", rentalOrder);
 
     const movieRental = await createMovieOrders(rentalOrder);
     console.log({ order: movieRental });
@@ -58,7 +58,7 @@ async function createWatchlistAdd(session) {
     paidtoview: true,
   };
 
-  // console.log("watchlist video", laterBody);
+  console.log("watchlist video", laterBody);
   try {
     let watchlistadd = await createWatchlistVideo(laterBody);
     console.log({ myWatchLaters: watchlistadd });
