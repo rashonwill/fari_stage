@@ -118,7 +118,7 @@ async function moviePurchaseEmail() {
 function cleanup() {
   // createRentalOrder();
   // laterVideoPurchased();
-  moviePurchaseEmail();
+  // moviePurchaseEmail();
   localStorage.removeItem("videoPurchase");
 }
 
