@@ -103,6 +103,9 @@ async function sendEmail(session) {
       to: vendor_email,
       subject: "Fari - New Sale",
       template: "newmovierentalsale",
+       context: {
+         title: session.metadata.title,
+      },
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
