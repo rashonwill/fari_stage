@@ -74,7 +74,7 @@ async function createWatchlistAdd(session) {
 
 async function sendEmail(session) {
   let vendor_email = session.metadata.email;
-  let title = session.metadata.name;
+  let title = session.metadata.product_name;
   try {
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com",
