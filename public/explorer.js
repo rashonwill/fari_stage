@@ -1,5 +1,3 @@
-const { getPostByChannelID } = require("../backend/db");
-
 const FARI_API = "https://fari-stage.herokuapp.com/api";
 const CLOUD_FRONT = "https://drotje36jteo8.cloudfront.net";
 const myToken = localStorage.getItem("fariToken");
