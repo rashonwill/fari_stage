@@ -5,7 +5,7 @@ const webhookRouter = express();
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const { WEBHOOK_SECRET } = process.env;
 
-webhookRouter.get("/webhook", async (req, res) => {
+webhookRouter.get("/", async (req, res) => {
   res.send("Welcome to Stripe webhooks");
 });
 
