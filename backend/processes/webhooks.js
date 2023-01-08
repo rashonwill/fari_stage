@@ -74,6 +74,7 @@ async function createWatchlistAdd(session) {
 
 async function sendEmail(session) {
   let vendor_email = session.metadata.email;
+  let title = session.metadata.name;
   try {
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com",
@@ -104,7 +105,7 @@ async function sendEmail(session) {
       subject: "Fari - New Sale",
       template: "newmovierentalsale",
        context: {
-         title: session.metadata.name,
+         title: title,
       },
     };
 
