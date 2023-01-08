@@ -18,45 +18,18 @@ client.connect();
 const hpp = require("hpp");
 server.use(hpp());
 
-server.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  async (request, response) => {
-    const sig = request.headers["stripe-signature"];
-    const payload = request.body;
-    console.log("sig", sig);
-    console.log("payload", payload);
-    console.log("secret", WEBHOOK_SECRET);
-    let event;
-    try {
-      event = stripe.webhooks.constructEvent(payload, sig, WEBHOOK_SECRET);
-    } catch (err) {
-      console.log(err);
-      return response.status(400).send(`Webhook Error: ${err.message}`);
-    }
+server.use(helmet());
 
-    // Handle the checkout.session.completed event
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object;
+const cors = require("cors");
+server.use(cors({ origin: "*" }));
 
-      // Fulfill the purchase...
-      console.log("fulfilling order now");
-    }
+server.use("/processes", require("./backend/processes"));
 
-    response.status(200);
-  }
-);
+//middleware
 
 server.use(express.static("public", { extensions: ["html"] }));
 server.use(express.urlencoded({ extended: false, limit: "1kb" }));
 server.use(express.json({ limit: "100mb" }));
-
-server.use(helmet());
-
-//middleware
-
-const cors = require("cors");
-server.use(cors({ origin: "*" }));
 
 const bodyParser = require("body-parser");
 server.use(bodyParser.json({ limit: "20mb" }));
@@ -74,16 +47,13 @@ server.use(function (req, res, next) {
   );
   next();
 });
+
 server.use(compression());
 const morgan = require("morgan");
 const { Server } = require("https");
 server.use(morgan("dev"));
 
 server.use("/api", require("./backend/api"));
-
-server.get("/webhook", async (req, res) => {
-  res.send("Welcome to Stripe webhooks");
-});
 
 if (cluster.isMaster) {
   for (let index = 0; index < numCPU; index++) {
