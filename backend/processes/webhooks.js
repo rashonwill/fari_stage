@@ -7,13 +7,13 @@ const { WEBHOOK_SECRET } = process.env;
 const { createMovieOrders, createWatchlistVideo } = require("../db");
 
 async function createOrder(session) {
-  const videoprice = session.metadata.price;
-  const videotitle = session.metadata.title;
-  const thechannelid = session.metadata.channelid;
-  const thethumbnail = session.metadata.thumbnail;
-  const userid = session.metadata.userid;
-  const vendor_email = session.metadata.email;
-  const uuid = session.metadata.videoid;
+  const videoprice = session.product_data.metadata.price;
+  const videotitle = session.product_data.metadata.title;
+  const thechannelid = session.product_data.metadata.channelid;
+  const thethumbnail = session.product_data.metadata.thumbnail;
+  const userid = session.product_data.metadata.userid;
+  const vendor_email = session.product_data.metadata.email;
+  const uuid = session.product_data.metadata.videoid;
 
   try {
     const rentalOrder = {

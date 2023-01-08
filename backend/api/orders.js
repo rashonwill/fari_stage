@@ -52,6 +52,7 @@ ordersRouter.post(
   async (req, res) => {
     const stripeAcctID = req.body.stripe_acct;
     const customeremail = req.body.customeremail;
+    const vendoremail = req.body.vendoremail;
     try {
       const session = await stripe.checkout.sessions.create(
         {
@@ -77,7 +78,7 @@ ordersRouter.post(
                     videoid: item.video_uuid,
                     title: item.name,
                     thumbnail: item.image,
-                    email: item.vendoremail,
+                    email: vendoremail,
                   },
                 },
                 unit_amount_decimal: Math.round(item.price * 100),
@@ -88,6 +89,18 @@ ordersRouter.post(
           mode: "payment",
           success_url: process.env.SUCCESS_URL,
           cancel_url: process.env.CANCEL_URL,
+          metadata: {
+            vendor: req.body.items.map((item) => item.vendor),
+            price: req.body.items.map((item) => item.price),
+            channelid: req.body.items.map((item) => item.channelid),
+            userid: req.body.items.map((item) => item.buyerid),
+            videofile: req.body.items.map((item) => item.videofile),
+            views: req.body.items.map((item) => item.views),
+            videoid: req.body.items.map((item) => item.video_uuid),
+            title: req.body.items.map((item) => item.title),
+            thumbnail: req.body.items.map((item) => item.image),
+            email: vendoremail,
+          },
         },
         {
           stripeAccount: stripeAcctID,
