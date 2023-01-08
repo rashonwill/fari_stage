@@ -7,13 +7,13 @@ const { WEBHOOK_SECRET } = process.env;
 const { createMovieOrders, createWatchlistVideo } = require("../db");
 
 async function createOrder(session) {
-  const videoprice = session.product_data.metadata.price;
-  const videotitle = session.product_data.metadata.title;
-  const thechannelid = session.product_data.metadata.channelid;
-  const thethumbnail = session.product_data.metadata.thumbnail;
-  const userid = session.product_data.metadata.userid;
-  const vendor_email = session.product_data.metadata.email;
-  const uuid = session.product_data.metadata.videoid;
+  const videoprice = session.metadata.price;
+  const videotitle = session.metadata.title;
+  const thechannelid = session.metadata.channelid;
+  const thethumbnail = session.metadata.thumbnail;
+  const userid = session.metadata.userid;
+  const vendor_email = session.metadata.email;
+  const uuid = session.metadata.videoid;
 
   try {
     const rentalOrder = {
@@ -26,10 +26,11 @@ async function createOrder(session) {
       video_uuid: uuid,
     };
 
-    console.log("rentalorder", rentalOrder);
+    // console.log("rentalorder", rentalOrder);
 
     const movieRental = await createMovieOrders(rentalOrder);
     console.log({ order: movieRental });
+    console.log("movie order successfully created");
   } catch (error) {
     console.log(error);
   }
@@ -57,10 +58,11 @@ async function createWatchlistAdd(session) {
     paidtoview: true,
   };
 
-  console.log("watchlist video", laterBody);
+  // console.log("watchlist video", laterBody);
   try {
     let watchlistadd = await createWatchlistVideo(laterBody);
     console.log({ myWatchLaters: watchlistadd });
+    console.log("watchlist add successful!");
   } catch (error) {
     console.log(error);
   }
