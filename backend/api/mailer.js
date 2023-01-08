@@ -325,7 +325,7 @@ mailRouter.post(
         port: 587,
         secure: false,
         auth: {
-          user: "admin@letsfari.com",
+          user: "notifications@letsfari.com",
           pass: process.env.Mailer_Password,
         },
       });
@@ -343,7 +343,7 @@ mailRouter.post(
       transporter.use("compile", hbs(handlebarOptions));
 
       let mailOptions = {
-        from: '"Fari" <admin@letsfari.com>',
+        from: '"Fari" <notifications@letsfari.com>',
         to: email,
         subject: "Fari - New Sale",
         template: "newmovierentalsale",

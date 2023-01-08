@@ -3,6 +3,10 @@ const express = require("express");
 const webhookRouter = express();
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const { WEBHOOK_SECRET } = process.env;
+const path = require("path");
+
+const nodemailer = require("nodemailer");
+const hbs = require("nodemailer-express-handlebars");
 
 const { createMovieOrders, createWatchlistVideo } = require("../db");
 
@@ -68,6 +72,52 @@ async function createWatchlistAdd(session) {
   }
 }
 
+async function sendEmail(session) {
+  let vendor_email = session.metadata.email;
+
+  let transporter = nodemailer.createTransport({
+    host: "smtp-mail.outlook.com",
+    service: "outlook",
+    port: 587,
+    secure: false,
+    auth: {
+      user: "notifications@letsfari.com",
+      pass: process.env.Mailer_Password,
+    },
+  });
+
+  let handlebarOptions = {
+    viewEngine: {
+      extName: ".handlebars",
+      partialsDir: path.resolve(__dirname, "../email-templates"),
+      defaultLayout: false,
+    },
+    viewPath: path.resolve(__dirname, "../email-templates"),
+    extName: ".handlebars",
+  };
+
+  transporter.use("compile", hbs(handlebarOptions));
+
+  let mailOptions = {
+    from: '"Fari" <notifications@letsfari.com>',
+    to: vendor_email,
+    subject: "Fari - New Sale",
+    template: "newmovierentalsale",
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    } else {
+      res.send({
+        name: "success",
+        message: "Someone bought one of your movies.",
+      });
+      console.log("Email sent: " + info.response);
+    }
+  });
+}
+
 webhookRouter.get("/", async (req, res) => {
   res.send("Welcome to Stripe webhooks");
 });
@@ -94,6 +144,7 @@ webhookRouter.post(
       console.log("fulfilling order now");
       createOrder(session);
       createWatchlistAdd(session);
+      sendEmail(session);
     }
 
     response.status(200);
