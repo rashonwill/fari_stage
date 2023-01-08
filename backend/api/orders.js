@@ -53,6 +53,7 @@ ordersRouter.post(
     const stripeAcctID = req.body.stripe_acct;
     const customeremail = req.body.customeremail;
     const vendoremail = req.body.vendoremail;
+    const items = req.body.items;
     try {
       const session = await stripe.checkout.sessions.create(
         {
@@ -60,7 +61,7 @@ ordersRouter.post(
           payment_intent_data: {
             receipt_email: customeremail,
           },
-          line_items: req.body.items.map((item) => {
+          line_items: items.map((item) => {
             return {
               price_data: {
                 currency: "usd",
@@ -90,17 +91,15 @@ ordersRouter.post(
           success_url: process.env.SUCCESS_URL,
           cancel_url: process.env.CANCEL_URL,
           metadata: {
-            vendor: req.body.items.map((item) => item.vendor),
-            price: req.body.items.map((item) => item.price),
-            channelid: req.body.items.map((item) => item.channelid),
-            userid: req.body.items.map((item) => item.buyerid),
-            videofile: req.body.items.map((item) => item.videofile),
-            views: req.body.items.map((item) => item.views),
-            videoid: req.body.items.map((item) =>
-              JSON.stringify(item.video_uuid)
-            ),
-            title: req.body.items.map((item) => item.title),
-            thumbnail: req.body.items.map((item) => item.image),
+            vendor: JSON.stringify(items.map((item) => item.vendor)),
+            price: JSON.stringify(items.map((item) => item.price)),
+            channelid: JSON.stringify(items.map((item) => item.channelid)),
+            userid: JSON.stringify(items.map((item) => item.buyerid)),
+            videofile: JSON.stringify(items.map((item) => item.videofile)),
+            views: JSON.stringify(items.map((item) => item.views)),
+            videoid: JSON.stringify(items.map((item) => item.video_uuid)),
+            title: JSON.stringify(items.map((item) => item.title)),
+            thumbnail: JSON.stringify(items.map((item) => item.image)),
             email: vendoremail,
           },
         },
