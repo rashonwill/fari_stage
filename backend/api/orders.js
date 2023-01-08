@@ -9,8 +9,6 @@ const { WEBHOOK_SECRET } = process.env;
 
 const { createMovieOrders } = require("../db");
 
-
-
 ordersRouter.post(
   "/create/movieorder",
   rateLimiter({ secondsWindow: 15, allowedHits: 1 }),
@@ -86,7 +84,6 @@ ordersRouter.post(
           stripeAccount: stripeAcctID,
         }
       );
-      console.log(session);
       res.json({ url: session.url, id: session.id });
     } catch (error) {
       console.log(error);
@@ -95,8 +92,6 @@ ordersRouter.post(
 );
 
 //Webhooks
-
-
 
 // ordersRouter.post('/webhook', express.raw({type: "application/json"}), async (request, response) => {
 //   const sig = request.headers['stripe-signature'];
@@ -122,7 +117,5 @@ ordersRouter.post(
 
 //   response.status(200);
 // })
-
-
 
 module.exports = ordersRouter;
