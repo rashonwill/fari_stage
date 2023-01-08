@@ -104,7 +104,7 @@ async function sendEmail(session) {
       subject: "Fari - New Sale",
       template: "newmovierentalsale",
        context: {
-         title: session.metadata.title,
+         title: session.metadata.name,
       },
     };
 
