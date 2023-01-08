@@ -47,9 +47,14 @@ server.use(function (req, res, next) {
 });
 server.use(compression());
 const morgan = require("morgan");
+const { Server } = require("https");
 server.use(morgan("dev"));
 
 server.use("/api", require("./backend/api"));
+
+server.get("/webhook", async (req, res) => {
+  res.send("Welcome to Stripe webhooks");
+});
 
 server.post(
   "/webhook",
