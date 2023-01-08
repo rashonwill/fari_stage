@@ -90,18 +90,20 @@ ordersRouter.post(
           mode: "payment",
           success_url: process.env.SUCCESS_URL,
           cancel_url: process.env.CANCEL_URL,
-          metadata: {
-            vendor: JSON.stringify(items.item.vendor),
-            price: JSON.stringify(items.item.price),
-            channelid: JSON.stringify(items.item.channelid),
-            userid: JSON.stringify(items.item.buyerid),
-            videofile: JSON.stringify(items.item.videofile),
-            views: JSON.stringify(items.item.views),
-            videoid: JSON.stringify(items.item.video_uuid),
-            title: JSON.stringify(items.item.title),
-            thumbnail: JSON.stringify(items.item.image),
-            email: vendoremail,
-          },
+          metadata: items.map((item) => {
+            return {
+              vendor: item.vendor,
+              price: item.price,
+              channelid: item.channelid,
+              userid: item.buyerid,
+              videofile: item.videofile,
+              views: item.views,
+              videoid: item.video_uuid,
+              title: item.name,
+              thumbnail: item.image,
+              email: vendoremail,
+            };
+          }),
         },
         {
           stripeAccount: stripeAcctID,
