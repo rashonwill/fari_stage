@@ -1,3 +1,5 @@
+const { getPostByChannelID } = require("../backend/db");
+
 const FARI_API = "https://fari-stage.herokuapp.com/api";
 const CLOUD_FRONT = "https://drotje36jteo8.cloudfront.net";
 const myToken = localStorage.getItem("fariToken");
@@ -7,8 +9,8 @@ const myToken = localStorage.getItem("fariToken");
   $(".main-content #title").text("Discover");
   if (!myToken || myToken === null) {
     window.location.href = "login";
-  }else{
-  checkToken();
+  } else {
+    checkToken();
   }
 })();
 
@@ -22,10 +24,10 @@ async function checkToken() {
       },
     });
     const data = await response.json();
-	if(data.name === "TokenExpiredError"){
-	localStorage.clear();
-        window.location.href = "login";
-	}
+    if (data.name === "TokenExpiredError") {
+      localStorage.clear();
+      window.location.href = "login";
+    }
     return data.user;
   } catch (error) {
     console.log(error);
@@ -67,9 +69,8 @@ $("#logout").click(function () {
   window.location.href = "index";
 });
 
-$('.loggedIn').click(async function () {
-$('.dropdown').toggleClass("active");
-
+$(".loggedIn").click(async function () {
+  $(".dropdown").toggleClass("active");
 });
 
 $(".menu .content-sort li").click(function () {
@@ -113,7 +114,6 @@ async function getUserProfile() {
 }
 
 function dashboardAvi(profile) {
-	
   let profilePic = $(`
   <img src="${
     profile[0].profile_avatar
@@ -123,25 +123,24 @@ function dashboardAvi(profile) {
 
   `);
   $(".header .loggedIn").append(profilePic);
-	
 }
 
-function dropdownInfo(profile){
-let unesUsername = _.unescape(profile[0].username);	
-let unesEmail = _.unescape(profile[0].email);	
+function dropdownInfo(profile) {
+  let unesUsername = _.unescape(profile[0].username);
+  let unesEmail = _.unescape(profile[0].email);
   let profileInfo = $(`
       <img src="${
-    profile[0].profile_avatar
-      ? profile[0].profile_avatar
-      : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-  }" alt="user-avatar"/>
+        profile[0].profile_avatar
+          ? profile[0].profile_avatar
+          : "https://drotje36jteo8.cloudfront.net/noAvi.png"
+      }" alt="user-avatar"/>
     <div class="profile-info">
     <h3>${unesUsername}</h3>
     <h3>${unesEmail}</h3>
     </div>
 
   `);
-  $(".dropdown .userinfo").append(profileInfo);	
+  $(".dropdown .userinfo").append(profileInfo);
 }
 
 async function getChannel() {
@@ -412,8 +411,10 @@ function renderPayMedia(uploads) {
       let videoArr = [];
       let videoView = $(this).closest(".card").data("uploads");
       let id = videoView.uuid;
+      let channelid = videoView.channelid;
       localStorage.setItem("videoID", id);
-
+      let videofile = videoView.videofile;
+      let views = videoView.videoviewcount;
       let price = videoView.rental_price;
       localStorage.setItem("ticketPrice", price);
 
@@ -425,6 +426,10 @@ function renderPayMedia(uploads) {
         quantity: 1,
         price: videoView.rental_price,
         total: videoView.rental_price,
+        channelid: channelid,
+        buyerid: localStorage.getItem("userID"),
+        videofile: videofile,
+        views: views,
       };
 
       videoArr.push(purchasingFilm);
@@ -1767,8 +1772,8 @@ function renderVideoSearchResults(videos) {
     });
 
     $(video).on("click", ".purchase", function () {
-     let channelView = $(this).closest(".card").data("videos");
-	    console.log(channelView)
+      let channelView = $(this).closest(".card").data("videos");
+      console.log(channelView);
       let stripeID = channelView.stripe_acctid;
       let vendore = channelView.vendor_email;
       localStorage.setItem("vendorEmail", vendore);
@@ -2320,14 +2325,19 @@ async function checkoutSessionStripe() {
   const purchaseItems = JSON.parse(localStorage.getItem("videoPurchase"));
   const stripe_acct = localStorage.getItem("productStripeAccount");
   const vendoremail = localStorage.getItem("vendorEmail");
-  const customeremail = localStorage.getItem('userEmail');
+  const customeremail = localStorage.getItem("userEmail");
   fetch(`${FARI_API}/orders/stripe-checkout/rental`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${myToken}`,
     },
-    body: JSON.stringify({ items: purchaseItems, stripe_acct, vendoremail, customeremail }),
+    body: JSON.stringify({
+      items: purchaseItems,
+      stripe_acct,
+      vendoremail,
+      customeremail,
+    }),
   })
     .then((res) => {
       if (res.ok) return res.json();
@@ -2343,7 +2353,7 @@ async function checkoutSessionStripe() {
 
 function bootstrap() {
   getUserProfile().then(dashboardAvi);
-  getUserProfile().then(dropdownInfo);	
+  getUserProfile().then(dropdownInfo);
   getFreeMedia().then(renderMedia);
   getChannels().then(renderSuggestedChannels);
   //   getLiveChannels().then(renderLives);

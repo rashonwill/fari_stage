@@ -69,6 +69,15 @@ ordersRouter.post(
                   images: [item.image],
                   metadata: {
                     vendor: item.vendor,
+                    price: item.price,
+                    channelid: item.channelid,
+                    userid: item.buyerid,
+                    videofile: item.videofile,
+                    views: item.views,
+                    videoid: item.video_uuid,
+                    title: item.name,
+                    thumbnail: item.image,
+                    email: item.vendoremail,
                   },
                 },
                 unit_amount_decimal: Math.round(item.price * 100),
@@ -90,32 +99,5 @@ ordersRouter.post(
     }
   }
 );
-
-//Webhooks
-
-// ordersRouter.post('/webhook', express.raw({type: "application/json"}), async (request, response) => {
-//   const sig = request.headers['stripe-signature'];
-//   const payload = request.body
-//   console.log('sig', sig)
-//   console.log('payload', payload)
-//   console.log('secret', WEBHOOK_SECRET);
-//   let event;
-//    try {
-//     event = stripe.webhooks.constructEvent(payload, sig, WEBHOOK_SECRET);
-//   } catch (err) {
-//     console.log(err)
-//     return response.status(400).send(`Webhook Error: ${err.message}`);
-//   }
-
-//   // Handle the checkout.session.completed event
-//   if (event.type === 'checkout.session.completed') {
-//     const session = event.data.object;
-
-//     // Fulfill the purchase...
-//     console.log(session)
-//   }
-
-//   response.status(200);
-// })
 
 module.exports = ordersRouter;
