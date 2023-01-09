@@ -963,9 +963,10 @@ async function rentalSoldCount() {
 
 function rentalCount(total) {
   arr3 = total;
+	console.log(arr3)
   let videos = [];
   for (let i = 0; i < arr3.length; i++) {
-    videos.push(arr3[i].id);
+    videos.push(arr3[i].video_uuid);
   }
 
   let videoIDs = [...new Set(videos)];
