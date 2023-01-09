@@ -881,6 +881,7 @@ async function totalRentedSold() {
       }
     );
     const data = await response.json();
+	  console.log(data)
     localStorage.setItem("rentalsSold", data.total[0].count);
     return data.total;
   } catch (error) {
@@ -912,9 +913,9 @@ async function totalShopSold() {
 
 function totalSold() {
   $(".productsSolds").empty();
-  let productsSold = localStorage.getItem("productsSold");
+//   let productsSold = localStorage.getItem("productsSold");
   let rentalsSold = localStorage.getItem("rentalsSold");
-  let totalThingsSold = parseInt(productsSold) + parseInt(rentalsSold);
+  let totalThingsSold = parseInt(rentalsSold);
   let allSells = totalThingsSold;
 
   let viewsString = allSells.toString();
@@ -947,6 +948,7 @@ async function rentalSoldCount() {
       }
     );
     const data = await response.json();
+	  console.log(data)
     if (data.total.length > 0) {
       $(".videos .graph tbody").empty();
       $(".noData.Rentals").css("display", "none");
@@ -988,6 +990,7 @@ async function rentalSoldCountByVideoID() {
         }
       );
       const data = await response.json();
+	    console.log(data)
       myVideoItems.push(data.pricing);
       return data.pricing;
     } catch (error) {
