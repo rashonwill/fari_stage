@@ -883,6 +883,7 @@ async function totalRentedSold() {
     const data = await response.json();
 	  console.log(data)
     localStorage.setItem("rentalsSold", data.total[0].count);
+	  
     return data.total;
   } catch (error) {
     response.status(400).send(error);
@@ -1002,7 +1003,9 @@ async function rentalSoldCountByVideoID() {
 }
 
 function renderrentalSoldCount(pricing) {
-  let videoPricing = JSON.parse(localStorage.getItem("videoPrices"));
+//   let videoPricing = JSON.parse(localStorage.getItem("videoPrices"));
+   let total = localStorage.getItem('channelEarnnings')	
+  let count = localStorage.getItem("rentalsSold");	
   if (!videoPricing) {
     return;
   } else {
@@ -1011,8 +1014,8 @@ function renderrentalSoldCount(pricing) {
        <tr>
           <td id="product"><img src="${total.videothumbnail}" alt="product-img"/>${total.videotitle}</td>
           <td></td>
-          <td>${total.count}</td>
-          <td>$${total.videoordertotal}</td>
+          <td>${count}</td>
+          <td>$${total}</td>
           <td></td>
           <td></td>
           
