@@ -3,7 +3,7 @@ const express = require("express");
 const webhookRouter = express();
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const stripe2 = require('stripe')(process.env.STRIPE_BUSINESS_SECRET);
-const { WEBHOOK_SECRET } = process.env;
+const { WEBHOOK_SECRET, WEBHOOK_BUSINESS_SECRET } = process.env;
 const path = require("path");
 
 const nodemailer = require("nodemailer");
@@ -261,7 +261,7 @@ webhookRouter.post(
     const payload = request.body;
     let event;
     try {
-      event = stripe2.webhooks.constructEvent(payload, sig, WEBHOOK_SECRET);
+      event = stripe2.webhooks.constructEvent(payload, sig, WEBHOOK_BUSINESS_SECRET);
     } catch (err) {
       console.log(err);
       return response.status(400).send(`Webhook Error: ${err.message}`);
