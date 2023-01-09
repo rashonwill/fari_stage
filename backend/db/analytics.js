@@ -275,11 +275,11 @@ async function getRentalItemsTotal(uuid) {
       rows: [price],
     } = await client.query(
       `
-    SELECT videoid, COUNT(*) AS count, videotitle, videothumbnail, ROUND(SUM(videoprice), 2) AS videoOrderTotal
+    SELECT video_uuid, COUNT(*) AS count, videotitle, videothumbnail, ROUND(SUM(videoprice), 2) AS videoOrderTotal
     FROM customer_movie_orders
     WHERE video_uuid=$1
-    GROUP BY videoid, videotitle, videothumbnail
-    ORDER BY videoid ASC;
+    GROUP BY video_uuid, videotitle, videothumbnail
+    ORDER BY video_uuid ASC;
   `,
       [uuid]
     );
