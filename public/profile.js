@@ -948,7 +948,6 @@ async function rentalSoldCount() {
       }
     );
     const data = await response.json();
-	  console.log(data)
     if (data.total.length > 0) {
       $(".videos .graph tbody").empty();
       $(".noData.Rentals").css("display", "none");
