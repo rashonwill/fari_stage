@@ -151,7 +151,9 @@ text-decoration: underline;
   width: 100%;
   font-size: 16px;
   }
-
+  .goBack{
+  display: none;
+  }
 
 }
 
@@ -159,6 +161,10 @@ text-decoration: underline;
   .content{
   width: 100%;
   font-size: 16px;
+  }
+  
+    .goBack{
+  display: none;
   }
     
 
@@ -168,6 +174,9 @@ text-decoration: underline;
   .content{
   width: 100%;
   font-size: 16px;
+  }
+    .goBack{
+  display: none;
   }
 
 
