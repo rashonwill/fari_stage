@@ -122,7 +122,7 @@ subscriptionsRouter.post("/onboard-user", requireUser, async (req, res) => {
 
 subscriptionsRouter.post("/vendor-subscription", requireUser, async function(req, res) {
 const priceID = 'price_1L1BVrF7h5B228czlK6zy2db'
-const taxRateId = 'txr_1L19ISF7h5B228czIjPOqQmS'
+const taxRateId = 'txr_1MOLpoF7h5B228czSERQvGxx'
 const fariVendorID = req.body.vendorid
  try{
   const session = await stripe2.checkout.sessions.create({
