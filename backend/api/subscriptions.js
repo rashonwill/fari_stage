@@ -125,6 +125,9 @@ const priceID = 'price_1L1BVrF7h5B228czlK6zy2db'
 const taxRateId = 'txr_1MOLpoF7h5B228czSERQvGxx'
 const customer_email = req.body.customer_email;
 const fariVendorID = req.body.vendorid;
+const stripe_acct = req.body.stripe_acctid;  
+const userid = req.body.userid;
+  
  try{
   const session = await stripe2.checkout.sessions.create({
   mode: 'subscription',
@@ -147,7 +150,10 @@ const fariVendorID = req.body.vendorid;
   success_url: 'https://fari-stage.netlify.app/registration-complete?session_id={CHECKOUT_SESSION_ID}',
   cancel_url: 'https://fari-stage.netlify.app/profile',
     metadata:{
-    customer_email: customer_email;
+    customer_email: customer_email,
+    vendorid: fariVendorID,
+    stripe_acctid:  stripe_acct,
+    userid: userid,
     }
    
 });  
