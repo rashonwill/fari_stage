@@ -966,7 +966,7 @@ function rentalCount(total) {
 	console.log(arr3)
   let videos = [];
   for (let i = 0; i < arr3.length; i++) {
-    videos.push(arr3[i].video_uuid);
+    videos.push(arr3[i].uuid);
   }
 
   let videoIDs = [...new Set(videos)];
