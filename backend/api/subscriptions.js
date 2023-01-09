@@ -151,7 +151,7 @@ const userid = req.body.userid;
   cancel_url: 'https://fari-stage.netlify.app/profile',
     metadata:{
     customer_email: customer_email,
-    vendorid: fariVendorID,
+    vendor: fariVendorID,
     stripe_acctid:  stripe_acct,
     userid: userid,
     }
