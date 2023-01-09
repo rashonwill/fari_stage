@@ -136,11 +136,6 @@ const userid = req.body.userid;
       taxRateId
     ],
   },
-  payment_intent_data: {
-    metadata: {
-     FariVendorID: fariVendorID,
-    }
-  },
   line_items: [
     {
       price: priceID,
@@ -179,11 +174,11 @@ const fariUserID = req.body.userid
       taxRateId
     ],
   },
-  payment_intent_data: {
-    metadata: {
-     FariUserID: fariUserID,
-    }
-  },
+//   payment_intent_data: {
+//     metadata: {
+//      FariUserID: fariUserID,
+//     }
+//   },
   line_items: [
     {
       price: priceID,
