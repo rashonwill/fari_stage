@@ -96,3 +96,40 @@ border: none;
 cursor: pointer; 
 text-decoration: underline; 
 }
+
+/* Media Queries */
+
+@media screen and (max-width: 325px) {
+  .content{
+  width: 100%;
+  font-size: 16px;
+  }
+
+
+}
+
+@media screen and (min-width: 344px) and (max-width: 744px) {
+  .content{
+  width: 100%;
+  font-size: 16px;
+  }
+    
+
+}
+
+@media screen and (min-width: 745px) and (max-width: 944px) {
+  .content{
+  width: 100%;
+  font-size: 16px;
+  }
+
+
+
+}
+
+@media screen and (min-width: 945px) and (max-width: 1550px) {
+  .content{
+  width: 1150px;
+  }
+
+}
