@@ -123,7 +123,8 @@ subscriptionsRouter.post("/onboard-user", requireUser, async (req, res) => {
 subscriptionsRouter.post("/vendor-subscription", requireUser, async function(req, res) {
 const priceID = 'price_1L1BVrF7h5B228czlK6zy2db'
 const taxRateId = 'txr_1MOLpoF7h5B228czSERQvGxx'
-const fariVendorID = req.body.vendorid
+const customer_email = req.body.customer_email;
+const fariVendorID = req.body.vendorid;
  try{
   const session = await stripe2.checkout.sessions.create({
   mode: 'subscription',
@@ -145,6 +146,9 @@ const fariVendorID = req.body.vendorid
   ],
   success_url: 'https://fari-stage.netlify.app/registration-complete?session_id={CHECKOUT_SESSION_ID}',
   cancel_url: 'https://fari-stage.netlify.app/profile',
+    metadata:{
+    customer_email: customer_email;
+    }
    
 });  
 res.json({url: session.url })             
