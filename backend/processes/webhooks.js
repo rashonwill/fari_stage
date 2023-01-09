@@ -8,7 +8,14 @@ const path = require("path");
 const nodemailer = require("nodemailer");
 const hbs = require("nodemailer-express-handlebars");
 
-const { createMovieOrders, createWatchlistVideo } = require("../db");
+const { 
+  createMovieOrders,
+  createWatchlistVideo,   
+  registerVendor,
+  setStripeID,
+  updateVendorSubscriptionStatus,
+  updateUserSubscriptionStatus
+} = require("../db");
 
 async function createOrder(session) {
   const videoprice = session.metadata.price;
@@ -29,12 +36,7 @@ async function createOrder(session) {
       vendor_email: vendor_email,
       video_uuid: uuid,
     };
-
-    console.log("rentalorder", rentalOrder);
-
     const movieRental = await createMovieOrders(rentalOrder);
-    console.log({ order: movieRental });
-    console.log("movie order successfully created");
   } catch (error) {
     console.log(error);
   }
@@ -61,12 +63,8 @@ async function createWatchlistAdd(session) {
     video_uuid: vidID,
     paidtoview: true,
   };
-
-  console.log("watchlist video", laterBody);
   try {
     let watchlistadd = await createWatchlistVideo(laterBody);
-    console.log({ myWatchLaters: watchlistadd });
-    console.log("watchlist add successful!");
   } catch (error) {
     console.log(error);
   }
@@ -120,7 +118,6 @@ async function sendEmail(session) {
         console.log("Email sent: " + info.response);
       }
     });
-    console.log("email sent");
   } catch (error) {
     console.log(error);
   }
@@ -171,11 +168,56 @@ async function sendSubscriptionConfirmation(session) {
         console.log("Email sent: " + info.response);
       }
     });
-    console.log("email sent");
   } catch (error) {
     console.log(error);
   }
 }
+
+async function vendorSubscriptionFlag(userid, session){
+  let id = session.metadata.userid;
+  
+  try{
+  const updatingVendor = await updateVendorSubscriptionStatus(id);
+    console.log('vendor subscription status complete')
+  }catch(error){
+  console.log(error)
+  }
+
+}
+
+
+async function vendorVerification(session){
+ let id = session.metadata.vendorid;
+  try{
+  const verified = await registerVendor(id);
+    console.log('vendor registered set')
+  }catch(error){
+  console.log(error)
+  }
+
+}
+
+
+async function setStripeAcct(session){
+  let stripe = session.metadata.stripe_acctid;
+  let id = session.metadata.vendorid
+  try{
+      let stripeAcct = {
+    stripe_acctid: stripe,
+  };
+  
+const verifiedAcct = await setStripeID(id, stripeAcct);
+    console.log('stripe account set')
+  }catch(error){
+  console.log(error)
+  }
+
+}
+
+
+
+//Webhooks
+
 
 webhookRouter.get("/", async (req, res) => {
   res.send("Welcome to Stripe webhooks");
@@ -229,6 +271,9 @@ webhookRouter.post(
       const session = event.data.object;
 
       // Fulfill the purchase...
+      setStripeAcct(session);
+      vendorSubscriptionFlag(session);
+      vendorVerification(session);
       sendSubscriptionConfirmation(session);
     }
 
