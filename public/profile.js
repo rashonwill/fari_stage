@@ -1003,7 +1003,7 @@ async function rentalSoldCountByVideoID() {
 }
 
 function renderrentalSoldCount(pricing) {
-//   let videoPricing = JSON.parse(localStorage.getItem("videoPrices"));
+  let videoPricing = JSON.parse(localStorage.getItem("videoPrices"));
    let total = localStorage.getItem('channelEarnings')	
   let count = localStorage.getItem("rentalsSold");	
   if (!videoPricing) {
