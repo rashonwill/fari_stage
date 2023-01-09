@@ -157,6 +157,8 @@ const userid = req.body.userid;
     }
    
 });  
+   
+   console.log(session)
 res.json({url: session.url })             
  }catch(error){
  console.log(error)
