@@ -140,4 +140,4 @@ function finalize() {
   vendorSubscriptionFlag().then(vendorVerification);
 }
 
-finalize();
+// finalize();
