@@ -175,8 +175,7 @@ async function sendSubscriptionConfirmation(session) {
 }
 
 async function vendorSubscriptionFlag(userid, session){
-  let id = session.metadata.userid;
-  
+  let id = session.metadata.userid;  
   try{
   const updatingVendor = await updateVendorSubscriptionStatus(id);
     console.log('vendor subscription status complete')
