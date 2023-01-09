@@ -126,6 +126,57 @@ async function sendEmail(session) {
   }
 }
 
+
+async function sendSubscriptionConfirmation(session) {
+  let user_email = session.metadata.customer_email;
+  try {
+    let transporter = nodemailer.createTransport({
+      host: "smtp-mail.outlook.com",
+      service: "outlook",
+      port: 587,
+      secure: false,
+      auth: {
+        user: "admin@letsfari.com",
+        pass: process.env.Mailer_Password,
+      },
+    });
+
+    let handlebarOptions = {
+      viewEngine: {
+        extName: ".handlebars",
+        partialsDir: path.resolve(__dirname, "../email-templates"),
+        defaultLayout: false,
+      },
+      viewPath: path.resolve(__dirname, "../email-templates"),
+      extName: ".handlebars",
+    };
+
+    transporter.use("compile", hbs(handlebarOptions));
+
+    let mailOptions = {
+      from: '"Fari" <admin@letsfari.com>',
+      to: user_email,
+      subject: "Fari - New Subscriber",
+      template: "newfarisubscriber",
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      } else {
+        res.send({
+          name: "success",
+          message: "New Fari Subscriber.",
+        });
+        console.log("Email sent: " + info.response);
+      }
+    });
+    console.log("email sent");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 webhookRouter.get("/", async (req, res) => {
   res.send("Welcome to Stripe webhooks");
 });
@@ -158,5 +209,32 @@ webhookRouter.post(
     response.status(200);
   }
 );
+
+webhookRouter.post(
+  "/webhook/onboarding",
+  express.raw({ type: "application/json" }),
+  async (request, response) => {
+    const sig = request.headers["stripe-signature"];
+    const payload = request.body;
+    let event;
+    try {
+      event = stripe.webhooks.constructEvent(payload, sig, WEBHOOK_SECRET);
+    } catch (err) {
+      console.log(err);
+      return response.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // Handle the checkout.session.completed event
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object;
+
+      // Fulfill the purchase...
+      sendSubscriptionConfirmation(session);
+    }
+
+    response.status(200);
+  }
+);
+
 
 module.exports = webhookRouter;
