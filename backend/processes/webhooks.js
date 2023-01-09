@@ -187,7 +187,7 @@ async function vendorSubscriptionFlag(session){
 
 
 async function vendorVerification(session){
- let id = session.metadata.vendorid;
+ let id = session.metadata.vendor;
   try{
   const verified = await registerVendor(id);
     console.log('vendor registered set')
@@ -200,7 +200,7 @@ async function vendorVerification(session){
 
 async function setStripeAcct(session){
   let stripe = session.metadata.stripe_acctid;
-  let id = session.metadata.vendorid
+  let id = session.metadata.vendor
   try{
       let stripeAcct = {
     stripe_acctid: stripe,
