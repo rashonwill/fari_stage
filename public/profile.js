@@ -881,7 +881,6 @@ async function totalRentedSold() {
       }
     );
     const data = await response.json();
-	  console.log(data)
     localStorage.setItem("rentalsSold", data.total[0].count);
 	  
     return data.total;
