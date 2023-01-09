@@ -9,9 +9,10 @@ const myToken = localStorage.getItem("fariToken");
   }
 })();
 
+
 async function checkToken() {
   try {
-    const response = await fetch(`${FARI_API}/users/token`, {
+    const response = await fetch(`${FARI_API}/account/token`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -19,10 +20,13 @@ async function checkToken() {
       },
     });
     const data = await response.json();
+	if(data.name === "TokenExpiredError"){
+	localStorage.clear();
+  window.location.href = "login";
+	}
     return data.user;
   } catch (error) {
     console.log(error);
-    window.location.href = "login";
     response.status(400).send(error);
   }
 }
