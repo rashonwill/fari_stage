@@ -1510,13 +1510,14 @@ async function onBoarding() {
 
 async function goSubscriptions() {
   let vendorid = localStorage.getItem("vendorID");
+  let customer_email = localStorage.getItem('userEmail')
   fetch(`${FARI_API}/subscriptions/vendor-subscription`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${myToken}`,
     },
-    body: JSON.stringify({ vendor: vendorid }),
+    body: JSON.stringify({ vendor: vendorid, customer_email: customer_email }),
   })
     .then((res) => {
       if (res.ok) return res.json();
