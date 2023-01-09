@@ -124,7 +124,7 @@ subscriptionsRouter.post("/vendor-subscription", requireUser, async function(req
 const priceID = 'price_1L1BVrF7h5B228czlK6zy2db'
 const taxRateId = 'txr_1MOLpoF7h5B228czSERQvGxx'
 const customer_email = req.body.customer_email;
-const fariVendorID = req.body.vendorid;
+const fariVendorID = req.body.vendor;
 const stripe_acct = req.body.stripe_acctid;  
 const userid = req.body.userid;
   
