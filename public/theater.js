@@ -262,7 +262,7 @@ function renderVideo(video) {
     $(".fa-play").css("pointer-events", "none");
   });
 
-  vid.addEventListener("canplaythrough", function (event) {
+  vid.addEventListener("canplay", function (event) {
     $(".buffer").css("display", "none");
     $(".video-status #status").empty();
     $(".video-status #status").text("PLAYING");
