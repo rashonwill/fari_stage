@@ -913,11 +913,11 @@ paidWatchlistVideos.forEach(function (myWatchList) {
     window.location.href = `/theater`;
   });
 	  
-  	  
+  	 return laterVids;  
   })
   
 
-  return laterVids;
+ 
 }
 
 function renderlaterVids(laterVid) {
