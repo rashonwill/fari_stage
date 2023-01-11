@@ -235,6 +235,7 @@ webhookRouter.post(
     let event;
     try {
       event = stripe.webhooks.constructEvent(payload, sig, WEBHOOK_SECRET);
+      request.send({process: event})
     } catch (err) {
       console.log(err);
       return response.status(400).send(`Webhook Error: ${err.message}`);
@@ -264,6 +265,7 @@ webhookRouter.post(
     let event;
     try {
       event = stripe2.webhooks.constructEvent(payload, sig, WEBHOOK_BUSINESS_SECRET);
+      request.send({process: event})
     } catch (err) {
       console.log(err);
       return response.status(400).send(`Webhook Error: ${err.message}`);
