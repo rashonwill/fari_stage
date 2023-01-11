@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const webhookRouter = express();
+const webhookRouter = express().Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const stripe2 = require('stripe')(process.env.STRIPE_BUSINESS_SECRET);
 const { WEBHOOK_SECRET, WEBHOOK_BUSINESS_SECRET } = process.env;
